@@ -101,7 +101,6 @@ class _VitalChartTableScreenState extends State<VitalChartTableScreen> {
       ),
       body: Builder(builder: (context) {
         return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
           child: Column(
             children: [
               Row(
@@ -133,95 +132,98 @@ class _VitalChartTableScreenState extends State<VitalChartTableScreen> {
                 ),
                 child:
                 // Container(),
-                DataTable(
-                  columnSpacing: 25.0,
-                  columns: [
-                    DataColumn(label: Text('Time',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Ubuntu",
-                        fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                      ),)),
-                    DataColumn(label: Text('Temp',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Ubuntu",
-                        fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                      ),)),
-                    DataColumn(label: Text('Pulse',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Ubuntu",
-                        fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                      ),)),
-                    DataColumn(label: Text('Resp',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Ubuntu",
-                        fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                      ),)),
-                    DataColumn(label: Text('BP Systolic',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Ubuntu",
-                        fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                      ),)),
-                    DataColumn(label: Text('BP Diastolic',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Ubuntu",
-                        fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                      ),)),
-                    DataColumn(label: Text('SPO2',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Ubuntu",
-                        fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                      ),)),
-                  ],
-                  rows: ViewTableDataList.map(
-                          (index) {
-                        return DataRow(
-                          cells: [
-                            DataCell(
-                              Text(
-                                index['EntryTime'] ?? '00.00',
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                index['Temperature'] ?? '0',
-                              ),
-                            ),
-                            DataCell(
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columnSpacing: 25.0,
+                    columns: [
+                      DataColumn(label: Text('Time',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                      DataColumn(label: Text('Temp',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                      DataColumn(label: Text('Pulse',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                      DataColumn(label: Text('Resp',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                      DataColumn(label: Text('BP Systolic',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                      DataColumn(label: Text('BP Diastolic',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                      DataColumn(label: Text('SPO2',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                    ],
+                    rows: ViewTableDataList.map(
+                            (index) {
+                          return DataRow(
+                            cells: [
+                              DataCell(
                                 Text(
-                                    index['Pulse'] ?? '0'
-                                )
-                            ),
-                            DataCell(
-                                Text(
-                                    index['RR'] ?? '0'
-                                )
-                            ),
-                            DataCell(
-                              Text(
-                                index['BPSystolic'] ?? '0',
+                                  index['EntryTime'] ?? '00.00',
+                                ),
                               ),
-                            ),
-                            DataCell(
-                              Text(
-                                index['BPDiastolic'] ?? '0',
-                              ),
-                            ),
-                            DataCell(
+                              DataCell(
                                 Text(
-                                    index['SPO2'] ?? '0'
-                                )
-                            ),
-                            // Add more DataCell widgets based on your requirements
-                          ],
-                        );
-                      }).toList(),
+                                  index['Temperature'] ?? '0',
+                                ),
+                              ),
+                              DataCell(
+                                  Text(
+                                      index['Pulse'] ?? '0'
+                                  )
+                              ),
+                              DataCell(
+                                  Text(
+                                      index['RR'] ?? '0'
+                                  )
+                              ),
+                              DataCell(
+                                Text(
+                                  index['BPSystolic'] ?? '0',
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  index['BPDiastolic'] ?? '0',
+                                ),
+                              ),
+                              DataCell(
+                                  Text(
+                                      index['SPO2'] ?? '0'
+                                  )
+                              ),
+                              // Add more DataCell widgets based on your requirements
+                            ],
+                          );
+                        }).toList(),
+                  ),
                 ),
               ),
             ],

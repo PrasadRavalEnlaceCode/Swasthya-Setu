@@ -3,11 +3,16 @@ class MedicineModel {
   String medicineName;
   String doseSchedule;
   String medicineContent;
+  String requestedQuantity;
+  String remarks;
 
-  MedicineModel({
-    required this.hospitalMedicineIDP,
-    required this.medicineName,
-    required this.doseSchedule,
-    required this.medicineContent,
-  });
+  MedicineModel(
+     this.hospitalMedicineIDP,
+     this.medicineName,
+     this.doseSchedule,
+     this.medicineContent,
+      this.requestedQuantity,
+      this.remarks,
+
+      );
 }

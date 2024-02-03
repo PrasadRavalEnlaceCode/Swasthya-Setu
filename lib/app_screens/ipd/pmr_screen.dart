@@ -108,30 +108,24 @@ class _PMRScreenState extends State<PMRScreen> {
 
         debugPrint("Decoded Data List : " + strData);
         final jsonData = json.decode(strData);
+        ResponseModel model = ResponseModel.fromJSON(jsonResponse);
 
-        for (var i = 0; i < jsonData.length; i++)
-        {
-          final jo = jsonData[i];
-          String OPDService = jo['OPDService'].toString();
-          listBillingServices.add(OPDService);
-          // debugPrint("Added to list: $diagnosisName");
-        }
+        // Processing API response
+        if (model.status == "OK") {
+          var data = jsonResponse['Data'];
+          var strData = decodeBase64(data);
+          debugPrint("Decoded Data Doctor Particular List: " + strData);
 
-        for (var i = 0; i < jsonData.length; i++) {
+          // Assuming the response is a list of MedicineModel
+          List<MedicineModel> doctorMedicineList = medicineModelFromJson(strData);
 
-          final jo = jsonData[i];
-          String HospitalOPDServcesIDP = jo['HospitalOPDServcesIDP'].toString();
-          String OPDService = jo['OPDService'].toString();
-          String price = jo['Price'].toString();
+          // Now you can use doctorMedicineList as needed.
+          // For example, you can iterate through it, print relevant data, or filter based on your requirements.
 
-          Map<String, dynamic> OrganizationMap = {
-            "HospitalOPDServcesIDP": HospitalOPDServcesIDP,
-            "OPDService": OPDService,
-            "Price" : price,
-          };
-          listBillingServices1.add(OrganizationMap);
-          // debugPrint("Added to list: $complainName");
-
+          // For demonstration, let's print MedicineName and DoseSchedule for each entry.
+          for (var medicine in doctorMedicineList) {
+            print("MedicineName: ${medicine.medicineName}, DoseSchedule: ${medicine.doseSchedule}");
+          }
         }
         setState(() {});
       }
@@ -367,15 +361,9 @@ class _PMRScreenState extends State<PMRScreen> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    if (listPMR[index]
-                                        .fromServer) {
-                                      deletePrescriptionFromServer(
-                                          listPMR[index]);
-                                    } else {
                                       setState(() {
                                         listPMR.removeAt(index);
                                       });
-                                    }
                                   },
                                   child: Align(
                                     alignment: Alignment.bottomRight,
@@ -456,15 +444,6 @@ class _PMRScreenState extends State<PMRScreen> {
                         }
                         if (atleastOneIsAddedFromDevice) {
                           addPrescription(context);
-                          /*print(listPrescription.length);*/
-                          /*final snackBar = SnackBar(
-                            backgroundColor: Colors.green,
-                            content: Text("Congrats! Now you can call API!"),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          Future.delayed(Duration(seconds: 2), () {
-                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          });*/
                         } else {
                           final snackBar = SnackBar(
                             backgroundColor: Colors.red,
@@ -477,11 +456,6 @@ class _PMRScreenState extends State<PMRScreen> {
                           });
                         }
                       }
-                      /*var patientIDP = await getPatientIDP();
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return AddPrescriptionScreen(patientIDP);
-                  }));*/
                     }),
               ),
             ],
@@ -727,11 +701,13 @@ class _PMRScreenState extends State<PMRScreen> {
                             });
                           } else {
                             listPMR.add(MedicineModel(
+                              0,
                                 SelectPMRController.text.toString(),
                                 PMRSchedulController.text.toString(),
+                                "",
                                 QtyController.text.toString(),
                                 RemarksController.text.toString(),
-                                false));
+                                ));
                             SelectPMRController = TextEditingController();
                             PMRSchedulController = TextEditingController();
                             QtyController = TextEditingController();
@@ -879,22 +855,7 @@ class _PMRScreenState extends State<PMRScreen> {
           // debugPrint("Added to list: $diagnosisName");
         }
 
-        for (var i = 0; i < jsonData.length; i++) {
 
-          final jo = jsonData[i];
-          String HospitalOPDServcesIDP = jo['HospitalOPDServcesIDP'].toString();
-          String OPDService = jo['OPDService'].toString();
-          String price = jo['Price'].toString();
-
-          Map<String, dynamic> OrganizationMap = {
-            "HospitalOPDServcesIDP": HospitalOPDServcesIDP,
-            "OPDService": OPDService,
-            "Price" : price,
-          };
-          listBillingServices1.add(OrganizationMap);
-          // debugPrint("Added to list: $complainName");
-
-        }
         setState(() {});
       }
     }catch (e) {
