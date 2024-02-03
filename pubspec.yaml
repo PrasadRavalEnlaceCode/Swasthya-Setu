@@ -1,0 +1,201 @@
+name: swasthyasetu
+description: A new Flutter application.
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 3.0.0+3
+
+environment:
+  sdk: ">=2.15.0 <3.0.0"
+  flutter: ">=2.11.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.4
+  http: ^0.13.3
+  google_fonts: ^4.0.4
+  shared_preferences: ^2.0.7
+  launch_review: ^3.0.1  #ios changes
+  page_indicator: ^0.4.1
+  cached_network_image: ^3.3.0
+  #progress_dialog: ^1.2.4
+  #steel_crypt: ^1.7.1+1
+  #encrypt: ^4.0.0
+  #crypto: ^2.1.3
+  ######  flutter_webview_plugin: ^0.4.0  #ios changes
+  intl: ^0.18.1
+  photo_view: ^0.14.0
+  #date_range_picker: ^1.0.7
+  #charts_flutter: ^0.9.0
+  #  fl_chart: ^0.9.4
+  #fl_animated_linechart: ^1.1.2
+  #bezier_chart: "^1.0.16"
+  #flutter_xlider: ^3.4.0
+  #youtube_player_flutter: ^7.0.0+2
+  youtube_player_flutter: ^8.0.0
+  #chewie: ^0.9.10
+  #video_player: ^0.10.11+1
+  url_launcher: ^6.0.15  #ios changes
+  firebase_messaging: ^14.6.1  #ios changes
+  flutter_local_notifications: ^14.1.0  #ios changes
+  #flutter_youtube_view: ^1.1.8
+  file_picker: ^5.3.1  #ios changes
+  path_provider: ^2.0.4
+#  wc_flutter_share: ^0.4.0
+  #simple_share: any
+  #share_extend: "^1.1.7"
+  firebase_dynamic_links: ^5.3.1
+  flutter_udid: ^2.0.0
+  #mp_chart: ^0.2.1
+  flutter_echarts: ^2.3.0
+  #  flutter_inappwebview: ^5.3.2  #ios changes
+  webview_flutter: ^3.0.4
+  get_it: ^7.2.0
+  in_app_update: ^4.0.1
+  #android_alarm_manager: ^0.4.5+11
+  flutter_sms: ^2.3.2
+  #audio_service: ^0.11.2 ios changes
+  just_audio: ^0.9.20  #ios changes
+  rxdart: ^0.27.3
+  lottie: ^2.4.0
+  #  simple_autocomplete_search: ^1.0.5
+  #rulers: "^1.0.0"
+  fluttertoast: ^8.0.8
+  #  barcode_scan: ^3.0.1 #ios changes
+  barcode_scan2: ^4.2.1
+  sms_autofill: ^2.2.0
+  scrollable_positioned_list: ^0.3.8
+  scroll_to_index: ^3.0.1
+  advance_pdf_viewer_fork: ^2.0.0
+  font_awesome_flutter: ^10.4.0
+  cupertino_tabbar: ^2.0.0
+  steps_indicator: ^1.3.0
+  dio: ^5.1.2
+  flutter_cached_pdfview: ^0.4.1
+  #flutter_downloader: ^1.7.2  # ios changes
+  #permission_handler: ^8.1.6  # ios changes
+  flutter_downloader: ^1.10.4
+  permission_handler: ^10.2.0
+  image: ^4.0.17
+ # pdf: ^3.6.4
+  printing: ^5.11.0  # ios changes
+  get: ^4.6.1
+  percent_indicator: ^4.0.0
+  sticky_headers: ^0.3.0+2
+  flutter_sticky_header: ^0.6.0
+  rect_getter: ^1.1.0
+ # agora_rtc_engine: ^6.1.1+1  # ios changes
+  agora_rtc_engine: ^6.2.0
+  agora_rtm: ^1.0.1
+  equatable: ^2.0.3
+  #flutter_contact: any  # ios changes
+  stop_watch_timer: ^2.0.0
+#  moor_flutter: ^4.0.0
+  build_runner: ^2.1.2
+  background_fetch: ^1.0.3  # ios changes
+  flutter_native_timezone: ^2.0.0
+#  share: ^2.0.4
+  image_cropper: ^4.0.1
+  firebase_core: ^2.13.1
+  flutter_exif_rotation: ^0.5.1
+  paytm_allinonesdk: ^1.1.5
+  carousel_slider: ^4.2.1
+  timeline_tile: ^2.0.0
+  flutter_keyboard_visibility: ^5.2.0
+  firebase_analytics: ^10.4.1
+  #ff_navigation_bar: ^0.1.5
+  json_annotation: ^4.0.0
+  fixnum: ^1.0.0
+ # custom_date_range_picker: ^1.0.10
+  #  url_launcher: ^6.0.3
+  plugin_platform_interface: ^2.0.0
+# moor_generator: ^4.4.1
+  pdf_render: ^1.4.0
+  flutter_phone_direct_caller: ^2.1.1  #ios 20sept
+  background_sms: ^0.0.4  #
+  flutter_cache_manager: ^3.3.0
+  share_plus: ^4.0.4
+  moor_flutter: ^4.0.0
+  moor_generator: ^4.6.0
+  cloud_firestore_web: ^3.6.0
+  syncfusion_flutter_charts: ^21.2.8
+  share_files_and_screenshot_widgets: ^1.0.6
+  image_picker: ^1.0.1
+  open_filex: ^4.3.2
+#  flutter_inappwebview: ^5.7.2+3
+flutter_webview_plugin:
+  git: https://github.com/nuc134r/flutter_webview_plugin.git
+
+dependency_overrides:
+   firebase_core_platform_interface: 4.8.0
+#  json_annotation: ^4.0.0
+#  fixnum: ^1.0.0
+#  url_launcher: ^6.0.3
+#  plugin_platform_interface: ^2.0.0
+
+dev_dependencies:
+  #  moor_generator: ^4.4.1
+  flutter_test:
+    sdk: flutter
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+
+
+  assets:
+    - images/
+
+  fonts:
+    - family: Ubuntu
+      fonts:
+        - asset: fonts/Ubuntu-Bold.ttf
+          weight: 700
+        - asset: fonts/Ubuntu-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: fonts/Ubuntu-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: fonts/Ubuntu-Light.ttf
+          weight: 300
+        - asset: fonts/Ubuntu-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: fonts/Ubuntu-Medium.ttf
+          weight: 500
+        - asset: fonts/Ubuntu-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: fonts/Ubuntu-Regular.ttf
+          weight: 400
+
+    - family: MetalMania
+      fonts:
+        - asset: fonts/MetalMania-Regular.ttf
+
+    - family: KrutiDev
+      fonts:
+        - asset: fonts/kruti_dev_090_old.ttf
+
