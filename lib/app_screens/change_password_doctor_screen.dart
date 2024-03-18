@@ -3,13 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/login_screen_doctor_.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 
 import '../utils/color.dart';
 import 'login_screen_doctor.dart';
@@ -41,19 +39,15 @@ class ChangePasswordDoctorScreenState
         title: Text("Change Password"),
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.2),
-        toolbarTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .bodyMedium,
-        titleTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .titleLarge,
+            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
+            titleMedium: TextStyle(
+                color: Colorsblack,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+            titleMedium: TextStyle(
+                color: Colorsblack,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
       ),
       body: Builder(builder: (context) {
         return !passwordChanged
@@ -61,7 +55,7 @@ class ChangePasswordDoctorScreenState
                 children: [
                   Padding(
                     padding:
-                        EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 4.0),
+                        EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 4.0),
                     child: ListView(
                       shrinkWrap: true,
                       children: [
@@ -97,7 +91,7 @@ class ChangePasswordDoctorScreenState
                     ),
                   ),*/
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical! * 1.5,
+                          height: SizeConfig.blockSizeVertical !* 1.5,
                         ),
                         TextField(
                           controller: newPasswordController,
@@ -131,7 +125,7 @@ class ChangePasswordDoctorScreenState
                     ),
                   ),*/
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical! * 1.5,
+                          height: SizeConfig.blockSizeVertical !* 1.5,
                         ),
                         TextField(
                           controller: confirmPasswordController,
@@ -183,8 +177,8 @@ class ChangePasswordDoctorScreenState
                             elevation: 2.0,
                             fillColor: Color(0xFF06A759),
                             child: Image(
-                              width: SizeConfig.blockSizeHorizontal! * 5.5,
-                              height: SizeConfig.blockSizeHorizontal! * 5.5,
+                              width: SizeConfig.blockSizeHorizontal !* 5.5,
+                              height: SizeConfig.blockSizeHorizontal !* 5.5,
                               //height: 80,
                               image: AssetImage(
                                   "images/ic_right_arrow_triangular.png"),
@@ -201,55 +195,55 @@ class ChangePasswordDoctorScreenState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 3.0,
+                      height: SizeConfig.blockSizeVertical !* 3.0,
                     ),
                     Image(
                       image: AssetImage("images/ic_check_circle.png"),
-                      width: SizeConfig.blockSizeHorizontal! * 20.0,
-                      height: SizeConfig.blockSizeHorizontal! * 20.0,
+                      width: SizeConfig.blockSizeHorizontal !* 20.0,
+                      height: SizeConfig.blockSizeHorizontal !* 20.0,
                       color: Colors.green,
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 3.0,
+                      height: SizeConfig.blockSizeVertical !* 3.0,
                     ),
                     Text(
                       "Password Changed",
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal! * 7.0,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 7.0,
                         fontWeight: FontWeight.w500,
                         fontStyle: FontStyle.italic,
                         letterSpacing: 1.0,
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 1.5,
+                      height: SizeConfig.blockSizeVertical !* 1.5,
                     ),
                     Text(
                       "Your Password has been changed successfully.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal! * 4.3,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 4.3,
                         fontStyle: FontStyle.italic,
                         letterSpacing: 1.0,
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 3.0,
+                      height: SizeConfig.blockSizeVertical !* 3.0,
                     ),
                     Text(
                       "Login with New Password",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.grey[600],
-                        fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         fontStyle: FontStyle.italic,
                         letterSpacing: 1.0,
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 0.5,
+                      height: SizeConfig.blockSizeVertical !* 0.5,
                     ),
                     MaterialButton(
                       onPressed: () {
@@ -266,7 +260,7 @@ class ChangePasswordDoctorScreenState
                         "Go to Login Screen",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.3,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.3,
                           fontStyle: FontStyle.italic,
                           letterSpacing: 1.0,
                         ),

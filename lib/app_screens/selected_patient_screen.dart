@@ -9,21 +9,20 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:silvertouch/app_screens/add_consultation_screen.dart';
-import 'package:silvertouch/app_screens/add_new_lab_screen.dart';
-import 'package:silvertouch/app_screens/fullscreen_image.dart';
-import 'package:silvertouch/app_screens/opd_registration_screen.dart';
-import 'package:silvertouch/app_screens/view_profile_details_patient_inside_doctor.dart';
-import 'package:silvertouch/app_screens/vital_investigation_patient_wise_screen_from_notification.dart';
-import 'package:silvertouch/controllers/pdf_type_controller.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_opd_reg.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
-import 'package:silvertouch/podo/pdf_type.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:swasthyasetu/app_screens/add_consultation_screen.dart';
+import 'package:swasthyasetu/app_screens/doctor_dashboard_screen.dart';
+import 'package:swasthyasetu/app_screens/opd_registration_screen.dart';
+import 'package:swasthyasetu/controllers/pdf_type_controller.dart';
+import 'package:swasthyasetu/podo/pdf_type.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/app_screens/fullscreen_image.dart';
+import 'package:swasthyasetu/app_screens/select_opd_procedures_screen.dart';
+import 'package:swasthyasetu/app_screens/view_profile_details_patient_inside_doctor.dart';
+import 'package:swasthyasetu/app_screens/vital_investigation_patient_wise_screen_from_notification.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_opd_reg.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
 
 import '../utils/common_methods.dart';
 
@@ -68,7 +67,6 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
       patientID = "";
 
   String doctorIDP = "";
-
   bool notify = false;
   PdfTypeController pdfTypeController = Get.put(PdfTypeController());
   List<PdfType> listPdfType = [
@@ -101,10 +99,10 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
       notify = false;
     emptyMessageWidget = Center(
       child: SizedBox(
-        height: SizeConfig.blockSizeVertical! * 80,
-        width: SizeConfig.blockSizeHorizontal! * 100,
+        height: SizeConfig.blockSizeVertical !* 80,
+        width: SizeConfig.blockSizeHorizontal !* 100,
         child: Container(
-          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -126,11 +124,10 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
         ),
       ),
     );
-
-    // getPatientOrDoctorIDP().then((value) {
-    //   doctorIDP = value;
-    //   setState(() {});
-    // });
+    getPatientOrDoctorIDP().then((value) {
+      doctorIDP = value;
+      setState(() {});
+    });
     getPatientProfileDetails();
     getOPDProcedures();
   }
@@ -165,9 +162,6 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
     debugPrint(jsonStr);
 
     String encodedJSONStr = encodeBase64(jsonStr);
-
-    debugPrint(encodedJSONStr);
-
     var response = await apiHelper.callApiWithHeadersAndBody(
       url: "${baseURL}patientProfileData.php",
       //Uri.parse(loginUrl),
@@ -179,21 +173,15 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
     );
     //var resBody = json.decode(response.body);
     debugPrint(response.body.toString());
-
     final jsonResponse = json.decode(response.body.toString());
-
     ResponseModel model = ResponseModel.fromJSON(jsonResponse);
     /*pr.hide();*/
     if (model.status == "OK") {
       var data = jsonResponse['Data'];
-
       var strData = decodeBase64(data);
-
       debugPrint("Decoded Data Array : " + strData);
       debugPrint("Decoded Data Array : " + strData);
-
       final jsonData = json.decode(strData);
-
       imgUrl = jsonData[0]['Image'];
       String firstName = jsonData[0]['FirstName'];
       String lastName = jsonData[0]['LastName'];
@@ -217,73 +205,6 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
     }
   }
 
-  // void getPatientData(BuildContext context) async {
-  //   String loginUrl = "${baseURL}patientProfileData.php";
-  //   ProgressDialog? pr;
-  //   Future.delayed(Duration.zero, () {
-  //     pr = ProgressDialog(context);
-  //     pr!.show();
-  //   });
-  //   //listIcon = new List();
-  //   String patientUniqueKey = await getPatientUniqueKey();
-  //   String userType = await getUserType();
-  //   debugPrint("Key and type");
-  //   debugPrint(patientUniqueKey);
-  //   debugPrint("-----2222222222222222222222222222222222");
-  //   String jsonStr =
-  //       "{" + "\"" + "PatientIDP" + "\"" + ":" + "\"" + widget.patientIDP + "\"" + "}";
-  //
-  //   debugPrint(jsonStr);
-  //   debugPrint("---------------------------------------------");
-  //
-  //   String encodedJSONStr = encodeBase64(jsonStr);
-  //
-  //   var response = await apiHelper.callApiWithHeadersAndBody(
-  //     url: loginUrl,
-  //     //Uri.parse(loginUrl),
-  //     headers: {
-  //       "u": patientUniqueKey,
-  //       "type": userType,
-  //     },
-  //     body: {"getjson": encodedJSONStr},
-  //   );
-  //   debugPrint(response.body.toString());
-  //   final jsonResponse = json.decode(response.body.toString());
-  //   ResponseModel model = ResponseModel.fromJSON(jsonResponse);
-  //   pr!.hide();
-  //
-  //   if(model.status == "OK"){
-  //
-  //     var data = jsonResponse['Data'];
-  //
-  //     var strData = decodeBase64(data);
-  //
-  //     debugPrint("Decoded Data Array : " + strData);
-  //     final jsonData = json.decode(strData);
-  //
-  //     imgUrl = jsonData[0]['Image'];
-  //     String firstName = jsonData[0]['FirstName'];
-  //     String lastName = jsonData[0]['LastName'];
-  //     String middleName = jsonData[0]['MiddleName'];
-  //     gender = jsonData[0]['Gender'];
-  //     age = jsonData[0]['Age'];
-  //     patientID = jsonData[0]['PatientID'];
-  //     cityName = jsonData[0]['CityName'];
-  //     fullName =
-  //         firstName.trim() + " " + middleName.trim() + " " + lastName.trim();
-  //     //setEmergencyNumber(jsonData[0]['EmergencyNumber']);
-  //     debugPrint("Img url - $imgUrl");
-  //     setState(() {});
-  //   } else {
-  //     /*final snackBar = SnackBar(
-  //       backgroundColor: Colors.red,
-  //       content: Text(model.message),
-  //     );
-  //     ScaffoldMessenger.of(navigationService.navigatorKey.currentState)
-  //         .showSnackBar(snackBar);*/
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -302,8 +223,8 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
       body: Builder(builder: (context) {
         return SafeArea(
           child: Container(
-            width: SizeConfig.blockSizeHorizontal! * 100,
-            height: SizeConfig.blockSizeVertical! * 100,
+            width: SizeConfig.blockSizeHorizontal !* 100,
+            height: SizeConfig.blockSizeVertical !* 100,
             color: Colors.white,
             child: Column(
               children: <Widget>[
@@ -315,8 +236,8 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                           alignment: Alignment.topLeft,
                           child: Padding(
                             padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal! * 1,
-                                right: SizeConfig.blockSizeHorizontal! * 1),
+                                left: SizeConfig.blockSizeHorizontal !* 1,
+                                right: SizeConfig.blockSizeHorizontal !* 1),
                             child: InkWell(
                               focusColor: Colors.white,
                               highlightColor: Colors.white,
@@ -364,31 +285,26 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                 "$userImgUrl$imgUrl");
                                           }));
                                         },
-                                        child: (imgUrl != "")
-                                            ? CircleAvatar(
-                                                radius: SizeConfig
-                                                        .blockSizeHorizontal! *
-                                                    6,
-                                                backgroundColor: Colors.grey,
-                                                backgroundImage: NetworkImage(
-                                                    "$userImgUrl${imgUrl}"))
-                                            : CircleAvatar(
-                                                radius: SizeConfig
-                                                        .blockSizeHorizontal! *
-                                                    6,
-                                                backgroundColor: Colors.grey,
-                                                backgroundImage: AssetImage(
-                                                    "images/ic_user_placeholder.png")),
+                                        child: (imgUrl != "") ?
+                                        CircleAvatar(
+                                            radius: SizeConfig.blockSizeHorizontal !* 6,
+                                            backgroundColor: Colors.grey,
+                                            backgroundImage: NetworkImage("$userImgUrl${imgUrl}")) :
+                                        CircleAvatar(
+                                            radius: SizeConfig.blockSizeHorizontal !* 6,
+                                            backgroundColor: Colors.grey,
+                                            backgroundImage: AssetImage("images/ic_user_placeholder.png")
+                                        ),
                                       ),
                                       SizedBox(
                                         width:
-                                            SizeConfig.blockSizeHorizontal! * 5,
+                                            SizeConfig.blockSizeHorizontal !* 5,
                                       ),
                                       Expanded(
                                         child: Padding(
                                             padding: EdgeInsets.symmetric(
                                                 vertical: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     1.5),
                                             child: Column(
                                               crossAxisAlignment:
@@ -400,12 +316,12 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           4),
                                                 ),
                                                 SizedBox(
                                                   height: SizeConfig
-                                                          .blockSizeVertical! *
+                                                          .blockSizeVertical !*
                                                       1,
                                                 ),
                                                 Row(children: <Widget>[
@@ -413,21 +329,21 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                     "ID - ${patientID}",
                                                     style: TextStyle(
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           3.5,
                                                       color: Colors.green,
                                                     ),
                                                   ),
                                                   SizedBox(
                                                     width: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                         5,
                                                   ),
                                                   Text(
                                                     "$gender/$age",
                                                     style: TextStyle(
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           3.5,
                                                       color: Colors.blue[900],
                                                     ),
@@ -437,14 +353,14 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                 ),*/
                                                   SizedBox(
                                                     width: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                         5,
                                                   ),
                                                   Text(
                                                     cityName,
                                                     style: TextStyle(
                                                         fontSize: SizeConfig
-                                                                .blockSizeHorizontal! *
+                                                                .blockSizeHorizontal !*
                                                             3.5,
                                                         color: Colors
                                                             .limeAccent[500]),
@@ -459,9 +375,9 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                       alignment: Alignment.topRight,
                                       child: Padding(
                                         padding: EdgeInsets.only(
-                                            right: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3),
+                                            right:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    3),
                                         child: InkWell(
                                           onTap: () {
                                             Navigator.push(context,
@@ -484,14 +400,14 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                               ),
                                               SizedBox(
                                                 width: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     1,
                                               ),
                                               Image(
                                                 image: AssetImage(
                                                     "images/ic_right_arrow_double.png"),
                                                 width: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     2.0,
                                                 color: Colors.blue,
                                               )
@@ -509,7 +425,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical! * 1,
+                  height: SizeConfig.blockSizeVertical !* 1,
                 ),
                 widget.healthRecordsDisplayStatus == "1"
                     ? Row(
@@ -534,12 +450,11 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                             ),*/
                                     FaIcon(
                                       FontAwesomeIcons.chartLine,
-                                      size: SizeConfig.blockSizeHorizontal! * 5,
+                                      size: SizeConfig.blockSizeHorizontal !* 5,
                                       color: Colors.green,
                                     ),
                                     SizedBox(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal! * 2,
+                                      width: SizeConfig.blockSizeHorizontal !* 2,
                                     ),
                                     Text(
                                       "Vitals",
@@ -548,7 +463,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal! *
+                                            SizeConfig.blockSizeHorizontal !*
                                                 3.4,
                                       ),
                                     ),
@@ -571,12 +486,11 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                   children: <Widget>[
                                     FaIcon(
                                       FontAwesomeIcons.briefcase,
-                                      size: SizeConfig.blockSizeHorizontal! * 5,
+                                      size: SizeConfig.blockSizeHorizontal !* 5,
                                       color: Colors.green,
                                     ),
                                     SizedBox(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal! * 2,
+                                      width: SizeConfig.blockSizeHorizontal !* 2,
                                     ),
                                     Text(
                                       "Investigations",
@@ -585,7 +499,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal! *
+                                            SizeConfig.blockSizeHorizontal !*
                                                 3.4,
                                       ),
                                     ),
@@ -614,12 +528,12 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                       FaIcon(
                                         FontAwesomeIcons.fileAlt,
                                         size:
-                                            SizeConfig.blockSizeHorizontal! * 5,
+                                            SizeConfig.blockSizeHorizontal !* 5,
                                         color: Colors.green,
                                       ),
                                       SizedBox(
                                         width:
-                                            SizeConfig.blockSizeHorizontal! * 2,
+                                            SizeConfig.blockSizeHorizontal !* 2,
                                       ),
                                       Text(
                                         "Documents",
@@ -628,7 +542,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   3.4,
                                         ),
                                       ),
@@ -641,7 +555,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                     : Container(),
                 widget.healthRecordsDisplayStatus == "1"
                     ? SizedBox(
-                        height: SizeConfig.blockSizeVertical! * 1,
+                        height: SizeConfig.blockSizeVertical !* 1,
                       )
                     : Container(),
                 Row(
@@ -651,7 +565,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                       "Notify me upon entry of health records",
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
                         letterSpacing: 1.3,
                       ),
                     ),
@@ -727,7 +641,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.all(
-                          SizeConfig.blockSizeHorizontal! * 3,
+                          SizeConfig.blockSizeHorizontal !* 3,
                         ),
                         child: MaterialButton(
                             shape: RoundedRectangleBorder(
@@ -739,25 +653,24 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                               children: <Widget>[
                                 Image(
                                   image: AssetImage("images/ic_add_opd.png"),
-                                  width: SizeConfig.blockSizeHorizontal! * 4,
+                                  width: SizeConfig.blockSizeHorizontal !* 4,
                                   color: Colors.green,
                                 ),
                                 SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! * 4,
+                                  width: SizeConfig.blockSizeHorizontal !* 4,
                                 ),
                                 Text(
                                   "Add Appointment",
                                   style: TextStyle(
                                       color: Colors.green,
                                       fontSize:
-                                          SizeConfig.blockSizeHorizontal! *
-                                              3.5),
+                                          SizeConfig.blockSizeHorizontal !* 3.5),
                                 ),
                               ],
                             ),
                             minWidth: double.maxFinite,
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal! * 3),
+                                SizeConfig.blockSizeHorizontal !* 3),
                             color: Colors.white,
                             onPressed: () async {
                               submitAllTheData(context, widget.patientIDP);
@@ -787,27 +700,28 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical! * 2,
+                            height: SizeConfig.blockSizeVertical !* 2,
                           ),
                           Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                    left: SizeConfig.blockSizeHorizontal! * 3),
+                                    left: SizeConfig.blockSizeHorizontal !* 3),
                                 child: Text(
                                   "Previous Visits",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal! * 4.5,
+                                        SizeConfig.blockSizeHorizontal !* 4.5,
                                   ),
                                 ),
                               )),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical! * 1,
+                            height: SizeConfig.blockSizeVertical !* 1,
                           ),
                           Expanded(
-                            child: listOPDRegistration.length > 0
+                            child:
+                            listOPDRegistration.length > 0
                                 ? ListView.builder(
                                     shrinkWrap: true,
                                     physics: AlwaysScrollableScrollPhysics(),
@@ -816,13 +730,13 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                       return Padding(
                                           padding: EdgeInsets.only(
                                               left: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   2,
                                               right: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   2,
                                               bottom: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   3),
                                           child: InkWell(
                                             onTap: () {
@@ -860,7 +774,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                     : Colors.blueGrey[200],
                                                 child: Padding(
                                                   padding: EdgeInsets.all(SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       3),
                                                   child: Column(
                                                     children: <Widget>[
@@ -882,7 +796,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                           ),
                                                           SizedBox(
                                                             width: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                    .blockSizeHorizontal !*
                                                                 3,
                                                           ),
                                                           /*Expanded(
@@ -903,7 +817,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                                           .white*/
                                                                 ,
                                                                 fontSize: SizeConfig
-                                                                        .blockSizeHorizontal! *
+                                                                        .blockSizeHorizontal !*
                                                                     4,
                                                                 fontWeight:
                                                                     FontWeight
@@ -912,7 +826,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                           /*),*/
                                                           SizedBox(
                                                             width: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                    .blockSizeHorizontal !*
                                                                 6.0,
                                                           ),
                                                           doctorIDP ==
@@ -926,7 +840,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                                     color: Colors
                                                                         .green,
                                                                     fontSize:
-                                                                        SizeConfig.blockSizeHorizontal! *
+                                                                        SizeConfig.blockSizeHorizontal !*
                                                                             3.5,
                                                                     fontWeight:
                                                                         FontWeight
@@ -951,7 +865,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                                     Container(
                                                                   padding: EdgeInsets.all(
                                                                       SizeConfig
-                                                                              .blockSizeHorizontal! *
+                                                                              .blockSizeHorizontal !*
                                                                           2.0),
                                                                   decoration:
                                                                       BoxDecoration(
@@ -965,7 +879,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                                     FontAwesomeIcons
                                                                         .print,
                                                                     size: SizeConfig
-                                                                            .blockSizeHorizontal! *
+                                                                            .blockSizeHorizontal !*
                                                                         5,
                                                                     color: Colors
                                                                         .white,
@@ -978,7 +892,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                                           .patientIDP
                                                                   ? SizedBox(
                                                                       width: SizeConfig
-                                                                              .blockSizeHorizontal! *
+                                                                              .blockSizeHorizontal !*
                                                                           2.0,
                                                                     )
                                                                   : Container(),
@@ -1001,7 +915,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                                       child:
                                                                           Container(
                                                                         padding:
-                                                                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! *
+                                                                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !*
                                                                                 2.0),
                                                                         decoration:
                                                                             BoxDecoration(
@@ -1013,7 +927,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                                         child:
                                                                             Image(
                                                                           width:
-                                                                              SizeConfig.blockSizeHorizontal! * 5,
+                                                                              SizeConfig.blockSizeHorizontal !* 5,
                                                                           color:
                                                                               Colors.white,
                                                                           //height: 80,
@@ -1053,7 +967,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                                                       .black,
                                                                   fontSize:
                                                                       SizeConfig
-                                                                              .blockSizeHorizontal! *
+                                                                              .blockSizeHorizontal !*
                                                                           3.3,
                                                                 ),
                                                               ),
@@ -1243,8 +1157,9 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
           patientIDP: jo['DoctorIDF'].toString(),
           discount: "0",
           vidCallDate: jo['ConsultationDate'],
-          doctorName: /*"Dr. " +*/
-              jo['FirstName'].trim() + " " + jo['LastName'].trim(),
+          doctorName: /*"Dr. " +*/ jo['FirstName'].trim() +
+              " " +
+              jo['LastName'].trim(),
         ));
       }
       listOPDRegistrationSearchResults = listOPDRegistration;
@@ -1376,7 +1291,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  height: SizeConfig.blockSizeVertical! * 8,
+                  height: SizeConfig.blockSizeVertical !* 8,
                   child: Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Row(
@@ -1386,24 +1301,24 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                           child: Icon(
                             Icons.arrow_back,
                             color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal! * 6.2,
+                            size: SizeConfig.blockSizeHorizontal !* 6.2,
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal! * 6,
+                          width: SizeConfig.blockSizeHorizontal !* 6,
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal! * 50,
-                          height: SizeConfig.blockSizeVertical! * 8,
+                          width: SizeConfig.blockSizeHorizontal !* 50,
+                          height: SizeConfig.blockSizeVertical !* 8,
                           child: Center(
                             child: Text(
                               "Select Pdf to download",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                                 color: Colors.blue,
                                 decoration: TextDecoration.none,
                               ),
@@ -1433,7 +1348,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                           child: Padding(
                               padding: EdgeInsets.all(0.0),
                               child: Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 90,
+                                  width: SizeConfig.blockSizeHorizontal !* 90,
                                   padding: EdgeInsets.only(
                                     top: 5,
                                     bottom: 5,
@@ -1461,22 +1376,22 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
                                         children: [
                                           FaIcon(
                                             list[index].iconData,
-                                            size: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                5,
+                                            size:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    5,
                                             color: Colors.green,
                                           ),
                                           SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                6.0,
+                                            width:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    6.0,
                                           ),
                                           Text(
                                             list[index].typeName,
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   4.3,
                                               color: Colors.black,
                                               fontWeight: FontWeight.w500,
@@ -1515,7 +1430,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
       loginUrl = "${baseURL}invoicepdfdoc.php";
     else if (pdfTypeController.pdfType.value == "full")
       loginUrl = "${baseURL}consultationpdfdoc.php";
-    //  debugPrint("pdf url -  $loginUrl");
+  //  debugPrint("pdf url -  $loginUrl");
 
     pr = ProgressDialog(context);
     pr!.show();
@@ -1568,13 +1483,13 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
         downloadPdfUrl = "${baseURL}images/consultationDoc/$fileName";
       else*/
       if (pdfTypeController.pdfType.value == "prescription")
-        downloadPdfUrl = "${baseImagePath}images/prescriptionDoc/$fileName";
+        downloadPdfUrl = "${baseURL}images/prescriptionDoc/$fileName";
       else if (pdfTypeController.pdfType.value == "receipt")
-        downloadPdfUrl = "${baseImagePath}images/receiptDoc/$fileName";
+        downloadPdfUrl = "${baseURL}images/receiptDoc/$fileName";
       else if (pdfTypeController.pdfType.value == "invoice")
-        downloadPdfUrl = "${baseImagePath}images/invoiceDoc/$fileName";
+        downloadPdfUrl = "${baseURL}images/invoiceDoc/$fileName";
       else if (pdfTypeController.pdfType.value == "full")
-        downloadPdfUrl = "${baseImagePath}images/consultationDoc/$fileName";
+        downloadPdfUrl = "${baseURL}images/consultationDoc/$fileName";
       downloadAndOpenTheFile(downloadPdfUrl, fileName);
     } else {
       final snackBar = SnackBar(
@@ -1585,4 +1500,6 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
       pr!.hide();
     }
   }
+
 }
+

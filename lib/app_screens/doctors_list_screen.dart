@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:silvertouch/app_screens/ask_for_appointment_screen.dart';
-import 'package:silvertouch/app_screens/doctor_full_details_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/ask_for_appointment_screen.dart';
+import 'package:swasthyasetu/app_screens/chat_screen.dart';
+import 'package:swasthyasetu/app_screens/doctor_full_details_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/widgets/extensions.dart';
 import '../podo/dropdown_item.dart';
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -31,7 +29,7 @@ class DoctorsListScreen extends StatefulWidget {
       "${baseURL}patientProfileData.php";
 
   String emptyTextMyDoctors1 =
-      "Ask your Doctor to send you bind request from Silver Touch Doctor panel so that you can able to share all your Health records to your prefered doctor.";
+      "Ask your Doctor to send you bind request from Swasthya setu Doctor panel so that you can able to share all your Health records to your prefered doctor.";
 
   String emptyMessage = "";
   bool? fromMenu = false;
@@ -39,7 +37,7 @@ class DoctorsListScreen extends StatefulWidget {
 
   Widget? emptyMessageWidget;
 
-  DoctorsListScreen(String patientIDP, bool fromMenu, var selectedCategoryIDP) {
+  DoctorsListScreen(String patientIDP,bool fromMenu,var selectedCategoryIDP) {
     this.patientIDP = patientIDP;
     this.fromMenu = fromMenu;
     this.selectedCategoryIDP = selectedCategoryIDP;
@@ -81,9 +79,9 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
     cityName = "";
     widget.emptyMessage = "${widget.emptyTextMyDoctors1}";
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical !* 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -103,12 +101,14 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
         ),
       ),
     );
-    listCategories
-        .add({"categoryName": "Connected Doctors", "categoryIDP": "1"});
+    listCategories.add({"categoryName": "Connected Doctors", "categoryIDP": "1"});
     listCategories.add({"categoryName": "New Doctors", "categoryIDP": "2"});
-    if (widget.selectedCategoryIDP != "1") {
+    if(widget.selectedCategoryIDP!="1")
+    {
       selectedCategoryIDP = "2";
-    } else {
+    }
+    else
+    {
       selectedCategoryIDP = widget.selectedCategoryIDP;
     }
     // hideFABController = ScrollController();
@@ -137,9 +137,12 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
     //   }
     // });
     // getPatientProfileDetails("");
-    if (widget.fromMenu == false) {
+    if(widget.fromMenu==false)
+    {
       getNonBindedDoctors("");
-    } else {
+    }
+    else
+    {
       getPatientProfileDetails("");
     }
     // getNotBindedDoctorDetails();
@@ -153,7 +156,7 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
         title: titleWidget,
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -174,18 +177,18 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
                         if (listDoctors.length > 0)
                           listDoctorsSearchResults = listDoctors
                               .where((objDoctor) =>
-                                  objDoctor["FirstName"]!
-                                      .toLowerCase()
-                                      .contains(text.toLowerCase()) ||
-                                  objDoctor["LastName"]!
-                                      .toLowerCase()
-                                      .contains(text.toLowerCase()) ||
-                                  objDoctor["Specility"]!
-                                      .toLowerCase()
-                                      .contains(text.toLowerCase()) ||
-                                  objDoctor["CityName"]!
-                                      .toLowerCase()
-                                      .contains(text.toLowerCase()))
+                          objDoctor["FirstName"]
+                          !.toLowerCase()
+                              .contains(text.toLowerCase()) ||
+                              objDoctor["LastName"]
+                              !.toLowerCase()
+                                  .contains(text.toLowerCase()) ||
+                              objDoctor["Specility"]
+                              !.toLowerCase()
+                                  .contains(text.toLowerCase()) ||
+                              objDoctor["CityName"]
+                              !.toLowerCase()
+                                  .contains(text.toLowerCase()))
                               .toList();
                         else
                           listDoctorsSearchResults = [];
@@ -193,7 +196,7 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
                     },
                     style: TextStyle(
                       color: Colorsblack,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                       letterSpacing: 1.5,
                     ),
                     decoration: InputDecoration(
@@ -220,657 +223,653 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
             },
             icon: icon,
           )
-        ],
-        toolbarTextStyle: TextTheme(
-                titleLarge: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .bodyMedium,
+        ], toolbarTextStyle: TextTheme(
+          titleLarge: TextStyle(
+              color: Colorsblack,
+              fontFamily: "Ubuntu",
+              fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium,
         titleTextStyle: TextTheme(
-                titleLarge: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .titleLarge,
+            titleLarge: TextStyle(
+                color: Colorsblack,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
       ),
       body: Builder(
         builder: (context) {
           return RefreshIndicator(
-            child: listDoctorsSearchResults.length > 0
-                ? Column(
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {
-                          showCitySelectionDialog(
-                              listCitiesSearchResults, "City");
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(
-                            SizeConfig.blockSizeHorizontal! * 3.0,
-                          ),
-                          padding: EdgeInsets.all(
-                            SizeConfig.blockSizeHorizontal! * 3.0,
-                          ),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image(
-                                image: AssetImage("images/ic_city.png"),
-                                color: Colors.blue,
-                                width: SizeConfig.blockSizeHorizontal! * 6.0,
-                                height: SizeConfig.blockSizeHorizontal! * 6.0,
-                              ),
-                              SizedBox(
-                                width: SizeConfig.blockSizeHorizontal! * 3.0,
-                              ),
-                              Text(
-                                selectedCity.value,
-                                style: TextStyle(
-                                  fontSize:
-                                      SizeConfig.blockSizeHorizontal! * 5.0,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 1.5,
-                                ),
-                              ),
-                              Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.grey,
-                                size: SizeConfig.blockSizeHorizontal! * 6.0,
-                              ),
-                            ],
+            child:
+            listDoctorsSearchResults.length > 0
+                ?
+            Column(
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    showCitySelectionDialog(listCitiesSearchResults, "City");
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(
+                      SizeConfig.blockSizeHorizontal !* 3.0,
+                    ),
+                    padding: EdgeInsets.all(
+                      SizeConfig.blockSizeHorizontal !* 3.0,
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image(
+                          image: AssetImage("images/ic_city.png"),
+                          color: Colors.blue,
+                          width: SizeConfig.blockSizeHorizontal !* 6.0,
+                          height: SizeConfig.blockSizeHorizontal !* 6.0,
+                        ),
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal !* 3.0,
+                        ),
+                        Text(
+                          selectedCity.value,
+                          style: TextStyle(
+                            fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
                           ),
                         ),
-                      ),
-                      (widget.fromMenu == false)
-                          ? Padding(
-                              padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal! * 2,
-                                  right: SizeConfig.blockSizeHorizontal! * 2),
-                              child: Container(
-                                height: SizeConfig.blockSizeVertical! * 10,
-                                child: ListView.separated(
-                                  itemCount: listCategories.length,
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  physics: ClampingScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          selectedCategoryIDP =
-                                              listCategories[index]
-                                                  ["categoryIDP"]!;
-                                          if (selectedCategoryIDP == "2")
-                                            getNonBindedDoctors("");
-                                          else
-                                            getPatientProfileDetails("");
-                                        });
-                                      },
-                                      child: Chip(
-                                        padding: EdgeInsets.all(
-                                            SizeConfig.blockSizeHorizontal! *
-                                                3),
-                                        label: Text(
-                                          listCategories[index]
-                                              ["categoryName"]!,
-                                          style: TextStyle(
-                                            color: listCategories[index]
-                                                        ["categoryIDP"] ==
-                                                    selectedCategoryIDP
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
-                                        ),
-                                        backgroundColor: listCategories[index]
-                                                    ["categoryIDP"] ==
-                                                selectedCategoryIDP
-                                            ? colorBlueDark
-                                            : colorWhite,
-                                      ),
-                                    );
-                                  },
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
-                                    return SizedBox(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal! * 5,
-                                    );
-                                  },
-                                ),
+                        Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.grey,
+                          size: SizeConfig.blockSizeHorizontal !* 6.0,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                (widget.fromMenu==false) ? Padding(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal !* 2,
+                      right: SizeConfig.blockSizeHorizontal !* 2),
+                  child: Container(
+                    height: SizeConfig.blockSizeVertical !* 10,
+                    child: ListView.separated(
+                      itemCount: listCategories.length,
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedCategoryIDP =
+                              listCategories[index]["categoryIDP"]!;
+                              if(selectedCategoryIDP=="2")
+                                getNonBindedDoctors("");
+                              else
+                                getPatientProfileDetails("");
+                            });
+                          },
+                          child:
+                          Chip(
+                            padding: EdgeInsets.all(
+                                SizeConfig.blockSizeHorizontal !* 3),
+                            label: Text(
+                              listCategories[index]["categoryName"]!,
+                              style: TextStyle(
+                                color: listCategories[index]
+                                ["categoryIDP"] ==
+                                    selectedCategoryIDP
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
-                            )
-                          : Container(),
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: listDoctorsSearchResults.length,
-                            shrinkWrap: true,
-                            physics: ScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  if (selectedCategoryIDP == "1") {
-                                    Get.to(() => DoctorFullDetailsScreen(
-                                              listDoctorsSearchResults[index],
-                                              widget.patientIDP!,
-                                            ))!
-                                        .then((value) {
-                                      if (value != null && value == 1)
-                                        getPatientProfileDetails("");
-                                    });
-                                  }
-                                },
-                                child: Container(
-                                    child: Padding(
-                                        padding: EdgeInsets.all(
-                                            SizeConfig.blockSizeHorizontal! *
-                                                2),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                                mainAxisSize: MainAxisSize.max,
+                            ),
+                            backgroundColor: listCategories[index]
+                            ["categoryIDP"] ==
+                                selectedCategoryIDP
+                                ? colorBlueDark
+                                : colorWhite,
+                          ),
+                        );
+                      },
+                      separatorBuilder:
+                          (BuildContext context, int index) {
+                        return SizedBox(
+                          width: SizeConfig.blockSizeHorizontal !* 5,
+                        );
+                      },
+                    ),
+                  ),
+                ):Container(),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: listDoctorsSearchResults.length,
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return
+                          InkWell(
+                            onTap: () {
+                              if(selectedCategoryIDP=="1")
+                              {
+
+                                Get.to(() => DoctorFullDetailsScreen(
+                                  listDoctorsSearchResults[index],
+                                  widget.patientIDP!,
+                                ))!.then((value) {
+                                  if (value != null && value == 1)
+                                    getPatientProfileDetails("");
+                                });
+                              }
+                            },
+                            child: Container(
+                                child: Padding(
+                                    padding: EdgeInsets.all(
+                                        SizeConfig.blockSizeHorizontal !* 2),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              (listDoctorsSearchResults[index]["DoctorImage"].toString().length>0) ?
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder:
+                                                              (context) {
+                                                            return FullScreenImage(
+                                                              "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}",
+                                                              heroTag:
+                                                              "fullImg_$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}_${listDoctorsSearchResults[index]['DoctorIDP']}",
+                                                              showPlaceholder:
+                                                              !isImageNotNullAndBlank(
+                                                                  index),
+                                                            );
+                                                          }));
+                                                },
+                                                child: CircleAvatar(
+                                                    radius: SizeConfig
+                                                        .blockSizeHorizontal !*
+                                                        6,
+                                                    backgroundImage: NetworkImage(
+                                                        "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}")
+                                              )) :
+                                                  CircleAvatar(
+                                                      radius: SizeConfig
+                                                          .blockSizeHorizontal !*
+                                                          6,
+                                                  backgroundColor: Colors.grey,
+                                                  backgroundImage: AssetImage(
+                                                      "images/ic_user_placeholder.png") /*),*/
+                                              ),
+                                              SizedBox(
+                                                width: SizeConfig
+                                                    .blockSizeHorizontal !*
+                                                    5,
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .start,
                                                 children: <Widget>[
-                                                  (listDoctorsSearchResults[
-                                                                      index]
-                                                                  [
-                                                                  "DoctorImage"]
-                                                              .toString()
-                                                              .length >
-                                                          0)
-                                                      ? InkWell(
-                                                          onTap: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .push(MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) {
-                                                              return FullScreenImage(
-                                                                "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}",
-                                                                heroTag:
-                                                                    "fullImg_$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}_${listDoctorsSearchResults[index]['DoctorIDP']}",
-                                                                showPlaceholder:
-                                                                    !isImageNotNullAndBlank(
-                                                                        index),
-                                                              );
-                                                            }));
-                                                          },
-                                                          child: CircleAvatar(
-                                                              radius: SizeConfig
-                                                                      .blockSizeHorizontal! *
-                                                                  6,
-                                                              backgroundImage:
-                                                                  NetworkImage(
-                                                                      "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}")))
-                                                      : CircleAvatar(
-                                                          radius: SizeConfig
-                                                                  .blockSizeHorizontal! *
-                                                              6,
-                                                          backgroundColor:
-                                                              Colors.grey,
-                                                          backgroundImage:
-                                                              AssetImage(
-                                                                  "images/ic_user_placeholder.png") /*),*/
+                                                  Container(
+                                                    width: SizeConfig
+                                                        .blockSizeHorizontal !*
+                                                        70,
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: Text(
+                                                            (listDoctorsSearchResults[index]["FirstName"]
+                                                            !.trim() +
+                                                                " " +
+                                                                listDoctorsSearchResults[index]["LastName"]
+                                                                !.trim())
+                                                                .trim(),
+                                                            textAlign:
+                                                            TextAlign
+                                                                .left,
+                                                            style:
+                                                            TextStyle(
+                                                              fontSize:
+                                                              SizeConfig
+                                                                  .blockSizeHorizontal !*
+                                                                  4.2,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w500,
+                                                              color: listDoctorsSearchResults[index]
+                                                              [
+                                                              "BindedTag"] ==
+                                                                  "1"
+                                                                  ? Colors
+                                                                  .black
+                                                                  : Colors
+                                                                  .black,
+                                                              letterSpacing:
+                                                              1.3,
+                                                            ),
                                                           ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        0.5,
+                                                  ),
                                                   SizedBox(
                                                     width: SizeConfig
-                                                            .blockSizeHorizontal! *
-                                                        5,
-                                                  ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Container(
-                                                        width: SizeConfig
-                                                                .blockSizeHorizontal! *
-                                                            70,
-                                                        child: Row(
-                                                          children: [
-                                                            Expanded(
-                                                              child: Text(
-                                                                (listDoctorsSearchResults[index]["FirstName"]!
-                                                                            .trim() +
-                                                                        " " +
-                                                                        listDoctorsSearchResults[index]["LastName"]!
-                                                                            .trim())
-                                                                    .trim(),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .blockSizeHorizontal! *
-                                                                          4.2,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  color: listDoctorsSearchResults[index]
-                                                                              [
-                                                                              "BindedTag"] ==
-                                                                          "1"
-                                                                      ? Colors
-                                                                          .black
-                                                                      : Colors
-                                                                          .black,
-                                                                  letterSpacing:
-                                                                      1.3,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            0.5,
-                                                      ),
-                                                      SizedBox(
-                                                        width: SizeConfig
-                                                                .blockSizeHorizontal! *
-                                                            70,
-                                                        child: Text(
+                                                        .blockSizeHorizontal !*
+                                                        70,
+                                                    child: Text(
+                                                      listDoctorsSearchResults[
+                                                      index]
+                                                      ["Specility"]! +
+                                                          " - " +
                                                           listDoctorsSearchResults[
-                                                                      index][
-                                                                  "Specility"]! +
-                                                              " - " +
-                                                              listDoctorsSearchResults[
-                                                                      index]
-                                                                  ["CityName"]!,
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeHorizontal! *
-                                                                3.3,
-                                                            color: listDoctorsSearchResults[
-                                                                            index]
-                                                                        [
-                                                                        "BindedTag"] ==
-                                                                    "1"
-                                                                ? Colors.grey
-                                                                : Colors.grey,
-                                                            letterSpacing: 1.3,
-                                                          ),
-                                                        ),
+                                                          index]
+                                                          ["CityName"]!,
+                                                      maxLines: 2,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      textAlign:
+                                                      TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontSize: SizeConfig
+                                                            .blockSizeHorizontal !*
+                                                            3.3,
+                                                        color: listDoctorsSearchResults[
+                                                        index]
+                                                        ["BindedTag"] ==
+                                                            "1"
+                                                            ? Colors.grey
+                                                            : Colors.grey,
+                                                        letterSpacing: 1.3,
                                                       ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ]),
+                                        SizedBox(
+                                          height:
+                                          SizeConfig.blockSizeVertical !*
+                                              0.5,
+                                        ),
+                                        (selectedCategoryIDP=="1") ?
+                                        Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: SizeConfig
+                                                    .blockSizeHorizontal !*
+                                                    1,
+                                              ),
+                                              child:
+                                              Column
+                                                (
+                                                children: [
+                                                  Row(
+                                                    mainAxisSize:
+                                                    MainAxisSize.min,
+                                                    children: [
+                                                      listDoctorsSearchResults[
+                                                      index][
+                                                      "BindedTag"] ==
+                                                          "1"
+                                                          ? Container()
+                                                          : Container(),
+                                                      InkWell(
+                                                          onTap: () {
+                                                            // String patientIDP =
+                                                            // listDoctorsSearchResults[
+                                                            // index][
+                                                            // 'DoctorIDP']!;
+                                                            // String patientName = listDoctorsSearchResults[
+                                                            // index]
+                                                            // [
+                                                            // 'FirstName']!
+                                                            //     .trim() +
+                                                            //     " " +
+                                                            //     listDoctorsSearchResults[
+                                                            //     index]
+                                                            //     [
+                                                            //     'LastName']!
+                                                            //         .trim();
+                                                            // String doctorImage =
+                                                            //     "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}";
+                                                            // Get.to(() =>
+                                                            //     ChatScreen(
+                                                            //       patientIDP:
+                                                            //       patientIDP,
+                                                            //       patientName:
+                                                            //       patientName,
+                                                            //       patientImage:
+                                                            //       doctorImage,
+                                                            //       heroTag:
+                                                            //       "selectedDoctor_${listDoctorsSearchResults[index]['DoctorIDP']}",
+                                                            //     ))
+                                                            // !.then((value) {
+                                                            //   getPatientProfileDetails("");
+                                                            // });
+                                                            bindUnbindDoctor(
+                                                                listDoctorsSearchResults[
+                                                                index]);
+                                                          },
+                                                          child:
+                                                          Row(
+                                                            children: [
+                                                              Image(
+                                                                image: AssetImage(
+                                                                    "images/ic_ask_to_doctor_filled.png"),
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    6.0,
+                                                                height: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    6.0,
+                                                              ),
+                                                              SizedBox(
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    1.0,
+                                                              ),
+                                                              Text(
+                                                                "Chat",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .green[
+                                                                    700]),
+                                                              )
+                                                            ],
+                                                          )),
+                                                      SizedBox(
+                                                        width: SizeConfig
+                                                            .blockSizeHorizontal !*
+                                                            2.0,
+                                                      ),
+                                                      InkWell(
+                                                          onTap: () {
+                                                            Get.to(() =>
+                                                                DoctorFullDetailsScreen(
+                                                                  listDoctorsSearchResults[
+                                                                  index],
+                                                                  widget
+                                                                      .patientIDP!,
+                                                                ))!.then((value) {
+                                                              if (value !=
+                                                                  null &&
+                                                                  value == 1)
+                                                                getPatientProfileDetails("");
+                                                            });
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              Image(
+                                                                image: AssetImage(
+                                                                    "images/ic_doctor_profile.png"),
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    6.0,
+                                                                height: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    6.0,
+                                                              ),
+                                                              SizedBox(
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    1.0,
+                                                              ),
+                                                              Text(
+                                                                "Profile",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .blue[
+                                                                    700]),
+                                                              )
+                                                            ],
+                                                          )),
+                                                      SizedBox(
+                                                        width: SizeConfig
+                                                            .blockSizeHorizontal !*
+                                                            2.0,
+                                                      ),
+                                                      InkWell(
+                                                          onTap: () {
+                                                            // Get.to(() =>
+                                                                // AppointmentDoctorsListScreen(widget.patientIDP!));
+                                                            if (listDoctorsSearchResults[
+                                                            index]['AvailableStatus'] ==
+                                                                "1") {
+                                                              Navigator.of(
+                                                                  context)
+                                                                  .push(MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) => AskForAppointmentScreen(
+                                                                      widget.patientIDP!,
+                                                                      listDoctorsSearchResults[
+                                                                      index][
+                                                                      'DoctorIDP']!,
+                                                                      listDoctorsSearchResults[
+                                                                      index][
+                                                                      'AppointmentStatus']!,
+                                                                    )
+                                                                  ));
+                                                            } else {
+                                                              showDoctorIsNotAvailableDialog(
+                                                                  context);
+                                                            }
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              Image(
+                                                                image: AssetImage(
+                                                                    "images/ic_ask_for_appointment_filled.png"),
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    6.0,
+                                                                height: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    6.0,
+                                                              ),
+                                                              SizedBox(
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    1.0,
+                                                              ),
+                                                              Text(
+                                                                "Appointment",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .blue[
+                                                                    700]),
+                                                              )
+                                                            ],
+                                                          )),
                                                     ],
                                                   ),
-                                                ]),
-                                            SizedBox(
-                                              height: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  0.5,
-                                            ),
-                                            (selectedCategoryIDP == "1")
-                                                ? Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                        horizontal: SizeConfig
-                                                                .blockSizeHorizontal! *
-                                                            1,
-                                                      ),
-                                                      child: Column(
-                                                        children: [
+                                                ],
+                                              ),
+                                            )) :
+                                        Align(
+                                            alignment: Alignment.center,
+                                            child:
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: SizeConfig
+                                                    .blockSizeHorizontal !*
+                                                    1,
+                                              ),
+                                              child:
+                                              Column
+                                                (
+                                                children: [
+                                                  Row(
+                                                    mainAxisSize:
+                                                    MainAxisSize.min,
+                                                    children: [
+                                                      listDoctorsSearchResults[
+                                                      index][
+                                                      "BindedTag"] ==
+                                                          "1"
+                                                          ? Container()
+                                                          : Container(),
+                                                      InkWell(
+                                                          onTap: () {
+                                                            String patientIDP = listDoctorsSearchResults[index]['DoctorIDP']!;
+                                                            // String patientName = listDoctorsSearchResults[
+                                                            // index]
+                                                            // [
+                                                            // 'FirstName']!
+                                                            //     .trim() +
+                                                            //     " " +
+                                                            //     listDoctorsSearchResults[
+                                                            //     index]
+                                                            //     [
+                                                            //     'LastName']!
+                                                            //         .trim();
+                                                            // String doctorImage =
+                                                            //     "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}";
+                                                            // Get.to(() =>
+                                                            //     ChatScreen(
+                                                            //       patientIDP:
+                                                            //       patientIDP,
+                                                            //       patientName:
+                                                            //       patientName,
+                                                            //       patientImage:
+                                                            //       doctorImage,
+                                                            //       heroTag:
+                                                            //       "selectedDoctor_${listDoctorsSearchResults[index]['DoctorIDP']}",
+                                                            //     ))
+                                                            // !.then((value) {
+                                                            //   getPatientProfileDetails("");
+                                                            // });
+                                                            bindUnbindDoctor(
+                                                                listDoctorsSearchResults[
+                                                                index]);
+                                                          },
+                                                          child:
                                                           Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
                                                             children: [
-                                                              listDoctorsSearchResults[
-                                                                              index]
-                                                                          [
-                                                                          "BindedTag"] ==
-                                                                      "1"
-                                                                  ? Container()
-                                                                  : Container(),
-                                                              InkWell(
-                                                                  onTap: () {
-                                                                    // String patientIDP =
-                                                                    // listDoctorsSearchResults[
-                                                                    // index][
-                                                                    // 'DoctorIDP']!;
-                                                                    // String patientName = listDoctorsSearchResults[
-                                                                    // index]
-                                                                    // [
-                                                                    // 'FirstName']!
-                                                                    //     .trim() +
-                                                                    //     " " +
-                                                                    //     listDoctorsSearchResults[
-                                                                    //     index]
-                                                                    //     [
-                                                                    //     'LastName']!
-                                                                    //         .trim();
-                                                                    // String doctorImage =
-                                                                    //     "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}";
-                                                                    // Get.to(() =>
-                                                                    //     ChatScreen(
-                                                                    //       patientIDP:
-                                                                    //       patientIDP,
-                                                                    //       patientName:
-                                                                    //       patientName,
-                                                                    //       patientImage:
-                                                                    //       doctorImage,
-                                                                    //       heroTag:
-                                                                    //       "selectedDoctor_${listDoctorsSearchResults[index]['DoctorIDP']}",
-                                                                    //     ))
-                                                                    // !.then((value) {
-                                                                    //   getPatientProfileDetails("");
-                                                                    // });
-                                                                    bindUnbindDoctor(
-                                                                        listDoctorsSearchResults[
-                                                                            index]);
-                                                                  },
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Image(
-                                                                        image: AssetImage(
-                                                                            "images/ic_ask_to_doctor_filled.png"),
-                                                                        width: SizeConfig.blockSizeHorizontal! *
-                                                                            6.0,
-                                                                        height: SizeConfig.blockSizeHorizontal! *
-                                                                            6.0,
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width: SizeConfig.blockSizeHorizontal! *
-                                                                            1.0,
-                                                                      ),
-                                                                      Text(
-                                                                        "Chat",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.green[700]),
-                                                                      )
-                                                                    ],
-                                                                  )),
+                                                              Image(
+                                                                image: AssetImage(
+                                                                    "images/ic_imp_links.png"),
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    6.0,
+                                                                height: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    6.0,
+                                                              ),
                                                               SizedBox(
                                                                 width: SizeConfig
-                                                                        .blockSizeHorizontal! *
-                                                                    2.0,
+                                                                    .blockSizeHorizontal !*
+                                                                    1.0,
                                                               ),
-                                                              InkWell(
-                                                                  onTap: () {
-                                                                    Get.to(() =>
-                                                                            DoctorFullDetailsScreen(
-                                                                              listDoctorsSearchResults[index],
-                                                                              widget.patientIDP!,
-                                                                            ))!
-                                                                        .then(
-                                                                            (value) {
-                                                                      if (value !=
-                                                                              null &&
-                                                                          value ==
-                                                                              1)
-                                                                        getPatientProfileDetails(
-                                                                            "");
-                                                                    });
-                                                                  },
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Image(
-                                                                        image: AssetImage(
-                                                                            "images/ic_doctor_profile.png"),
-                                                                        width: SizeConfig.blockSizeHorizontal! *
-                                                                            6.0,
-                                                                        height: SizeConfig.blockSizeHorizontal! *
-                                                                            6.0,
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width: SizeConfig.blockSizeHorizontal! *
-                                                                            1.0,
-                                                                      ),
-                                                                      Text(
-                                                                        "Profile",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.blue[700]),
-                                                                      )
-                                                                    ],
-                                                                  )),
-                                                              SizedBox(
-                                                                width: SizeConfig
-                                                                        .blockSizeHorizontal! *
-                                                                    2.0,
-                                                              ),
-                                                              InkWell(
-                                                                  onTap: () {
-                                                                    // Get.to(() =>
-                                                                    // AppointmentDoctorsListScreen(widget.patientIDP!));
-                                                                    if (listDoctorsSearchResults[index]
-                                                                            [
-                                                                            'AvailableStatus'] ==
-                                                                        "1") {
-                                                                      Navigator.of(context).push(MaterialPageRoute(
-                                                                          builder: (context) => AskForAppointmentScreen(
-                                                                                widget.patientIDP!,
-                                                                                listDoctorsSearchResults[index]['DoctorIDP']!,
-                                                                                listDoctorsSearchResults[index]['AppointmentStatus']!,
-                                                                              )));
-                                                                    } else {
-                                                                      showDoctorIsNotAvailableDialog(
-                                                                          context);
-                                                                    }
-                                                                  },
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Image(
-                                                                        image: AssetImage(
-                                                                            "images/ic_ask_for_appointment_filled.png"),
-                                                                        width: SizeConfig.blockSizeHorizontal! *
-                                                                            6.0,
-                                                                        height: SizeConfig.blockSizeHorizontal! *
-                                                                            6.0,
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width: SizeConfig.blockSizeHorizontal! *
-                                                                            1.0,
-                                                                      ),
-                                                                      Text(
-                                                                        "Appointment",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.blue[700]),
-                                                                      )
-                                                                    ],
-                                                                  )),
+                                                              Text(
+                                                                "Connect \nto Doctor",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .green[
+                                                                    700]),
+                                                              )
                                                             ],
-                                                          ),
-                                                        ],
+                                                          )),
+                                                      SizedBox(
+                                                        width: SizeConfig
+                                                            .blockSizeHorizontal !*
+                                                            5.0,
                                                       ),
-                                                    ))
-                                                : Align(
-                                                    alignment: Alignment.center,
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                        horizontal: SizeConfig
-                                                                .blockSizeHorizontal! *
-                                                            1,
-                                                      ),
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
+                                                      InkWell(
+                                                          onTap: () {
+                                                            Get.to(() =>
+                                                                AskForAppointmentScreen(
+                                                                widget.patientIDP,
+                                                                listDoctorsSearchResults[index]["DoctorIDP"]!,
+                                                              listDoctorsSearchResults[index]["AppointmentStatus"]!,));
+                                                            // Get.to(() => AppointmentDoctorsListScreen(widget.patientIDP));
+                                                            // if (listDoctorsSearchResults[
+                                                            // index][
+                                                            // 'AvailableStatus'] ==
+                                                            //     "1") {
+                                                            //   Navigator.of(
+                                                            //       context)
+                                                            //       .push(MaterialPageRoute(
+                                                            //       builder:
+                                                            //           (context) {
+                                                            //         return AskForAppointmentScreen(
+                                                            //           widget
+                                                            //               .patientIDP,
+                                                            //           listDoctorsSearchResults[
+                                                            //           index][
+                                                            //           'DoctorIDP']!,
+                                                            //           listDoctorsSearchResults[
+                                                            //           index][
+                                                            //           'AppointmentStatus']!,
+                                                            //         );
+                                                            //       }
+                                                            //   )
+                                                            //   );
+                                                            // } else {
+                                                            //   showDoctorIsNotAvailableDialog(
+                                                            //       context);
+                                                            // }
+                                                          },
+                                                          child: Row(
                                                             children: [
-                                                              listDoctorsSearchResults[
-                                                                              index]
-                                                                          [
-                                                                          "BindedTag"] ==
-                                                                      "1"
-                                                                  ? Container()
-                                                                  : Container(),
-                                                              InkWell(
-                                                                  onTap: () {
-                                                                    String
-                                                                        patientIDP =
-                                                                        listDoctorsSearchResults[index]
-                                                                            [
-                                                                            'DoctorIDP']!;
-                                                                    // String patientName = listDoctorsSearchResults[
-                                                                    // index]
-                                                                    // [
-                                                                    // 'FirstName']!
-                                                                    //     .trim() +
-                                                                    //     " " +
-                                                                    //     listDoctorsSearchResults[
-                                                                    //     index]
-                                                                    //     [
-                                                                    //     'LastName']!
-                                                                    //         .trim();
-                                                                    // String doctorImage =
-                                                                    //     "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}";
-                                                                    // Get.to(() =>
-                                                                    //     ChatScreen(
-                                                                    //       patientIDP:
-                                                                    //       patientIDP,
-                                                                    //       patientName:
-                                                                    //       patientName,
-                                                                    //       patientImage:
-                                                                    //       doctorImage,
-                                                                    //       heroTag:
-                                                                    //       "selectedDoctor_${listDoctorsSearchResults[index]['DoctorIDP']}",
-                                                                    //     ))
-                                                                    // !.then((value) {
-                                                                    //   getPatientProfileDetails("");
-                                                                    // });
-                                                                    bindUnbindDoctor(
-                                                                        listDoctorsSearchResults[
-                                                                            index]);
-                                                                  },
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Image(
-                                                                        image: AssetImage(
-                                                                            "images/ic_imp_links.png"),
-                                                                        width: SizeConfig.blockSizeHorizontal! *
-                                                                            6.0,
-                                                                        height: SizeConfig.blockSizeHorizontal! *
-                                                                            6.0,
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width: SizeConfig.blockSizeHorizontal! *
-                                                                            1.0,
-                                                                      ),
-                                                                      Text(
-                                                                        "Connect \nto Doctor",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.green[700]),
-                                                                      )
-                                                                    ],
-                                                                  )),
+                                                              Image(
+                                                                image: AssetImage(
+                                                                    "images/ic_ask_for_appointment_filled.png"),
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    6.0,
+                                                                height: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    6.0,
+                                                              ),
                                                               SizedBox(
                                                                 width: SizeConfig
-                                                                        .blockSizeHorizontal! *
-                                                                    5.0,
+                                                                    .blockSizeHorizontal !*
+                                                                    1.0,
                                                               ),
-                                                              InkWell(
-                                                                  onTap: () {
-                                                                    Get.to(() =>
-                                                                        AskForAppointmentScreen(
-                                                                          widget
-                                                                              .patientIDP,
-                                                                          listDoctorsSearchResults[index]
-                                                                              [
-                                                                              "DoctorIDP"]!,
-                                                                          listDoctorsSearchResults[index]
-                                                                              [
-                                                                              "AppointmentStatus"]!,
-                                                                        ));
-                                                                    // Get.to(() => AppointmentDoctorsListScreen(widget.patientIDP));
-                                                                    // if (listDoctorsSearchResults[
-                                                                    // index][
-                                                                    // 'AvailableStatus'] ==
-                                                                    //     "1") {
-                                                                    //   Navigator.of(
-                                                                    //       context)
-                                                                    //       .push(MaterialPageRoute(
-                                                                    //       builder:
-                                                                    //           (context) {
-                                                                    //         return AskForAppointmentScreen(
-                                                                    //           widget
-                                                                    //               .patientIDP,
-                                                                    //           listDoctorsSearchResults[
-                                                                    //           index][
-                                                                    //           'DoctorIDP']!,
-                                                                    //           listDoctorsSearchResults[
-                                                                    //           index][
-                                                                    //           'AppointmentStatus']!,
-                                                                    //         );
-                                                                    //       }
-                                                                    //   )
-                                                                    //   );
-                                                                    // } else {
-                                                                    //   showDoctorIsNotAvailableDialog(
-                                                                    //       context);
-                                                                    // }
-                                                                  },
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Image(
-                                                                        image: AssetImage(
-                                                                            "images/ic_ask_for_appointment_filled.png"),
-                                                                        width: SizeConfig.blockSizeHorizontal! *
-                                                                            6.0,
-                                                                        height: SizeConfig.blockSizeHorizontal! *
-                                                                            6.0,
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width: SizeConfig.blockSizeHorizontal! *
-                                                                            1.0,
-                                                                      ),
-                                                                      Text(
-                                                                        "Appointment",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.blue[700]),
-                                                                      )
-                                                                    ],
-                                                                  )),
+                                                              Text(
+                                                                "Appointment",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .blue[
+                                                                    700]),
+                                                              )
                                                             ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )),
-                                            Container(
-                                              color: Colors.grey,
-                                              height: 0.5,
-                                            )
-                                                .paddingSymmetric(
-                                                    horizontal: SizeConfig
-                                                            .blockSizeHorizontal! *
-                                                        2)
-                                                .paddingOnly(
-                                                  top: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      1.8,
-                                                )
-                                          ],
-                                        ))),
-                              );
-                            }),
-                      )
-                    ],
-                  )
+                                                          )),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            )),
+                                        Container(
+                                          color: Colors.grey,
+                                          height: 0.5,
+                                        )
+                                            .paddingSymmetric(
+                                            horizontal: SizeConfig
+                                                .blockSizeHorizontal !*
+                                                2)
+                                            .paddingOnly(
+                                          top: SizeConfig
+                                              .blockSizeVertical !*
+                                              1.8,
+                                        )
+                                      ],
+                                    ))),
+                          );
+                      }),
+                )
+              ],
+            )
                 : widget.emptyMessageWidget!,
             onRefresh: () {
               return getPatientProfileDetails("");
@@ -886,6 +885,7 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
         listDoctorsSearchResults[index]["DoctorImage"] != null &&
         listDoctorsSearchResults[index]["DoctorImage"] != "null");
   }
+
 
   String encodeBase64(String text) {
     var bytes = utf8.encode(text);
@@ -949,16 +949,12 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
         debugPrint("Decoded Data Array : " + strData);
         final jsonData = json.decode(strData);
         debugPrint("Selected City IDP : " + cityidp);
-        (cityidp.length > 0)
-            ? cityIDF = cityidp
-            : cityIDF = jsonData[0]['CityIDF'];
+        (cityidp.length>0) ? cityIDF = cityidp : cityIDF = jsonData[0]['CityIDF'];
         firstName = jsonData[0]['FirstName'];
         lastName = jsonData[0]['LastName'];
 
-        selectedCity =
-            DropDownItem(jsonData[0]['CityIDF'], jsonData[0]['CityName']);
-        selectedState =
-            DropDownItem(jsonData[0]['StateIDF'], jsonData[0]['StateName']);
+        selectedCity = DropDownItem(jsonData[0]['CityIDF'], jsonData[0]['CityName']);
+        selectedState = DropDownItem(jsonData[0]['StateIDF'], jsonData[0]['StateName']);
         getCitiesList();
         // listNonBindedDoctors = [];
         // listNonBindedDoctorsSearchResults = [];
@@ -1034,9 +1030,9 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
               "CityName": jo['CityName'].toString(),
               "BindedTag": jo['BindedTag'].toString(),
               "HealthRecordsDisplayStatus":
-                  jo['HealthRecordsDisplayStatus'].toString(),
+              jo['HealthRecordsDisplayStatus'].toString(),
               "ConsultationDisplayStatus":
-                  jo['ConsultationDisplayStatus'].toString(),
+              jo['ConsultationDisplayStatus'].toString(),
               "DueAmount": jo['DueAmount'].toString(),
             });
             listDoctorsSearchResults.add({
@@ -1050,9 +1046,9 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
               "CityName": jo['CityName'].toString(),
               "BindedTag": jo['BindedTag'].toString(),
               "HealthRecordsDisplayStatus":
-                  jo['HealthRecordsDisplayStatus'].toString(),
+              jo['HealthRecordsDisplayStatus'].toString(),
               "ConsultationDisplayStatus":
-                  jo['ConsultationDisplayStatus'].toString(),
+              jo['ConsultationDisplayStatus'].toString(),
               "DueAmount": jo['DueAmount'].toString(),
             });
           }
@@ -1144,9 +1140,9 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
                 "CityName": jo['CityName'].toString(),
                 "BindedTag": jo['BindedTag'].toString(),
                 "HealthRecordsDisplayStatus":
-                    jo['HealthRecordsDisplayStatus'].toString(),
+                jo['HealthRecordsDisplayStatus'].toString(),
                 "ConsultationDisplayStatus":
-                    jo['ConsultationDisplayStatus'].toString(),
+                jo['ConsultationDisplayStatus'].toString(),
                 "DueAmount": jo['DueAmount'].toString(),
               });
               listDoctorsSearchResults.add({
@@ -1160,9 +1156,9 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
                 "CityName": jo['CityName'].toString(),
                 "BindedTag": jo['BindedTag'].toString(),
                 "HealthRecordsDisplayStatus":
-                    jo['HealthRecordsDisplayStatus'].toString(),
+                jo['HealthRecordsDisplayStatus'].toString(),
                 "ConsultationDisplayStatus":
-                    jo['ConsultationDisplayStatus'].toString(),
+                jo['ConsultationDisplayStatus'].toString(),
                 "DueAmount": jo['DueAmount'].toString(),
               });
             }
@@ -1225,16 +1221,12 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
         debugPrint("Decoded Data Array : " + strData);
         final jsonData = json.decode(strData);
         debugPrint("Selected City IDP : " + cityidp);
-        (cityidp.length > 0)
-            ? cityIDF = cityidp
-            : cityIDF = jsonData[0]['CityIDF'];
+        (cityidp.length>0) ? cityIDF = cityidp : cityIDF = jsonData[0]['CityIDF'];
         firstName = jsonData[0]['FirstName'];
         lastName = jsonData[0]['LastName'];
 
-        selectedCity =
-            DropDownItem(jsonData[0]['CityIDF'], jsonData[0]['CityName']);
-        selectedState =
-            DropDownItem(jsonData[0]['StateIDF'], jsonData[0]['StateName']);
+        selectedCity = DropDownItem(jsonData[0]['CityIDF'], jsonData[0]['CityName']);
+        selectedState = DropDownItem(jsonData[0]['StateIDF'], jsonData[0]['StateName']);
         getCitiesList();
         // listNonBindedDoctors = [];
         // listNonBindedDoctorsSearchResults = [];
@@ -1311,9 +1303,9 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
               "CityName": jo['CityName'].toString(),
               "BindedTag": jo['BindedTag'].toString(),
               "HealthRecordsDisplayStatus":
-                  jo['HealthRecordsDisplayStatus'].toString(),
+              jo['HealthRecordsDisplayStatus'].toString(),
               "ConsultationDisplayStatus":
-                  jo['ConsultationDisplayStatus'].toString(),
+              jo['ConsultationDisplayStatus'].toString(),
               "DueAmount": jo['DueAmount'].toString(),
               "AvailableStatus": jo['AvailableStatus'].toString(),
               "AppointmentStatus": jo['AppointmentStatus'].toString()
@@ -1329,9 +1321,9 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
               "CityName": jo['CityName'].toString(),
               "BindedTag": jo['BindedTag'].toString(),
               "HealthRecordsDisplayStatus":
-                  jo['HealthRecordsDisplayStatus'].toString(),
+              jo['HealthRecordsDisplayStatus'].toString(),
               "ConsultationDisplayStatus":
-                  jo['ConsultationDisplayStatus'].toString(),
+              jo['ConsultationDisplayStatus'].toString(),
               "DueAmount": jo['DueAmount'].toString(),
               "AvailableStatus": jo['AvailableStatus'].toString(),
               "AppointmentStatus": jo['AppointmentStatus'].toString()
@@ -1425,9 +1417,9 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
                 "CityName": jo['CityName'].toString(),
                 "BindedTag": jo['BindedTag'].toString(),
                 "HealthRecordsDisplayStatus":
-                    jo['HealthRecordsDisplayStatus'].toString(),
+                jo['HealthRecordsDisplayStatus'].toString(),
                 "ConsultationDisplayStatus":
-                    jo['ConsultationDisplayStatus'].toString(),
+                jo['ConsultationDisplayStatus'].toString(),
                 "DueAmount": jo['DueAmount'].toString(),
                 "AvailableStatus": jo['AvailableStatus'].toString(),
                 "AppointmentStatus": jo['AppointmentStatus'].toString()
@@ -1443,9 +1435,9 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
                 "CityName": jo['CityName'].toString(),
                 "BindedTag": jo['BindedTag'].toString(),
                 "HealthRecordsDisplayStatus":
-                    jo['HealthRecordsDisplayStatus'].toString(),
+                jo['HealthRecordsDisplayStatus'].toString(),
                 "ConsultationDisplayStatus":
-                    jo['ConsultationDisplayStatus'].toString(),
+                jo['ConsultationDisplayStatus'].toString(),
                 "DueAmount": jo['DueAmount'].toString(),
                 "AvailableStatus": jo['AvailableStatus'].toString(),
                 "AppointmentStatus": jo['AppointmentStatus'].toString()
@@ -1462,6 +1454,7 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
     }
     return 'success';
   }
+
 
   // Future<String> getNotBindedDoctorDetails() async {
   //   /*List<IconModel> listIcon;*/
@@ -1788,12 +1781,14 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
   //   }
   // }
 
-  void showCitySelectionDialog(List<DropDownItem> list, String type) {
+  void showCitySelectionDialog(List<DropDownItem> list, String type)
+  {
     showDialog(
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) =>
-            CountryDialog(list, type, callbackFromCountryDialog));
+            CountryDialog(list, type, callbackFromCountryDialog)
+    );
   }
 
   void callbackFromCountryDialog(String type) {
@@ -1969,6 +1964,7 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
     }
   }
 
+
   void showBindRequestSentDialog(String patientName) {
     showDialog(
         context: context,
@@ -1979,7 +1975,7 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
             title: Text(
               "Request has been sent to $patientName to connect with you. You will be connected once doctor accepts your request.",
               style: TextStyle(
-                fontSize: SizeConfig.blockSizeHorizontal! * 3.8,
+                fontSize: SizeConfig.blockSizeHorizontal !* 3.8,
                 color: Colors.black,
               ),
             ),
@@ -2000,10 +1996,12 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
   }
 
   isImageNotNullAndBlank1(int index) {
-    isImageNotNullAndBlank(index)
+    isImageNotNullAndBlank(
+        index)
         ? NetworkImage(
-            "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}")
-        : AssetImage("images/ic_user_placeholder.png");
+        "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}")
+        : AssetImage(
+        "images/ic_user_placeholder.png");
   }
 
   void showDoctorIsNotAvailableDialog(BuildContext context) {
@@ -2017,7 +2015,7 @@ class DoctorsListScreenState extends State<DoctorsListScreen> {
               "Doctor not available for Appointment.",
               style: TextStyle(
                 color: Colors.red,
-                fontSize: SizeConfig.blockSizeHorizontal! * 4.1,
+                fontSize: SizeConfig.blockSizeHorizontal !* 4.1,
               ),
             ),
             actions: <Widget>[
@@ -2061,14 +2059,14 @@ class CountryDialogState extends State<CountryDialog> {
     icon = Icon(
       Icons.search,
       color: Colors.blue,
-      size: SizeConfig.blockSizeHorizontal! * 6.2,
+      size: SizeConfig.blockSizeHorizontal !* 6.2,
     );
 
     titleWidget = Text(
       "Select ${widget.type}",
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
+        fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
         fontWeight: FontWeight.bold,
         color: Colors.green,
         decoration: TextDecoration.none,
@@ -2150,7 +2148,7 @@ class CountryDialogState extends State<CountryDialog> {
         child: Column(
           children: <Widget>[
             Container(
-              height: SizeConfig.blockSizeVertical! * 8,
+              height: SizeConfig.blockSizeVertical !* 8,
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: Row(
@@ -2160,7 +2158,7 @@ class CountryDialogState extends State<CountryDialog> {
                       child: Icon(
                         Icons.arrow_back,
                         color: Colors.red,
-                        size: SizeConfig.blockSizeHorizontal! * 6.2,
+                        size: SizeConfig.blockSizeHorizontal !* 6.2,
                       ),
                       onTap: () {
                         /*setState(() {
@@ -2170,11 +2168,11 @@ class CountryDialogState extends State<CountryDialog> {
                       },
                     ),
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal! * 6,
+                      width: SizeConfig.blockSizeHorizontal !* 6,
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal! * 50,
-                      height: SizeConfig.blockSizeVertical! * 8,
+                      width: SizeConfig.blockSizeHorizontal !* 50,
+                      height: SizeConfig.blockSizeVertical !* 8,
                       child: Center(
                         child: titleWidget,
                       ),
@@ -2184,7 +2182,7 @@ class CountryDialogState extends State<CountryDialog> {
                           alignment: Alignment.centerRight,
                           child: Padding(
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal! * 1),
+                                SizeConfig.blockSizeHorizontal !* 1),
                             child: InkWell(
                               child: icon,
                               onTap: () {
@@ -2197,7 +2195,7 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.cancel,
                                       color: Colors.red,
                                       size:
-                                          SizeConfig.blockSizeHorizontal! * 6.2,
+                                      SizeConfig.blockSizeHorizontal !* 6.2,
                                     );
                                     this.titleWidget = TextField(
                                       controller: searchController,
@@ -2209,30 +2207,30 @@ class CountryDialogState extends State<CountryDialog> {
                                             widget.list =
                                                 listCitiesSearchResults
                                                     .where((dropDownObj) =>
-                                                        dropDownObj.value
-                                                            .toLowerCase()
-                                                            .contains(text
-                                                                .toLowerCase()))
+                                                    dropDownObj.value
+                                                        .toLowerCase()
+                                                        .contains(text
+                                                        .toLowerCase()))
                                                     .toList();
                                         });
                                       },
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal! *
-                                                4.0,
+                                        SizeConfig.blockSizeHorizontal !*
+                                            4.0,
                                       ),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
-                                                    2.1),
+                                            SizeConfig.blockSizeVertical !*
+                                                2.1),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
-                                                    2.1),
+                                            SizeConfig.blockSizeVertical !*
+                                                2.1),
                                         //hintStyle: TextStyle(color: Colors.grey),
                                         hintText: "Search ${widget.type}",
                                       ),
@@ -2242,15 +2240,15 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.search,
                                       color: Colors.blue,
                                       size:
-                                          SizeConfig.blockSizeHorizontal! * 6.2,
+                                      SizeConfig.blockSizeHorizontal !* 6.2,
                                     );
                                     this.titleWidget = Text(
                                       "Select ${widget.type}",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal! *
-                                                4.8,
+                                        SizeConfig.blockSizeHorizontal !*
+                                            4.8,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.green,
                                         decoration: TextDecoration.none,
@@ -2289,7 +2287,7 @@ class CountryDialogState extends State<CountryDialog> {
                         child: Padding(
                             padding: EdgeInsets.all(0.0),
                             child: Container(
-                                width: SizeConfig.blockSizeHorizontal! * 90,
+                                width: SizeConfig.blockSizeHorizontal !* 90,
                                 padding: EdgeInsets.only(
                                   top: 5,
                                   bottom: 5,
@@ -2329,3 +2327,4 @@ class CountryDialogState extends State<CountryDialog> {
         ));
   }
 }
+

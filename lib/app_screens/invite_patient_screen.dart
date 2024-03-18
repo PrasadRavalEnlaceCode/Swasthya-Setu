@@ -1,14 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+
 import '../utils/color.dart';
 
 TextEditingController mobileNoController = TextEditingController();
@@ -34,18 +31,16 @@ class InvitePatientScreenState extends State<InvitePatientScreen> {
       appBar: AppBar(
         title: Text("Invite Patient"),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack),
-        toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
-        )).bodyMedium,
-        titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+        )).bodyMedium, titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
         )).titleLarge,
       ),
       body: Builder(builder: (context) {
@@ -55,14 +50,14 @@ class InvitePatientScreenState extends State<InvitePatientScreen> {
             Align(
               alignment: Alignment.topCenter,
               child: Padding(
-                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
+                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
                 child: Container(
                     /*height: SizeConfig.blockSizeVertical * 15,
                     width: SizeConfig.blockSizeHorizontal * 100,*/
                     color: Colors.blueGrey,
                     child: Padding(
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,10 +66,9 @@ class InvitePatientScreenState extends State<InvitePatientScreen> {
                             Icon(
                               Icons.warning,
                               color: Colors.white,
-                              size: SizeConfig.blockSizeHorizontal! * 8,
+                              size: SizeConfig.blockSizeHorizontal !* 8,
                             ),
-                            SizedBox(
-                                width: SizeConfig.blockSizeHorizontal! * 3),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal !* 3),
                             Expanded(
                                 /*width: SizeConfig.blockSizeHorizontal * 82,*/
                                 child: Text(
@@ -82,7 +76,7 @@ class InvitePatientScreenState extends State<InvitePatientScreen> {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal! * 3.6),
+                                      SizeConfig.blockSizeHorizontal !* 3.6),
                             )),
                             //SizedBox(width: SizeConfig.blockSizeHorizontal * 2),
                           ],
@@ -93,7 +87,7 @@ class InvitePatientScreenState extends State<InvitePatientScreen> {
               child: Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
+                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
                   child: TextField(
                     controller: mobileNoController,
                     style: TextStyle(color: Colors.green),
@@ -112,11 +106,11 @@ class InvitePatientScreenState extends State<InvitePatientScreen> {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: EdgeInsets.only(
-                    right: SizeConfig.blockSizeHorizontal! * 3,
-                    bottom: SizeConfig.blockSizeHorizontal! * 3),
+                    right: SizeConfig.blockSizeHorizontal !* 3,
+                    bottom: SizeConfig.blockSizeHorizontal !* 3),
                 child: Container(
-                  width: SizeConfig.blockSizeHorizontal! * 12,
-                  height: SizeConfig.blockSizeHorizontal! * 12,
+                  width: SizeConfig.blockSizeHorizontal !* 12,
+                  height: SizeConfig.blockSizeHorizontal !* 12,
                   child: RawMaterialButton(
                     onPressed: () {
                       invitePatient(context);
@@ -124,8 +118,8 @@ class InvitePatientScreenState extends State<InvitePatientScreen> {
                     elevation: 2.0,
                     fillColor: Color(0xFF06A759),
                     child: Image(
-                      width: SizeConfig.blockSizeHorizontal! * 5.5,
-                      height: SizeConfig.blockSizeHorizontal! * 5.5,
+                      width: SizeConfig.blockSizeHorizontal !* 5.5,
+                      height: SizeConfig.blockSizeHorizontal !* 5.5,
                       //height: 80,
                       image: AssetImage("images/ic_right_arrow_triangular.png"),
                     ),

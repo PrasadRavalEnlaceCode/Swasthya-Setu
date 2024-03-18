@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:silvertouch/app_screens/add_vital_screen.dart';
-import 'package:silvertouch/app_screens/vitals_list.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:swasthyasetu/app_screens/add_vital_screen.dart';
+import 'package:swasthyasetu/app_screens/vitals_list.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
 
 import '../utils/color.dart';
 
@@ -37,24 +33,22 @@ class SelectSugarTypeScreenState extends State<SelectSugarTypeScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xFFFFFFFF),
         title: Text("Sugar"),
-        iconTheme: IconThemeData(color: Colorsblack),
-        toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
-        )).bodyMedium,
-        titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+        )).bodyMedium, titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
         )).titleLarge,
       ),
       body: Builder(
         builder: (context) {
           return Container(
-            height: SizeConfig.blockSizeVertical! * 100,
+            height: SizeConfig.blockSizeVertical !* 100,
             color: Color(0xFFEFEEF3),
             child: Column(
               children: <Widget>[
@@ -84,7 +78,7 @@ class SelectSugarTypeScreenState extends State<SelectSugarTypeScreen> {
                                   BorderSide(width: 1.0, color: Colors.grey))),
                       child: Padding(
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -92,7 +86,7 @@ class SelectSugarTypeScreenState extends State<SelectSugarTypeScreen> {
                                 child: Text("FBS"),
                               ),
                               Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 12,
+                                  width: SizeConfig.blockSizeHorizontal !* 12,
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: Icon(
@@ -130,7 +124,7 @@ class SelectSugarTypeScreenState extends State<SelectSugarTypeScreen> {
                                   BorderSide(width: 1.0, color: Colors.grey))),
                       child: Padding(
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -138,7 +132,7 @@ class SelectSugarTypeScreenState extends State<SelectSugarTypeScreen> {
                                 child: Text("PPBS"),
                               ),
                               Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 12,
+                                  width: SizeConfig.blockSizeHorizontal !* 12,
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: Icon(
@@ -177,7 +171,7 @@ class SelectSugarTypeScreenState extends State<SelectSugarTypeScreen> {
                                   BorderSide(width: 1.0, color: Colors.grey))),
                       child: Padding(
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -185,7 +179,7 @@ class SelectSugarTypeScreenState extends State<SelectSugarTypeScreen> {
                                 child: Text("RBS"),
                               ),
                               Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 12,
+                                  width: SizeConfig.blockSizeHorizontal !* 12,
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: Icon(
@@ -223,7 +217,7 @@ class SelectSugarTypeScreenState extends State<SelectSugarTypeScreen> {
                                   BorderSide(width: 1.0, color: Colors.grey))),
                       child: Padding(
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -231,7 +225,7 @@ class SelectSugarTypeScreenState extends State<SelectSugarTypeScreen> {
                                 child: Text("HbA1C"),
                               ),
                               Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 12,
+                                  width: SizeConfig.blockSizeHorizontal !* 12,
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: Icon(

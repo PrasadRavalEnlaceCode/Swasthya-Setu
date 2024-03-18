@@ -5,14 +5,14 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/doctor_dashboard_screen.dart';
+import 'package:swasthyasetu/app_screens/help_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/multipart_request_with_progress.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 
@@ -28,6 +28,7 @@ class MyPaymentCodeScreen extends StatefulWidget {
 }
 
 class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
+
   // List<Map<String, String>> listImage = [];
   List<Map<String, dynamic>> listImage = <Map<String, dynamic>>[];
   String? imgUrl;
@@ -58,245 +59,246 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
       appBar: AppBar(
         title: Text("Payment Code"),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack),
-        toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
-        )).bodyMedium,
-        titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+        )).bodyMedium, titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
         )).titleLarge,
       ),
       body: listImage.isNotEmpty
           ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                // Visibility(
-                //   visible: imgUrl != null && imgUrl != "",
-                //   child: Align(
-                //     alignment: Alignment.center,
-                //     child: imgUrl != null && imgUrl != ""
-                //         ? Image.network(
-                //             imgUrl!,
-                //             width: SizeConfig.blockSizeHorizontal !* 80,
-                //             height: SizeConfig.blockSizeHorizontal !* 80,
-                //             fit: BoxFit.cover,
-                //           )
-                //         : Container(),
-                //   ),
-                // ),
-                // Visibility(
-                //   visible: imgUrl == "",
-                //   child: Container(
-                //     padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.center,
-                //       children: <Widget>[
-                //         Image(
-                //           image: AssetImage("images/ic_idea_new.png"),
-                //           width: 100,
-                //           height: 100,
-                //         ),
-                //         SizedBox(
-                //           height: 30.0,
-                //         ),
-                //         Text(
-                //           "Payment receiving service is not active for your profile.\n\n",
-                //           style:
-                //               TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                //         ),
-                //         Align(
-                //           alignment: Alignment.topLeft,
-                //           child: Text(
-                //             "To receive payment from patients,",
-                //             style: TextStyle(
-                //                 fontSize: 16.0, fontWeight: FontWeight.w500),
-                //           ),
-                //         ),
-                //         SizedBox(
-                //           height: 10.0,
-                //         ),
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.center,
-                //           children: [
-                //             Text(
-                //               "kindly",
-                //               style: TextStyle(
-                //                   fontSize: 16.0, fontWeight: FontWeight.w500),
-                //             ),
-                //             SizedBox(
-                //               width: SizeConfig.blockSizeHorizontal !* 2.0,
-                //             ),
-                //             MaterialButton(
-                //               onPressed: () {
-                //                 Navigator.of(context)
-                //                     .push(MaterialPageRoute(builder: (context) {
-                //                   return HelpScreen(patientIDP!);
-                //                 }));
-                //               },
-                //               child: Text(
-                //                 "Contact Us",
-                //                 style: TextStyle(
-                //                   color: Colors.white,
-                //                   fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
-                //                 ),
-                //               ),
-                //               color: Color(0xFF06A759),
-                //             ),
-                //           ],
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                //   /*Align(
-                //     alignment: Alignment.center,
-                //     child: Text(
-                //       "Payment receiving service is not active for your profile.\n\nTo receive payment from patients, kindly contact us.",
-                //       textAlign: TextAlign.center,
-                //       style: TextStyle(
-                //           color: Colors.black,
-                //           fontSize: SizeConfig.blockSizeHorizontal * 5.3,
-                //           fontWeight: FontWeight.w500),
-                //     ),
-                //   ),*/
-                // ),
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+
+          // Visibility(
+          //   visible: imgUrl != null && imgUrl != "",
+          //   child: Align(
+          //     alignment: Alignment.center,
+          //     child: imgUrl != null && imgUrl != ""
+          //         ? Image.network(
+          //             imgUrl!,
+          //             width: SizeConfig.blockSizeHorizontal !* 80,
+          //             height: SizeConfig.blockSizeHorizontal !* 80,
+          //             fit: BoxFit.cover,
+          //           )
+          //         : Container(),
+          //   ),
+          // ),
+          // Visibility(
+          //   visible: imgUrl == "",
+          //   child: Container(
+          //     padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+          //     child: Column(
+          //       crossAxisAlignment: CrossAxisAlignment.center,
+          //       children: <Widget>[
+          //         Image(
+          //           image: AssetImage("images/ic_idea_new.png"),
+          //           width: 100,
+          //           height: 100,
+          //         ),
+          //         SizedBox(
+          //           height: 30.0,
+          //         ),
+          //         Text(
+          //           "Payment receiving service is not active for your profile.\n\n",
+          //           style:
+          //               TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+          //         ),
+          //         Align(
+          //           alignment: Alignment.topLeft,
+          //           child: Text(
+          //             "To receive payment from patients,",
+          //             style: TextStyle(
+          //                 fontSize: 16.0, fontWeight: FontWeight.w500),
+          //           ),
+          //         ),
+          //         SizedBox(
+          //           height: 10.0,
+          //         ),
+          //         Row(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Text(
+          //               "kindly",
+          //               style: TextStyle(
+          //                   fontSize: 16.0, fontWeight: FontWeight.w500),
+          //             ),
+          //             SizedBox(
+          //               width: SizeConfig.blockSizeHorizontal !* 2.0,
+          //             ),
+          //             MaterialButton(
+          //               onPressed: () {
+          //                 Navigator.of(context)
+          //                     .push(MaterialPageRoute(builder: (context) {
+          //                   return HelpScreen(patientIDP!);
+          //                 }));
+          //               },
+          //               child: Text(
+          //                 "Contact Us",
+          //                 style: TextStyle(
+          //                   color: Colors.white,
+          //                   fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+          //                 ),
+          //               ),
+          //               color: Color(0xFF06A759),
+          //             ),
+          //           ],
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          //   /*Align(
+          //     alignment: Alignment.center,
+          //     child: Text(
+          //       "Payment receiving service is not active for your profile.\n\nTo receive payment from patients, kindly contact us.",
+          //       textAlign: TextAlign.center,
+          //       style: TextStyle(
+          //           color: Colors.black,
+          //           fontSize: SizeConfig.blockSizeHorizontal * 5.3,
+          //           fontWeight: FontWeight.w500),
+          //     ),
+          //   ),*/
+          // ),
+          Visibility(
+            visible: listImage[0]["FileName"] == "NULL",
+            child: Column(
+              children: [
                 Visibility(
-                  visible: listImage[0]["FileName"] == "NULL",
-                  child: Column(
-                    children: [
-                      Visibility(
-                        visible: selectedImage == null,
-                        child: Center(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              showDocumentTypeSelectionDialog(context);
-                            },
-                            child: Text('Select QR Code Image'),
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: selectedImage != null
-                            ? Image.file(
-                                File(selectedImage!.path),
-                                width: SizeConfig.blockSizeHorizontal! * 80,
-                                height: SizeConfig.blockSizeHorizontal! * 80,
-                                fit: BoxFit.cover,
-                              )
-                            : Container(),
-                      ),
-                      Visibility(
-                        visible: selectedImage != null,
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 12,
-                            height: SizeConfig.blockSizeHorizontal! * 12,
-                            child: RawMaterialButton(
-                              onPressed: () {
-                                submitDoctorQrCode(context, selectedImage);
-                              },
-                              elevation: 2.0,
-                              fillColor: Color(0xFF06A759),
-                              child: Image(
-                                width: SizeConfig.blockSizeHorizontal! * 5.5,
-                                height: SizeConfig.blockSizeHorizontal! * 5.5,
-                                //height: 80,
-                                image: AssetImage(
-                                    "images/ic_right_arrow_triangular.png"),
-                              ),
-                              shape: CircleBorder(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  visible: selectedImage == null,
+                  child: Center(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        showDocumentTypeSelectionDialog(context);
+                      },
+                      child: Text('Select QR Code Image'),
+                    ),
                   ),
                 ),
-                // Visibility(
-                //   visible: selectedImage != null,
-                //   child: Align(
-                //     alignment: Alignment.center,
-                //     child: selectedImage != null
-                //         ? Image.file(
-                //       File(selectedImage!.path),
-                //       width: SizeConfig.blockSizeHorizontal! * 80,
-                //       height: SizeConfig.blockSizeHorizontal! * 80,
-                //       fit: BoxFit.cover,
-                //     )
-                //         : Container(),
-                //   ),
-                // ),
-                // Visibility(
-                //   visible: selectedImage != null,
-                //   child: Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Container(
-                //       width: SizeConfig.blockSizeHorizontal !* 12,
-                //       height: SizeConfig.blockSizeHorizontal !* 12,
-                //       child: RawMaterialButton(
-                //         onPressed: () {
-                //           submitDoctorQrCode(context, selectedImage);
-                //         },
-                //         elevation: 2.0,
-                //         fillColor: Color(0xFF06A759),
-                //         child: Image(
-                //           width: SizeConfig.blockSizeHorizontal !* 5.5,
-                //           height: SizeConfig.blockSizeHorizontal !* 5.5,
-                //           //height: 80,
-                //           image:
-                //           AssetImage("images/ic_right_arrow_triangular.png"),
-                //         ),
-                //         shape: CircleBorder(),
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                Align(
+                  alignment: Alignment.center,
+                  child: selectedImage != null
+                      ? Image.file(
+                    File(selectedImage!.path),
+                    width: SizeConfig.blockSizeHorizontal! * 80,
+                    height: SizeConfig.blockSizeHorizontal! * 80,
+                    fit: BoxFit.cover,
+                  )
+                      : Container(),
+                ),
                 Visibility(
-                    visible: listImage[0]["FileName"] != "NULL",
-                    child: Center(
-                      child: Container(
-                        height: SizeConfig.blockSizeHorizontal! * 145,
-                        width: SizeConfig.blockSizeHorizontal! * 95,
-                        child: listImage.isNotEmpty
-                            ? ListView.builder(
-                                itemCount: listImage.length,
-                                itemBuilder: (context, index) {
-                                  return CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    imageUrl: baseImageURL +
-                                        "${listImage[0]["FileName"]}",
-                                    // placeholder: (context, url) => CircularProgressIndicator(),
-                                    // errorWidget: (context, url, error) => Icon(Icons.error),
-                                  );
-                                })
-                            : Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                  visible: selectedImage != null,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal !* 12,
+                      height: SizeConfig.blockSizeHorizontal !* 12,
+                      child: RawMaterialButton(
+                        onPressed: () {
+                          submitDoctorQrCode(context, selectedImage);
+                        },
+                        elevation: 2.0,
+                        fillColor: Color(0xFF06A759),
+                        child: Image(
+                          width: SizeConfig.blockSizeHorizontal !* 5.5,
+                          height: SizeConfig.blockSizeHorizontal !* 5.5,
+                          //height: 80,
+                          image:
+                          AssetImage("images/ic_right_arrow_triangular.png"),
+                        ),
+                        shape: CircleBorder(),
                       ),
-                    )),
-                // Visibility(
-                //   visible: selectedImage != null,
-                //   child: Text( selectedImage!.path.split("/")[
-                //   selectedImage!.path.split("/").length -
-                //       1],),
-                // ),
-                Text(
-                  "Scan to Pay",
-                  style: TextStyle(),
-                )
+                    ),
+                  ),
+                ),
               ],
-            )
-          : Center(
-              child: CircularProgressIndicator(),
             ),
+          ),
+          // Visibility(
+          //   visible: selectedImage != null,
+          //   child: Align(
+          //     alignment: Alignment.center,
+          //     child: selectedImage != null
+          //         ? Image.file(
+          //       File(selectedImage!.path),
+          //       width: SizeConfig.blockSizeHorizontal! * 80,
+          //       height: SizeConfig.blockSizeHorizontal! * 80,
+          //       fit: BoxFit.cover,
+          //     )
+          //         : Container(),
+          //   ),
+          // ),
+          // Visibility(
+          //   visible: selectedImage != null,
+          //   child: Align(
+          //     alignment: Alignment.centerRight,
+          //     child: Container(
+          //       width: SizeConfig.blockSizeHorizontal !* 12,
+          //       height: SizeConfig.blockSizeHorizontal !* 12,
+          //       child: RawMaterialButton(
+          //         onPressed: () {
+          //           submitDoctorQrCode(context, selectedImage);
+          //         },
+          //         elevation: 2.0,
+          //         fillColor: Color(0xFF06A759),
+          //         child: Image(
+          //           width: SizeConfig.blockSizeHorizontal !* 5.5,
+          //           height: SizeConfig.blockSizeHorizontal !* 5.5,
+          //           //height: 80,
+          //           image:
+          //           AssetImage("images/ic_right_arrow_triangular.png"),
+          //         ),
+          //         shape: CircleBorder(),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          Visibility(
+              visible: listImage[0]["FileName"] != "NULL",
+              child: Center(
+                child: Container(
+                  height: SizeConfig.blockSizeHorizontal !* 145,
+                  width:SizeConfig.blockSizeHorizontal !* 95,
+                  child: listImage.isNotEmpty
+                      ? ListView.builder(
+                      itemCount: listImage.length,
+                      itemBuilder: (context,index) {
+                        return CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: baseImageURL + "${listImage[0]["FileName"]}",
+                        // placeholder: (context, url) => CircularProgressIndicator(),
+                        // errorWidget: (context, url, error) => Icon(Icons.error),
+                      );
+                    }
+                  )
+                  :Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              )
+          ),
+          // Visibility(
+          //   visible: selectedImage != null,
+          //   child: Text( selectedImage!.path.split("/")[
+          //   selectedImage!.path.split("/").length -
+          //       1],),
+          // ),
+          Text("Scan to Pay",
+            style: TextStyle(
+
+            ),
+          )
+        ],
+      )
+          : Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 
@@ -315,8 +317,15 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
     debugPrint("Key and type");
     debugPrint(patientUniqueKey);
     debugPrint(userType);
-    String jsonStr =
-        "{" + "\"" + "DoctorIDP" + "\"" + ":" + "\"" + patientIDP + "\"" + "}";
+    String jsonStr = "{" +
+        "\"" +
+        "DoctorIDP" +
+        "\"" +
+        ":" +
+        "\"" +
+        patientIDP +
+        "\"" +
+        "}";
 
     debugPrint(jsonStr);
 
@@ -344,10 +353,13 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
       debugPrint("Decoded Data Array : " + strData);
       final jsonData = json.decode(strData);
 
+
       for (var i = 0; i < jsonData.length; i++) {
+
         final jo = jsonData[i];
         String fileName = jo['FileName'].toString();
         String doctorIDP = jo['DoctorIDP'].toString();
+
 
         Map<String, dynamic> OrganizationMap = {
           "FileName": fileName,
@@ -355,6 +367,7 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
         };
         listImage.add(OrganizationMap);
         // debugPrint("Added to list: $complainName");
+
       }
       setState(() {
         // apiCalled = true;
@@ -372,19 +385,19 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) => Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              elevation: 0.0,
-              backgroundColor: Colors.transparent,
-              child: dialogContent(context, "Select Document Type"),
-            )
-        /* builder: (BuildContext context) =>
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+          child: dialogContent(context, "Select Document Type"),
+        )
+      /* builder: (BuildContext context) =>
           CustomDialogSelectImage(
             title: "Select Image from",
             callback: this.callback,
           ),*/
-        );
+    );
   }
 
   void submitDoctorQrCode(BuildContext context, Image) async {
@@ -422,8 +435,15 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
     debugPrint(patientUniqueKey);
     debugPrint(userType);
     String jsonStr;
-    jsonStr =
-        "{" + "\"" + "DoctorIDP" + "\"" + ":" + "\"" + patientIDP + "\"" + "}";
+    jsonStr = "{" +
+        "\"" +
+        "DoctorIDP" +
+        "\"" +
+        ":" +
+        "\"" +
+        patientIDP +
+        "\"" +
+        "}";
 
     debugPrint("Jsonstr - $jsonStr");
 
@@ -538,7 +558,7 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
       /*ViewProfileDetailsState.image =
         await ImagePicker.pickImage(source: ImageSource.gallery);*/
       File imgSelected =
-          await chooseImageWithExIfRotate(picker, ImageSource.gallery);
+      await chooseImageWithExIfRotate(picker, ImageSource.gallery);
       if (imgSelected != null) {
         CroppedFile? croppedImage = await ImageCropper().cropImage(
           sourcePath: imgSelected.path,
@@ -578,13 +598,13 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
       children: <Widget>[
         //...bottom card part,
         Container(
-          width: SizeConfig.blockSizeHorizontal! * 90,
-          height: SizeConfig.blockSizeVertical! * 45,
+          width: SizeConfig.blockSizeHorizontal !* 90,
+          height: SizeConfig.blockSizeVertical !* 45,
           padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeHorizontal! * 1,
-            bottom: SizeConfig.blockSizeHorizontal! * 1,
-            left: SizeConfig.blockSizeHorizontal! * 1,
-            right: SizeConfig.blockSizeHorizontal! * 1,
+            top: SizeConfig.blockSizeHorizontal !* 1,
+            bottom: SizeConfig.blockSizeHorizontal !* 1,
+            left: SizeConfig.blockSizeHorizontal !* 1,
+            right: SizeConfig.blockSizeHorizontal !* 1,
           ),
           decoration: new BoxDecoration(
             color: Colors.white,
@@ -598,33 +618,33 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal! * 3.0,
+                    width: SizeConfig.blockSizeHorizontal !* 3.0,
                   ),
                   InkWell(
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.red[800],
-                      size: SizeConfig.blockSizeVertical! * 3.2,
+                      size: SizeConfig.blockSizeVertical !* 3.2,
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal! * 5.0,
+                    width: SizeConfig.blockSizeHorizontal !* 5.0,
                   ),
                   Text(
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4.2,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.2,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 1.5,
+                height: SizeConfig.blockSizeVertical !* 1.5,
               ),
               /*MaterialButton(
               onPressed: () {},
@@ -687,7 +707,7 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
               // ),
               Container(
                 margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal! * 10,
+                  left: SizeConfig.blockSizeHorizontal !* 10,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -704,19 +724,19 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
                     children: [
                       Image(
                         fit: BoxFit.contain,
-                        width: SizeConfig.blockSizeHorizontal! * 8,
-                        height: SizeConfig.blockSizeVertical! * 8,
+                        width: SizeConfig.blockSizeHorizontal !* 8,
+                        height: SizeConfig.blockSizeVertical !* 8,
                         //height: 80,
                         image: AssetImage("images/ic_gallery.png"),
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 3.0,
+                        width: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       Text(
                         "Gallery",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         ),
                       )
                     ],
@@ -767,11 +787,11 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
               //   ),
               // ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 1.5,
+                height: SizeConfig.blockSizeVertical !* 1.5,
               ),
               Container(
                 margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal! * 10,
+                  left: SizeConfig.blockSizeHorizontal !* 10,
                 ),
                 child: InkWell(
                   onTap: () {
@@ -782,16 +802,16 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
                       Icon(
                         Icons.close,
                         color: Colors.red,
-                        size: SizeConfig.blockSizeHorizontal! * 8,
+                        size: SizeConfig.blockSizeHorizontal !* 8,
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 3.0,
+                        width: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       Text(
                         "No Document",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         ),
                       )
                     ],
@@ -799,7 +819,7 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 1.0,
+                height: SizeConfig.blockSizeVertical !* 1.0,
               ),
             ],
           ),
@@ -883,4 +903,6 @@ class MyPaymentCodeScreenState extends State<MyPaymentCodeScreen> {
     return String.fromCharCodes(bytes);
     //= Base64Encoder().convert()
   }
+
+
 }

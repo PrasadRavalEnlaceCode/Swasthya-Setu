@@ -1,4 +1,4 @@
-name: silvertouch
+name: swasthyasetu
 description: A new Flutter application.
 
 # The following defines the version and build number for your application.
@@ -14,8 +14,8 @@ description: A new Flutter application.
 version: 3.0.0+3
 
 environment:
-  sdk: '>=2.15.0 <3.2.4'
-  flutter: '>=2.11.0'
+  sdk: ">=2.15.0 <3.0.0"
+  flutter: ">=2.11.0"
 
 dependencies:
   flutter:
@@ -27,10 +27,9 @@ dependencies:
   http: ^0.13.3
   google_fonts: ^4.0.4
   shared_preferences: ^2.0.7
-  launch_review: ^3.0.1 #ios changes
+  launch_review: ^3.0.1  #ios changes
   page_indicator: ^0.4.1
   cached_network_image: ^3.3.0
-  flutter_typeahead: ^4.0.0
   #progress_dialog: ^1.2.4
   #steel_crypt: ^1.7.1+1
   #encrypt: ^4.0.0
@@ -48,13 +47,13 @@ dependencies:
   youtube_player_flutter: ^8.0.0
   #chewie: ^0.9.10
   #video_player: ^0.10.11+1
-  url_launcher: ^6.0.15 #ios changes
-  firebase_messaging: ^14.6.1 #ios changes
-  flutter_local_notifications: ^14.1.0 #ios changes
+  url_launcher: ^6.0.15  #ios changes
+  firebase_messaging: ^14.6.1  #ios changes
+  flutter_local_notifications: ^14.1.0  #ios changes
   #flutter_youtube_view: ^1.1.8
-  file_picker: ^5.3.1 #ios changes
+  file_picker: ^5.3.1  #ios changes
   path_provider: ^2.0.4
-  #  wc_flutter_share: ^0.4.0
+#  wc_flutter_share: ^0.4.0
   #simple_share: any
   #share_extend: "^1.1.7"
   firebase_dynamic_links: ^5.3.1
@@ -68,7 +67,7 @@ dependencies:
   #android_alarm_manager: ^0.4.5+11
   flutter_sms: ^2.3.2
   #audio_service: ^0.11.2 ios changes
-  just_audio: ^0.9.20 #ios changes
+  just_audio: ^0.9.20  #ios changes
   rxdart: ^0.27.3
   lottie: ^2.4.0
   #  simple_autocomplete_search: ^1.0.5
@@ -90,24 +89,24 @@ dependencies:
   flutter_downloader: ^1.10.4
   permission_handler: ^10.2.0
   image: ^4.0.17
-  # pdf: ^3.6.4
-  printing: ^5.11.0 # ios changes
+ # pdf: ^3.6.4
+  printing: ^5.11.0  # ios changes
   get: ^4.6.1
   percent_indicator: ^4.0.0
   sticky_headers: ^0.3.0+2
   flutter_sticky_header: ^0.6.0
   rect_getter: ^1.1.0
-  # agora_rtc_engine: ^6.1.1+1  # ios changes
+ # agora_rtc_engine: ^6.1.1+1  # ios changes
   agora_rtc_engine: ^6.2.0
   agora_rtm: ^1.0.1
   equatable: ^2.0.3
   #flutter_contact: any  # ios changes
   stop_watch_timer: ^2.0.0
-  #  moor_flutter: ^4.0.0
+#  moor_flutter: ^4.0.0
   build_runner: ^2.1.2
-  background_fetch: ^1.0.3 # ios changes
+  background_fetch: ^1.0.3  # ios changes
   flutter_native_timezone: ^2.0.0
-  #  share: ^2.0.4
+#  share: ^2.0.4
   image_cropper: ^4.0.1
   firebase_core: ^2.13.1
   flutter_exif_rotation: ^0.5.1
@@ -119,13 +118,13 @@ dependencies:
   #ff_navigation_bar: ^0.1.5
   json_annotation: ^4.0.0
   fixnum: ^1.0.0
-  # custom_date_range_picker: ^1.0.10
+ # custom_date_range_picker: ^1.0.10
   #  url_launcher: ^6.0.3
   plugin_platform_interface: ^2.0.0
-  # moor_generator: ^4.4.1
+# moor_generator: ^4.4.1
   pdf_render: ^1.4.0
-  flutter_phone_direct_caller: ^2.1.1 #ios 20sept
-  background_sms: ^0.0.4 #
+  flutter_phone_direct_caller: ^2.1.1  #ios 20sept
+  background_sms: ^0.0.4  #
   flutter_cache_manager: ^3.3.0
   share_plus: ^4.0.4
   moor_flutter: ^4.0.0
@@ -140,7 +139,7 @@ flutter_webview_plugin:
   git: https://github.com/nuc134r/flutter_webview_plugin.git
 
 dependency_overrides:
-  firebase_core_platform_interface: 4.8.0
+   firebase_core_platform_interface: 4.8.0
 #  json_annotation: ^4.0.0
 #  fixnum: ^1.0.0
 #  url_launcher: ^6.0.3
@@ -151,15 +150,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+
 
   assets:
     - images/
@@ -195,3 +198,4 @@ flutter:
     - family: KrutiDev
       fonts:
         - asset: fonts/kruti_dev_090_old.ttf
+

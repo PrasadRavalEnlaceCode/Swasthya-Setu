@@ -3,16 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/doctor_patient_profile_upload_model.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
-import 'package:http/http.dart' as http;
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/doctor_patient_profile_upload_model.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/multipart_request_with_progress.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:http/http.dart'as http;
 import '../app_screens/add_patient_screen_doctor.dart';
 
 class PatientController extends GetxController {
@@ -21,6 +17,8 @@ class PatientController extends GetxController {
   RxString patientID = "".obs;
   RxBool isLoading = false.obs;
   int _radioValueGender = -1;
+
+
 
   // Update patient ID
   void updatePatientID(String newPatientID) {
@@ -98,7 +96,7 @@ class PatientController extends GetxController {
       }
     }
     DoctorPatientProfileUploadModel modelPatientProfileUpload =
-        DoctorPatientProfileUploadModel(
+    DoctorPatientProfileUploadModel(
       patientIDP,
       firstNameController.text.trim(),
       lastNameController.text.trim(),
@@ -128,7 +126,8 @@ class PatientController extends GetxController {
 
     String encodedJSONStr = encodeBase64(jsonStr);
     var response;
-    if (image != null && image.lengthSync() > 0) {
+    if(image!=null && image.lengthSync()>0)
+    {
       multipartRequest.fields['getjson'] = encodedJSONStr;
       Map<String, String> headers = Map();
       headers['u'] = patientUniqueKey;
@@ -140,7 +139,9 @@ class PatientController extends GetxController {
           filename: image.path));
       response = await apiHelper.callMultipartApi(multipartRequest);
       print('response $response');
-    } else {
+    }
+    else
+    {
       String loginUrl = "${baseURL}doctorAddPatient.php";
       response = await apiHelper.callApiWithHeadersAndBody(
         url: loginUrl,
@@ -169,7 +170,8 @@ class PatientController extends GetxController {
     //   debugPrint(jArrayStr);
     //pr.hide();
     // Navigator.of(context).pop();
-    if (model.status == "OK") {
+    if (model.status == "OK")
+    {
       final snackBar = SnackBar(
         backgroundColor: Colors.green,
         content: Text(model.message!),
@@ -221,16 +223,15 @@ class PatientController extends GetxController {
             Navigator.of(context).pop();
           });*/
       // }
-    } else {
+    }
+    else {
       final snackBar = SnackBar(
         backgroundColor: Colors.red,
         content: Text(model.message!),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-    ;
+    };
   }
-
   @override
   void dispose() {
     super.dispose();

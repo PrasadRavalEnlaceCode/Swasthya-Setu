@@ -1,16 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
-import 'package:silvertouch/app_screens/pdf_preview.dart';
-import 'package:silvertouch/app_screens/pdf_resume.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/pdf_preview.dart';
+import 'package:swasthyasetu/app_screens/pdf_resume.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/podo/model_profile_patient.dart';
 
 class PDFPreviewer extends StatelessWidget {
   PatientProfileModel patientProfileModel;

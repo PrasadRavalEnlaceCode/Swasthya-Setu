@@ -1,4 +1,4 @@
-import 'package:silvertouch/podo/model_notification_patient_data.dart';
+import 'package:swasthyasetu/podo/model_notification_patient_data.dart';
 
 class ModelNotificationList {
   String? notificationIDP, patientIDP, type, title, desc, idf, imgUrl;

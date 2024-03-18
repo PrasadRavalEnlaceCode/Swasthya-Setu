@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:silvertouch/enums/coupon_code_states.dart';
+import 'package:swasthyasetu/enums/coupon_code_states.dart';
 
 class ApplyCouponController extends GetxController {
   Rx<CouponCodeStates> couponCodeState = CouponCodeStates.notEnteredYet.obs;

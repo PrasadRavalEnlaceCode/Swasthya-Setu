@@ -4,17 +4,14 @@ import 'dart:io';
 import 'package:firebase_messaging_platform_interface/src/remote_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:silvertouch/app_screens/apply_couponcode_or_pay_screen.dart';
-import 'package:silvertouch/app_screens/patient_dashboard_screen.dart';
-import 'package:silvertouch/enums/expiry_state.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/services/push_notification_service.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/apply_couponcode_or_pay_screen.dart';
+import 'package:swasthyasetu/app_screens/patient_dashboard_screen.dart';
+import 'package:swasthyasetu/enums/expiry_state.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/services/push_notification_service.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 
 import '../main.dart';
 
@@ -37,7 +34,8 @@ class CheckExpiryBlankScreenState extends State<CheckExpiryBlankScreen> {
   ExpiryState expiryState = ExpiryState.Loading;
 
   @override
-  void initState() {
+  void initState()
+  {
     super.initState();
     widget._pushNotificationService = getItLocator<PushNotificationService>();
     widget._pushNotificationService!.fromLaunch = widget.fromLaunch!;
@@ -60,27 +58,25 @@ class CheckExpiryBlankScreenState extends State<CheckExpiryBlankScreen> {
             }),
         iconTheme: IconThemeData(
           color: Colors.black,
-          size: SizeConfig.blockSizeVertical! * 3.0,
+          size: SizeConfig.blockSizeVertical !* 3.0,
         ),
-        elevation: 0,
-        toolbarTextStyle: TextTheme(
+        elevation: 0, toolbarTextStyle: TextTheme(
           titleMedium: TextStyle(
               color: Colors.white,
               fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical! * 2.3),
-        ).bodyMedium,
-        titleTextStyle: TextTheme(
+              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+        ).bodyMedium, titleTextStyle: TextTheme(
           titleMedium: TextStyle(
               color: Colors.white,
               fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical! * 2.3),
+              fontSize: SizeConfig.blockSizeVertical !* 2.3),
         ).titleLarge,
       ),
       body: SafeArea(
           child: Center(
         child: Container(
           padding: EdgeInsets.all(
-            SizeConfig.blockSizeHorizontal! * 5.0,
+            SizeConfig.blockSizeHorizontal !* 5.0,
           ),
           color: Colors.white,
           child: getCorrespondingWidget(),
@@ -132,15 +128,13 @@ class CheckExpiryBlankScreenState extends State<CheckExpiryBlankScreen> {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      PatientDashboardScreen(widget.doctorIDP!)),
+                  builder: (context) => PatientDashboardScreen(widget.doctorIDP!)),
               (Route<dynamic> route) => false);
         else {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      PatientDashboardScreen(widget.doctorIDP!)),
+                  builder: (context) => PatientDashboardScreen(widget.doctorIDP!)),
               (Route<dynamic> route) => false);
           widget._pushNotificationService!.onMessageOpened(
             widget._pushNotificationService!.messageData!,
@@ -178,26 +172,26 @@ class CheckExpiryBlankScreenState extends State<CheckExpiryBlankScreen> {
       return Column(
         children: [
           Image(
-            width: SizeConfig.blockSizeHorizontal! * 20,
-            height: SizeConfig.blockSizeHorizontal! * 20,
+            width: SizeConfig.blockSizeHorizontal !* 20,
+            height: SizeConfig.blockSizeHorizontal !* 20,
             //height: 80,
-            image: AssetImage("images/logo_silver_touch.jpeg"),
+            image: AssetImage("images/swasthya_setu_logo.jpeg"),
           ),
           SizedBox(
-            height: SizeConfig.blockSizeVertical! * 2.0,
+            height: SizeConfig.blockSizeVertical !* 2.0,
           ),
           Text(
-            "Your Silver Touch subscription is expired, kindly proceed for Renewal.",
+            "Your Swasthya Setu subscription is expired, kindly proceed for Renewal.",
             softWrap: true,
             style: TextStyle(
               color: Colors.red,
-              fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
+              fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
               letterSpacing: 1.0,
               height: 1.6,
             ),
           ),
           SizedBox(
-            height: SizeConfig.blockSizeVertical! * 2.0,
+            height: SizeConfig.blockSizeVertical !* 2.0,
           ),
           MaterialButton(
             onPressed: () {
@@ -222,13 +216,13 @@ class CheckExpiryBlankScreenState extends State<CheckExpiryBlankScreen> {
       return Column(
         children: [
           Image(
-            width: SizeConfig.blockSizeHorizontal! * 20,
-            height: SizeConfig.blockSizeHorizontal! * 20,
+            width: SizeConfig.blockSizeHorizontal !* 20,
+            height: SizeConfig.blockSizeHorizontal !* 20,
             //height: 80,
-            image: AssetImage("images/logo_silver_touch.jpeg"),
+            image: AssetImage("images/swasthya_setu_logo.jpeg"),
           ),
           SizedBox(
-            height: SizeConfig.blockSizeVertical! * 2.0,
+            height: SizeConfig.blockSizeVertical !* 2.0,
           ),
           /*Text(
             "Kindly proceed to pay \u20B9118 (including GST), to continue the subscription",
@@ -245,7 +239,7 @@ class CheckExpiryBlankScreenState extends State<CheckExpiryBlankScreen> {
             softWrap: true,
             style: TextStyle(
               color: Colors.red,
-              fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
+              fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
               letterSpacing: 1.0,
               height: 1.6,
             ),
@@ -255,7 +249,7 @@ class CheckExpiryBlankScreenState extends State<CheckExpiryBlankScreen> {
             softWrap: true,
             style: TextStyle(
               color: Colors.red,
-              fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
+              fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
               letterSpacing: 1.0,
               fontWeight: FontWeight.w500,
               height: 1.6,
@@ -266,13 +260,13 @@ class CheckExpiryBlankScreenState extends State<CheckExpiryBlankScreen> {
             softWrap: true,
             style: TextStyle(
               color: Colors.red,
-              fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
+              fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
               letterSpacing: 1.0,
               height: 1.6,
             ),
           ),
           SizedBox(
-            height: SizeConfig.blockSizeVertical! * 2.0,
+            height: SizeConfig.blockSizeVertical !* 2.0,
           ),
           MaterialButton(
             onPressed: () {
@@ -297,31 +291,30 @@ class CheckExpiryBlankScreenState extends State<CheckExpiryBlankScreen> {
       return Column(
         children: [
           Image(
-            width: SizeConfig.blockSizeHorizontal! * 20,
-            height: SizeConfig.blockSizeHorizontal! * 20,
+            width: SizeConfig.blockSizeHorizontal !* 20,
+            height: SizeConfig.blockSizeHorizontal !* 20,
             //height: 80,
-            image: AssetImage("images/logo_silver_touch.jpeg"),
+            image: AssetImage("images/swasthya_setu_logo.jpeg"),
           ),
           Text(
-            "Welcome to Silver Touch",
+            "Welcome to Swasthya Setu",
             softWrap: true,
             style: TextStyle(
               color: Colors.green,
-              fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
+              fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
               letterSpacing: 1.0,
               height: 1.6,
             ),
           ),
           SizedBox(
-            height: SizeConfig.blockSizeVertical! * 2.0,
+            height: SizeConfig.blockSizeVertical !* 2.0,
           ),
           MaterialButton(
             onPressed: () {
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          PatientDashboardScreen(widget.doctorIDP!)),
+                      builder: (context) => PatientDashboardScreen(widget.doctorIDP!)),
                   (Route<dynamic> route) => false);
             },
             color: Colors.blue,

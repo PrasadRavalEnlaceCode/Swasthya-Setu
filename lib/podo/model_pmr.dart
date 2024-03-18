@@ -1,19 +1,18 @@
-class PMRData {
-  final String pmr;
-  final String quantity;
-  final String remarks;
+class MedicineModel {
+  int hospitalMedicineIDP;
+  String medicineName;
+  String doseSchedule;
+  String medicineContent;
+  String requestedQuantity;
+  String remarks;
 
-  PMRData({
-    required this.pmr,
-    required this.quantity,
-    required this.remarks,
-  });
+  MedicineModel(
+     this.hospitalMedicineIDP,
+     this.medicineName,
+     this.doseSchedule,
+     this.medicineContent,
+      this.requestedQuantity,
+      this.remarks,
 
-  factory PMRData.fromJson(Map<String, dynamic> json) {
-    return PMRData(
-      pmr: json['pmr'],
-      quantity: json['quantity'],
-      remarks: json['remarks'],
-    );
-  }
+      );
 }

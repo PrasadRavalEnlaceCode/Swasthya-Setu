@@ -2,16 +2,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:silvertouch/app_screens/add_feelings_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_feelings.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/add_feelings_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_feelings.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
+    as DateRagePicker;
 
 import '../utils/color.dart';
 
@@ -78,7 +76,10 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
     toDate = DateTime.now();
     fromDateString = formatter.format(fromDate!);
     toDateString = formatter.format(toDate!);
-    dateRange = DateTimeRange(start: fromDate!, end: toDate!);
+    dateRange = DateTimeRange(
+        start: fromDate!,
+        end: toDate!
+    );
     hideFABController = ScrollController();
     hideFABController!.addListener(() {
       if (hideFABController!.position.userScrollDirection ==
@@ -160,18 +161,16 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
         appBar: AppBar(
           title: Text("Feelings"),
           backgroundColor: Color(0xFFFFFFFF),
-          iconTheme: IconThemeData(color: Colorsblack),
-          toolbarTextStyle: TextTheme(
+          iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical! * 2.5,
-          )).bodyMedium,
-          titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          )).bodyMedium, titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
           )).titleLarge,
         ),
         floatingActionButton: Visibility(
@@ -195,10 +194,10 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
             return Column(
               children: <Widget>[
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical! * 1,
+                  height: SizeConfig.blockSizeVertical !* 1,
                 ),
                 Container(
-                  height: SizeConfig.blockSizeVertical! * 8,
+                  height: SizeConfig.blockSizeVertical !* 8,
                   child: Padding(
                     padding: EdgeInsets.only(left: 5.0, right: 5.0),
                     child: Container(
@@ -213,17 +212,16 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                                   widget.dateString,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.0,
+                                      fontSize: SizeConfig.blockSizeVertical !* 2.0,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black),
                                 ),
                               ),
                               Container(
-                                width: SizeConfig.blockSizeHorizontal! * 15,
+                                width: SizeConfig.blockSizeHorizontal !* 15,
                                 child: Icon(
                                   Icons.arrow_drop_down,
-                                  size: SizeConfig.blockSizeHorizontal! * 8,
+                                  size: SizeConfig.blockSizeHorizontal !* 8,
                                 ),
                               ),
                             ],
@@ -240,7 +238,7 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical! * 1,
+                  height: SizeConfig.blockSizeVertical !* 1,
                 ),
                 listFeelings.length > 0
                     ? Expanded(
@@ -263,7 +261,7 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                                 ),
                                 child: Card(
                                   margin: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal! * 2),
+                                      SizeConfig.blockSizeHorizontal !* 2),
                                   /*color: Colors.white,*/
                                   child: Row(
                                     children: <Widget>[
@@ -272,19 +270,19 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                                           color: Color(getFeelingColor(
                                               listFeelings[index].feelingName)),
                                           width:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   23,
                                           height:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   23,
                                           child: Column(
                                             children: <Widget>[
                                               Image(
                                                 width: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     15,
                                                 height: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     15,
                                                 image: AssetImage(
                                                     getFeelingImagePath(
@@ -298,7 +296,7 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                         3.2),
                                               ),
                                             ],
@@ -306,7 +304,7 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                                       Expanded(
                                         child: Padding(
                                           padding: EdgeInsets.all(
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   3),
                                           child: Column(
                                             crossAxisAlignment:
@@ -320,7 +318,7 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                                                     style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           3.6,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -328,7 +326,7 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                                                   ),
                                                   SizedBox(
                                                     width: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                         5,
                                                   ),
                                                   Text(
@@ -337,7 +335,7 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                                                     style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           3.6,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -347,7 +345,7 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                                               ),
                                               SizedBox(
                                                 height: SizeConfig
-                                                        .blockSizeVertical! *
+                                                        .blockSizeVertical !*
                                                     1,
                                               ),
                                               Text(
@@ -357,7 +355,7 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                                                 style: TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       3.6,
                                                 ),
                                               ),
@@ -374,16 +372,16 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                                           },
                                           child: Icon(
                                             Icons.delete,
-                                            size: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                7,
+                                            size:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    7,
                                             color: Colors.red,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
                                         width:
-                                            SizeConfig.blockSizeHorizontal! * 3,
+                                            SizeConfig.blockSizeHorizontal !* 3,
                                       ),
                                     ],
                                   ),
@@ -393,10 +391,10 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
                       )
                     : Expanded(
                         child: SizedBox(
-                          height: SizeConfig.blockSizeVertical! * 80,
+                          height: SizeConfig.blockSizeVertical !* 80,
                           child: Container(
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal! * 5),
+                                SizeConfig.blockSizeHorizontal !* 5),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
@@ -505,7 +503,8 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
     }
   }
 
-  Future pickDateRange() async {
+  Future pickDateRange() async
+  {
     DateTimeRange? newDateRange = await showDateRangePicker(
       context: context,
       initialDateRange: dateRange,
@@ -513,7 +512,7 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
       lastDate: DateTime(2100),
     );
 
-    if (newDateRange == null) return;
+    if(newDateRange == null) return;
 
     setState(() {
       dateRange = newDateRange;
@@ -526,6 +525,7 @@ class FeelingsListScreenState extends State<FeelingsListScreen> {
       getFeelingsList(context);
     });
   }
+
 
   // Future<void> showDateRangePickerDialog() async {
   //   // final List<DateTime?>? listPicked = await DateRagePicker.showDatePicker(

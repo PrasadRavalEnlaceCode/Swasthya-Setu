@@ -1,14 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_opd_reg.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
-import 'package:silvertouch/podo/model_templates_advice_investigations.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_opd_reg.dart';
+import 'package:swasthyasetu/podo/model_templates_advice_investigations.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 
 import '../utils/color.dart';
 
@@ -47,10 +45,10 @@ class SelectInvestigationsToSendToLabScreenState
     super.initState();
     emptyMessageWidget = Center(
       child: SizedBox(
-        height: SizeConfig.blockSizeVertical! * 80,
-        width: SizeConfig.blockSizeHorizontal! * 100,
+        height: SizeConfig.blockSizeVertical !* 80,
+        width: SizeConfig.blockSizeHorizontal !* 100,
         child: Container(
-          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -91,7 +89,7 @@ class SelectInvestigationsToSendToLabScreenState
         title: titleWidget,
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -111,18 +109,18 @@ class SelectInvestigationsToSendToLabScreenState
                       setState(() {
                         listOPDRegistrationSearchResults = listOPDRegistration
                             .where((model) =>
-                                model.name!
-                                    .toLowerCase()
+                                model.name
+                                !.toLowerCase()
                                     .contains(text.toLowerCase()) ||
-                                model.amount!
-                                    .toLowerCase()
+                                model.amount
+                                !.toLowerCase()
                                     .contains(text.toLowerCase()))
                             .toList();
                       });
                     },
                     style: TextStyle(
                       color: Colorsblack,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                     ),
                     decoration: InputDecoration(
                       hintText: "Search Advice Investigations",
@@ -140,19 +138,15 @@ class SelectInvestigationsToSendToLabScreenState
             },
             icon: icon,
           )
-        ],
-        toolbarTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .bodyMedium,
-        titleTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .titleLarge,
+        ], toolbarTextStyle: TextTheme(
+            titleMedium: TextStyle(
+                color: Colorsblack,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+            titleMedium: TextStyle(
+                color: Colorsblack,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
       ),
       body: Column(
         children: <Widget>[
@@ -186,15 +180,15 @@ class SelectInvestigationsToSendToLabScreenState
           Align(
             alignment: Alignment.topRight,
             child: RawMaterialButton(
-              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 2.0),
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2.0),
               onPressed: () {
                 getSelectedListAndGoToAddOPDProcedureScreen(context);
               },
               elevation: 2.0,
               fillColor: Color(0xFF06A759),
               child: Image(
-                width: SizeConfig.blockSizeHorizontal! * 5.5,
-                height: SizeConfig.blockSizeHorizontal! * 5.5,
+                width: SizeConfig.blockSizeHorizontal !* 5.5,
+                height: SizeConfig.blockSizeHorizontal !* 5.5,
                 //height: 80,
                 image: AssetImage("images/ic_right_arrow_triangular.png"),
               ),
@@ -316,9 +310,9 @@ class SelectInvestigationsToSendToLabScreenState
           itemBuilder: (context, index) {
             return Padding(
                 padding: EdgeInsets.only(
-                    left: SizeConfig.blockSizeHorizontal! * 2,
-                    right: SizeConfig.blockSizeHorizontal! * 2,
-                    top: SizeConfig.blockSizeHorizontal! * 2),
+                    left: SizeConfig.blockSizeHorizontal !* 2,
+                    right: SizeConfig.blockSizeHorizontal !* 2,
+                    top: SizeConfig.blockSizeHorizontal !* 2),
                 child: InkWell(
                   onTap: () {
                     listOPDRegistrationSearchResults[index].isChecked =
@@ -331,7 +325,7 @@ class SelectInvestigationsToSendToLabScreenState
                         child: Card(
                             child: Padding(
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal! * 2),
+                              SizeConfig.blockSizeHorizontal !* 2),
                           child: Row(
                             children: [
                               Checkbox(
@@ -355,15 +349,15 @@ class SelectInvestigationsToSendToLabScreenState
                                             .name!,
                                         style: TextStyle(
                                             color: Colors.black,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    4,
                                             fontWeight: FontWeight.w500),
                                       ),
                                     ),
                                     SizedBox(
                                       height:
-                                          SizeConfig.blockSizeHorizontal! * 1,
+                                          SizeConfig.blockSizeHorizontal !* 1,
                                     ),
                                     Align(
                                       alignment: Alignment.centerLeft,
@@ -372,9 +366,9 @@ class SelectInvestigationsToSendToLabScreenState
                                             .amount!,
                                         style: TextStyle(
                                             color: Colors.grey,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                2.8,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    2.8,
                                             fontWeight: FontWeight.w500),
                                       ),
                                     ),

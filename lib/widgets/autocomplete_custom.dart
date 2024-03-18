@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
 
 import '../utils/color.dart';
 
@@ -118,9 +118,9 @@ class _CustomAutocompleteSearchState extends State<CustomAutocompleteSearch> {
                 : TextField(
                     onChanged: _textChanged,
                     controller: widget.controller,
-                    // maxLines: 5,
-                    // minLines: 5,
-                    // maxLength: 500,
+                     // maxLines: 5,
+                     // minLines: 5,
+                     // maxLength: 500,
                     onTap: () {
                       int suggestionsLength = _tmpSuggestions.length;
                       if (widget.controller!.text == "" && widget.onTap != null)
@@ -169,16 +169,15 @@ class _CustomAutocompleteSearchState extends State<CustomAutocompleteSearch> {
                       return ConstrainedBox(
                         constraints: BoxConstraints(
                           minHeight: widget.tileMinHeight ??
-                              SizeConfig.blockSizeVertical! * 7,
-                          maxHeight: SizeConfig.blockSizeVertical! * 7,
+                              SizeConfig.blockSizeVertical !* 7,
+                          maxHeight: SizeConfig.blockSizeVertical !* 7,
                           maxWidth: double.infinity,
                           minWidth: double.infinity,
                         ),
                         child: Center(
                           child: ListTile(
                             onTap: () {
-                              String selectedSuggestion =
-                                  _tmpSuggestions[position];
+                              String selectedSuggestion = _tmpSuggestions[position];
                               _handleSuggestionPress(selectedSuggestion);
                               widget.controller!.text = selectedSuggestion;
                               // _suggestionsHeight = 1;

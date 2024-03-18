@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:silvertouch/api/api_helper.dart';
-import 'package:silvertouch/app_screens/add_vital_screen.dart';
-import 'package:silvertouch/app_screens/fullscreen_image.dart';
-import 'package:silvertouch/app_screens/investigations_list_for_doctors_patient.dart';
-import 'package:silvertouch/app_screens/report_list_for_doctors_patient.dart';
-import 'package:silvertouch/app_screens/select_sugar_vital_type_screen.dart';
-import 'package:silvertouch/app_screens/vitals_list_for_doctors_patient.dart';
-import 'package:silvertouch/app_screens/water_intake_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
+import 'package:swasthyasetu/app_screens/add_vital_screen.dart';
+import 'package:swasthyasetu/app_screens/fullscreen_image.dart';
+import 'package:swasthyasetu/app_screens/investigations_list_for_doctors_patient.dart';
+import 'package:swasthyasetu/app_screens/report_list_for_doctors_patient.dart';
+import 'package:swasthyasetu/app_screens/select_sugar_vital_type_screen.dart';
+import 'package:swasthyasetu/app_screens/vitals_list_for_doctors_patient.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
 
 class ShowVitalsInvestigationPatientWise extends StatefulWidget {
   final String patientIDP,
@@ -78,8 +76,8 @@ class SelectedPatientInDoctorsState
         ),*/
       body: SafeArea(
         child: Container(
-          width: SizeConfig.blockSizeHorizontal! * 100,
-          height: SizeConfig.blockSizeVertical! * 100,
+          width: SizeConfig.blockSizeHorizontal !* 100,
+          height: SizeConfig.blockSizeVertical !* 100,
           color: Colors.white,
           child: Column(
             children: <Widget>[
@@ -91,8 +89,8 @@ class SelectedPatientInDoctorsState
                         alignment: Alignment.topLeft,
                         child: Padding(
                           padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal! * 1,
-                              right: SizeConfig.blockSizeHorizontal! * 1),
+                              left: SizeConfig.blockSizeHorizontal !* 1,
+                              right: SizeConfig.blockSizeHorizontal !* 1),
                           child: InkWell(
                             focusColor: Colors.white,
                             highlightColor: Colors.white,
@@ -116,12 +114,12 @@ class SelectedPatientInDoctorsState
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               VerticalDivider(
-                                width: SizeConfig.blockSizeHorizontal! * 2,
-                                thickness: SizeConfig.blockSizeHorizontal! * 2,
+                                width: SizeConfig.blockSizeHorizontal !* 2,
+                                thickness: SizeConfig.blockSizeHorizontal !* 2,
                                 color: Colors.green,
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal! * 3,
+                                width: SizeConfig.blockSizeHorizontal !* 3,
                               ),
                               /*CircleAvatar(
                                 radius: SizeConfig.blockSizeHorizontal * 6,
@@ -138,21 +136,19 @@ class SelectedPatientInDoctorsState
                                   }));
                                 },
                                 child: CircleAvatar(
-                                    radius: SizeConfig.blockSizeHorizontal! * 6,
+                                    radius: SizeConfig.blockSizeHorizontal !* 6,
                                     backgroundColor: Colors.grey,
-                                    backgroundImage:
-                                        getBackgroundImage(widget.imgUrl) /*),*/
+                                    backgroundImage: getBackgroundImage(widget.imgUrl) /*),*/
                                     ),
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal! * 5,
+                                width: SizeConfig.blockSizeHorizontal !* 5,
                               ),
                               Expanded(
                                 child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         vertical:
-                                            SizeConfig.blockSizeHorizontal! *
-                                                3),
+                                            SizeConfig.blockSizeHorizontal !* 3),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -162,33 +158,33 @@ class SelectedPatientInDoctorsState
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   4),
                                         ),
                                         SizedBox(
                                           height:
-                                              SizeConfig.blockSizeVertical! * 1,
+                                              SizeConfig.blockSizeVertical !* 1,
                                         ),
                                         Row(children: <Widget>[
                                           Text(
                                             "ID - ${widget.patientID}",
                                             style: TextStyle(
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   3.5,
                                               color: Colors.green,
                                             ),
                                           ),
                                           SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                5,
+                                            width:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    5,
                                           ),
                                           Text(
                                             "${widget.gender}/${widget.age}",
                                             style: TextStyle(
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   3.5,
                                               color: Colors.blue[900],
                                             ),
@@ -197,15 +193,15 @@ class SelectedPatientInDoctorsState
                                   color: Colors.grey,
                                 ),*/
                                           SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                5,
+                                            width:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    5,
                                           ),
                                           Text(
                                             widget.cityName,
                                             style: TextStyle(
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     3.5,
                                                 color: Colors.blue[600]),
                                           ),
@@ -222,12 +218,12 @@ class SelectedPatientInDoctorsState
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 1,
+                height: SizeConfig.blockSizeVertical !* 1,
               ),
               Padding(
                   padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeHorizontal! * 2,
-                      right: SizeConfig.blockSizeHorizontal! * 2),
+                      left: SizeConfig.blockSizeHorizontal !* 2,
+                      right: SizeConfig.blockSizeHorizontal !* 2),
                   child: Container(
                     /*decoration: BoxDecoration(
                       border: Border.all(color: Colors.black, width: 1)),*/
@@ -254,7 +250,7 @@ class SelectedPatientInDoctorsState
                                 child: Center(
                                     child: Padding(
                                   padding: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal! * 1),
+                                      SizeConfig.blockSizeHorizontal !* 1),
                                   child: Text(
                                     "Vitals",
                                     style: TextStyle(
@@ -265,7 +261,7 @@ class SelectedPatientInDoctorsState
                           ),
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal! * 2,
+                          width: SizeConfig.blockSizeHorizontal !* 2,
                         ),
                         Expanded(
                           child: InkWell(
@@ -288,7 +284,7 @@ class SelectedPatientInDoctorsState
                               child: Center(
                                 child: Padding(
                                   padding: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal! * 1),
+                                      SizeConfig.blockSizeHorizontal !* 1),
                                   child: Text(
                                     "Investigations",
                                     style: TextStyle(
@@ -305,7 +301,7 @@ class SelectedPatientInDoctorsState
                           ),
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal! * 2,
+                          width: SizeConfig.blockSizeHorizontal !* 2,
                         ),
                         Expanded(
                           child: InkWell(
@@ -328,7 +324,7 @@ class SelectedPatientInDoctorsState
                               child: Center(
                                 child: Padding(
                                   padding: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal! * 1),
+                                      SizeConfig.blockSizeHorizontal !* 1),
                                   child: Text(
                                     "Documents",
                                     style: TextStyle(
@@ -348,7 +344,7 @@ class SelectedPatientInDoctorsState
                     ),
                   )),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 3,
+                height: SizeConfig.blockSizeVertical !* 3,
               ),
               selectedCategoryIDP == "1"
                   ? Expanded(
@@ -421,20 +417,20 @@ class SelectedPatientInDoctorsState
                         child: Icon(
                           Icons.arrow_back,
                           color: Colors.red,
-                          size: SizeConfig.blockSizeHorizontal! * 6.2,
+                          size: SizeConfig.blockSizeHorizontal !* 6.2,
                         ),
                         onTap: () {
                           Navigator.of(context).pop();
                         },
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 6,
+                        width: SizeConfig.blockSizeHorizontal !* 6,
                       ),
                       Text(
                         "Select Vitals to Add",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
                           fontWeight: FontWeight.bold,
                           color: Colors.green,
                           decoration: TextDecoration.none,
@@ -534,7 +530,7 @@ class SelectedPatientInDoctorsState
                           child: Padding(
                               padding: EdgeInsets.all(0.0),
                               child: Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 90,
+                                  width: SizeConfig.blockSizeHorizontal !* 90,
                                   padding: EdgeInsets.only(
                                     top: 5,
                                     bottom: 5,
@@ -576,6 +572,8 @@ class SelectedPatientInDoctorsState
 
 getBackgroundImage(String imgUrl) {
   (imgUrl != "")
-      ? NetworkImage("$userImgUrl${imgUrl}")
-      : AssetImage("images/ic_user_placeholder.png");
+      ? NetworkImage(
+      "$userImgUrl${imgUrl}")
+      : AssetImage(
+      "images/ic_user_placeholder.png");
 }

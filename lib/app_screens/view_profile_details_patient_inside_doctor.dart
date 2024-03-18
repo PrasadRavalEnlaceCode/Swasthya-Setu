@@ -3,13 +3,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:silvertouch/app_screens/edit_my_profile_medical_patient.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-
+import 'package:swasthyasetu/app_screens/edit_my_profile_medical_patient.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_profile_patient.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/color.dart';
@@ -70,8 +69,8 @@ class ViewProfileDetailsInsideDoctorState
     super.initState();
     listCategories = [];
     jsonObj = {};
-    listCategories.add({"categoryName": "General", "categoryIDP": "0"});
-    listCategories.add({"categoryName": "Medical", "categoryIDP": "1"});
+    listCategories.add({"categoryName": "Medical", "categoryIDP": "0"});
+    listCategories.add({"categoryName": "General", "categoryIDP": "1"});
     getPatientProfileDetails();
   }
 
@@ -161,31 +160,29 @@ class ViewProfileDetailsInsideDoctorState
                   ],
                   backgroundColor: Color(0xFFFFFFFF),
                   iconTheme: IconThemeData(
-                      color: Colors.black,
-                      size: SizeConfig.blockSizeVertical! * 2.2),
-                  toolbarTextStyle: TextTheme(
-                          titleMedium: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Ubuntu",
-                              fontSize: SizeConfig.blockSizeVertical! * 2.5))
-                      .bodyMedium,
-                  titleTextStyle: TextTheme(
-                          titleMedium: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Ubuntu",
-                              fontSize: SizeConfig.blockSizeVertical! * 2.5))
-                      .titleLarge,
+                      color: Colorsblack,
+                      size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
+                      titleMedium: TextStyle(
+                          color: Colorsblack,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+                      titleMedium: TextStyle(
+                          color: Colorsblack,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
                 ),
-                body: Column(
+                body:
+                listCategories.isNotEmpty
+                ? Column(
                   children: <Widget>[
                     Container(
-                        height: SizeConfig.blockSizeVertical! * 10,
-                        width: SizeConfig.blockSizeHorizontal! * 100,
+                        height: SizeConfig.blockSizeVertical !* 10,
+                        width: SizeConfig.blockSizeHorizontal !* 100,
                         color: Color(0xFFF0F0F0),
                         child: Padding(
                           padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal! * 2,
-                              right: SizeConfig.blockSizeHorizontal! * 2),
+                              left: SizeConfig.blockSizeHorizontal !* 2,
+                              right: SizeConfig.blockSizeHorizontal !* 2),
                           child: Center(
                             child: ListView.separated(
                               itemCount: listCategories.length,
@@ -198,16 +195,16 @@ class ViewProfileDetailsInsideDoctorState
                                     setState(() {
                                       selectedCategoryIDP =
                                           listCategories[index]["categoryIDP"]!;
-                                      selectedCategory = listCategories[index]
-                                          ["categoryName"]!;
+                                      selectedCategory =
+                                          listCategories[index]["categoryName"]!;
                                     });
                                   },
                                   child: Chip(
                                     padding: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal! * 3),
+                                        SizeConfig.blockSizeHorizontal !* 3),
                                     label: Text(
-                                      listCategories[index]["categoryName"]!
-                                          .trim(),
+                                      listCategories[index]["categoryName"]
+                                          !.trim(),
                                       style: TextStyle(
                                         color: listCategories[index]
                                                     ["categoryIDP"] ==
@@ -230,14 +227,14 @@ class ViewProfileDetailsInsideDoctorState
                               separatorBuilder:
                                   (BuildContext context, int index) {
                                 return SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! * 5,
+                                  width: SizeConfig.blockSizeHorizontal !* 5,
                                 );
                               },
                             ),
                           ),
                         )),
                     Expanded(
-                      child: selectedCategoryIDP == "0"
+                      child: selectedCategoryIDP == "1"
                           ? ListView(
                               children: [
                                 SizedBox(
@@ -250,7 +247,8 @@ class ViewProfileDetailsInsideDoctorState
                                       onTap: () {
                                         //showImageTypeSelectionDialog(context);
                                       },
-                                      child: (imgUrl != "" && imgUrl != "null")
+                                      child: (imgUrl != "" &&
+                                              imgUrl != "null")
                                           ? CircleAvatar(
                                               radius: 60.0,
                                               backgroundImage: NetworkImage(
@@ -285,7 +283,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -297,7 +295,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -324,7 +322,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -336,7 +334,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -363,7 +361,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -375,7 +373,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -402,7 +400,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -416,7 +414,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -443,7 +441,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -455,7 +453,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -517,7 +515,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -529,7 +527,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -556,7 +554,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -568,7 +566,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -595,7 +593,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -607,7 +605,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -634,7 +632,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -646,7 +644,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -673,7 +671,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -685,7 +683,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -712,7 +710,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -724,7 +722,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -751,7 +749,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -763,7 +761,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -790,7 +788,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -802,7 +800,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -829,7 +827,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -841,7 +839,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -868,7 +866,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -880,7 +878,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -907,7 +905,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -919,7 +917,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -946,7 +944,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -958,7 +956,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -981,14 +979,13 @@ class ViewProfileDetailsInsideDoctorState
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left:
-                                          SizeConfig.blockSizeHorizontal! * 3),
+                                      left: SizeConfig.blockSizeHorizontal !* 3),
                                   child: Text(
                                     "Medical History",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.6,
+                                          SizeConfig.blockSizeVertical !* 2.6,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -1009,7 +1006,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -1022,7 +1019,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -1049,7 +1046,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -1062,7 +1059,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -1089,7 +1086,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -1102,7 +1099,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -1129,7 +1126,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.2),
                                       ),
                                     ),
@@ -1142,7 +1139,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -1158,14 +1155,13 @@ class ViewProfileDetailsInsideDoctorState
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left:
-                                          SizeConfig.blockSizeHorizontal! * 3),
+                                      left: SizeConfig.blockSizeHorizontal !* 3),
                                   child: Text(
                                     "Surgical History",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.6,
+                                          SizeConfig.blockSizeVertical !* 2.6,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -1197,7 +1193,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.grey,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -1213,16 +1209,15 @@ class ViewProfileDetailsInsideDoctorState
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left:
-                                          SizeConfig.blockSizeHorizontal! * 3),
+                                      left: SizeConfig.blockSizeHorizontal !* 3),
                                   child: Text(
                                     "Drug Allergy",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.6,
+                                          SizeConfig.blockSizeVertical !* 2.6,
                                       fontWeight: FontWeight.w500,
-                                    ),
+                                                                            ),
                                   ),
                                 ),
                                 SizedBox(
@@ -1252,7 +1247,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.grey,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.2,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -1268,14 +1263,13 @@ class ViewProfileDetailsInsideDoctorState
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left:
-                                          SizeConfig.blockSizeHorizontal! * 3),
+                                      left: SizeConfig.blockSizeHorizontal !* 3),
                                   child: Text(
                                     "Blood Group",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.6,
+                                          SizeConfig.blockSizeVertical !* 2.6,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -1307,7 +1301,7 @@ class ViewProfileDetailsInsideDoctorState
                                         style: TextStyle(
                                           color: Colors.blueGrey,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.4,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -1325,7 +1319,10 @@ class ViewProfileDetailsInsideDoctorState
                             ),
                     ),
                   ],
-                )));
+                )
+                    : Container(),
+            )
+        );
       },
     );
   }

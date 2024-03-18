@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:silvertouch/enums/exercise_states.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:swasthyasetu/enums/exercise_states.dart';
 
 class ExerciseController extends GetxController {
   /*RxBool isCounterOn = false.obs;*/

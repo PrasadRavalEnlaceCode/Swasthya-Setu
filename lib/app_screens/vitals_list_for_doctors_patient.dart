@@ -9,22 +9,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:swasthyasetu/app_screens/water_intake_screen.dart';
+import 'package:swasthyasetu/utils/common_methods.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:silvertouch/app_screens/add_vital_screen.dart';
-import 'package:silvertouch/app_screens/select_sugar_vital_type_screen.dart';
-import 'package:silvertouch/app_screens/water_intake_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/dropdown_item.dart';
-import 'package:silvertouch/podo/model_graph_values.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_vitals_list.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/flutter_echarts_custom.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+
+//import 'package:share_extend/share_extend.dart';
+import 'package:swasthyasetu/app_screens/add_vital_screen.dart';
+import 'package:swasthyasetu/app_screens/select_sugar_vital_type_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/dropdown_item.dart';
+import 'package:swasthyasetu/podo/model_graph_values.dart';
+import 'package:swasthyasetu/podo/model_vitals_list.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
+    as DateRagePicker;
+
+//import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:swasthyasetu/utils/flutter_echarts_custom.dart';
+
 
 /*import 'package:mp_chart/mp/chart/line_chart.dart' as mpChart;
 import 'package:mp_chart/mp/controller/line_chart_controller.dart';
@@ -143,6 +147,7 @@ class VitalsListForDoctorsPatientScreen extends StatefulWidget {
 
   String? title = "", selectedSubCategoryIDP;
 
+
   VitalsListForDoctorsPatientScreen(String patientIDP, String title,
       {String selectedSubCategoryIDP = ""}) {
     this.patientIDP = patientIDP;
@@ -243,11 +248,14 @@ class VitalsListForDoctorsPatientScreenState
     listVitalsDialog.add({"Name": "Weight Measurement", "IDP": "11"});
     keyForChart = GlobalKey();
     keyForChart2 = GlobalKey();
-    dateRange = DateTimeRange(start: fromDate!, end: toDate!);
+    dateRange = DateTimeRange(
+        start: fromDate!,
+        end: toDate!
+    );
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical !* 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -312,7 +320,7 @@ class VitalsListForDoctorsPatientScreenState
         child: Stack(
           children: [
             Container(
-              height: SizeConfig.blockSizeVertical! * 100,
+              height: SizeConfig.blockSizeVertical !* 100,
               child: ListView(
                 shrinkWrap: true,
                 controller: hideFABController,
@@ -322,7 +330,7 @@ class VitalsListForDoctorsPatientScreenState
                   Align(
                     alignment: Alignment.topLeft,
                     child: Container(
-                      height: SizeConfig.blockSizeVertical! * 8,
+                      height: SizeConfig.blockSizeVertical !* 8,
                       color: Color(0xFFF0F0F0),
                       child: Padding(
                         padding: EdgeInsets.only(left: 5.0, right: 5.0),
@@ -354,19 +362,17 @@ class VitalsListForDoctorsPatientScreenState
                                   // ),
                                   Expanded(
                                       child: ElevatedButton(
-                                    child: Text(
-                                        '${start.day}/${start.month}/${start.year}'),
-                                    onPressed: pickDateRange,
-                                  )),
-                                  const SizedBox(
-                                    width: 10,
+                                        child: Text('${start.day}/${start.month}/${start.year}'),
+                                        onPressed: pickDateRange,
+                                      )
                                   ),
+                                  const SizedBox(width: 10,),
                                   Expanded(
                                       child: ElevatedButton(
-                                    child: Text(
-                                        '${end.day}/${end.month}/${end.year}'),
-                                    onPressed: pickDateRange,
-                                  )),
+                                        child: Text('${end.day}/${end.month}/${end.year}'),
+                                        onPressed: pickDateRange,
+                                      )
+                                  ),
                                 ],
                               )),
                           padding: EdgeInsets.all(5.0),
@@ -378,15 +384,15 @@ class VitalsListForDoctorsPatientScreenState
             height: SizeConfig.blockSizeVertical * 2,
           ),*/
                   Container(
-                    height: SizeConfig.blockSizeVertical! * 10,
-                    width: SizeConfig.blockSizeHorizontal! * 100,
+                    height: SizeConfig.blockSizeVertical !* 10,
+                    width: SizeConfig.blockSizeHorizontal !* 100,
                     color: Color(0xFFF0F0F0),
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal! * 2,
-                          right: SizeConfig.blockSizeHorizontal! * 2),
+                          left: SizeConfig.blockSizeHorizontal !* 2,
+                          right: SizeConfig.blockSizeHorizontal !* 2),
                       child: Container(
-                        height: SizeConfig.blockSizeVertical! * 10,
+                        height: SizeConfig.blockSizeVertical !* 10,
                         child: ListView.separated(
                           itemCount: listVitalCategories.length,
                           scrollDirection: Axis.horizontal,
@@ -412,7 +418,7 @@ class VitalsListForDoctorsPatientScreenState
                                 },
                                 child: Chip(
                                   padding: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal! * 3),
+                                      SizeConfig.blockSizeHorizontal !* 3),
                                   label: Text(
                                     listVitalCategories[index]["Name"]!,
                                     style: TextStyle(
@@ -440,7 +446,7 @@ class VitalsListForDoctorsPatientScreenState
                           },
                           separatorBuilder: (BuildContext context, int index) {
                             return SizedBox(
-                              width: SizeConfig.blockSizeHorizontal! * 5,
+                              width: SizeConfig.blockSizeHorizontal !* 5,
                             );
                           },
                         ),
@@ -481,10 +487,10 @@ class VitalsListForDoctorsPatientScreenState
                           selectedVitalIDP: selectedVitalIDP,
                           value: getValueFromVitalIDP(selectedVitalIDP))
                       : SizedBox(
-                          height: SizeConfig.blockSizeVertical! * 80,
+                          height: SizeConfig.blockSizeVertical !* 80,
                           child: Container(
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal! * 5),
+                                SizeConfig.blockSizeHorizontal !* 5),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
@@ -513,7 +519,7 @@ class VitalsListForDoctorsPatientScreenState
                 alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: EdgeInsets.all(
-                    SizeConfig.blockSizeHorizontal! * 3,
+                    SizeConfig.blockSizeHorizontal !* 3,
                   ),
                   child: FloatingActionButton(
                     onPressed: () {
@@ -568,7 +574,7 @@ class VitalsListForDoctorsPatientScreenState
       lastDate: DateTime(2100),
     );
 
-    if (newDateRange == null) return;
+    if(newDateRange == null) return;
 
     setState(() {
       dateRange = newDateRange;
@@ -601,20 +607,20 @@ class VitalsListForDoctorsPatientScreenState
                         child: Icon(
                           Icons.arrow_back,
                           color: Colors.red,
-                          size: SizeConfig.blockSizeHorizontal! * 6.2,
+                          size: SizeConfig.blockSizeHorizontal !* 6.2,
                         ),
                         onTap: () {
                           Navigator.of(context).pop();
                         },
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 6,
+                        width: SizeConfig.blockSizeHorizontal !* 6,
                       ),
                       Text(
                         "Select Vitals to Add",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
                           fontWeight: FontWeight.bold,
                           color: Colors.green,
                           decoration: TextDecoration.none,
@@ -656,8 +662,7 @@ class VitalsListForDoctorsPatientScreenState
                             } else {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
-                                return SelectSugarTypeScreen(
-                                    widget.patientIDP!);
+                                return SelectSugarTypeScreen(widget.patientIDP!);
                               })).then((value) {
                                 getVitalsList();
                               });
@@ -666,7 +671,7 @@ class VitalsListForDoctorsPatientScreenState
                           child: Padding(
                               padding: EdgeInsets.all(0.0),
                               child: Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 90,
+                                  width: SizeConfig.blockSizeHorizontal !* 90,
                                   padding: EdgeInsets.only(
                                     top: 5,
                                     bottom: 5,
@@ -1971,11 +1976,10 @@ class MyEChartState extends State<MyEChart> {
     return listOnlyString.length > 0
             ? Container(
                 width: SizeConfig.screenWidth,
-                height: SizeConfig.blockSizeVertical! * 60,
+                height: SizeConfig.blockSizeVertical !* 60,
                 child: widget.chartTypeID != "5"
                     ? EchartsCustom(
-                        option:
-                            '''
+                        option: '''
                         {
                           tooltip: {
                                 trigger: 'axis',
@@ -2022,8 +2026,7 @@ class MyEChartState extends State<MyEChart> {
                         //,name:'BP'
                       )
                     : EchartsCustom(
-                        option:
-                            '''
+                        option: '''
                   {
                     tooltip: {
                           trigger: 'axis',

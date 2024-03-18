@@ -14,25 +14,33 @@ import 'package:image_picker/image_picker.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:silvertouch/app_screens/add_material_screen.dart';
-import 'package:silvertouch/app_screens/select_patients_for_share_doc.dart';
-import 'package:silvertouch/controllers/certificate_controller.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_health_doc.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/common_methods.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:swasthyasetu/app_screens/add_material_screen.dart';
+import 'package:swasthyasetu/app_screens/play_video_screen.dart';
+import 'package:swasthyasetu/app_screens/select_patients_for_share_doc.dart';
+import 'package:swasthyasetu/app_screens/select_patients_for_share_video.dart';
+import 'package:swasthyasetu/controllers/certificate_controller.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_health_doc.dart';
+import 'package:swasthyasetu/podo/response_login_icons_model.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/common_methods.dart';
+
+import '../utils/color.dart';
+import '../utils/progress_dialog.dart';
+import 'doctor_dashboard_screen.dart';
 
 class MaterialScreen extends StatefulWidget {
+
   final String? patientIDP;
 
   final String sourceScreen;
 
   String patientID = "";
 
-  MaterialScreen({this.patientIDP, required this.sourceScreen});
+  MaterialScreen({
+    this.patientIDP
+    ,required this.sourceScreen});
 
   @override
   State<StatefulWidget> createState() {
@@ -87,7 +95,8 @@ class MaterialScreenState extends State<MaterialScreen> {
       var strData = decodeBase64(data);
       debugPrint("Decoded Data Investigation Masters list : " + strData);
       final jsonData = json.decode(strData);
-      for (var i = 0; i < jsonData.length; i++) {
+      for (var i = 0; i < jsonData.length; i++)
+      {
         healthDocList.add(ModelHealthDoc(
             healthInfoDocumentIDP: jsonData[i]['HealthInfoDocumentIDP'],
             fileName: jsonData[i]['FileName']));
@@ -95,17 +104,20 @@ class MaterialScreenState extends State<MaterialScreen> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                !isLoading && healthDocList.length > 0
-                    ? ListView.builder(
+    return
+      Scaffold(
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  !isLoading && healthDocList.length > 0
+                    ?
+                      ListView.builder(
                         shrinkWrap: true,
                         itemCount: healthDocList.length,
                         physics: NeverScrollableScrollPhysics(),
@@ -119,101 +131,98 @@ class MaterialScreenState extends State<MaterialScreen> {
                                 children: [
                                   Card(
                                       margin: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal! * 1.0,
+                                        SizeConfig.blockSizeHorizontal !* 1.0,
                                       ),
                                       shadowColor: Colors.black,
                                       elevation: 1,
                                       borderOnForeground: true,
                                       child: Padding(
                                         padding: EdgeInsets.all(
-                                          SizeConfig.blockSizeHorizontal! * 3.0,
+                                          SizeConfig.blockSizeHorizontal !* 3.0,
                                         ),
                                         child: Column(
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Flexible(
                                                   child: Text(
-                                                    healthDocList[index]
-                                                        .fileName!,
+                                                    healthDocList[index].fileName!,
                                                     style: TextStyle(
                                                       color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize:
+                                                      SizeConfig.blockSizeHorizontal !*
                                                           3.8,
                                                     ),
                                                   ),
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    pdfButtonClick(context,
+                                                    pdfButtonClick(
+                                                        context,
                                                         healthDocList[index]);
                                                   },
-                                                  customBorder: CircleBorder(),
-                                                  child: Container(
+                                                  customBorder:
+                                                  CircleBorder(),
+                                                  child:
+                                                  Container(
                                                     padding: EdgeInsets.all(
                                                         SizeConfig
-                                                                .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                             2.0),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.blue[800],
-                                                      shape: BoxShape.circle,
+                                                    decoration:
+                                                    BoxDecoration(
+                                                      color: Colors
+                                                          .blue[
+                                                      800],
+                                                      shape: BoxShape
+                                                          .circle,
                                                     ),
                                                     child: FaIcon(
-                                                      FontAwesomeIcons.filePdf,
+                                                      FontAwesomeIcons
+                                                          .filePdf,
                                                       size: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                           5,
-                                                      color: Colors.white,
+                                                      color: Colors
+                                                          .white,
                                                     ),
                                                   ),
                                                 )
                                               ],
                                             ),
                                             SizedBox(
-                                              height: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  1,
+                                              height: SizeConfig.blockSizeVertical !* 1,
                                             ),
                                             Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
+                                                  alignment: Alignment.centerLeft,
                                                   child: InkWell(
                                                     onTap: () {
                                                       onPressedFunction(index);
                                                     },
                                                     customBorder:
-                                                        RoundedRectangleBorder(
+                                                    RoundedRectangleBorder(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                        SizeConfig
-                                                                .blockSizeHorizontal! *
+                                                      BorderRadius.circular(
+                                                        SizeConfig.blockSizeHorizontal !*
                                                             10.0,
                                                       ),
                                                     ),
                                                     child: Container(
                                                       padding: EdgeInsets.all(
-                                                        SizeConfig
-                                                                .blockSizeHorizontal! *
+                                                        SizeConfig.blockSizeHorizontal !*
                                                             2.0,
                                                       ),
                                                       decoration: BoxDecoration(
                                                         borderRadius:
-                                                            BorderRadius
-                                                                .circular(
+                                                        BorderRadius.circular(
                                                           SizeConfig
-                                                                  .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                               10.0,
                                                         ),
                                                         border: Border.all(
@@ -221,35 +230,31 @@ class MaterialScreenState extends State<MaterialScreen> {
                                                             width: 0.8),
                                                       ),
                                                       child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
+                                                        mainAxisSize: MainAxisSize.min,
                                                         children: [
                                                           Image.asset(
                                                             "images/ic_notify_on_app.png",
                                                             width: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                .blockSizeHorizontal !*
                                                                 6.0,
                                                             height: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                .blockSizeHorizontal !*
                                                                 6.0,
-                                                            color: Colors
-                                                                .blueGrey[600],
+                                                            color: Colors.blueGrey[600],
                                                           ),
                                                           SizedBox(
                                                             width: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                .blockSizeHorizontal !*
                                                                 1.0,
                                                           ),
                                                           Text(
                                                             "Notify on App",
-                                                            textAlign:
-                                                                TextAlign.left,
+                                                            textAlign: TextAlign.left,
                                                             style: TextStyle(
-                                                              color: Colors
-                                                                      .blueGrey[
-                                                                  600],
+                                                              color:
+                                                              Colors.blueGrey[600],
                                                               fontSize: SizeConfig
-                                                                      .blockSizeHorizontal! *
+                                                                  .blockSizeHorizontal !*
                                                                   3.0,
                                                             ),
                                                           ),
@@ -258,49 +263,41 @@ class MaterialScreenState extends State<MaterialScreen> {
                                                     ),
                                                   ),
                                                 ),
+
                                                 Align(
-                                                  alignment:
-                                                      Alignment.centerRight,
+                                                  alignment: Alignment.centerRight,
                                                   child: InkWell(
                                                     customBorder:
-                                                        RoundedRectangleBorder(
+                                                    RoundedRectangleBorder(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                        SizeConfig
-                                                                .blockSizeHorizontal! *
+                                                      BorderRadius.circular(
+                                                        SizeConfig.blockSizeHorizontal !*
                                                             10.0,
                                                       ),
                                                     ),
                                                     onTap: () {
                                                       // ${healthDocList[index].fileName}
-                                                      String idp = healthDocList[
-                                                              index]
-                                                          .healthInfoDocumentIDP
-                                                          .toString();
-                                                      String imagePath =
-                                                          '${baseURL}images/educationMaterial/$idp.pdf';
-                                                      if (File('${baseURL}images/educationMaterial/$idp.pdf')
-                                                              .exists() ==
-                                                          true) {
-                                                        // ${baseURL}images/educationMaterial/$idp.pdf
-                                                        share(imagePath);
-                                                      } else {
-                                                        share(imagePath);
-                                                        // downloadAndShareFileActually(idp);
-                                                      }
-                                                    },
+                                                      String idp = healthDocList[index].healthInfoDocumentIDP.toString();
+                                                      String imagePath = '${baseURL}images/educationMaterial/$idp.pdf';
+                                                      if(File('${baseURL}images/educationMaterial/$idp.pdf').exists()==true)
+                                                        {
+                                                          // ${baseURL}images/educationMaterial/$idp.pdf
+                                                          share(imagePath);
+                                                        }
+                                                        else{
+                                                          share(imagePath);
+                                                          // downloadAndShareFileActually(idp);
+                                                        }
+                                                      },
                                                     child: Container(
                                                       padding: EdgeInsets.all(
-                                                        SizeConfig
-                                                                .blockSizeHorizontal! *
+                                                        SizeConfig.blockSizeHorizontal !*
                                                             2.0,
                                                       ),
                                                       decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
+                                                        borderRadius: BorderRadius.circular(
                                                           SizeConfig
-                                                                  .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                               10.0,
                                                         ),
                                                         border: Border.all(
@@ -308,36 +305,33 @@ class MaterialScreenState extends State<MaterialScreen> {
                                                           width: 0.8,
                                                         ),
                                                       ),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
+                                                      child:
+                                                      Row(
+                                                        mainAxisSize: MainAxisSize.min,
                                                         children: [
                                                           Image.asset(
                                                             "images/ic_share_externally.png",
                                                             width: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                .blockSizeHorizontal !*
                                                                 6.0,
                                                             height: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                .blockSizeHorizontal !*
                                                                 5.0,
-                                                            color: Colors
-                                                                .blueGrey[600],
+                                                            color: Colors.blueGrey[600],
                                                           ),
                                                           SizedBox(
                                                             width: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                .blockSizeHorizontal !*
                                                                 1.0,
                                                           ),
                                                           Text(
                                                             "Share Externally",
-                                                            textAlign:
-                                                                TextAlign.left,
+                                                            textAlign: TextAlign.left,
                                                             style: TextStyle(
-                                                              color: Colors
-                                                                      .blueGrey[
-                                                                  600],
+                                                              color:
+                                                              Colors.blueGrey[600],
                                                               fontSize: SizeConfig
-                                                                      .blockSizeHorizontal! *
+                                                                  .blockSizeHorizontal !*
                                                                   3.0,
                                                             ),
                                                           ),
@@ -358,30 +352,29 @@ class MaterialScreenState extends State<MaterialScreen> {
                         },
                       )
                     : Center(
-                        child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 30,
-                          child: LinearProgressIndicator(),
-                        ),
+                  child: Container(
+                    width: SizeConfig.blockSizeHorizontal !* 30,
+                    child: LinearProgressIndicator(),
+                  ),
                       ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 16.0,
-            right: 16.0,
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AddMaterialScreen()));
-                print('FloatingActionButton clicked');
-              },
-              child: Icon(Icons.add),
-              backgroundColor: Colors.black,
+            Positioned(
+              bottom: 16.0,
+              right: 16.0,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddMaterialScreen()));
+                  print('FloatingActionButton clicked');
+                },
+                child: Icon(Icons.add),
+                backgroundColor: Colors.black,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
   }
 
   void onPressedFunction(int index) {
@@ -390,12 +383,16 @@ class MaterialScreenState extends State<MaterialScreen> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                SelectPatientsForShareDocument(healthDocList[index], userName)),
+                SelectPatientsForShareDocument(
+                    healthDocList[
+                    index] ,
+                    userName
+                )),
       );
       print('Button pressed from DoctorDashboardScreen');
     } else if (widget.sourceScreen == 'PatientResourcesFromProfileScreen') {
-      certController
-          .submitHealthDoc(widget.patientIDP, healthDocList[index], context)
+      certController.submitHealthDoc(
+          widget.patientIDP, healthDocList[index], context)
           .then((value) {
         Navigator.of(context).pop();
       });
@@ -525,27 +522,29 @@ class MaterialScreenState extends State<MaterialScreen> {
   }
 
   void pdfButtonClick(
-    BuildContext context,
-    ModelHealthDoc modelHealthDoc,
-  ) {
+      BuildContext context,
+      ModelHealthDoc modelHealthDoc,
+      ) {
     getPdfDownloadPath(
         context, modelHealthDoc.healthInfoDocumentIDP.toString());
   }
 
-  void getPdfDownloadPath(BuildContext context, String idp) async {
+  void getPdfDownloadPath(BuildContext context, String idp) async
+  {
     String fileName = "$idp.pdf";
     String url = "${baseURL}images/educationMaterial/$idp.pdf";
     print('url $url');
-    downloadAndOpenTheFile(url, fileName);
+    downloadAndOpenTheFile(url,fileName);
   }
 
   var taskId;
-  void downloadAndOpenTheFile(String url, String fileName) async {
+  void downloadAndOpenTheFile(String url,String fileName) async
+  {
     var fullPath = '/storage/emulated/0/Download/$fileName';
     debugPrint("full path");
     debugPrint(fullPath);
     Dio dio = Dio();
-    downloadFileAndOpenActually(dio, url, fullPath);
+    downloadFileAndOpenActually(dio,url,fullPath);
   }
 
   Future downloadAndShareFileActually(String idp) async {
@@ -595,7 +594,7 @@ class MaterialScreenState extends State<MaterialScreen> {
       DownloadTaskStatus status = data[1];
       int progress = data[2];
       if (/*status == DownloadTaskStatus.complete*/ status.toString() ==
-              "DownloadTaskStatus(3)" &&
+          "DownloadTaskStatus(3)" &&
           progress == 100) {
         debugPrint("Successfully downloaded");
         pr!.hide();
@@ -610,9 +609,10 @@ class MaterialScreenState extends State<MaterialScreen> {
     IsolateNameServer.removePortNameMapping('downloader_send_port');
   }
 
-  static void downloadCallback(String id, int status, int progress) {
+  static void downloadCallback(
+      String id, int status, int progress) {
     final SendPort? send =
-        IsolateNameServer.lookupPortByName('downloader_send_port');
+    IsolateNameServer.lookupPortByName('downloader_send_port');
     send!.send([id, status, progress]);
   }
 
@@ -623,7 +623,8 @@ class MaterialScreenState extends State<MaterialScreen> {
   }
 
   var _openResult = 'Unknown';
-  Future<void> openFile(filePath) async {
+  Future<void> openFile(filePath) async
+  {
     print('filePath $filePath');
     final result = await OpenFilex.open(filePath);
     setState(() {
@@ -653,7 +654,7 @@ class MaterialScreenState extends State<MaterialScreen> {
     // );
     Share.share(
       '$userName has referred you one health update material,that may be useful to you.\n\n'
-      'Follow this link \n\n$imagePath',
+          'Follow this link \n\n$imagePath',
       subject: '',
     );
   }
@@ -661,4 +662,6 @@ class MaterialScreenState extends State<MaterialScreen> {
   // Future<void> download(String imagePath,ModelHealthDoc healthDocList) async {
   //
   // }
+
+
 }

@@ -2,16 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:silvertouch/app_screens/add_medicine_master.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_masters.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/add_medicine_master.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_masters.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 
 import '../utils/color.dart';
 
@@ -82,18 +78,16 @@ class MastersListScreenState extends State<MastersListScreen> {
       appBar: AppBar(
         title: Text("${widget.masterName} List"),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack),
-        toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
-        )).bodyMedium,
-        titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+        )).bodyMedium, titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
         )).titleLarge,
       ),
       floatingActionButton: Visibility(
@@ -112,7 +106,7 @@ class MastersListScreenState extends State<MastersListScreen> {
         ),
       ),
       body: Container(
-        width: SizeConfig.blockSizeHorizontal! * 100,
+        width: SizeConfig.blockSizeHorizontal !* 100,
         color: Color(0xDDDCDCDC),
         child: Column(
           children: <Widget>[
@@ -131,34 +125,31 @@ class MastersListScreenState extends State<MastersListScreen> {
                             return Card(
                               margin: EdgeInsets.symmetric(
                                   horizontal:
-                                      SizeConfig.blockSizeHorizontal! * 3,
-                                  vertical:
-                                      SizeConfig.blockSizeHorizontal! * 2),
+                                      SizeConfig.blockSizeHorizontal !* 3,
+                                  vertical: SizeConfig.blockSizeHorizontal !* 2),
                               child: Row(
                                 children: <Widget>[
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal:
-                                            SizeConfig.blockSizeHorizontal! * 3,
+                                            SizeConfig.blockSizeHorizontal !* 3,
                                         vertical:
-                                            SizeConfig.blockSizeHorizontal! *
-                                                2),
+                                            SizeConfig.blockSizeHorizontal !* 2),
                                     child: Image(
                                       image: AssetImage('$masterIconPath'),
-                                      width:
-                                          SizeConfig.blockSizeHorizontal! * 7,
+                                      width: SizeConfig.blockSizeHorizontal !* 7,
                                       color: Colors.green,
                                     ),
                                   ),
                                   Expanded(
                                     child: Padding(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3,
-                                            vertical: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                2),
+                                            horizontal:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    3,
+                                            vertical:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    2),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -170,7 +161,7 @@ class MastersListScreenState extends State<MastersListScreen> {
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     4,
                                               ),
                                             ),

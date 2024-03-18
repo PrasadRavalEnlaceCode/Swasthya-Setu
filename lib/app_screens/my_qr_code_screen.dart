@@ -1,14 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 
 import '../utils/color.dart';
 
@@ -38,18 +34,16 @@ class MyQRCodeScreenState extends State<MyQRCodeScreen> {
       appBar: AppBar(
         title: Text("My QR"),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack),
-        toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
-        )).bodyMedium,
-        titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+        )).bodyMedium, titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
         )).titleLarge,
       ),
       body: Column(
@@ -62,8 +56,8 @@ class MyQRCodeScreenState extends State<MyQRCodeScreen> {
               alignment: Alignment.center,
               child: Image.network(
                 widget.imgUrl,
-                width: SizeConfig.blockSizeHorizontal! * 80,
-                height: SizeConfig.blockSizeHorizontal! * 80,
+                width: SizeConfig.blockSizeHorizontal !* 80,
+                height: SizeConfig.blockSizeHorizontal !* 80,
                 fit: BoxFit.cover,
               ),
             ),
@@ -73,7 +67,7 @@ class MyQRCodeScreenState extends State<MyQRCodeScreen> {
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.grey,
-                fontSize: SizeConfig.blockSizeHorizontal! * 3.5),
+                fontSize: SizeConfig.blockSizeHorizontal !* 3.5),
           ),
           /*Visibility(
             visible: widget.imgUrl == "",
@@ -141,7 +135,7 @@ class MyQRCodeScreenState extends State<MyQRCodeScreen> {
       /*var data = jsonResponse['Data'];
       var strData = decodeBase64(data);
       final jsonData = json.decode(strData);*/
-      widget.imgUrl = "${baseImagePath}images/patientQR/$patientIDP.png";
+      widget.imgUrl = "${baseURL}images/patientQR/$patientIDP.png";
       setState(() {});
     } else {
       widget.imgUrl = "";

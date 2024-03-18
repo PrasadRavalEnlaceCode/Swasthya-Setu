@@ -3,24 +3,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:silvertouch/api/api_helper.dart';
-import 'package:silvertouch/app_screens/add_vital_screen.dart';
-import 'package:silvertouch/app_screens/edit_my_profile_medical_patient.dart';
-import 'package:silvertouch/app_screens/pdf_previewer.dart';
-import 'package:silvertouch/app_screens/water_intake_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/dropdown_item.dart';
-import 'package:silvertouch/podo/model_graph_values.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
-import 'package:silvertouch/podo/model_vitals_list.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/common_methods.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
+import 'package:swasthyasetu/app_screens/edit_my_profile_medical_patient.dart';
+import 'package:swasthyasetu/app_screens/pdf_previewer.dart';
+//import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_profile_patient.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 
 import '../utils/color.dart';
 import 'edit_my_profile_patient.dart';
@@ -157,43 +148,39 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                     },
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal! * 3.0,
-                          right: SizeConfig.blockSizeHorizontal! * 3.0),
+                          left: SizeConfig.blockSizeHorizontal !* 3.0,
+                          right: SizeConfig.blockSizeHorizontal !* 3.0),
                       child: Image(
                         image: AssetImage("images/ic_pdf.png"),
                         color: Colors.black,
-                        width: SizeConfig.blockSizeHorizontal! * 5.3,
-                        height: SizeConfig.blockSizeHorizontal! * 5.3,
+                        width: SizeConfig.blockSizeHorizontal !* 5.3,
+                        height: SizeConfig.blockSizeHorizontal !* 5.3,
                       ),
                     ))
               ],
               backgroundColor: Color(0xFFFFFFFF),
               iconTheme: IconThemeData(
-                  color: Colorsblack,
-                  size: SizeConfig.blockSizeVertical! * 2.2),
-              toolbarTextStyle: TextTheme(
-                      titleMedium: TextStyle(
-                          color: Colorsblack,
-                          fontFamily: "Ubuntu",
-                          fontSize: SizeConfig.blockSizeVertical! * 2.5))
-                  .bodyMedium,
-              titleTextStyle: TextTheme(
-                      titleMedium: TextStyle(
-                          color: Colorsblack,
-                          fontFamily: "Ubuntu",
-                          fontSize: SizeConfig.blockSizeVertical! * 2.5))
-                  .titleLarge,
+                  color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
+                  titleMedium: TextStyle(
+                      color: Colorsblack,
+                      fontFamily: "Ubuntu",
+                      fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+                  titleMedium: TextStyle(
+                      color: Colorsblack,
+                      fontFamily: "Ubuntu",
+                      fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
             ),
-            body: Column(
+            body:
+            Column(
               children: <Widget>[
                 Container(
-                    height: SizeConfig.blockSizeVertical! * 10,
-                    width: SizeConfig.blockSizeHorizontal! * 100,
+                    height: SizeConfig.blockSizeVertical !* 10,
+                    width: SizeConfig.blockSizeHorizontal !* 100,
                     color: Color(0xFFF0F0F0),
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal! * 2,
-                          right: SizeConfig.blockSizeHorizontal! * 2),
+                          left: SizeConfig.blockSizeHorizontal !* 2,
+                          right: SizeConfig.blockSizeHorizontal !* 2),
                       child: Center(
                         child: ListView.separated(
                           itemCount: listCategories.length,
@@ -212,7 +199,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                               },
                               child: Chip(
                                 padding: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal! * 3),
+                                    SizeConfig.blockSizeHorizontal !* 3),
                                 label: Text(
                                   listCategories[index]["categoryName"]!.trim(),
                                   style: TextStyle(
@@ -236,7 +223,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                           },
                           separatorBuilder: (BuildContext context, int index) {
                             return SizedBox(
-                              width: SizeConfig.blockSizeHorizontal! * 5,
+                              width: SizeConfig.blockSizeHorizontal !* 5,
                             );
                           },
                         ),
@@ -244,7 +231,8 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                     )),
                 Expanded(
                   child: selectedCategoryIDP == "0"
-                      ? ListView(
+                      ?
+                  ListView(
                           children: [
                             SizedBox(
                               height: 20,
@@ -256,7 +244,8 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                   onTap: () {
                                     //showImageTypeSelectionDialog(context);
                                   },
-                                  child: (imgUrl != "" && imgUrl != "null")
+                                  child: (imgUrl != "" &&
+                                          imgUrl != "null")
                                       ? CircleAvatar(
                                           radius: 60.0,
                                           backgroundImage: NetworkImage(
@@ -286,8 +275,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -298,7 +286,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -324,8 +312,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -336,7 +323,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -362,8 +349,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -374,7 +360,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -400,8 +386,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -414,7 +399,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -440,8 +425,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -452,7 +436,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -478,8 +462,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -490,7 +473,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -516,8 +499,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -528,7 +510,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -554,8 +536,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -566,7 +547,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -592,8 +573,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -604,7 +584,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -630,8 +610,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -642,7 +621,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -705,8 +684,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -717,7 +695,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -743,8 +721,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -755,7 +732,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -781,8 +758,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -793,7 +769,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -819,8 +795,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -831,7 +806,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -857,8 +832,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -869,7 +843,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -895,8 +869,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -907,7 +880,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -933,8 +906,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -945,7 +917,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -960,19 +932,20 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                             ),
                           ],
                         )
-                      : ListView(
+                      :
+                  ListView(
                           children: [
                             SizedBox(
                               height: 20,
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal! * 3),
+                                  left: SizeConfig.blockSizeHorizontal !* 3),
                               child: Text(
                                 "Medical History",
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: SizeConfig.blockSizeVertical! * 2.6,
+                                  fontSize: SizeConfig.blockSizeVertical !* 2.6,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -993,8 +966,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -1005,12 +977,11 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                         ? "Since ${jsonObj['DiabetesYear']} Years and ${jsonObj['DiabetesMonth']} Months"
                                         : ""*/
                                     jsonObj['DiabetesVal'] != null
-                                        ? jsonObj['DiabetesVal']
-                                        : "",
+                                        ? jsonObj['DiabetesVal'] : "",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -1036,8 +1007,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -1048,12 +1018,11 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                         ? "Since ${jsonObj['HypertensionYear']} Years and ${jsonObj['HypertensionMonth']} Months"
                                         : ""*/
                                     jsonObj['HypertensionVal'] != null
-                                        ? jsonObj['HypertensionVal']
-                                        : "",
+                                        ? jsonObj['HypertensionVal'] : "",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -1079,8 +1048,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -1091,12 +1059,11 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                         ? "Since ${jsonObj['HeartDiseaseYear']} Years and ${jsonObj['HeartDiseaseMonth']} Months"
                                         : ""*/
                                     jsonObj['HeartDiseaseVal'] != null
-                                        ? jsonObj['HeartDiseaseVal']
-                                        : "",
+                                  ? jsonObj['HeartDiseaseVal'] : "",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -1122,8 +1089,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.2),
+                                            SizeConfig.blockSizeVertical !* 2.2),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -1134,12 +1100,11 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                         ? "Since ${jsonObj['ThyroidYear']} Years and ${jsonObj['ThyroidMonth']} Months"
                                         : ""*/
                                     jsonObj['ThyroidVal'] != null
-                                        ? jsonObj['ThyroidVal']
-                                        : "",
+                                        ? jsonObj['ThyroidVal'] : "",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -1154,12 +1119,12 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal! * 3),
+                                  left: SizeConfig.blockSizeHorizontal !* 3),
                               child: Text(
                                 "Surgical History",
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: SizeConfig.blockSizeVertical! * 2.6,
+                                  fontSize: SizeConfig.blockSizeVertical !* 2.6,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -1193,7 +1158,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.grey,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -1208,12 +1173,12 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal! * 3),
+                                  left: SizeConfig.blockSizeHorizontal !* 3),
                               child: Text(
                                 "Drug Allergy",
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: SizeConfig.blockSizeVertical! * 2.6,
+                                  fontSize: SizeConfig.blockSizeVertical !* 2.6,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -1247,7 +1212,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.grey,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.2,
+                                          SizeConfig.blockSizeVertical !* 2.2,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -1262,12 +1227,12 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal! * 3),
+                                  left: SizeConfig.blockSizeHorizontal !* 3),
                               child: Text(
                                 "Blood Group",
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: SizeConfig.blockSizeVertical! * 2.6,
+                                  fontSize: SizeConfig.blockSizeVertical !* 2.6,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -1301,7 +1266,7 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                                     style: TextStyle(
                                       color: Colors.blueGrey,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.4,
+                                          SizeConfig.blockSizeVertical !* 2.4,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -1318,7 +1283,8 @@ class ViewProfileDetailsState extends State<ViewProfileDetails> {
                         ),
                 )
               ],
-            )));
+            ))
+    );
   }
 
   String encodeBase64(String text) {

@@ -3,9 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:silvertouch/controllers/reminder_list_controller.dart';
-import 'package:silvertouch/database/tb_notifications.dart';
-
+import 'package:swasthyasetu/controllers/reminder_list_controller.dart';
+import 'package:swasthyasetu/database/tb_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationManager {
@@ -13,7 +12,7 @@ class NotificationManager {
   ReminderListController reminderListController = Get.find();
 
   final StreamController<String> selectNotificationStream =
-      StreamController<String>.broadcast();
+  StreamController<String>.broadcast();
 
   NotificationManager() {
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();

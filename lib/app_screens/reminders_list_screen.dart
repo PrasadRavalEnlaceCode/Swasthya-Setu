@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:silvertouch/app_screens/add_reminder_screen.dart';
-import 'package:silvertouch/controllers/reminder_list_controller.dart';
-import 'package:silvertouch/database/tb_reminder.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-
-import 'package:silvertouch/global/utils.dart' as utils;
+import 'package:swasthyasetu/app_screens/add_reminder_screen.dart';
+import 'package:swasthyasetu/controllers/reminder_list_controller.dart';
+import 'package:swasthyasetu/database/tb_reminder.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart' as utils;
 
 class RemindersListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ReminderListController reminderListController =
-        Get.put(ReminderListController());
+    ReminderListController reminderListController = Get.put(ReminderListController());
 
     TbReminderTable reminderOther = TbReminderTable(
       reminderID: 0,
@@ -61,15 +54,15 @@ class RemindersListScreen extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
-                    vertical: SizeConfig.blockSizeHorizontal! * 3.0,
+                    horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+                    vertical: SizeConfig.blockSizeHorizontal !* 3.0,
                   ),
                   child: Text(
                     "Active Reminders",
                     style: TextStyle(
                       color: Colors.red[300],
                       fontWeight: FontWeight.w500,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
                       letterSpacing: 1.5,
                     ),
                   ),
@@ -100,11 +93,10 @@ class RemindersListScreen extends StatelessWidget {
                                   Icon(
                                     Icons.alarm,
                                     color: Colors.blue,
-                                    size: SizeConfig.blockSizeHorizontal! * 8.0,
+                                    size: SizeConfig.blockSizeHorizontal !* 8.0,
                                   ),
                                   SizedBox(
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 4.0,
+                                    width: SizeConfig.blockSizeHorizontal !* 4.0,
                                   ),
                                   Expanded(
                                     child: Column(
@@ -116,16 +108,16 @@ class RemindersListScreen extends StatelessWidget {
                                         SizedBox(
                                           height: reminder!.desc != "null"
                                               ? 0
-                                              : SizeConfig.blockSizeVertical! *
+                                              : SizeConfig.blockSizeVertical !*
                                                   1.5,
                                         ),
                                         Text(
                                           reminder.category,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.5,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    4.5,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500,
                                             letterSpacing: 1.5,
@@ -133,9 +125,9 @@ class RemindersListScreen extends StatelessWidget {
                                         ),
                                         SizedBox(
                                           height: reminder.desc != "null"
-                                              ? SizeConfig.blockSizeVertical! *
+                                              ? SizeConfig.blockSizeVertical !*
                                                   0.5
-                                              : SizeConfig.blockSizeVertical! *
+                                              : SizeConfig.blockSizeVertical !*
                                                   1.5,
                                         ),
                                         reminder.desc != "null"
@@ -150,9 +142,8 @@ class RemindersListScreen extends StatelessWidget {
                                               )
                                             : Container(),
                                         SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeVertical! *
-                                                  1.0,
+                                          height: SizeConfig.blockSizeVertical !*
+                                              1.0,
                                         ),
                                         Text(
                                           textForReminder(reminder),
@@ -177,9 +168,9 @@ class RemindersListScreen extends StatelessWidget {
                                           icon: Icon(
                                             Icons.delete,
                                             color: Colors.red,
-                                            size: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                6.0,
+                                            size:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    6.0,
                                           ),
                                           color: Colors.red,
                                         )
@@ -210,30 +201,30 @@ class RemindersListScreen extends StatelessWidget {
                       )
                     : Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.blockSizeHorizontal! * 5.0,
+                          horizontal: SizeConfig.blockSizeHorizontal !* 5.0,
                         ),
                         child: Text(
                           "No Active Reminders",
                           style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                            fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                             color: Colors.grey,
                           ),
                         ),
                       ),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical! * 2.0,
+                  height: SizeConfig.blockSizeVertical !* 2.0,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
-                    vertical: SizeConfig.blockSizeHorizontal! * 3.0,
+                    horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+                    vertical: SizeConfig.blockSizeHorizontal !* 3.0,
                   ),
                   child: Text(
                     "Inactive Reminders",
                     style: TextStyle(
                       color: Colors.red[300],
                       fontWeight: FontWeight.w500,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
                       letterSpacing: 1.5,
                     ),
                   ),
@@ -263,10 +254,10 @@ class RemindersListScreen extends StatelessWidget {
                             Icon(
                               Icons.alarm,
                               color: Colors.blue,
-                              size: SizeConfig.blockSizeHorizontal! * 8.0,
+                              size: SizeConfig.blockSizeHorizontal !* 8.0,
                             ),
                             SizedBox(
-                              width: SizeConfig.blockSizeHorizontal! * 4.0,
+                              width: SizeConfig.blockSizeHorizontal !* 4.0,
                             ),
                             Expanded(
                               child: Column(
@@ -276,14 +267,14 @@ class RemindersListScreen extends StatelessWidget {
                                   SizedBox(
                                     height: reminder!.desc != "null"
                                         ? 0
-                                        : SizeConfig.blockSizeVertical! * 1.5,
+                                        : SizeConfig.blockSizeVertical !* 1.5,
                                   ),
                                   Text(
                                     reminder.category,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize:
-                                          SizeConfig.blockSizeHorizontal! * 4.5,
+                                          SizeConfig.blockSizeHorizontal !* 4.5,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: 1.5,
@@ -291,8 +282,8 @@ class RemindersListScreen extends StatelessWidget {
                                   ),
                                   SizedBox(
                                     height: reminder.desc != "null"
-                                        ? SizeConfig.blockSizeVertical! * 0.5
-                                        : SizeConfig.blockSizeVertical! * 1.5,
+                                        ? SizeConfig.blockSizeVertical !* 0.5
+                                        : SizeConfig.blockSizeVertical !* 1.5,
                                   ),
                                   /*Padding(
                         padding: EdgeInsets.only(
@@ -326,7 +317,7 @@ class RemindersListScreen extends StatelessWidget {
                                       Icons.delete,
                                       color: Colors.red,
                                       size:
-                                          SizeConfig.blockSizeHorizontal! * 6.0,
+                                          SizeConfig.blockSizeHorizontal !* 6.0,
                                     ),
                                     color: Colors.red,
                                   )
@@ -366,10 +357,10 @@ class RemindersListScreen extends StatelessWidget {
                         Icon(
                           Icons.alarm,
                           color: Colors.blue,
-                          size: SizeConfig.blockSizeHorizontal! * 8.0,
+                          size: SizeConfig.blockSizeHorizontal !* 8.0,
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal! * 4.0,
+                          width: SizeConfig.blockSizeHorizontal !* 4.0,
                         ),
                         Expanded(
                           child: Column(
@@ -379,22 +370,22 @@ class RemindersListScreen extends StatelessWidget {
                               SizedBox(
                                 height: reminderOther.desc != "null"
                                     ? 0
-                                    : SizeConfig.blockSizeVertical! * 1.5,
+                                    : SizeConfig.blockSizeVertical !* 1.5,
                               ),
                               Text(
                                 reminderOther.category,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal! * 4.5,
+                                      SizeConfig.blockSizeHorizontal !* 4.5,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               SizedBox(
                                 height: reminderOther.desc != "null"
-                                    ? SizeConfig.blockSizeVertical! * 0.5
-                                    : SizeConfig.blockSizeVertical! * 1.5,
+                                    ? SizeConfig.blockSizeVertical !* 0.5
+                                    : SizeConfig.blockSizeVertical !* 1.5,
                               ),
                               reminderOther.desc != "null"
                                   ? Text(

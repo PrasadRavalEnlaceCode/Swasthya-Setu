@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:silvertouch/app_screens/login_screen.dart';
-import 'package:silvertouch/app_screens/login_screen_doctor.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/string_resource.dart';
+import 'package:swasthyasetu/app_screens/login_screen.dart';
+import 'package:swasthyasetu/app_screens/login_screen_doctor.dart';
+import 'package:swasthyasetu/app_screens/login_screen_doctor_.dart';
+import 'package:swasthyasetu/utils/color.dart';
+import 'package:swasthyasetu/utils/string_resource.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class _LandingScreenState extends State<LandingScreen> {
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("images/s-v-2-backg.png.png"),
+                image: AssetImage("images/v-2-backg.png"),
                 fit: BoxFit.fill,
               ),
             ),

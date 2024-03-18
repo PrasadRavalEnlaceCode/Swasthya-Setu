@@ -10,13 +10,10 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/multipart_request_with_progress.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog_with_percentage.dart';
@@ -66,7 +63,7 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
 
     final now = new DateTime.now();
     var dateOfTime =
-        DateTime(now.year, now.month, now.day, now.hour, now.minute);
+    DateTime(now.year, now.month, now.day, now.hour, now.minute);
 
     pickedTime = TimeOfDay.now();
 
@@ -83,18 +80,13 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
         appBar: AppBar(
           title: Text(
             "Add in My Space",
-            style: TextStyle(fontSize: SizeConfig.blockSizeVertical! * 2.5),
+            style: TextStyle(fontSize: SizeConfig.blockSizeVertical !* 2.5),
           ),
           backgroundColor: Color(0xFFFFFFFF),
           iconTheme: IconThemeData(color: Colorsblack),
           toolbarTextStyle: TextTheme(
-                  titleMedium:
-                      TextStyle(color: Colorsblack, fontFamily: "Ubuntu"))
-              .bodyMedium,
-          titleTextStyle: TextTheme(
-                  titleMedium:
-                      TextStyle(color: Colorsblack, fontFamily: "Ubuntu"))
-              .titleLarge,
+              titleMedium: TextStyle(color: Colorsblack, fontFamily: "Ubuntu")).bodyMedium, titleTextStyle: TextTheme(
+            titleMedium: TextStyle(color: Colorsblack, fontFamily: "Ubuntu")).titleLarge,
         ),
         body: Builder(
           builder: (context) {
@@ -102,21 +94,21 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
               children: <Widget>[
                 (selectedFile != null)
                     ? SizedBox(
-                        height: 20,
-                      )
+                  height: 20,
+                )
                     : Container(),
                 Expanded(
                     child: ListView(
-                  children: <Widget>[
-                    Column(
                       children: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            //showDocumentTypeSelectionDialog(context);
-                            showDocumentTypeSelectionDialog(context);
-                          },
-                          child: (selectedFile != null)
-                              ? /*Container(
+                        Column(
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                //showDocumentTypeSelectionDialog(context);
+                                showDocumentTypeSelectionDialog(context);
+                              },
+                              child: (selectedFile != null)
+                                  ? /*Container(
                             height: 200,
                             decoration: BoxDecoration(
                                 color: Colors.green,
@@ -129,84 +121,84 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                                   height: SizeConfig.blockSizeHorizontal * 25,
                                 )*/
                               Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Stack(
-                                      /*mainAxisAlignment: MainAxisAlignment.center,*/
-                                      children: <Widget>[
-                                        Container(
-                                          child: selectedFileType == "image"
-                                              ? Image(
-                                                  fit: BoxFit.fill,
-                                                  image:
-                                                      FileImage(selectedFile!),
-                                                  height: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      25,
-                                                )
-                                              : Image(
-                                                  fit: BoxFit.fill,
-                                                  image: AssetImage(
-                                                      "images/ic_doc.png"),
-                                                  height: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      18,
-                                                ),
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Stack(
+                                    /*mainAxisAlignment: MainAxisAlignment.center,*/
+                                    children: <Widget>[
+                                      Container(
+                                        child: selectedFileType == "image"
+                                            ? Image(
+                                          fit: BoxFit.fill,
+                                          image:
+                                          FileImage(selectedFile!),
+                                          height: SizeConfig
+                                              .blockSizeVertical !*
+                                              25,
+                                        )
+                                            : Image(
+                                          fit: BoxFit.fill,
+                                          image: AssetImage(
+                                              "images/ic_doc.png"),
+                                          height: SizeConfig
+                                              .blockSizeVertical !*
+                                              18,
                                         ),
-                                        Positioned(
-                                          right: 0,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              showDocumentTypeSelectionDialog(
-                                                  context);
-                                              //showDocumentTypeSelectionDialog(context);
-                                            },
-                                            child: Opacity(
-                                              opacity: 0.6,
-                                              child: CircleAvatar(
-                                                radius: SizeConfig
-                                                        .blockSizeHorizontal! *
-                                                    5,
-                                                child: Image(
-                                                  width: SizeConfig
-                                                          .blockSizeHorizontal! *
-                                                      4,
-                                                  height: SizeConfig
-                                                          .blockSizeHorizontal! *
-                                                      4,
-                                                  color: Colors.white,
-                                                  //height: 80,
-                                                  image: AssetImage(
-                                                      "images/ic_edit_black.png"),
-                                                ),
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            showDocumentTypeSelectionDialog(
+                                                context);
+                                            //showDocumentTypeSelectionDialog(context);
+                                          },
+                                          child: Opacity(
+                                            opacity: 0.6,
+                                            child: CircleAvatar(
+                                              radius: SizeConfig
+                                                  .blockSizeHorizontal !*
+                                                  5,
+                                              child: Image(
+                                                width: SizeConfig
+                                                    .blockSizeHorizontal !*
+                                                    4,
+                                                height: SizeConfig
+                                                    .blockSizeHorizontal !*
+                                                    4,
+                                                color: Colors.white,
+                                                //height: 80,
+                                                image: AssetImage(
+                                                    "images/ic_edit_black.png"),
                                               ),
                                             ),
                                           ),
-                                        )
-                                      ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height:
+                                    SizeConfig.blockSizeVertical !* 1.3,
+                                  ),
+                                  Text(
+                                    selectedFile!.path.split("/")[
+                                    selectedFile!.path.split("/").length -
+                                        1],
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
                                     ),
-                                    SizedBox(
-                                      height:
-                                          SizeConfig.blockSizeVertical! * 1.3,
-                                    ),
-                                    Text(
-                                      selectedFile!.path.split("/")[
-                                          selectedFile!.path.split("/").length -
-                                              1],
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : Container(
-                                  /*width:
+                                  ),
+                                ],
+                              )
+                                  : Container(
+                                /*width:
                                           SizeConfig.blockSizeHorizontal * 30,
                                       height:
                                           SizeConfig.blockSizeHorizontal * 30,*/
-                                  /*decoration: BoxDecoration(
+                                /*decoration: BoxDecoration(
                                         image: DecorationImage(
                                           colorFilter: ColorFilter.mode(
                                               Colors.grey, BlendMode.srcIn),
@@ -219,41 +211,40 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                                   color: Colors.blueGrey,
                                   child: Padding(
                                     padding: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal! * 5.0),
+                                        SizeConfig.blockSizeHorizontal !* 5.0),
                                     child: Column(children: [
                                       Image(
                                         image: AssetImage(
                                             "images/ic_file_upload.png"),
-                                        width: SizeConfig.blockSizeHorizontal! *
-                                            12,
+                                        width:
+                                        SizeConfig.blockSizeHorizontal !* 12,
                                         height:
-                                            SizeConfig.blockSizeHorizontal! *
-                                                12,
+                                        SizeConfig.blockSizeHorizontal !* 12,
                                         color: Colors.white,
                                       ),
                                       SizedBox(
                                         height:
-                                            SizeConfig.blockSizeVertical! * 2.0,
+                                        SizeConfig.blockSizeVertical !* 2.0,
                                       ),
                                       Text(
                                         "Click to upload document",
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
+                                            fontSize:
+                                            SizeConfig.blockSizeHorizontal !*
                                                 3.8),
                                       ),
                                     ]),
                                   )
-                                  /*BackdropFilter(
+                                /*BackdropFilter(
                                         filter: ImageFilter.blur(
                                             sigmaX: 3.0, sigmaY: 3.0),
                                         child: Container(
                                           color: Colors.black.withOpacity(0.3),
                                         ),
                                       ),*/
-                                  ),
-                          /*Align(
+                              ),
+                              /*Align(
                                       alignment: Alignment.center,
                                       child: Icon(
                                         Icons.add,
@@ -262,7 +253,7 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                                             SizeConfig.blockSizeHorizontal * 15,
                                       ),
                                     ),*/
-                          /*Container(
+                              /*Container(
                                   width: SizeConfig.blockSizeHorizontal * 20,
                                   height: SizeConfig.blockSizeHorizontal * 20,
                                   decoration: BoxDecoration(
@@ -280,43 +271,43 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                                     ),
                                   ),
                                 ),*/
-                          /*CircleAvatar(
+                              /*CircleAvatar(
                                   radius: 60.0,
                                   backgroundColor: Colors.grey,
                                   backgroundImage: AssetImage(
                                       "images/ic_report_placeholder.png") */ /*),*/ /*
                                   ),*/
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: SizeConfig.blockSizeHorizontal! * 90,
-                        padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
-                        child: TextField(
-                          controller: tagNameController,
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
-                            labelStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
-                            labelText: "Document Name",
-                            hintText: "",
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: SizeConfig.blockSizeHorizontal !* 90,
+                            padding:
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+                            child: TextField(
+                              controller: tagNameController,
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                labelStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                labelText: "Document Name",
+                                hintText: "",
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    /*Align(
+                        /*Align(
                       alignment: Alignment.center,
                       child: MaterialButton(
                         onPressed: () {
@@ -382,8 +373,8 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                         ),
                       ),
                     ),*/
-                  ],
-                )),
+                      ],
+                    )),
                 /*Container(
                   height: 80.0,
                   padding: EdgeInsets.only(
@@ -393,8 +384,8 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    width: SizeConfig.blockSizeHorizontal! * 12,
-                    height: SizeConfig.blockSizeHorizontal! * 12,
+                    width: SizeConfig.blockSizeHorizontal !* 12,
+                    height: SizeConfig.blockSizeHorizontal !* 12,
                     child: RawMaterialButton(
                       onPressed: () {
                         submitPatientReport(context, selectedFile);
@@ -402,11 +393,11 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                       elevation: 2.0,
                       fillColor: Color(0xFF06A759),
                       child: Image(
-                        width: SizeConfig.blockSizeHorizontal! * 5.5,
-                        height: SizeConfig.blockSizeHorizontal! * 5.5,
+                        width: SizeConfig.blockSizeHorizontal !* 5.5,
+                        height: SizeConfig.blockSizeHorizontal !* 5.5,
                         //height: 80,
                         image:
-                            AssetImage("images/ic_right_arrow_triangular.png"),
+                        AssetImage("images/ic_right_arrow_triangular.png"),
                       ),
                       shape: CircleBorder(),
                     ),
@@ -426,7 +417,7 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
       /*ViewProfileDetailsState.image =
         await ImagePicker.pickImage(source: ImageSource.camera);*/
       File imgSelected =
-          await chooseImageWithExIfRotate(picker, ImageSource.camera);
+      await chooseImageWithExIfRotate(picker, ImageSource.camera);
       if (imgSelected != null) {
         CroppedFile? croppedImage = await ImageCropper().cropImage(
           sourcePath: imgSelected.path,
@@ -476,38 +467,38 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
       /*ViewProfileDetailsState.image =
         await ImagePicker.pickImage(source: ImageSource.gallery);*/
       File imgSelected =
-          await chooseImageWithExIfRotate(picker, ImageSource.gallery);
-      if (imgSelected != null) {
-        CroppedFile? croppedImage = await ImageCropper().cropImage(
-          sourcePath: imgSelected.path,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-            CropAspectRatioPreset.ratio3x2,
-            CropAspectRatioPreset.original,
-            CropAspectRatioPreset.ratio4x3,
-            CropAspectRatioPreset.ratio16x9
-          ],
-          uiSettings: [
-            AndroidUiSettings(
-                toolbarTitle: 'Cropper',
-                toolbarColor: Colors.deepOrange,
-                toolbarWidgetColor: Colors.white,
-                initAspectRatio: CropAspectRatioPreset.original,
-                lockAspectRatio: false),
-            IOSUiSettings(
-              title: 'Cropper',
-            ),
-            WebUiSettings(
-              context: context,
-            ),
-          ],
-        );
-        final path = croppedImage!.path;
-        selectedFile = File(path);
-        selectedFileType = "image";
-        Navigator.of(context).pop();
-        setState(() {});
-      }
+      await chooseImageWithExIfRotate(picker, ImageSource.gallery);
+        if (imgSelected != null) {
+          CroppedFile? croppedImage = await ImageCropper().cropImage(
+            sourcePath: imgSelected.path,
+            aspectRatioPresets: [
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio3x2,
+              CropAspectRatioPreset.original,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio16x9
+            ],
+            uiSettings: [
+              AndroidUiSettings(
+                  toolbarTitle: 'Cropper',
+                  toolbarColor: Colors.deepOrange,
+                  toolbarWidgetColor: Colors.white,
+                  initAspectRatio: CropAspectRatioPreset.original,
+                  lockAspectRatio: false),
+              IOSUiSettings(
+                title: 'Cropper',
+              ),
+              WebUiSettings(
+                context: context,
+              ),
+            ],
+          );
+          final path = croppedImage!.path;
+          selectedFile = File(path);
+          selectedFileType = "image";
+          Navigator.of(context).pop();
+          setState(() {});
+        }
       //if (image != null) submitImageForUpdate(context, image);
       //_controller.add(image);
     }
@@ -516,13 +507,13 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
       children: <Widget>[
         //...bottom card part,
         Container(
-          width: SizeConfig.blockSizeHorizontal! * 90,
-          height: SizeConfig.blockSizeVertical! * 45,
+          width: SizeConfig.blockSizeHorizontal !* 90,
+          height: SizeConfig.blockSizeVertical !* 45,
           padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeHorizontal! * 1,
-            bottom: SizeConfig.blockSizeHorizontal! * 1,
-            left: SizeConfig.blockSizeHorizontal! * 1,
-            right: SizeConfig.blockSizeHorizontal! * 1,
+            top: SizeConfig.blockSizeHorizontal !* 1,
+            bottom: SizeConfig.blockSizeHorizontal !* 1,
+            left: SizeConfig.blockSizeHorizontal !* 1,
+            right: SizeConfig.blockSizeHorizontal !* 1,
           ),
           decoration: new BoxDecoration(
             color: Colors.white,
@@ -536,33 +527,33 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal! * 3.0,
+                    width: SizeConfig.blockSizeHorizontal !* 3.0,
                   ),
                   InkWell(
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.red[800],
-                      size: SizeConfig.blockSizeVertical! * 3.2,
+                      size: SizeConfig.blockSizeVertical !* 3.2,
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal! * 5.0,
+                    width: SizeConfig.blockSizeHorizontal !* 5.0,
                   ),
                   Text(
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4.2,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.2,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 1.5,
+                height: SizeConfig.blockSizeVertical !* 1.5,
               ),
               /*MaterialButton(
               onPressed: () {},
@@ -587,7 +578,7 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
             ),*/
               Container(
                 margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal! * 10,
+                  left: SizeConfig.blockSizeHorizontal !* 10,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -604,19 +595,19 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                     children: [
                       Image(
                         fit: BoxFit.contain,
-                        width: SizeConfig.blockSizeHorizontal! * 8,
-                        height: SizeConfig.blockSizeVertical! * 8,
+                        width: SizeConfig.blockSizeHorizontal !* 8,
+                        height: SizeConfig.blockSizeVertical !* 8,
                         //height: 80,
                         image: AssetImage("images/ic_camera.png"),
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 3.0,
+                        width: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       Text(
                         "Camera",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         ),
                       )
                     ],
@@ -625,7 +616,7 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal! * 10,
+                  left: SizeConfig.blockSizeHorizontal !* 10,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -642,19 +633,19 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                     children: [
                       Image(
                         fit: BoxFit.contain,
-                        width: SizeConfig.blockSizeHorizontal! * 8,
-                        height: SizeConfig.blockSizeVertical! * 8,
+                        width: SizeConfig.blockSizeHorizontal !* 8,
+                        height: SizeConfig.blockSizeVertical !* 8,
                         //height: 80,
                         image: AssetImage("images/ic_gallery.png"),
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 3.0,
+                        width: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       Text(
                         "Gallery",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         ),
                       )
                     ],
@@ -663,11 +654,11 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal! * 10,
+                  left: SizeConfig.blockSizeHorizontal !* 10,
                 ),
                 padding: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical! * 1.3,
-                  bottom: SizeConfig.blockSizeVertical! * 1.3,
+                  top: SizeConfig.blockSizeVertical !* 1.3,
+                  bottom: SizeConfig.blockSizeVertical !* 1.3,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -685,19 +676,19 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                     children: [
                       Image(
                         fit: BoxFit.contain,
-                        width: SizeConfig.blockSizeHorizontal! * 8,
-                        height: SizeConfig.blockSizeVertical! * 5,
+                        width: SizeConfig.blockSizeHorizontal !* 8,
+                        height: SizeConfig.blockSizeVertical !* 5,
                         //height: 80,
                         image: AssetImage("images/ic_doc.png"),
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 3.0,
+                        width: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       Text(
                         "Document Files",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         ),
                       )
                     ],
@@ -705,11 +696,11 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 1.5,
+                height: SizeConfig.blockSizeVertical !* 1.5,
               ),
               Container(
                 margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal! * 10,
+                  left: SizeConfig.blockSizeHorizontal !* 10,
                 ),
                 child: InkWell(
                   onTap: () {
@@ -720,16 +711,16 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                       Icon(
                         Icons.close,
                         color: Colors.red,
-                        size: SizeConfig.blockSizeHorizontal! * 8,
+                        size: SizeConfig.blockSizeHorizontal !* 8,
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 3.0,
+                        width: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       Text(
                         "No Document",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         ),
                       )
                     ],
@@ -737,7 +728,7 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 1.0,
+                height: SizeConfig.blockSizeVertical !* 1.0,
               ),
               /*Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -942,19 +933,19 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) => Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              elevation: 0.0,
-              backgroundColor: Colors.transparent,
-              child: dialogContent(context, "Select Document Type"),
-            )
-        /* builder: (BuildContext context) =>
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+          child: dialogContent(context, "Select Document Type"),
+        )
+      /* builder: (BuildContext context) =>
           CustomDialogSelectImage(
             title: "Select Image from",
             callback: this.callback,
           ),*/
-        );
+    );
   }
 
   void showDateSelectionDialog() async {
@@ -986,11 +977,13 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
     TimeOfDay? time = await showTimePicker(
         context: context,
         initialTime: pickedTime,
+
+
         builder: (BuildContext? context, Widget? child) {
           return MediaQuery(
               child: child!,
-              data: MediaQuery.of(context!)
-                  .copyWith(alwaysUse24HourFormat: true));
+              data:
+              MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: true));
         });
 
     if (time != null) {
@@ -1089,14 +1082,10 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
         "}";
 
     debugPrint("Jsonstr - $jsonStr");
-    debugPrint(image.path);
 
     String encodedJSONStr = encodeBase64(jsonStr);
-
     multipartRequest.fields['getjson'] = encodedJSONStr;
-
     Map<String, String> headers = Map();
-
     headers['u'] = patientUniqueKey;
     headers['type'] = userType;
     multipartRequest.headers.addAll(headers);
@@ -1105,7 +1094,6 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
       multipartRequest.files.add(new http.MultipartFile(
           'DocumentImage', image.openRead(), imgLength,
           filename: image.path));
-      debugPrint('DoctorDocument_${image.path}');
     }
     var response = await apiHelper.callMultipartApi(multipartRequest);
     //pr.hide();

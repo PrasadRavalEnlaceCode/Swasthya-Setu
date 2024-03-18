@@ -2,15 +2,11 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:silvertouch/app_screens/play_video_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_login_icons_model.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/play_video_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_login_icons_model.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
 
 import '../utils/color.dart';
 
@@ -116,10 +112,9 @@ class AllVideosScreenState extends State<AllVideosScreen> {
                           focusNode: focusNode,
                           cursorColor: Colors.black,
                           onChanged: (text) {},
-                          onSubmitted: (value) {
-                            // print('Search ${searchController!.text.toLowerCase().trim()}');
-                            getHealthVideos(
-                                searchController!.text.toLowerCase().trim(), 0);
+                          onSubmitted: (value){
+                           // print('Search ${searchController!.text.toLowerCase().trim()}');
+                            getHealthVideos(searchController!.text.toLowerCase().trim(), 0);
                             setState(() {
                               icon = Icon(
                                 Icons.search,
@@ -130,7 +125,7 @@ class AllVideosScreenState extends State<AllVideosScreen> {
                           },
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                            fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                           ),
                           decoration: InputDecoration(
                             hintText: "Search Health Videos",
@@ -138,9 +133,8 @@ class AllVideosScreenState extends State<AllVideosScreen> {
                         )),
                         InkWell(
                           onTap: () {
-                            // print('Search ${searchController!.text.toLowerCase().trim()}');
-                            getHealthVideos(
-                                searchController!.text.toLowerCase().trim(), 0);
+                           // print('Search ${searchController!.text.toLowerCase().trim()}');
+                            getHealthVideos(searchController!.text.toLowerCase().trim(), 0);
                             setState(() {
                               icon = Icon(
                                 Icons.search,
@@ -164,18 +158,16 @@ class AllVideosScreenState extends State<AllVideosScreen> {
               },
               icon: icon,
             )
-          ],
-          toolbarTextStyle: TextTheme(
+          ], toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical! * 2.5,
-          )).bodyMedium,
-          titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          )).bodyMedium, titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
           )).titleLarge,
         ),
         body: Builder(
@@ -186,7 +178,7 @@ class AllVideosScreenState extends State<AllVideosScreen> {
                   icon.icon == Icons.search
                       ? Container()
                       : SizedBox(
-                          height: SizeConfig.blockSizeVertical! * 1.0,
+                          height: SizeConfig.blockSizeVertical !* 1.0,
                         ),
                   icon.icon == Icons.search
                       ? Container()
@@ -194,9 +186,9 @@ class AllVideosScreenState extends State<AllVideosScreen> {
                           child: Container(
                             width: double.maxFinite,
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal! * 2.0),
+                                SizeConfig.blockSizeHorizontal !* 2.0),
                             margin: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal! * 2.0),
+                                SizeConfig.blockSizeHorizontal !* 2.0),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 width: 1.0,
@@ -209,8 +201,7 @@ class AllVideosScreenState extends State<AllVideosScreen> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize:
-                                      SizeConfig.blockSizeVertical! * 2.3),
+                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
                             ),
                           ),
                           onTap: () async {
@@ -229,8 +220,8 @@ class AllVideosScreenState extends State<AllVideosScreen> {
                   Visibility(
                       visible: isLoadingListView,
                       child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 10,
-                          height: SizeConfig.blockSizeHorizontal! * 10,
+                          width: SizeConfig.blockSizeHorizontal !* 10,
+                          height: SizeConfig.blockSizeHorizontal !* 10,
                           child: Center(
                             child: CircularProgressIndicator(
                               backgroundColor: Colors.grey,
@@ -242,9 +233,9 @@ class AllVideosScreenState extends State<AllVideosScreen> {
                     visible:
                         listHealthVideosSearchResults.length == 0 && !isLoading,
                     child: Container(
-                      height: SizeConfig.blockSizeVertical! * 100,
+                      height: SizeConfig.blockSizeVertical !* 100,
                       padding:
-                          EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+                          EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -269,8 +260,8 @@ class AllVideosScreenState extends State<AllVideosScreen> {
                   Visibility(
                       visible: isLoading,
                       child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 10,
-                          height: SizeConfig.blockSizeHorizontal! * 10,
+                          width: SizeConfig.blockSizeHorizontal !* 10,
+                          height: SizeConfig.blockSizeHorizontal !* 10,
                           child: Center(
                             child: CircularProgressIndicator(
                               backgroundColor: Colors.grey,
@@ -443,7 +434,7 @@ Widget _createListView(BuildContext context,
             });
           },
           child: Padding(
-            padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 2),
+            padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2),
             child: Column(
               children: <Widget>[
                 Stack(
@@ -451,47 +442,47 @@ Widget _createListView(BuildContext context,
                   children: <Widget>[
                     CachedNetworkImage(
                       placeholder: (context, url) => Image(
-                        width: SizeConfig.blockSizeHorizontal! * 92,
-                        height: SizeConfig.blockSizeVertical! * 32,
+                        width: SizeConfig.blockSizeHorizontal !* 92,
+                        height: SizeConfig.blockSizeVertical !* 32,
                         image: AssetImage('images/shimmer_effect.png'),
                         fit: BoxFit.contain,
                       ),
                       imageUrl: listHealthVideosSearchResults[index].image!,
                       fit: BoxFit.fitWidth,
-                      width: SizeConfig.blockSizeHorizontal! * 95,
-                      height: SizeConfig.blockSizeVertical! * 33,
+                      width: SizeConfig.blockSizeHorizontal !* 95,
+                      height: SizeConfig.blockSizeVertical !* 33,
                     ),
                     Align(
                       alignment: Alignment.center,
                       child: Icon(
                         Icons.play_arrow,
                         color: Colors.green,
-                        size: SizeConfig.blockSizeHorizontal! * 30,
+                        size: SizeConfig.blockSizeHorizontal !* 30,
                       ),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical! * 1,
+                  height: SizeConfig.blockSizeVertical !* 1,
                 ),
                 Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal! * 2,
-                          right: SizeConfig.blockSizeHorizontal! * 2),
+                          left: SizeConfig.blockSizeHorizontal !* 2,
+                          right: SizeConfig.blockSizeHorizontal !* 2),
                       child: Text(
                         listHealthVideosSearchResults[index].iconName!,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.2,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     )),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical! * 3,
+                  height: SizeConfig.blockSizeVertical !* 3,
                 ),
               ],
             ),

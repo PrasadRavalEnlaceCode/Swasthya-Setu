@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
 
 //import 'package:store_redirect/store_redirect.dart';
 
@@ -50,7 +50,7 @@ dialogContent(BuildContext context, String imgUrl) {
   }
 
   return Container(
-    width: SizeConfig.blockSizeHorizontal! * 90,
+    width: SizeConfig.blockSizeHorizontal !* 90,
     padding: EdgeInsets.only(
       top: Consts.padding / 2,
       bottom: Consts.padding / 2,

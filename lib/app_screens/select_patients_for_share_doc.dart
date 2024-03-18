@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_health_doc.dart';
-import 'package:silvertouch/podo/model_opd_reg.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
-import 'package:silvertouch/podo/model_templates_advice_investigations.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_health_doc.dart';
+import 'package:swasthyasetu/podo/model_opd_reg.dart';
+import 'package:swasthyasetu/podo/model_templates_advice_investigations.dart';
+import 'package:swasthyasetu/podo/response_login_icons_model.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 
 import '../utils/color.dart';
 import '../utils/multipart_request_with_progress.dart';
@@ -49,7 +48,7 @@ class SelectPatientsForShareDocumentState
   Widget titleWidget = Text(
     "Select Patients",
     style: TextStyle(
-        fontSize: SizeConfig.blockSizeHorizontal! * 3.8, color: Colors.black),
+        fontSize: SizeConfig.blockSizeHorizontal !* 3.8, color: Colors.black),
   );
   TextEditingController? searchController;
   var focusNode = new FocusNode();
@@ -78,10 +77,10 @@ class SelectPatientsForShareDocumentState
     listCategoriesSearchResults.addAll(listCategories);
     emptyMessageWidget = Center(
       child: SizedBox(
-        height: SizeConfig.blockSizeVertical! * 80,
-        width: SizeConfig.blockSizeHorizontal! * 100,
+        height: SizeConfig.blockSizeVertical !* 80,
+        width: SizeConfig.blockSizeHorizontal !* 100,
         child: Container(
-          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -126,75 +125,71 @@ class SelectPatientsForShareDocumentState
         title: titleWidget,
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colors.black, size: SizeConfig.blockSizeVertical! * 2.5),
+            color: Colors.black, size: SizeConfig.blockSizeVertical !* 2.5),
         actions: <Widget>[
           _radioValueSendType == 1
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      if (icon.icon == Icons.search) {
-                        searchController = TextEditingController(text: "");
-                        focusNode.requestFocus();
-                        icon = Icon(
-                          Icons.cancel,
-                          color: Colors.black,
-                        );
-                        titleWidget = TextField(
-                          controller: searchController,
-                          focusNode: focusNode,
-                          cursorColor: Colors.black,
-                          onChanged: (text) {
-                            setState(() {
-                              if (_radioValueSendType == 1)
-                                listPatientsSearchResults = listPatients
-                                    .where((model) =>
-                                        model.name!
-                                            .toLowerCase()
-                                            .contains(text.toLowerCase()) ||
-                                        model.amount!
-                                            .toLowerCase()
-                                            .contains(text.toLowerCase()))
-                                    .toList();
-                            });
-                          },
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: "Search Patients",
-                          ),
-                        );
-                      } else {
-                        icon = Icon(
-                          Icons.search,
-                          color: Colors.black,
-                        );
-                        titleWidget = Text("Search Patients",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
-                            ));
-                        listPatientsSearchResults = listPatients;
-                      }
-                    });
-                  },
-                  icon: icon,
-                )
+              ?
+          IconButton(
+            onPressed: () {
+              setState(() {
+                if (icon.icon == Icons.search) {
+                  searchController = TextEditingController(text: "");
+                  focusNode.requestFocus();
+                  icon = Icon(
+                    Icons.cancel,
+                    color: Colors.black,
+                  );
+                  titleWidget = TextField(
+                    controller: searchController,
+                    focusNode: focusNode,
+                    cursorColor: Colors.black,
+                    onChanged: (text) {
+                      setState(() {
+                        if (_radioValueSendType == 1)
+                          listPatientsSearchResults = listPatients
+                              .where((model) =>
+                          model.name
+                          !.toLowerCase()
+                              .contains(text.toLowerCase()) ||
+                              model.amount
+                              !.toLowerCase()
+                                  .contains(text.toLowerCase()))
+                              .toList();
+                      });
+                    },
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: "Search Patients",
+                    ),
+                  );
+                } else {
+                  icon = Icon(
+                    Icons.search,
+                    color: Colors.black,
+                  );
+                  titleWidget = Text("Search Patients",style: TextStyle(
+                    color: Colors.black,
+                    fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                  ));
+                  listPatientsSearchResults = listPatients;
+                }
+              });
+            },
+            icon: icon,
+          )
               : Container(),
-        ],
-        toolbarTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .bodyMedium,
-        titleTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .titleLarge,
+        ], toolbarTextStyle: TextTheme(
+          titleMedium: TextStyle(
+              color: Colors.black,
+              fontFamily: "Ubuntu",
+              fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+          titleMedium: TextStyle(
+              color: Colors.black,
+              fontFamily: "Ubuntu",
+              fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
       ),
       body: Stack(
         children: [
@@ -202,84 +197,84 @@ class SelectPatientsForShareDocumentState
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical! * 1.0,
+                  height: SizeConfig.blockSizeVertical !* 1.0,
                 ),
                 widget.DocumentModel == null
                     ? Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            SizeConfig.blockSizeVertical! * 1.5,
-                            0,
-                            SizeConfig.blockSizeVertical! * 1,
-                            0),
-                        child: Form(
-                            key: _formKey,
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  controller: title,
-                                  style: TextStyle(color: Colors.green),
-                                  decoration: InputDecoration(
-                                    hintStyle: TextStyle(color: Colors.black),
-                                    labelStyle: TextStyle(color: Colors.black),
-                                    labelText: "Notification Title",
-                                    hintText: "",
-                                    counterText: "",
-                                  ),
-                                  validator: (value) {
-                                    if (value!.length == 0)
-                                      return 'Please enter title';
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: 2,
-                                  minLines: 1,
-                                  maxLength: 500,
+                  padding: EdgeInsets.fromLTRB(
+                      SizeConfig.blockSizeVertical !* 1.5,
+                      0,
+                      SizeConfig.blockSizeVertical !* 1,
+                      0),
+                  child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: title,
+                            style: TextStyle(color: Colors.green),
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black),
+                              labelStyle: TextStyle(color: Colors.black),
+                              labelText: "Notification Title",
+                              hintText: "",
+                              counterText: "",
+                            ),
+                            validator: (value) {
+                              if (value!.length == 0)
+                                return 'Please enter title';
+                              return null;
+                            },
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 2,
+                            minLines: 1,
+                            maxLength: 500,
+                          ),
+                          TextFormField(
+                            controller: description,
+                            style: TextStyle(color: Colors.green),
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black),
+                              labelStyle: TextStyle(color: Colors.black),
+                              labelText: "Description",
+                              hintText: "",
+                              counterText: "",
+                            ),
+                            validator: (value) {
+                              if (value!.length == 0)
+                                return 'Please enter Description';
+                              return null;
+                            },
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 3,
+                            minLines: 1,
+                            maxLength: 500,
+                          ),
+                          Row(
+                            children: [
+                              MaterialButton(
+                                onPressed: () {
+                                  getImageFromGallery();
+                                },
+                                child: Image(
+                                  width: 70,
+                                  height: 70,
+                                  //height: 80,
+                                  image:
+                                  AssetImage("images/ic_gallery.png"),
                                 ),
-                                TextFormField(
-                                  controller: description,
-                                  style: TextStyle(color: Colors.green),
-                                  decoration: InputDecoration(
-                                    hintStyle: TextStyle(color: Colors.black),
-                                    labelStyle: TextStyle(color: Colors.black),
-                                    labelText: "Description",
-                                    hintText: "",
-                                    counterText: "",
-                                  ),
-                                  validator: (value) {
-                                    if (value!.length == 0)
-                                      return 'Please enter Description';
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: 3,
-                                  minLines: 1,
-                                  maxLength: 500,
-                                ),
-                                Row(
-                                  children: [
-                                    MaterialButton(
-                                      onPressed: () {
-                                        getImageFromGallery();
-                                      },
-                                      child: Image(
-                                        width: 70,
-                                        height: 70,
-                                        //height: 80,
-                                        image:
-                                            AssetImage("images/ic_gallery.png"),
-                                      ),
-                                    ),
-                                    Text(
-                                      selectedFile == null
-                                          ? ''
-                                          : selectedFile!.path.split('/').last,
-                                      overflow: TextOverflow.ellipsis,
-                                    )
-                                  ],
-                                ),
-                              ],
-                            )),
-                      )
+                              ),
+                              Text(
+                                selectedFile == null
+                                    ? ''
+                                    : selectedFile!.path.split('/').last,
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
+                          ),
+                        ],
+                      )),
+                )
                     : Container(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -300,7 +295,7 @@ class SelectPatientsForShareDocumentState
                               'Categories',
                               style: TextStyle(
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal! * 4.0),
+                                  SizeConfig.blockSizeHorizontal !* 4.0),
                             ),
                           ],
                         ),
@@ -322,7 +317,7 @@ class SelectPatientsForShareDocumentState
                               'Patients',
                               style: TextStyle(
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal! * 4.0),
+                                  SizeConfig.blockSizeHorizontal !* 4.0),
                             ),
                           ],
                         ),
@@ -332,118 +327,116 @@ class SelectPatientsForShareDocumentState
                 ),
                 _radioValueSendType == 1
                     ? Row(
-                        children: [
-                          Spacer(),
-                          InkWell(
-                            customBorder: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                SizeConfig.blockSizeHorizontal! * 10.0,
-                              ),
-                            ),
-                            onTap: () {
-                              listPatientsSearchResults.every((element) {
-                                element.isChecked = true;
-                                return true;
-                              });
-                              setState(() {
-                                allSelected = true;
-                              });
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal! * 3.0,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 0.8,
-                                ),
-                                borderRadius: BorderRadius.circular(5.0),
-                                //color: allSelected ? Colors.green : Colors.transparent,
-                              ),
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    "images/ic_check_all.png",
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 5.0,
-                                    color: Colors.blueGrey,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 3.0,
-                                  ),
-                                  Text(
-                                    "Select All",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Colors.blueGrey[600],
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal! * 4.0,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                  children: [
+                    Spacer(),
+                    InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          SizeConfig.blockSizeHorizontal !* 10.0,
+                        ),
+                      ),
+                      onTap: () {
+                        listPatientsSearchResults.every((element) {
+                          element.isChecked = true;
+                          return true;
+                        });
+                        setState(() {
+                          allSelected = true;
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(
+                          SizeConfig.blockSizeHorizontal !* 3.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 0.8,
                           ),
-                          SizedBox(
-                            width: SizeConfig.blockSizeHorizontal! * 3.0,
-                          ),
-                          InkWell(
-                            customBorder: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                SizeConfig.blockSizeHorizontal! * 10.0,
-                              ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          //color: allSelected ? Colors.green : Colors.transparent,
+                        ),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              "images/ic_check_all.png",
+                              width: SizeConfig.blockSizeHorizontal !* 5.0,
+                              color: Colors.blueGrey,
                             ),
-                            onTap: () {
-                              listPatientsSearchResults.every((element) {
-                                element.isChecked = false;
-                                return true;
-                              });
-                              setState(() {
-                                allSelected = false;
-                              });
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(
-                                  SizeConfig.blockSizeHorizontal! * 3.0,
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 0.8,
-                                  ),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  //color: !allSelected ? Colors.green : Colors.transparent,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "images/ic_uncheck_all.png",
-                                      width:
-                                          SizeConfig.blockSizeHorizontal! * 5.0,
-                                      color: Colors.blueGrey,
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal! * 3.0,
-                                    ),
-                                    Text(
-                                      "De-Select All",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Colors.blueGrey[600],
-                                        fontSize:
-                                            SizeConfig.blockSizeHorizontal! *
-                                                4.0,
-                                      ),
-                                    ),
-                                  ],
-                                )),
+                            SizedBox(
+                              width: SizeConfig.blockSizeHorizontal !* 3.0,
+                            ),
+                            Text(
+                              "Select All",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: Colors.blueGrey[600],
+                                fontSize:
+                                SizeConfig.blockSizeHorizontal !* 4.0,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal !* 3.0,
+                    ),
+                    InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          SizeConfig.blockSizeHorizontal !* 10.0,
+                        ),
+                      ),
+                      onTap: () {
+                        listPatientsSearchResults.every((element) {
+                          element.isChecked = false;
+                          return true;
+                        });
+                        setState(() {
+                          allSelected = false;
+                        });
+                      },
+                      child: Container(
+                          padding: EdgeInsets.all(
+                            SizeConfig.blockSizeHorizontal !* 3.0,
                           ),
-                          Spacer(),
-                        ],
-                      )
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 0.8,
+                            ),
+                            borderRadius: BorderRadius.circular(5.0),
+                            //color: !allSelected ? Colors.green : Colors.transparent,
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "images/ic_uncheck_all.png",
+                                width:
+                                SizeConfig.blockSizeHorizontal !* 5.0,
+                                color: Colors.blueGrey,
+                              ),
+                              SizedBox(
+                                width:
+                                SizeConfig.blockSizeHorizontal !* 3.0,
+                              ),
+                              Text(
+                                "De-Select All",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Colors.blueGrey[600],
+                                  fontSize:
+                                  SizeConfig.blockSizeHorizontal !*
+                                      4.0,
+                                ),
+                              ),
+                            ],
+                          )),
+                    ),
+                    Spacer(),
+                  ],
+                )
                     : Container(),
                 buildWidget(),
               ],
@@ -452,15 +445,15 @@ class SelectPatientsForShareDocumentState
           Align(
             alignment: Alignment.bottomRight,
             child: RawMaterialButton(
-              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 2.0),
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2.0),
               onPressed: () {
                 getSelectedPatientListAndSubmit(context);
               },
               elevation: 2.0,
               fillColor: Color(0xFF06A759),
               child: Image(
-                width: SizeConfig.blockSizeHorizontal! * 5.5,
-                height: SizeConfig.blockSizeHorizontal! * 5.5,
+                width: SizeConfig.blockSizeHorizontal !* 5.5,
+                height: SizeConfig.blockSizeHorizontal !* 5.5,
                 //height: 80,
                 image: AssetImage("images/ic_right_arrow_triangular.png"),
               ),
@@ -523,10 +516,10 @@ class SelectPatientsForShareDocumentState
         listPatients.add(ModelOPDRegistration(
           jo['PatientIDP'].toString(),
           (jo['FName'].toString().trim() +
-                  " " +
-                  jo['MiddleName'].toString().trim() +
-                  " " +
-                  jo['LName'].toString().trim())
+              " " +
+              jo['MiddleName'].toString().trim() +
+              " " +
+              jo['LName'].toString().trim())
               .toString()
               .trim(),
           "",
@@ -633,14 +626,14 @@ class SelectPatientsForShareDocumentState
             itemBuilder: (context, index) {
               return Padding(
                   padding: EdgeInsets.only(
-                    left: SizeConfig.blockSizeHorizontal! * 2,
-                    right: SizeConfig.blockSizeHorizontal! * 2,
-                    top: SizeConfig.blockSizeHorizontal! * 2,
+                    left: SizeConfig.blockSizeHorizontal !* 2,
+                    right: SizeConfig.blockSizeHorizontal !* 2,
+                    top: SizeConfig.blockSizeHorizontal !* 2,
                   ),
                   child: InkWell(
                     onTap: () {
                       listCategoriesSearchResults[index].isChecked =
-                          !listCategoriesSearchResults[index].isChecked!;
+                      !listCategoriesSearchResults[index].isChecked!;
                       if (!listCategoriesSearchResults[index].isChecked!) {
                         allSelected = false;
                       }
@@ -651,49 +644,49 @@ class SelectPatientsForShareDocumentState
                         Expanded(
                           child: Card(
                               child: Padding(
-                            padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal! * 2,
-                            ),
-                            child: Row(
-                              children: [
-                                Checkbox(
-                                  value: listCategoriesSearchResults[index]
-                                      .isChecked,
-                                  onChanged: (bool? value) {
-                                    listCategoriesSearchResults[index]
-                                        .isChecked = value!;
-                                    setState(() {});
-                                  },
+                                padding: EdgeInsets.all(
+                                  SizeConfig.blockSizeHorizontal !* 2,
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
+                                child: Row(
+                                  children: [
+                                    Checkbox(
+                                      value: listCategoriesSearchResults[index]
+                                          .isChecked,
+                                      onChanged: (bool? value) {
+                                        listCategoriesSearchResults[index]
+                                            .isChecked = value!;
+                                        setState(() {});
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          listCategoriesSearchResults[index]
-                                              .name!,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
-                                                  4,
-                                              fontWeight: FontWeight.w500),
-                                        ),
+                                        children: <Widget>[
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              listCategoriesSearchResults[index]
+                                                  .name!,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: SizeConfig
+                                                      .blockSizeHorizontal !*
+                                                      4,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height:
+                                            SizeConfig.blockSizeHorizontal !* 1,
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(
-                                        height:
-                                            SizeConfig.blockSizeHorizontal! * 1,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )),
+                              )),
                         ),
                       ],
                     ),
@@ -707,14 +700,14 @@ class SelectPatientsForShareDocumentState
             itemBuilder: (context, index) {
               return Padding(
                   padding: EdgeInsets.only(
-                    left: SizeConfig.blockSizeHorizontal! * 2,
-                    right: SizeConfig.blockSizeHorizontal! * 2,
-                    top: SizeConfig.blockSizeHorizontal! * 2,
+                    left: SizeConfig.blockSizeHorizontal !* 2,
+                    right: SizeConfig.blockSizeHorizontal !* 2,
+                    top: SizeConfig.blockSizeHorizontal !* 2,
                   ),
                   child: InkWell(
                     onTap: () {
                       listPatientsSearchResults[index].isChecked =
-                          !listPatientsSearchResults[index].isChecked!;
+                      !listPatientsSearchResults[index].isChecked!;
                       if (!listPatientsSearchResults[index].isChecked!) {
                         allSelected = false;
                       }
@@ -725,49 +718,48 @@ class SelectPatientsForShareDocumentState
                         Expanded(
                           child: Card(
                               child: Padding(
-                            padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal! * 2,
-                            ),
-                            child: Row(
-                              children: [
-                                Checkbox(
-                                  value: listPatientsSearchResults[index]
-                                      .isChecked,
-                                  onChanged: (bool? value) {
-                                    listPatientsSearchResults[index].isChecked =
+                                padding: EdgeInsets.all(
+                                  SizeConfig.blockSizeHorizontal !* 2,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Checkbox(
+                                      value: listPatientsSearchResults[index]
+                                          .isChecked,
+                                      onChanged: (bool? value) {
+                                        listPatientsSearchResults[index].isChecked =
                                         value!;
-                                    setState(() {});
-                                  },
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
+                                        setState(() {});
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          listPatientsSearchResults[index]
-                                              .name!,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
-                                                  4,
-                                              fontWeight: FontWeight.w500),
-                                        ),
+                                        children: <Widget>[
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              listPatientsSearchResults[index].name!,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: SizeConfig
+                                                      .blockSizeHorizontal !*
+                                                      4,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height:
+                                            SizeConfig.blockSizeHorizontal !* 1,
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(
-                                        height:
-                                            SizeConfig.blockSizeHorizontal! * 1,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )),
+                              )),
                         ),
                       ],
                     ),
@@ -788,7 +780,7 @@ class SelectPatientsForShareDocumentState
     for (var i = 0; i < listPatients.length; i++) {
       if (listPatients[i].isChecked!) {
         jArrayPatientsData =
-            "$jArrayPatientsData{\"${getParamName()}\":\"${listPatients[i].idp}\"},";
+        "$jArrayPatientsData{\"${getParamName()}\":\"${listPatients[i].idp}\"},";
       }
     }
     jArrayPatientsData = jArrayPatientsData + "]";
@@ -845,7 +837,7 @@ class SelectPatientsForShareDocumentState
         Duration(
           seconds: 2,
         ),
-        () {
+            () {
           Navigator.of(context).pop();
         },
       );
@@ -884,7 +876,7 @@ class SelectPatientsForShareDocumentState
     for (var i = 0; i < listPatients.length; i++) {
       if (listPatients[i].isChecked!) {
         jArrayPatientsData =
-            "$jArrayPatientsData{\"${getParamName()}\":\"${listPatients[i].idp}\"},";
+        "$jArrayPatientsData{\"${getParamName()}\":\"${listPatients[i].idp}\"},";
       }
     }
     jArrayPatientsData = jArrayPatientsData + "]";
@@ -978,25 +970,27 @@ class SelectPatientsForShareDocumentState
     /*ViewProfileDetailsState.image =
         await ImagePicker.pickImage(source: ImageSource.gallery);*/
     File imgSelected =
-        await chooseImageWithExIfRotate(picker, ImageSource.gallery);
-    selectedFile = await ImageCropper()
-        .cropImage(sourcePath: imgSelected.path, uiSettings: [
-      AndroidUiSettings(
-          toolbarTitle: 'Cropper',
-          toolbarColor: Colors.deepOrange,
-          toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: false),
-      IOSUiSettings(
-        minimumAspectRatio: 1.0,
-      )
-    ], aspectRatioPresets: [
-      CropAspectRatioPreset.square,
-      CropAspectRatioPreset.ratio3x2,
-      CropAspectRatioPreset.original,
-      CropAspectRatioPreset.ratio4x3,
-      CropAspectRatioPreset.ratio16x9
-    ]);
+    await chooseImageWithExIfRotate(picker, ImageSource.gallery);
+    selectedFile = await ImageCropper().cropImage(
+        sourcePath: imgSelected.path,
+        uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Colors.deepOrange,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          )
+        ],
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ]);
     //selectedFile = imgSelected;
     // selectedFileType = "image";
     print(selectedFile!.path);

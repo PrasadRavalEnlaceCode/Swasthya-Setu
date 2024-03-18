@@ -1,3 +1,4 @@
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,10 +7,10 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:share_files_and_screenshot_widgets/share_files_and_screenshot_widgets.dart';
-import 'package:silvertouch/controllers/full_screen_image_controller.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-
+import 'package:swasthyasetu/controllers/full_screen_image_controller.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
 import 'package:http/http.dart' show get;
+import 'package:swasthyasetu/utils/common_methods.dart';
 
 class FullScreenImage extends StatelessWidget {
   String imgUrl;
@@ -61,9 +62,13 @@ class FullScreenImage extends StatelessWidget {
                   child: heroTag != null
                       ? Hero(
                           tag: heroTag!,
-                          child: PhotoView(imageProvider: NetworkImage(imgUrl)),
+                          child: PhotoView(
+                            imageProvider: NetworkImage(imgUrl)
+                          ),
                         )
-                      : PhotoView(imageProvider: NetworkImage(imgUrl)),
+                      : PhotoView(
+                          imageProvider: NetworkImage(imgUrl)
+                        ),
                 ),
                 Positioned(
                   child: AnimatedSwitcher(
@@ -72,9 +77,9 @@ class FullScreenImage extends StatelessWidget {
                       if (fullScreenController.showHeader.value) {
                         return Container(
                           width: SizeConfig.screenWidth,
-                          height: SizeConfig.blockSizeVertical! * 8,
+                          height: SizeConfig.blockSizeVertical !* 8,
                           padding: EdgeInsets.symmetric(
-                            horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
+                            horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
                           ),
                           color: Color(0xCC000000),
                           child: Row(
@@ -105,7 +110,7 @@ class FullScreenImage extends StatelessWidget {
                                   child: Icon(
                                     Icons.keyboard_backspace,
                                     color: Colors.white,
-                                    size: SizeConfig.blockSizeHorizontal! * 8.0,
+                                    size: SizeConfig.blockSizeHorizontal !* 8.0,
                                   ),
                                 ),
                               ),
@@ -122,7 +127,7 @@ class FullScreenImage extends StatelessWidget {
                                       splashColor: Colors.grey,
                                       child: Icon(
                                         Icons.share,
-                                        size: SizeConfig.blockSizeHorizontal! *
+                                        size: SizeConfig.blockSizeHorizontal !*
                                             8.0,
                                         color: Colors.white,
                                       ),
@@ -162,11 +167,13 @@ class FullScreenImage extends StatelessWidget {
     //   bytesOfFile: bytes.buffer.asUint8List(),
     // );
     Uint8List list = bytes.buffer.asUint8List();
-    ShareFilesAndScreenshotWidgets()
-        .shareFile("Share via", "shareimg.jpg", list, "image/jpg", text: "");
+    ShareFilesAndScreenshotWidgets().shareFile(
+        "Share via", "shareimg.jpg", list, "image/jpg",
+        text: "");
   }
 
-  getPhoto() {
+  getPhoto()
+  {
     !showPlaceholder
         ? NetworkImage(imgUrl)
         : AssetImage("images/ic_user_placeholder.png");

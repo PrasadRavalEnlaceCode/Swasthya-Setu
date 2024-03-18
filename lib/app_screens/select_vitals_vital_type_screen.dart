@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:silvertouch/app_screens/vitals_list.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:swasthyasetu/app_screens/vitals_list.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
 
 import '../utils/color.dart';
 
@@ -34,24 +30,22 @@ class SelectVitalsTypeScreenState extends State<SelectVitalsTypeScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xFFFFFFFF),
         title: Text("Vitals"),
-        iconTheme: IconThemeData(color: Colorsblack),
-        toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
-        )).bodyMedium,
-        titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+        )).bodyMedium, titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
         )).titleLarge,
       ),
       body: Builder(
         builder: (context) {
           return Container(
-            height: SizeConfig.blockSizeVertical! * 100,
+            height: SizeConfig.blockSizeVertical !* 100,
             color: Color(0xFFEFEEF3),
             child: Column(
               children: <Widget>[
@@ -73,7 +67,7 @@ class SelectVitalsTypeScreenState extends State<SelectVitalsTypeScreen> {
                                   BorderSide(width: 1.0, color: Colors.grey))),
                       child: Padding(
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -81,7 +75,7 @@ class SelectVitalsTypeScreenState extends State<SelectVitalsTypeScreen> {
                                 child: Text("Pulse"),
                               ),
                               Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 12,
+                                  width: SizeConfig.blockSizeHorizontal !* 12,
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: Icon(
@@ -107,7 +101,7 @@ class SelectVitalsTypeScreenState extends State<SelectVitalsTypeScreen> {
                                   BorderSide(width: 1.0, color: Colors.grey))),
                       child: Padding(
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -115,7 +109,7 @@ class SelectVitalsTypeScreenState extends State<SelectVitalsTypeScreen> {
                                 child: Text("Temperature"),
                               ),
                               Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 12,
+                                  width: SizeConfig.blockSizeHorizontal !* 12,
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: Icon(
@@ -141,7 +135,7 @@ class SelectVitalsTypeScreenState extends State<SelectVitalsTypeScreen> {
                                   BorderSide(width: 1.0, color: Colors.grey))),
                       child: Padding(
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -149,7 +143,7 @@ class SelectVitalsTypeScreenState extends State<SelectVitalsTypeScreen> {
                                 child: Text("SPO2"),
                               ),
                               Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 12,
+                                  width: SizeConfig.blockSizeHorizontal !* 12,
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: Icon(

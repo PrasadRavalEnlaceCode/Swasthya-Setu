@@ -4,17 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:silvertouch/app_screens/doctor_health_videos.dart';
-import 'package:silvertouch/app_screens/material_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/response_login_icons_model.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/doctor_health_videos.dart';
+import 'package:swasthyasetu/app_screens/material_screen.dart';
+import 'package:swasthyasetu/app_screens/select_patients_for_share_video.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_login_icons_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 
 import '../controllers/add_camp_controller.dart';
 import '../main.dart';
@@ -25,12 +21,13 @@ import '../utils/string_resource.dart';
 import 'VitalsCombineListScreen.dart';
 import 'play_video_screen.dart';
 
-class PatientResourcesFromProfileScreen extends StatefulWidget {
+class PatientResourcesFromProfileScreen  extends StatefulWidget {
+
   final String patientIDP;
 
   String patientID = "";
 
-  PatientResourcesFromProfileScreen({required this.patientIDP});
+  PatientResourcesFromProfileScreen({ required this.patientIDP});
 
   @override
   State<StatefulWidget> createState() {
@@ -38,9 +35,8 @@ class PatientResourcesFromProfileScreen extends StatefulWidget {
   }
 }
 
-class PatientResourcesFromProfileScreenState
-    extends State<PatientResourcesFromProfileScreen>
-    with TickerProviderStateMixin {
+class PatientResourcesFromProfileScreenState extends State<PatientResourcesFromProfileScreen> with TickerProviderStateMixin {
+
   final String urlFetchPatientProfileDetails =
       "${baseURL}patientProfileData.php";
   List<IconModel> listHealthVideos = [];
@@ -73,18 +69,18 @@ class PatientResourcesFromProfileScreenState
         title: Text('Patient Resources'),
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.2),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical ! * 2.2),
         toolbarTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: FONT_NAME,
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            titleMedium: TextStyle(
+                color: Colorsblack,
+                fontFamily: FONT_NAME,
+                fontSize: SizeConfig.blockSizeVertical ! * 2.5))
             .bodyMedium,
         titleTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: FONT_NAME,
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            titleMedium: TextStyle(
+                color: Colorsblack,
+                fontFamily: FONT_NAME,
+                fontSize: SizeConfig.blockSizeVertical ! * 2.5))
             .titleLarge,
       ),
       body: DefaultTabController(
@@ -100,7 +96,10 @@ class PatientResourcesFromProfileScreenState
                   indicatorColor: Colors.white,
                   unselectedLabelColor: Colors.grey,
                   controller: tabController,
-                  tabs: [Tab(text: 'Health Videos'), Tab(text: 'Materials')],
+                  tabs: [
+                    Tab(text: 'Health Videos'),
+                    Tab(text: 'Materials')
+                  ],
                 ),
               ),
             ),
@@ -109,14 +108,8 @@ class PatientResourcesFromProfileScreenState
                 physics: BouncingScrollPhysics(),
                 controller: tabController,
                 children: <Widget>[
-                  DoctorHealthVideos(
-                    sourceScreen: "PatientResourcesFromProfileScreen",
-                  ),
-                  MaterialScreen(
-                    sourceScreen: "PatientResourcesFromProfileScreen",
-                    patientIDP: widget.patientIDP,
-                  )
-                ],
+                  DoctorHealthVideos(sourceScreen: "PatientResourcesFromProfileScreen",),
+                  MaterialScreen(sourceScreen: "PatientResourcesFromProfileScreen",patientIDP: widget.patientIDP,)],
               ),
             ),
           ],
@@ -220,9 +213,7 @@ class PatientResourcesFromProfileScreenState
       String firstName = jsonData[0]['FirstName'];
       String middleName = jsonData[0]['MiddleName'];
       String lastName = jsonData[0]['LastName'];
-      userName =
-          (firstName.trim() + " " + middleName.trim() + " " + lastName.trim())
-              .trim();
+      userName = (firstName.trim() + " " + middleName.trim() + " " + lastName.trim()).trim();
       setState(() {});
     } else {
       /*final snackBar = SnackBar(
@@ -344,4 +335,5 @@ class PatientResourcesFromProfileScreenState
 //     }
 //   }
 // }
+
 }

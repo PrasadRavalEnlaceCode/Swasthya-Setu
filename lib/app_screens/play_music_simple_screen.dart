@@ -50,15 +50,10 @@ import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/media_item.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/podo/media_item.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/utils/progress_dialog_with_percentage.dart';
 
 class PlayMusicSimpleScreen extends StatefulWidget {
   MediaItem mediaItem;
@@ -193,7 +188,8 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
     IsolateNameServer.removePortNameMapping('downloader_send_port');
   }
 
-  static void downloadCallback(String id, int status, int progress) {
+  static void downloadCallback(
+      String id, int status, int progress) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
     send!.send([id, status, progress]);
@@ -209,19 +205,15 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
-        ),
-        toolbarTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colors.white,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .bodyMedium,
-        titleTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colors.white,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .titleLarge,
+        ), toolbarTextStyle: TextTheme(
+            titleMedium: TextStyle(
+                color: Colors.white,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+            titleMedium: TextStyle(
+                color: Colors.white,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
       ),
       body:
           /*Text(widget.mediaItem.title),
@@ -247,32 +239,31 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
                       visible:
                           playing! && processingState == ProcessingState.ready,
                       child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 60,
-                          height: SizeConfig.blockSizeHorizontal! * 60,
-                          child: IconButton(
-                            icon: Icon(Icons.music_note,
-                                color: Colors.blueAccent),
-                            onPressed: () => () {},
-                          )
-                          // Lottie.asset(
-                          //   'assets/json/lottie_visualizer.json',
-                          //   width: SizeConfig.blockSizeHorizontal !* 60,
-                          //   height: SizeConfig.blockSizeHorizontal !* 60,
-                          //   fit: BoxFit.fill,
-                          // )
-                          ),
+                        width: SizeConfig.blockSizeHorizontal !* 60,
+                        height: SizeConfig.blockSizeHorizontal !* 60,
+                        child: IconButton(
+                          icon: Icon(Icons.music_note, color: Colors.blueAccent),
+                          onPressed: () => (){},
+                        )
+                        // Lottie.asset(
+                        //   'assets/json/lottie_visualizer.json',
+                        //   width: SizeConfig.blockSizeHorizontal !* 60,
+                        //   height: SizeConfig.blockSizeHorizontal !* 60,
+                        //   fit: BoxFit.fill,
+                        // )
+                      ),
                     ),
                     Visibility(
                       visible:
                           !playing || processingState != ProcessingState.ready,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal! * 60,
-                        height: SizeConfig.blockSizeHorizontal! * 60,
-                        padding: EdgeInsets.all(
-                            SizeConfig.blockSizeHorizontal! * 20),
+                        width: SizeConfig.blockSizeHorizontal !* 60,
+                        height: SizeConfig.blockSizeHorizontal !* 60,
+                        padding:
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 20),
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 60,
-                          height: SizeConfig.blockSizeHorizontal! * 60,
+                          width: SizeConfig.blockSizeHorizontal !* 60,
+                          height: SizeConfig.blockSizeHorizontal !* 60,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle, color: Colors.grey),
                         ),
@@ -283,22 +274,22 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal! * 6,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 6,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 1.5,
+                      height: SizeConfig.blockSizeVertical !* 1.5,
                     ),
                     Text(
                       currentMediaItem!.artist!,
                       style: TextStyle(
                         color: Colors.grey,
-                        fontSize: SizeConfig.blockSizeHorizontal! * 4.5,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 4.5,
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 3,
+                      height: SizeConfig.blockSizeVertical !* 3,
                     )
                   ],
                 )),
@@ -308,7 +299,7 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
                     if (currentIndex > 0)
                       IconButton(
                         icon: Icon(Icons.skip_previous),
-                        iconSize: SizeConfig.blockSizeHorizontal! * 16,
+                        iconSize: SizeConfig.blockSizeHorizontal !* 16,
                         onPressed: () {
                           previousNext("prev");
                         },
@@ -316,7 +307,7 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
                     else
                       IconButton(
                         icon: Icon(Icons.skip_previous),
-                        iconSize: SizeConfig.blockSizeHorizontal! * 16,
+                        iconSize: SizeConfig.blockSizeHorizontal !* 16,
                         color: Colors.grey,
                         onPressed: null,
                       ),
@@ -326,26 +317,26 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
                             ProcessingState.buffering)
                       Container(
                         margin: EdgeInsets.all(8.0),
-                        width: SizeConfig.blockSizeHorizontal! * 16,
-                        height: SizeConfig.blockSizeHorizontal! * 16,
+                        width: SizeConfig.blockSizeHorizontal !* 16,
+                        height: SizeConfig.blockSizeHorizontal !* 16,
                         child: CircularProgressIndicator(),
                       )
                     else if (playerState!.playing)
                       IconButton(
                         icon: Icon(Icons.pause),
-                        iconSize: SizeConfig.blockSizeHorizontal! * 16,
+                        iconSize: SizeConfig.blockSizeHorizontal !* 16,
                         onPressed: _player!.pause,
                       )
                     else
                       IconButton(
                         icon: Icon(Icons.play_arrow),
-                        iconSize: SizeConfig.blockSizeHorizontal! * 16,
+                        iconSize: SizeConfig.blockSizeHorizontal !* 16,
                         onPressed: _player!.play,
                       ),
                     if (currentIndex < widget.listMedia.length - 1)
                       IconButton(
                         icon: Icon(Icons.skip_next),
-                        iconSize: SizeConfig.blockSizeHorizontal! * 16,
+                        iconSize: SizeConfig.blockSizeHorizontal !* 16,
                         onPressed: () {
                           previousNext("next");
                         },
@@ -353,7 +344,7 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
                     else
                       IconButton(
                         icon: Icon(Icons.skip_next),
-                        iconSize: SizeConfig.blockSizeHorizontal! * 16,
+                        iconSize: SizeConfig.blockSizeHorizontal !* 16,
                         color: Colors.grey,
                         onPressed: null,
                       ),
@@ -367,11 +358,11 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
                     Icons.stop,
                     color: Colors.red,
                   ),
-                  iconSize: SizeConfig.blockSizeHorizontal! * 16,
+                  iconSize: SizeConfig.blockSizeHorizontal !* 16,
                   onPressed: !playerState!.playing ? null : _player!.stop,
                 ),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical! * 2.0,
+                  height: SizeConfig.blockSizeVertical !* 2.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -387,10 +378,10 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
                         width: 2.0,
                       )),
                       padding:
-                          EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3.2),
+                          EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3.2),
                       child: Image.asset(
                         "images/ic_download_meditation.png",
-                        width: SizeConfig.blockSizeHorizontal! * 6.8,
+                        width: SizeConfig.blockSizeHorizontal !* 6.8,
                         fit: BoxFit.fill,
                         color: Colors.blue,
                       ),
@@ -403,10 +394,10 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
                         width: 2.0,
                       )),
                       padding:
-                          EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3.5),
+                          EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3.5),
                       child: Image.asset(
                         "images/ic_share_meditation.png",
-                        width: SizeConfig.blockSizeHorizontal! * 6.0,
+                        width: SizeConfig.blockSizeHorizontal !* 6.0,
                         fit: BoxFit.fill,
                         color: Colors.teal,
                       ),
@@ -414,7 +405,7 @@ class _PlayMusicSimpleScreenState extends State<PlayMusicSimpleScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical! * 1.0,
+                  height: SizeConfig.blockSizeVertical !* 1.0,
                 ),
               ],
             ),

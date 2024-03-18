@@ -17,20 +17,19 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:silvertouch/api/api_helper.dart';
-import 'package:silvertouch/app_screens/check_expiry_blank_screen.dart';
-import 'package:silvertouch/app_screens/doctor_dashboard_screen.dart';
-import 'package:silvertouch/app_screens/landing_screen.dart';
-import 'package:silvertouch/app_screens/nurse/nurse_dashboard_screen.dart';
-import 'package:silvertouch/app_screens/reception_dashboard_screen.dart';
-import 'package:silvertouch/controllers/reminder_list_controller.dart';
-import 'package:silvertouch/database/tb_reminder.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/services/dynamic_links_service.dart';
-import 'package:silvertouch/services/navigation_service.dart';
-import 'package:silvertouch/services/push_notification_service.dart';
-import 'package:silvertouch/utils/NotificationManager.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
+import 'package:swasthyasetu/app_screens/check_expiry_blank_screen.dart';
+import 'package:swasthyasetu/app_screens/doctor_dashboard_screen.dart';
+import 'package:swasthyasetu/app_screens/landing_screen.dart';
+import 'package:swasthyasetu/app_screens/reception_dashboard_screen.dart';
+import 'package:swasthyasetu/controllers/reminder_list_controller.dart';
+import 'package:swasthyasetu/database/tb_reminder.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/services/dynamic_links_service.dart';
+import 'package:swasthyasetu/services/navigation_service.dart';
+import 'package:swasthyasetu/services/push_notification_service.dart';
+import 'package:swasthyasetu/utils/NotificationManager.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -39,8 +38,7 @@ import 'utils/color.dart';
 import 'utils/connectycube_flutter_call_kit.dart';
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 Widget? _defaultHome;
 GlobalKey<NavigatorState>? navigatorKey;
 String doctorIDP = "";
@@ -67,13 +65,13 @@ void backgroundFetchHeadlessTask(HeadlessTask task) async {
   print('[BackgroundFetch] Headless event received.');
   // Do your work here...
   List<TbReminderTable> tbReminderList =
-  await reminderListController!.getAllActiveReminders();
+      await reminderListController!.getAllActiveReminders();
   DateTime now = DateTime.now();
   DateTime oneHourLater = now.add(Duration(hours: 1));
   tbReminderList.forEach((element) {
-    List<TbNotificationTable> tbNotificationList = reminderListController!
-        .getNotificationsWithReminderIDAndBetweenTimes(
-        element.reminderID!, now, oneHourLater);
+    List<TbNotificationTable> tbNotificationList =
+        reminderListController!.getNotificationsWithReminderIDAndBetweenTimes(
+            element.reminderID!, now, oneHourLater);
     tbNotificationList.forEach((elementNotification) {
       notificationManger.showNotificationDaily(
           element.reminderID!,
@@ -87,20 +85,20 @@ void backgroundFetchHeadlessTask(HeadlessTask task) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  navigatorKey = GlobalKey<NavigatorState>(); // Initialize navigatorKey here
   await Firebase.initializeApp();
   // Plugin must be initialized before using
   await FlutterDownloader.initialize(
-      debug:
-      true, // optional: set to false to disable printing logs to console (default: true)
-      ignoreSsl:
-      true // option: set to false to disable working with http links (default: false)
+      debug: true, // optional: set to false to disable printing logs to console (default: true)
+      ignoreSsl: true // option: set to false to disable working with http links (default: false)
   );
+  // await FlutterDownloader.initialize(
+  //     debug: true // optional: set false to disable printing logs to console
+  //     );
+  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   reminderListController = Get.put(ReminderListController());
   //navigatorKey = getItLocator<NavigationService>().navigatorKey;
   await _configureLocalTimeZone();
   initPlatformState();
-  await clearSelectedOrganizationFromSharedPreferences();
   /*final int helloAlarmID = 0;
   await AndroidAlarmManager.initialize();
   await AndroidAlarmManager.periodic(
@@ -124,29 +122,27 @@ void main() async {
     }
   });
   final DynamicLinksService _dynamicLinkService =
-  getItLocator<DynamicLinksService>();
+      getItLocator<DynamicLinksService>();
   await _dynamicLinkService.initialiseDynamicLinks();
   initializeCallUILogic();
   //initDynamicLinks();
   runTheApp();
 }
 
-Future<void> clearSelectedOrganizationFromSharedPreferences() async {
+Future<void> clearSharedPreferencesData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.remove('selectedOrganizationIDF');
-  prefs.remove('selectedOrganizationName');
-  prefs.remove('selectedOrganizationUnit');
+  prefs.clear();
 }
 
 void initializeCallUILogic() async {
   ConnectycubeFlutterCallKit.instance.init(
     onCallAccepted: (
-        String sessionId,
-        int callType,
-        int callerId,
-        String callerName,
-        Set opponentsIds,
-        ) async {
+      String sessionId,
+      int callType,
+      int callerId,
+      String callerName,
+      Set opponentsIds,
+    ) async {
       debugPrint("Call accepted.");
       return null;
     },
@@ -331,7 +327,7 @@ Future<void> _configureLocalTimeZone() async {
 
 void initDynamicLinks() async {
   final PendingDynamicLinkData? data =
-  await FirebaseDynamicLinks.instance.getInitialLink();
+      await FirebaseDynamicLinks.instance.getInitialLink();
   final Uri deepLink = data!.link;
 
   if (deepLink != null) {
@@ -525,20 +521,13 @@ void runTheApp() async {
           .then((_) {
         runApp(new MyApp());
       });
-    } else if (userType == "Staff") {
-      _defaultHome = NurseDashboardScreen();
+    } else if (userType == "frontoffice") {
+      _defaultHome = ReceptionDashboardScreen();
       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
           .then((_) {
         runApp(new MyApp());
       });
     }
-    // else if (userType == "nursing") {
-    //   _defaultHome = NurseDashboardScreen();
-    //   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-    //       .then((_) {
-    //     runApp(new MyApp());
-    //   });
-    // }
   } else {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
         .then((_) {
@@ -589,7 +578,7 @@ void firebaseCloudMessaging_Listeners(
   var android = AndroidInitializationSettings('drawable/ic_notification');
   var ios = DarwinInitializationSettings();
   var initializationSettings =
-  InitializationSettings(android: android, iOS: ios);
+      InitializationSettings(android: android, iOS: ios);
   flutterLocalNotificationsPlugin.initialize(initializationSettings);
 }
 
@@ -614,20 +603,22 @@ class MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     print('navigatorKey $navigatorKey');
-    if (navigatorKey != null) {
-      Future.delayed(Duration.zero, () {
-        firebaseCloudMessaging_Listeners(context, navigatorKey!);
-        //getIconsList(context);
-      });
-    }
+    if(navigatorKey!=null)
+      {
+        Future.delayed(Duration.zero, () {
+          firebaseCloudMessaging_Listeners(context, navigatorKey!);
+          //getIconsList(context);
+        });
+      }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     generateToken();
     // FirebaseAnalytics analytics = FirebaseAnalytics();
     return GetMaterialApp(
-      title: 'Silver Touch',
+      title: 'Swasthya Setu',
       defaultTransition: Transition.rightToLeftWithFade,
       transitionDuration: Duration(
         milliseconds: 500,
@@ -646,10 +637,10 @@ class MyAppState extends State<MyApp> {
           ),
           appBarTheme: AppBarTheme(
               titleTextStyle: TextStyle(
-                color: black,
-                fontFamily: "Ubuntu",
-                fontSize: 18,
-              ))),
+            color: black,
+            fontFamily: "Ubuntu",
+            fontSize: 18,
+          ))),
       debugShowCheckedModeBanner: false,
       home: _defaultHome,
       // home: MedicalCertificate(),

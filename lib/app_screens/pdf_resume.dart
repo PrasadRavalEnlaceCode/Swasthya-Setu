@@ -6,10 +6,9 @@ import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_profile_patient.dart';
 
 const PdfColor green = PdfColor.fromInt(0xff9ce5d0);
 const PdfColor lightGreen = PdfColor.fromInt(0xffcdf1e7);
@@ -40,14 +39,14 @@ Future<Uint8List> generateResume(PdfPageFormat format,
     bytes = ByteData.sublistView(response.bodyBytes);
     imageProvider = pw.RawImage(
         bytes: bytes.buffer.asUint8List(),
-        height: (SizeConfig.blockSizeHorizontal! * 26.0).toInt(),
-        width: (SizeConfig.blockSizeHorizontal! * 26.0).toInt());
+        height: (SizeConfig.blockSizeHorizontal !* 26.0).toInt(),
+        width: (SizeConfig.blockSizeHorizontal !* 26.0).toInt());
   } else {
     bytes = await rootBundle.load('images/ic_user_placeholder.png');
     imageProvider = pw.RawImage(
         bytes: bytes.buffer.asUint8List(),
-        height: (SizeConfig.blockSizeHorizontal! * 26.0).toInt(),
-        width: (SizeConfig.blockSizeHorizontal! * 26.0).toInt());
+        height: (SizeConfig.blockSizeHorizontal !* 26.0).toInt(),
+        width: (SizeConfig.blockSizeHorizontal !* 26.0).toInt());
   }
 
   doc.addPage(
@@ -76,12 +75,10 @@ Future<Uint8List> generateResume(PdfPageFormat format,
                                     bytes: bytes.buffer.asUint8List(),
                                   ),*/
                                   imageProvider,
-                                  height:
-                                      SizeConfig.blockSizeHorizontal! * 26.0,
-                                  width:
-                                      SizeConfig.blockSizeHorizontal! * 26.0),
+                                  height: SizeConfig.blockSizeHorizontal !* 26.0,
+                                  width: SizeConfig.blockSizeHorizontal !* 26.0),
                               pw.SizedBox(
-                                height: SizeConfig.blockSizeVertical! * 0.3,
+                                height: SizeConfig.blockSizeVertical !* 0.3,
                               ),
                               pw.Text(patientProfileModel.patientID!.trim(),
                                   style: pw.Theme.of(context)
@@ -90,11 +87,11 @@ Future<Uint8List> generateResume(PdfPageFormat format,
                                           fontWeight: pw.FontWeight.bold,
                                           color: PdfColors.blueGrey,
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   3.3)),
                             ]),
                         pw.SizedBox(
-                          height: SizeConfig.blockSizeVertical! * 2.0,
+                          height: SizeConfig.blockSizeVertical !* 2.0,
                         ),
                         pw.Text(
                             patientProfileModel.firstName!.trim() +
@@ -158,7 +155,7 @@ Future<Uint8List> generateResume(PdfPageFormat format,
                     "Medical History",
                     style: pw.TextStyle(
                       color: PdfColor.fromHex("778899"),
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                       fontWeight: pw.FontWeight.bold,
                     ),
                   ),
@@ -312,7 +309,7 @@ class _Block extends pw.StatelessWidget {
                 ),
                 pw.Row(children: [
                   pw.Container(
-                    width: SizeConfig.blockSizeHorizontal! * 30,
+                    width: SizeConfig.blockSizeHorizontal !* 30,
                     child: pw.Text(title!,
                         style: pw.Theme.of(context).defaultTextStyle.copyWith(
                               color: PdfColor.fromHex("#696969"),
@@ -363,13 +360,7 @@ class _Category extends pw.StatelessWidget {
 }
 
 class _Percent extends pw.StatelessWidget {
-  _Percent(
-    this.value,
-    this.title,
-    this.fontSize,
-    this.color,
-    this.backgroundColor,
-    this.strokeWidth, {
+  _Percent(this.value, this.title, this.fontSize, this.color, this.backgroundColor, this.strokeWidth, {
     @required this.size,
   }) : assert(size != null);
 

@@ -3,13 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 
 import '../podo/model_camp.dart';
 import '../utils/cm.dart';
@@ -55,7 +52,7 @@ class CampScreenState extends State<CampScreen> {
           title: Text(str_camp),
           actions: <Widget>[
             Padding(
-              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
               child: InkWell(
                 onTap: () {
                   Navigator.push(context,
@@ -67,7 +64,7 @@ class CampScreenState extends State<CampScreen> {
                 child: Image(
                   image: AssetImage("images/ic_add_opd.png"),
                   color: Colors.black,
-                  width: SizeConfig.blockSizeHorizontal! * 7,
+                  width: SizeConfig.blockSizeHorizontal !* 7,
                 ),
               ),
             )
@@ -154,11 +151,9 @@ class CampScreenState extends State<CampScreen> {
           var converDate =
               formatter.format(new DateFormat(DDMMYYYY).parse(jo['campdt']));
           DateTime dateCurrent = DateTime.now();
-          var dayNow = DateTime.utc(
-              dateCurrent.year, dateCurrent.month, dateCurrent.day);
+          var dayNow = DateTime.utc(dateCurrent.year,dateCurrent.month,dateCurrent.day);
           DateTime dateCamp = DateTime.parse(converDate);
-          var dayCamp =
-              DateTime.utc(dateCamp.year, dateCamp.month, dateCamp.day);
+          var dayCamp = DateTime.utc(dateCamp.year,dateCamp.month,dateCamp.day);
           bool valDate = dayNow.difference(dayCamp).inDays > 0;
 
           if (!valDate) {
@@ -204,7 +199,7 @@ class UpcomingScreen extends StatelessWidget {
         home: Scaffold(body: Builder(
           builder: (context) {
             return Container(
-              width: SizeConfig.blockSizeHorizontal! * 100,
+              width: SizeConfig.blockSizeHorizontal !* 100,
               color: Color(0xBBDCDCDC),
               child: Column(
                 children: <Widget>[
@@ -222,30 +217,29 @@ class UpcomingScreen extends StatelessWidget {
                                       campID: listCampUpcomingResults[index]
                                           .DoctorCampIDP,
                                       name: listCampUpcomingResults[index]
-                                          .CampName,
-                                      isCompleted: false));
+                                          .CampName,isCompleted: false));
                                 },
                                 child: Card(
                                   margin: EdgeInsets.symmetric(
                                       horizontal:
-                                          SizeConfig.blockSizeHorizontal! * 3,
+                                          SizeConfig.blockSizeHorizontal !* 3,
                                       vertical:
-                                          SizeConfig.blockSizeHorizontal! * 2),
+                                          SizeConfig.blockSizeHorizontal !* 2),
                                   child: Row(
                                     children: <Widget>[
                                       Padding(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3,
-                                            vertical: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                2),
+                                            horizontal:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    3,
+                                            vertical:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    2),
                                         child: Image(
                                           image:
                                               AssetImage('images/ic_camp.png'),
                                           width:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   8,
                                           color: Colors.green,
                                         ),
@@ -254,10 +248,10 @@ class UpcomingScreen extends StatelessWidget {
                                         child: Padding(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     3,
                                                 vertical: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     2),
                                             child: Column(
                                               crossAxisAlignment:
@@ -271,13 +265,13 @@ class UpcomingScreen extends StatelessWidget {
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                         4,
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   height: SizeConfig
-                                                          .blockSizeVertical! *
+                                                          .blockSizeVertical !*
                                                       1,
                                                 ),
                                                 Text(
@@ -292,7 +286,7 @@ class UpcomingScreen extends StatelessWidget {
                                                   style: TextStyle(
                                                     color: Colors.grey,
                                                     fontSize: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                         3,
                                                   ),
                                                 )
@@ -342,7 +336,7 @@ class CompletedScreen extends StatelessWidget {
         home: Scaffold(body: Builder(
           builder: (context) {
             return Container(
-              width: SizeConfig.blockSizeHorizontal! * 100,
+              width: SizeConfig.blockSizeHorizontal !* 100,
               color: Color(0xBBDCDCDC),
               child: Column(
                 children: <Widget>[
@@ -360,30 +354,29 @@ class CompletedScreen extends StatelessWidget {
                                       campID: listCampCompletedResults[index]
                                           .DoctorCampIDP,
                                       name: listCampCompletedResults[index]
-                                          .CampName,
-                                      isCompleted: true));
+                                          .CampName,isCompleted: true));
                                 },
                                 child: Card(
                                   margin: EdgeInsets.symmetric(
                                       horizontal:
-                                          SizeConfig.blockSizeHorizontal! * 3,
+                                          SizeConfig.blockSizeHorizontal !* 3,
                                       vertical:
-                                          SizeConfig.blockSizeHorizontal! * 2),
+                                          SizeConfig.blockSizeHorizontal !* 2),
                                   child: Row(
                                     children: <Widget>[
                                       Padding(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3,
-                                            vertical: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                2),
+                                            horizontal:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    3,
+                                            vertical:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    2),
                                         child: Image(
                                           image:
                                               AssetImage('images/ic_camp.png'),
                                           width:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   8,
                                           color: Colors.green,
                                         ),
@@ -392,10 +385,10 @@ class CompletedScreen extends StatelessWidget {
                                         child: Padding(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     3,
                                                 vertical: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     2),
                                             child: Column(
                                               crossAxisAlignment:
@@ -410,13 +403,13 @@ class CompletedScreen extends StatelessWidget {
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                         4,
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   height: SizeConfig
-                                                          .blockSizeVertical! *
+                                                          .blockSizeVertical !*
                                                       1,
                                                 ),
                                                 Text(
@@ -431,7 +424,7 @@ class CompletedScreen extends StatelessWidget {
                                                   style: TextStyle(
                                                     color: Colors.grey,
                                                     fontSize: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                         3,
                                                   ),
                                                 )

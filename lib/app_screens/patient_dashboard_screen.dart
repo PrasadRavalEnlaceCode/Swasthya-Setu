@@ -18,39 +18,36 @@ import 'package:page_indicator/page_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:silvertouch/api/api_helper.dart';
-import 'package:silvertouch/app_screens/VitalsCombineListScreen.dart';
-import 'package:silvertouch/app_screens/all_consultation.dart';
-import 'package:silvertouch/app_screens/all_videos_screen.dart';
-import 'package:silvertouch/app_screens/doctors_list_screen.dart';
-import 'package:silvertouch/app_screens/edit_my_profile_patient.dart';
-import 'package:silvertouch/app_screens/help_screen.dart';
-import 'package:silvertouch/app_screens/investigations_list_with_graph.dart';
-import 'package:silvertouch/app_screens/my_appointments_patient.dart';
-import 'package:silvertouch/app_screens/my_qr_code_screen.dart';
-import 'package:silvertouch/app_screens/order_blood_screen.dart';
-import 'package:silvertouch/app_screens/order_medicine_screen.dart';
-import 'package:silvertouch/app_screens/play_video_screen.dart';
-import 'package:silvertouch/app_screens/report_patient_screen.dart';
-import 'package:silvertouch/app_screens/select_profile_screen.dart';
-import 'package:silvertouch/app_screens/view_profile_details_patient.dart';
-import 'package:silvertouch/app_screens/vitals_list.dart';
-import 'package:silvertouch/app_screens/your_account_validity_expired_screen.dart';
-import 'package:silvertouch/enums/expiry_state.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_icon.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_investigation_master_list.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
-import 'package:silvertouch/podo/response_login_icons_model.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/services/navigation_service.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
-import 'package:silvertouch/widgets/webview_container.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
+import 'package:swasthyasetu/app_screens/VitalsCombineListScreen.dart';
+import 'package:swasthyasetu/app_screens/all_consultation.dart';
+import 'package:swasthyasetu/app_screens/all_videos_screen.dart';
+import 'package:swasthyasetu/app_screens/doctor_dashboard_screen.dart';
+import 'package:swasthyasetu/app_screens/doctors_list_screen.dart';
+import 'package:swasthyasetu/app_screens/edit_my_profile_medical_patient.dart';
+import 'package:swasthyasetu/app_screens/edit_my_profile_patient.dart';
+import 'package:swasthyasetu/app_screens/help_screen.dart';
+import 'package:swasthyasetu/app_screens/investigations_list_with_graph.dart';
+import 'package:swasthyasetu/app_screens/my_appointments_patient.dart';
+import 'package:swasthyasetu/app_screens/my_qr_code_screen.dart';
+import 'package:swasthyasetu/app_screens/order_blood_screen.dart';
+import 'package:swasthyasetu/app_screens/order_medicine_screen.dart';
+import 'package:swasthyasetu/app_screens/play_video_screen.dart';
+import 'package:swasthyasetu/app_screens/report_patient_screen.dart';
+import 'package:swasthyasetu/app_screens/select_profile_screen.dart';
+import 'package:swasthyasetu/app_screens/view_profile_details_patient.dart';
+import 'package:swasthyasetu/app_screens/vitals_list.dart';
+import 'package:swasthyasetu/app_screens/your_account_validity_expired_screen.dart';
+import 'package:swasthyasetu/enums/expiry_state.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_icon.dart';
+import 'package:swasthyasetu/podo/model_investigation_master_list.dart';
+import 'package:swasthyasetu/podo/model_profile_patient.dart';
+import 'package:swasthyasetu/podo/response_login_icons_model.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/services/navigation_service.dart';
+import 'package:swasthyasetu/widgets/webview_container.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -92,8 +89,13 @@ String userName = "",
     married = "",
     noOfFamilyMembers = "",
     yourPositionInFamily = "";
-String countryIDF = "", stateIDF = "", cityIDF = "";
-String weight = "", height = "", bloodGroup = "", emergencyNumber = "";
+String countryIDF = "",
+    stateIDF = "",
+    cityIDF = "";
+String weight = "",
+    height = "",
+    bloodGroup = "",
+    emergencyNumber = "";
 String gender = "";
 
 String? patientIDP;
@@ -280,7 +282,8 @@ class PatientDashboardState extends State<PatientDashboardScreen>
               content: Text(model.message!),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () {
+                  onPressed: ()
+                  {
                     Navigator.pop(context);
                   },
                   child: Text(
@@ -396,8 +399,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
       address = jsonData[0]['Address'] != "" ? jsonData[0]['Address'] : "-";
       city = jsonData[0]['CityName'] != "" ? jsonData[0]['CityName'] : "-";
       state = jsonData[0]['StateName'] != "" ? jsonData[0]['StateName'] : "-";
-      country =
-          jsonData[0]['CountryName'] != "" ? jsonData[0]['CountryName'] : "-";
+      country = jsonData[0]['CountryName'] != "" ? jsonData[0]['CountryName'] : "-";
 
       married = jsonData[0]['Married'] != "" ? jsonData[0]['Married'] : "-";
       noOfFamilyMembers = jsonData[0]['NoOfFamilyMember'] != ""
@@ -556,7 +558,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
     WidgetsBinding.instance.removeObserver(this);
     userNameGlobal = "";
     bottomNavBarIndex = 0;
-    _timer!.cancel();
+ _timer!.cancel();
     super.dispose();
   }
 
@@ -575,7 +577,8 @@ class PatientDashboardState extends State<PatientDashboardScreen>
 
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
   int tappedIndex = -1;
-  final List<DrawerModel> liste = [
+  final List<DrawerModel> liste =
+  [
     DrawerModel(title: "Home", image: "images/v-2-icn-categories-nav.png"),
     DrawerModel(
         title: "My Appointment", image: "images/v-2-icn-calender-gray.png"),
@@ -612,33 +615,36 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                   Container(
                     color: Color(0xfff0f1f5),
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                    child: Row(
+                    child:
+                    Row(
                       children: [
-                        (imgUrl != null)
-                            ? InkWell(
-                                onTap: () {},
-                                child: CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Colors.transparent,
-                                  child: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage("$userImgUrl$imgUrl"),
-                                    radius: 28,
-                                  ),
-                                ),
-                              )
-                            : InkWell(
-                                onTap: () {},
-                                child: CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: colorBlueDark,
-                                  child: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        "images/ic_user_placeholder.png"),
-                                    radius: 28,
-                                  ),
-                                ),
-                              ),
+                        (imgUrl!=null) ?
+                        InkWell(
+                          onTap: (){
+
+                          },
+                          child: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.transparent,
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage("$userImgUrl$imgUrl"),
+                              radius: 28,
+                            ),
+                          ),
+                        ) :
+                        InkWell(
+                          onTap: (){
+
+                          },
+                          child: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: colorBlueDark,
+                            child: CircleAvatar(
+                              backgroundImage: AssetImage("images/ic_user_placeholder.png"),
+                              radius: 28,
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           width: 10,
                         ),
@@ -650,7 +656,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                               style: TextStyle(
                                   color: colorBlueDark,
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal! * 3.3,
+                                      SizeConfig.blockSizeHorizontal !* 3.3,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center,
                             ),
@@ -661,7 +667,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                               "ID - $patientID",
                               style: TextStyle(
                                 color: Colors.grey,
-                                fontSize: SizeConfig.blockSizeHorizontal! * 3.3,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 3.3,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -692,7 +698,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                             //         ? Colors.white
                             //         : Colors.black),
                             leading: Image.asset(liste[i].image!,
-                                width: SizeConfig.blockSizeHorizontal! * 4.0,
+                                width: SizeConfig.blockSizeHorizontal !* 4.0,
                                 color: Colors.black),
                             trailing: i == 1 || i == 5
                                 ? null
@@ -705,7 +711,8 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                             //             ? Colors.white
                             //             : Colors.black)),
                             title: Text(liste[i].title!,
-                                style: TextStyle(color: Colors.black)),
+                                style: TextStyle(
+                                    color: Colors.black)),
                             onTap: () {
                               // setState(() {
                               //   tappedIndex = i;
@@ -714,36 +721,36 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                                 Navigator.pop(context);
                               } else if (i == 1) {
                                 Navigator.pop(context);
-                                Get.to(() => MyAppointmentsPatientScreen());
-                              } else if (i == 2) {
-                                Navigator.pop(context);
                                 Get.to(() =>
-                                    DoctorsListScreen(patientIDP!, true, "1"));
-                                // Get.to(() => MyChats(patientIDP));
-                              } else if (i == 3) {
+                                    MyAppointmentsPatientScreen());
+                              } else if (i == 2) {
+                               Navigator.pop(context);
+                               Get.to(() => DoctorsListScreen(patientIDP!,true,"1"));
+                               // Get.to(() => MyChats(patientIDP));
+                              } else if (i == 3)
+                              {
                                 Navigator.pop(context);
                                 Get.to(() => PatientReportScreen(
-                                    patientIDP!, "prescription_fixed", false));
+                                    patientIDP!, "prescription_fixed",false));
                               } else if (i == 4) {
                                 Navigator.pop(context);
-                                Share.share(
-                                    'https://play.google.com/store/apps/details?id=com.swasthyasetu.swasthyasetu&pli=1',
+                                Share.share('https://play.google.com/store/apps/details?id=com.swasthyasetu.swasthyasetu&pli=1',
                                     subject: '');
                               } else if (i == 5) {
                                 Navigator.pop(context);
                                 Get.to(() => HelpScreen(patientIDP!));
                               } else if (i == 6) {
                                 Navigator.pop(context);
-                                //     Get.to(() => VitalsListScreen(patientIDP));
+                           //     Get.to(() => VitalsListScreen(patientIDP));
                                 showConfirmationDialogLogout(
                                   context,
                                 );
                               }
                               // else if (i == 7) {
-                              // Navigator.pop(context);
-                              // showConfirmationDialogLogout(
-                              //   context,
-                              // );
+                                // Navigator.pop(context);
+                                // showConfirmationDialogLogout(
+                                //   context,
+                                // );
                               // }
                             }, // Reverse bool value
                           ),
@@ -782,14 +789,14 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                         "images/v-2-icn-categories-nav.png",
                       ),
                       color: colorBlueApp,
-                      width: SizeConfig.blockSizeHorizontal! * 6,
+                      width: SizeConfig.blockSizeHorizontal !* 6,
                     ),
                     icon: Image(
                       image: AssetImage(
                         "images/v-2-icn-categories-nav.png",
                       ),
                       color: darkgrey,
-                      width: SizeConfig.blockSizeHorizontal! * 6,
+                      width: SizeConfig.blockSizeHorizontal !* 6,
                     ),
                     label: 'Home'),
                 BottomNavigationBarItem(
@@ -798,14 +805,14 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                         "images/icn-receipt-rupee.png",
                       ),
                       color: colorBlueApp,
-                      width: SizeConfig.blockSizeHorizontal! * 6,
+                      width: SizeConfig.blockSizeHorizontal !* 6,
                     ),
                     icon: Image(
                       image: AssetImage(
                         "images/icn-receipt-rupee.png",
                       ),
                       color: darkgrey,
-                      width: SizeConfig.blockSizeHorizontal! * 6,
+                      width: SizeConfig.blockSizeHorizontal !* 6,
                     ),
                     label: 'Payment'),
                 BottomNavigationBarItem(
@@ -814,14 +821,14 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                         "images/v-2-icn-profile-nav.png",
                       ),
                       color: colorBlueApp,
-                      width: SizeConfig.blockSizeHorizontal! * 6,
+                      width: SizeConfig.blockSizeHorizontal !* 6,
                     ),
                     icon: Image(
                       image: AssetImage(
                         "images/v-2-icn-profile-nav.png",
                       ),
                       color: darkgrey,
-                      width: SizeConfig.blockSizeHorizontal! * 6,
+                      width: SizeConfig.blockSizeHorizontal !* 6,
                     ),
                     label: 'Profile'),
                 /*BottomNavigationBarItem(
@@ -853,12 +860,12 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                     activeIcon: Icon(
                       Icons.menu,
                       color: colorBlueApp,
-                      size: SizeConfig.blockSizeHorizontal! * 6,
+                      size: SizeConfig.blockSizeHorizontal !* 6,
                     ),
                     icon: Icon(
                       Icons.menu,
                       color: Colors.grey,
-                      size: SizeConfig.blockSizeHorizontal! * 6,
+                      size: SizeConfig.blockSizeHorizontal !* 6,
                     ),
                     label: "Menu"),
               ],
@@ -908,504 +915,486 @@ class PatientDashboardState extends State<PatientDashboardScreen>
     });
   }
 
-  Widget generalProfileWidget(BuildContext mContext, BuildContext context) {
+ Widget  generalProfileWidget(BuildContext mContext, BuildContext context) {
     return SingleChildScrollView(
-        child: Column(children: [
-      LayoutBuilder(builder: (context, constraints) {
-        return SizedBox(
-          height: SizeConfig.blockSizeVertical! * 90,
-          width: SizeConfig.blockSizeHorizontal! * 100,
-          child: ListView(
-            children: [
-              Container(
-                color: Colors.white,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ListView(
-                      physics: ClampingScrollPhysics(),
-                      shrinkWrap: true,
+      child: Column(
+      children: [
+        LayoutBuilder(
+        builder: (context, constraints)
+        {
+          return SizedBox(
+              height: SizeConfig.blockSizeVertical !* 90,
+              width: SizeConfig.blockSizeHorizontal !* 100,
+              child: ListView(
+                children: [
+                  Container(
+                    color: Colors.white,
+                    child:
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical! * 1,
-                        ),
-                        ColoredBox(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    SizeConfig.blockSizeHorizontal! * 2.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: SizeConfig.blockSizeHorizontal! *
-                                            8.0),
-                                    child: Text(
-                                      "General Profile",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize:
-                                            SizeConfig.blockSizeHorizontal! *
-                                                5.0,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () => {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                EditMyProfilePatient(
-                                                  PatientProfileModel(
-                                                      firstName,
-                                                      lastName,
-                                                      mobNo,
-                                                      emailId,
-                                                      imgUrl,
-                                                      dob,
-                                                      age,
-                                                      address,
-                                                      city,
-                                                      state,
-                                                      country,
-                                                      married,
-                                                      noOfFamilyMembers,
-                                                      yourPositionInFamily,
-                                                      countryIDF,
-                                                      stateIDF,
-                                                      cityIDF,
-                                                      middleName,
-                                                      weight,
-                                                      height,
-                                                      bloodGroup,
-                                                      emergencyNumber,
-                                                      gender,
-                                                      patientID: patientID),
-                                                  imgUrl,
-                                                  patientIDP!,
-                                                ))).then(
-                                        (value) => getPatientProfileDetails())
-                                  },
-                                  child: Icon(
-                                    Icons.edit,
-                                    color: Colors.black,
-                                    size: 25,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                InkWell(
-                                  onTap: () => {
-                                    if (userData.length > 0)
-                                      {switchProfile(context)}
-                                  },
-                                  child: Icon(
-                                    Icons.people,
-                                    color: Colors.black,
-                                    size: 25,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        (imgUrl != null)
-                            ? InkWell(
-                                onTap: () {
-                                  Get.to(() => ViewProfileDetails(
-                                            from: "patientViewMedicalProfile",
-                                          ))!
-                                      .then((value) {
-                                    getPatientProfileDetails();
-                                  });
-                                },
-                                child: CircleAvatar(
-                                  radius: 50,
-                                  backgroundColor: Colors.transparent,
-                                  child: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage("$userImgUrl$imgUrl"),
-                                    radius: 48,
-                                  ),
-                                ),
-                              )
-                            : InkWell(
-                                onTap: () {
-                                  Get.to(() => ViewProfileDetails(
-                                            from: "patientViewMedicalProfile",
-                                          ))!
-                                      .then((value) {
-                                    getPatientProfileDetails();
-                                  });
-                                },
-                                child: CircleAvatar(
-                                  radius: 50,
-                                  backgroundColor: colorBlueDark,
-                                  child: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        "images/ic_user_placeholder.png"),
-                                    radius: 48,
-                                  ),
-                                ),
-                              ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Text(
-                            "$userNameGlobal",
-                            style: TextStyle(
-                                color: colorBlueDark,
-                                fontSize: SizeConfig.blockSizeHorizontal! * 3.3,
-                                fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        ListView(
+                          physics: ClampingScrollPhysics(),
+                          shrinkWrap: true,
                           children: [
-                            Text(
-                              "ID - $patientID",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
                             SizedBox(
-                              width: 20,
-                              height: 20,
+                              height: SizeConfig.blockSizeVertical !* 1,
                             ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Divider(
-                            color: Colors.grey.withOpacity(0.2),
-                            thickness: 2,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: IntrinsicHeight(
-                            child: Row(
-                              children: [
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                            ColoredBox(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: SizeConfig.blockSizeHorizontal !* 2.0),
+                                child: Row(
                                   children: [
-                                    Text(
-                                      "Mobile",
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeHorizontal !* 8.0),
+                                        child: Text(
+                                          "General Profile",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize:
+                                            SizeConfig.blockSizeHorizontal !* 5.0,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
                                     ),
-                                    Text(
-                                      "$mobNo",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  3.3,
-                                          fontWeight: FontWeight.bold),
+                                    InkWell(
+                                      onTap: () =>
+                                      {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                            EditMyProfilePatient(
+                                              PatientProfileModel(
+                                                  firstName,
+                                                  lastName,
+                                                  mobNo,
+                                                  emailId,
+                                                  imgUrl,
+                                                  dob,
+                                                  age,
+                                                  address,
+                                                  city,
+                                                  state,
+                                                  country,
+                                                  married,
+                                                  noOfFamilyMembers,
+                                                  yourPositionInFamily,
+                                                  countryIDF,
+                                                  stateIDF,
+                                                  cityIDF,
+                                                  middleName,
+                                                  weight,
+                                                  height,
+                                                  bloodGroup,
+                                                  emergencyNumber,
+                                                  gender,
+                                                  patientID: patientID),
+                                              imgUrl,
+                                              patientIDP!,
+                                            ))).then((value) => getPatientProfileDetails())
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: Colors.black,
+                                        size: 25,
+                                      ),
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      width: 10,
                                     ),
-                                    Text(
-                                      "Subscription Validity",
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "$expiryDate",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  3.3,
-                                          fontWeight: FontWeight.bold),
+                                    InkWell(
+                                      onTap: () =>
+                                      {
+                                        if (userData.length > 0)
+                                          {
+                                            switchProfile(context)
+                                          }
+                                      },
+                                      child: Icon(
+                                        Icons.people,
+                                        color: Colors.black,
+                                        size: 25,
+                                      ),
                                     ),
                                   ],
                                 ),
-                                Spacer(),
-                                InkWell(
-                                  onTap: () => Get.to(() => MyQRCodeScreen("")),
-                                  child: Image(
-                                    image: AssetImage(
-                                        "images/ic_scan_and_pay_footer.png"),
-                                    width: SizeConfig.blockSizeHorizontal! * 20,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            (imgUrl!=null) ?
+                              InkWell(
+                              onTap: (){
+                                Get.to(() => ViewProfileDetails(
+                                  from: "patientViewMedicalProfile",
+                                ))!.then((value) {
+                                  getPatientProfileDetails();
+                                });
+                              },
+                              child: CircleAvatar(
+                                radius: 50,
+                                backgroundColor: Colors.transparent,
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage("$userImgUrl$imgUrl"),
+                                  radius: 48,
+                                ),
+                              ),
+                              ) :
+                            InkWell(
+                              onTap: (){
+                                Get.to(() => ViewProfileDetails(
+                                  from: "patientViewMedicalProfile",
+                                ))!.then((value) {
+                                  getPatientProfileDetails();
+                                });
+                              },
+                              child: CircleAvatar(
+                                radius: 50,
+                                backgroundColor: colorBlueDark,
+                                child: CircleAvatar(
+                                  backgroundImage: AssetImage("images/ic_user_placeholder.png"),
+                                  radius: 48,
+                                ),
+                              ),
+                            )
+                            ,
+                            SizedBox(
+                              height: 10,
+                            ),
+                            InkWell(
+                              onTap: () {
+
+                              },
+                              child: Text(
+                                "$userNameGlobal",
+                                style: TextStyle(
+                                    color: colorBlueDark,
+                                    fontSize: SizeConfig.blockSizeHorizontal !* 3.3,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 2,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "ID - $patientID",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
                                   ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                  height: 20,
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical! * 2,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Container(
-                            padding: EdgeInsets.all(20),
-                            color: Colors.grey.withOpacity(0.1),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                InkWell(
-                                  onTap: () =>
-                                      Get.to(() => HelpScreen(patientIDP!)),
-                                  child: Image.asset(
-                                    "images/v-2-icn-medical-profile.png",
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 6.0,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! * 2.0,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Divider(
+                                color: Colors.grey.withOpacity(0.2),
+                                thickness: 2,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: IntrinsicHeight(
+                                child: Row(
                                   children: [
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  1.0,
+                                        Text(
+                                          "Mobile",
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "Medical Profile",
+                                          "$mobNo",
                                           style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                5.0,
-                                          ),
+                                              color: Colors.black,
+                                              fontSize:
+                                              SizeConfig.blockSizeHorizontal !*
+                                                  3.3,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  4.0,
+                                          height: 10,
                                         ),
                                         Text(
-                                          "Medical History",
+                                          "Subscription Validity",
                                           style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.0,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  1.0,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "Diabetes -${jsonObj['DiabetesVal']}",
-                                          overflow: TextOverflow.ellipsis,
+                                          "$expiryDate",
                                           style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.3,
-                                          ),
+                                              color: Colors.black,
+                                              fontSize:
+                                              SizeConfig.blockSizeHorizontal !*
+                                                  3.3,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                        SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  4.0,
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    InkWell(
+                                      onTap: () => Get.to(() => MyQRCodeScreen("")),
+                                      child: Image(
+                                        image: AssetImage(
+                                            "images/ic_scan_and_pay_footer.png"),
+                                        width: SizeConfig.blockSizeHorizontal !* 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical !* 2,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Container(
+                                padding: EdgeInsets.all(20),
+                                color: Colors.grey.withOpacity(0.1),
+                                child:
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () =>
+                                          Get.to(() => HelpScreen(patientIDP!)),
+                                      child: Image.asset(
+                                        "images/v-2-icn-medical-profile.png",
+                                        width: SizeConfig.blockSizeHorizontal !* 6.0,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: SizeConfig.blockSizeHorizontal !* 2.0,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              height:
+                                              SizeConfig.blockSizeHorizontal !* 1.0,
+                                            ),
+                                            Text(
+                                              "Medical Profile",
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize:
+                                                SizeConfig.blockSizeHorizontal !* 5.0,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                              SizeConfig.blockSizeHorizontal !* 4.0,
+                                            ),
+                                            Text(
+                                              "Medical History",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize:
+                                                SizeConfig.blockSizeHorizontal !* 4.0,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                              SizeConfig.blockSizeHorizontal !* 1.0,
+                                            ),
+                                            Text(
+                                              "Diabetes -${jsonObj['DiabetesVal']}",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize:
+                                                SizeConfig.blockSizeHorizontal !* 4.3,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                              SizeConfig.blockSizeHorizontal !* 4.0,
+                                            ),
+                                            Text(
+                                              "Surgical History",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize:
+                                                SizeConfig.blockSizeHorizontal !* 4.0,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                              SizeConfig.blockSizeHorizontal !* 1.0,
+                                            ),
+                                            Text(
+                                              jsonObj['SurgicalHistory'],
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize:
+                                                SizeConfig.blockSizeHorizontal !* 4.3,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                              SizeConfig.blockSizeHorizontal !* 4.0,
+                                            ),
+                                            Text(
+                                              "Drug Allergy",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize:
+                                                SizeConfig.blockSizeHorizontal !* 4.0,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                              SizeConfig.blockSizeHorizontal !* 1.0,
+                                            ),
+                                            Text(
+                                              jsonObj['DrugAllergy'],
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize:
+                                                SizeConfig.blockSizeHorizontal !* 4.3,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                              SizeConfig.blockSizeHorizontal !* 4.0,
+                                            ),
+                                            Text(
+                                              "Blood Group",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize:
+                                                SizeConfig.blockSizeHorizontal !* 4.0,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                              SizeConfig.blockSizeHorizontal !* 1.0,
+                                            ),
+                                            Text(
+                                              jsonObj['BloodGroup'],
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize:
+                                                SizeConfig.blockSizeHorizontal !* 4.3,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          "Surgical History",
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.0,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  1.0,
-                                        ),
-                                        Text(
-                                          jsonObj['SurgicalHistory'],
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.3,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  4.0,
-                                        ),
-                                        Text(
-                                          "Drug Allergy",
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.0,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  1.0,
-                                        ),
-                                        Text(
-                                          jsonObj['DrugAllergy'],
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.3,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  4.0,
-                                        ),
-                                        Text(
-                                          "Blood Group",
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.0,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  1.0,
-                                        ),
-                                        Text(
-                                          jsonObj['BloodGroup'],
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.3,
+                                        InkWell(
+                                          onTap: () {
+                                            Get.to(() => ViewProfileDetails(
+                                              from: "patientViewMedicalProfile",
+                                            ))!.then((value) {
+                                              getPatientProfileDetails();
+                                            });
+                                          },
+                                          child:
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                "Full View",
+                                                style: TextStyle(
+                                                    color: colorBlueDark,
+                                                    fontSize:
+                                                    SizeConfig.blockSizeHorizontal !*
+                                                        4.0),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Image.asset(
+                                                "images/v-2-icn-fullscreen.png",
+                                                width:
+                                                SizeConfig.blockSizeHorizontal !* 4.0,
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        Get.to(() => ViewProfileDetails(
-                                                  from:
-                                                      "patientViewMedicalProfile",
-                                                ))!
-                                            .then((value) {
-                                          getPatientProfileDetails();
-                                        });
-                                      },
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text(
-                                            "Full View",
-                                            style: TextStyle(
-                                                color: colorBlueDark,
-                                                fontSize: SizeConfig
-                                                        .blockSizeHorizontal! *
-                                                    4.0),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Image.asset(
-                                            "images/v-2-icn-fullscreen.png",
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.0,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    Spacer(),
                                   ],
                                 ),
-                                Spacer(),
-                              ],
+                              ),
                             ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical !* 1.0,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            showConfirmationDialogLogout(
+                              context,
+                            );
+                          },
+                          child:
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:
+                            [
+                              Image.asset("images/v-2-icn-logout-nav.png",
+                                  width: SizeConfig.blockSizeHorizontal !* 6.0,
+                                  color: Colors.black),
+                              SizedBox(
+                                width: SizeConfig.blockSizeVertical !* 1.0,
+                              ),
+                              Text(
+                                "Sign Out",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical !* 4.0,
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 1.0,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        showConfirmationDialogLogout(
-                          context,
-                        );
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset("images/v-2-icn-logout-nav.png",
-                              width: SizeConfig.blockSizeHorizontal! * 6.0,
-                              color: Colors.black),
-                          SizedBox(
-                            width: SizeConfig.blockSizeVertical! * 1.0,
-                          ),
-                          Text(
-                            "Sign Out",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 4.0,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        );
-      })
-    ]));
+            );
+        }
+      )]
+    ));
   }
 
   showConfirmationDialogLogout(BuildContext context) {
@@ -1456,7 +1445,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
   Future<void> onTabTapped(int index, BuildContext context) async {
     if (index == 1) {
       //scanTheQRCodeNow(context);
-      showPaymentTypeSelectionDialog(context);
+            showPaymentTypeSelectionDialog(context);
       index = 0;
     }
     setState(() {
@@ -1482,13 +1471,13 @@ class PatientDashboardState extends State<PatientDashboardScreen>
     return Stack(
       children: <Widget>[
         Container(
-          width: SizeConfig.blockSizeHorizontal! * 90,
-          height: SizeConfig.blockSizeVertical! * 25,
+          width: SizeConfig.blockSizeHorizontal !* 90,
+          height: SizeConfig.blockSizeVertical !* 25,
           padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeHorizontal! * 1,
-            bottom: SizeConfig.blockSizeHorizontal! * 1,
-            left: SizeConfig.blockSizeHorizontal! * 1,
-            right: SizeConfig.blockSizeHorizontal! * 1,
+            top: SizeConfig.blockSizeHorizontal !* 1,
+            bottom: SizeConfig.blockSizeHorizontal !* 1,
+            left: SizeConfig.blockSizeHorizontal !* 1,
+            right: SizeConfig.blockSizeHorizontal !* 1,
           ),
           decoration: new BoxDecoration(
             color: Colors.white,
@@ -1511,7 +1500,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.red,
-                      size: SizeConfig.blockSizeVertical! * 4.0,
+                      size: SizeConfig.blockSizeVertical !* 4.0,
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -1521,14 +1510,14 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4.5,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.5,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 0.5,
+                height: SizeConfig.blockSizeVertical !* 0.5,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1543,8 +1532,8 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                         children: [
                           Image(
                             fit: BoxFit.contain,
-                            width: SizeConfig.blockSizeHorizontal! * 10,
-                            height: SizeConfig.blockSizeVertical! * 10,
+                            width: SizeConfig.blockSizeHorizontal !* 10,
+                            height: SizeConfig.blockSizeVertical !* 10,
                             //height: 80,
                             image: AssetImage(
                                 "images/ic_scan_and_pay_to_doctor.png"),
@@ -1553,7 +1542,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                             "Scan & Pay to Doctor",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
+                              fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
                             ),
                           ),
                         ],
@@ -1561,7 +1550,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal! * 1,
+                    width: SizeConfig.blockSizeHorizontal !* 1,
                   ),
                   Expanded(
                     child: InkWell(
@@ -1573,8 +1562,8 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                         children: [
                           Image(
                             fit: BoxFit.contain,
-                            width: SizeConfig.blockSizeHorizontal! * 10,
-                            height: SizeConfig.blockSizeVertical! * 10,
+                            width: SizeConfig.blockSizeHorizontal !* 10,
+                            height: SizeConfig.blockSizeVertical !* 10,
                             //height: 80,
                             image: AssetImage("images/ic_my_payments.png"),
                           ),
@@ -1582,7 +1571,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                             "My Payments",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
+                              fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
                             ),
                           ),
                         ],
@@ -1746,7 +1735,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
       var strData = decodeBase64(data);
       debugPrint("Decoded Data Array Dashboard : " + strData);
       final jsonData = json.decode(strData);
-      String imgUrl = "${baseImagePath}images/popupimage/" + jsonData['PopupImage'];
+      String imgUrl = "${baseURL}images/popupimage/" + jsonData['PopupImage'];
       final jsonVideos = jsonData['Videos'];
       //final jsonVideos = json.decode(videos);
 
@@ -1763,9 +1752,10 @@ class PatientDashboardState extends State<PatientDashboardScreen>
       listSliderImagesWebViewOuter = [];
       listSliderImagesWebViewTitleOuter = [];
       final jsonArrayMainSlider = jsonData['MainSlider'];
-      for (var i = 0; i < jsonArrayMainSlider.length; i++) {
+      for (var i = 0; i < jsonArrayMainSlider.length; i++)
+      {
         var jsonIconObj = jsonArrayMainSlider[i];
-        listPhotos.add("${baseImagePath}" + jsonIconObj['Path']);
+        listPhotos.add("${baseURL}" + jsonIconObj['Path']);
         listSliderImagesWebViewOuter.add(jsonIconObj['Webview']);
         listSliderImagesWebViewTitleOuter.add(jsonIconObj["Title"]);
       }
@@ -1813,7 +1803,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
 
   void showCallOrSmsSelectionDialog(
       BuildContext context, String emergencyNumber, String name) {
-    showDialog(
+      showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) => Dialog(
@@ -1826,7 +1816,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal! * 3,
+                      SizeConfig.blockSizeHorizontal !* 3,
                     ),
                     child: Row(
                       children: <Widget>[
@@ -1834,20 +1824,20 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                           child: Icon(
                             Icons.arrow_back,
                             color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal! * 6.2,
+                            size: SizeConfig.blockSizeHorizontal !* 6.2,
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal! * 6,
+                          width: SizeConfig.blockSizeHorizontal !* 6,
                         ),
                         Text(
                           "Choose Action",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
+                            fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
                             decoration: TextDecoration.none,
@@ -1863,7 +1853,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                             emergencyNumber);
                       },
                       child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 90,
+                          width: SizeConfig.blockSizeHorizontal !* 90,
                           padding: EdgeInsets.only(
                             top: 5,
                             bottom: 5,
@@ -1905,7 +1895,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                             ["$emergencyNumber"]);
                       },
                       child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 90,
+                          width: SizeConfig.blockSizeHorizontal !* 90,
                           padding: EdgeInsets.only(
                             top: 5,
                             bottom: 5,
@@ -2083,8 +2073,8 @@ class PatientDashboardState extends State<PatientDashboardScreen>
               color: colorWhite,
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
-                  vertical: SizeConfig.blockSizeHorizontal! * 3.0,
+                  horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+                  vertical: SizeConfig.blockSizeHorizontal !* 3.0,
                 ),
                 child: Row(
                   children: <Widget>[
@@ -2092,7 +2082,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                       child: Text("Unique ID-$patientID",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: SizeConfig.blockSizeHorizontal! * 3.6,
+                            fontSize: SizeConfig.blockSizeHorizontal !* 3.6,
                             letterSpacing: 1.2,
                           )),
                     ),
@@ -2108,13 +2098,13 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                           );
                         },
                         child: showEnglish
-                            ? Text("Silver Touch",
+                            ? Text("SWASTHYA SETU",
                                 key: UniqueKey(),
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal! * 5.3,
+                                      SizeConfig.blockSizeHorizontal !* 5.3,
                                   letterSpacing: 1.2,
                                   fontWeight: FontWeight.w700,
                                 ))
@@ -2124,7 +2114,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal! * 5.3,
+                                      SizeConfig.blockSizeHorizontal !* 5.3,
                                   letterSpacing: 2.5,
                                   fontFamily: "KrutiDev",
                                   fontWeight: FontWeight.w500,
@@ -2136,11 +2126,11 @@ class PatientDashboardState extends State<PatientDashboardScreen>
               ),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2,
+              height: SizeConfig.blockSizeVertical !* 2,
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
+                horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
               ),
               child: new RichText(
                 text: new TextSpan(
@@ -2158,7 +2148,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
               ),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2,
+              height: SizeConfig.blockSizeVertical !* 2,
             ),
             // Padding(
             //   padding: EdgeInsets.symmetric(
@@ -2181,17 +2171,17 @@ class PatientDashboardState extends State<PatientDashboardScreen>
             //         //you can set more BoxShadow() here
             //       ],
             //     ),
-            // child: TextField(
-            //   decoration: const InputDecoration(
-            //       contentPadding: EdgeInsets.all(15),
-            //       border: InputBorder.none,
-            //       hintText: 'Search',
-            //       hintStyle: TextStyle(fontSize: 20),
-            //       suffixIcon: Icon(
-            //         Icons.search,
-            //         color: Color(0xFF70a5db),
-            //       )),
-            // ),
+                // child: TextField(
+                //   decoration: const InputDecoration(
+                //       contentPadding: EdgeInsets.all(15),
+                //       border: InputBorder.none,
+                //       hintText: 'Search',
+                //       hintStyle: TextStyle(fontSize: 20),
+                //       suffixIcon: Icon(
+                //         Icons.search,
+                //         color: Color(0xFF70a5db),
+                //       )),
+                // ),
             //   ),
             // ),
 
@@ -2345,156 +2335,157 @@ class PatientDashboardState extends State<PatientDashboardScreen>
             //   ),
             //   child: Row(
             //     children: [
-            // Expanded(
-            //   child: InkWell(
-            //     onTap: () {
-            //       Get.to(() => AppointmentDoctorsListScreen(patientIDP));
-            //     },
-            //     child: Card(
-            //       elevation: 0,
-            //       shadowColor: Colors.grey,
-            //       color: colorBlueDark,
-            //       shape: RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.all(Radius.circular(
-            //                   10.0) //                 <--- border radius here
-            //               ),
-            //           side: BorderSide(color: colorBlueDark, width: 1.5)),
-            //       child: Padding(
-            //         padding: EdgeInsets.all(
-            //           SizeConfig.blockSizeHorizontal * 3.0,
-            //         ),
-            //         child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.start,
-            //           children: [
-            //             Image.asset(
-            //               "images/ic_ask_for_appointment_filled.png",
-            //               width: SizeConfig.blockSizeHorizontal * 9.0,
-            //             ),
-            //             SizedBox(
-            //               width: SizeConfig.blockSizeHorizontal * 2.0,
-            //             ),
-            //             Expanded(
-            //               child: Column(
-            //                 crossAxisAlignment: CrossAxisAlignment.start,
-            //                 children: [
-            //                   Text(
-            //                     "Ask for",
-            //                     style: TextStyle(
-            //                         fontSize:
-            //                             SizeConfig.blockSizeHorizontal *
-            //                                 4.2,
-            //                         fontWeight: FontWeight.w400,
-            //                         color: colorWhite),
-            //                   ),
-            //                   SizedBox(
-            //                     height:
-            //                         SizeConfig.blockSizeVertical * 0.4,
-            //                   ),
-            //                   Text(
-            //                     "Appointment",
-            //                     style: TextStyle(
-            //                         fontSize:
-            //                             SizeConfig.blockSizeHorizontal *
-            //                                 4.2,
-            //                         fontWeight: FontWeight.w700,
-            //                         color: colorWhite),
-            //                   ),
-            //                 ],
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Expanded(
-            //   child: InkWell(
-            //     onTap: () {
-            //       Get.to(() => MyChats(patientIDP));
-            //     },
-            //     child: Card(
-            //       elevation: 0,
-            //       shadowColor: Colors.grey,
-            //       color: colorBlueDark,
-            //       shape: RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.all(Radius.circular(
-            //                   10.0) //                 <--- border radius here
-            //               ),
-            //           side: BorderSide(color: colorBlueDark, width: 1.5)),
-            //       child: Padding(
-            //         padding: EdgeInsets.all(
-            //           SizeConfig.blockSizeHorizontal * 3.0,
-            //         ),
-            //         child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.start,
-            //           children: [
-            //             Image(
-            //               image: AssetImage(
-            //                 "images/ic_ask_to_doctor_filled.png",
-            //               ),
-            //               height: SizeConfig.blockSizeHorizontal * 9,
-            //               width: SizeConfig.blockSizeHorizontal * 9,
-            //             ),
-            //             SizedBox(
-            //               width: SizeConfig.blockSizeHorizontal * 2.0,
-            //             ),
-            //             Expanded(
-            //               child: Column(
-            //                 crossAxisAlignment: CrossAxisAlignment.start,
-            //                 children: [
-            //                   Text(
-            //                     "Ask to",
-            //                     style: TextStyle(
-            //                         fontSize:
-            //                             SizeConfig.blockSizeHorizontal *
-            //                                 4.2,
-            //                         fontWeight: FontWeight.w400,
-            //                         color: colorWhite),
-            //                   ),
-            //                   SizedBox(
-            //                     height:
-            //                         SizeConfig.blockSizeVertical * 0.4,
-            //                   ),
-            //                   Text(
-            //                     "Doctor",
-            //                     style: TextStyle(
-            //                         fontSize:
-            //                             SizeConfig.blockSizeHorizontal *
-            //                                 4.2,
-            //                         fontWeight: FontWeight.w700,
-            //                         color: colorWhite),
-            //                   ),
-            //                 ],
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+                  // Expanded(
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       Get.to(() => AppointmentDoctorsListScreen(patientIDP));
+                  //     },
+                  //     child: Card(
+                  //       elevation: 0,
+                  //       shadowColor: Colors.grey,
+                  //       color: colorBlueDark,
+                  //       shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.all(Radius.circular(
+                  //                   10.0) //                 <--- border radius here
+                  //               ),
+                  //           side: BorderSide(color: colorBlueDark, width: 1.5)),
+                  //       child: Padding(
+                  //         padding: EdgeInsets.all(
+                  //           SizeConfig.blockSizeHorizontal * 3.0,
+                  //         ),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.start,
+                  //           children: [
+                  //             Image.asset(
+                  //               "images/ic_ask_for_appointment_filled.png",
+                  //               width: SizeConfig.blockSizeHorizontal * 9.0,
+                  //             ),
+                  //             SizedBox(
+                  //               width: SizeConfig.blockSizeHorizontal * 2.0,
+                  //             ),
+                  //             Expanded(
+                  //               child: Column(
+                  //                 crossAxisAlignment: CrossAxisAlignment.start,
+                  //                 children: [
+                  //                   Text(
+                  //                     "Ask for",
+                  //                     style: TextStyle(
+                  //                         fontSize:
+                  //                             SizeConfig.blockSizeHorizontal *
+                  //                                 4.2,
+                  //                         fontWeight: FontWeight.w400,
+                  //                         color: colorWhite),
+                  //                   ),
+                  //                   SizedBox(
+                  //                     height:
+                  //                         SizeConfig.blockSizeVertical * 0.4,
+                  //                   ),
+                  //                   Text(
+                  //                     "Appointment",
+                  //                     style: TextStyle(
+                  //                         fontSize:
+                  //                             SizeConfig.blockSizeHorizontal *
+                  //                                 4.2,
+                  //                         fontWeight: FontWeight.w700,
+                  //                         color: colorWhite),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Expanded(
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       Get.to(() => MyChats(patientIDP));
+                  //     },
+                  //     child: Card(
+                  //       elevation: 0,
+                  //       shadowColor: Colors.grey,
+                  //       color: colorBlueDark,
+                  //       shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.all(Radius.circular(
+                  //                   10.0) //                 <--- border radius here
+                  //               ),
+                  //           side: BorderSide(color: colorBlueDark, width: 1.5)),
+                  //       child: Padding(
+                  //         padding: EdgeInsets.all(
+                  //           SizeConfig.blockSizeHorizontal * 3.0,
+                  //         ),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.start,
+                  //           children: [
+                  //             Image(
+                  //               image: AssetImage(
+                  //                 "images/ic_ask_to_doctor_filled.png",
+                  //               ),
+                  //               height: SizeConfig.blockSizeHorizontal * 9,
+                  //               width: SizeConfig.blockSizeHorizontal * 9,
+                  //             ),
+                  //             SizedBox(
+                  //               width: SizeConfig.blockSizeHorizontal * 2.0,
+                  //             ),
+                  //             Expanded(
+                  //               child: Column(
+                  //                 crossAxisAlignment: CrossAxisAlignment.start,
+                  //                 children: [
+                  //                   Text(
+                  //                     "Ask to",
+                  //                     style: TextStyle(
+                  //                         fontSize:
+                  //                             SizeConfig.blockSizeHorizontal *
+                  //                                 4.2,
+                  //                         fontWeight: FontWeight.w400,
+                  //                         color: colorWhite),
+                  //                   ),
+                  //                   SizedBox(
+                  //                     height:
+                  //                         SizeConfig.blockSizeVertical * 0.4,
+                  //                   ),
+                  //                   Text(
+                  //                     "Doctor",
+                  //                     style: TextStyle(
+                  //                         fontSize:
+                  //                             SizeConfig.blockSizeHorizontal *
+                  //                                 4.2,
+                  //                         fontWeight: FontWeight.w700,
+                  //                         color: colorWhite),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
             //     ],
             //   ),
             // ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical! * 1,
+              height: SizeConfig.blockSizeVertical !* 1,
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
+                horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
               ),
-              child: IntrinsicHeight(
+              child:
+              IntrinsicHeight(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Get.to(
-                              () => DoctorsListScreen(patientIDP!, false, "2"));
+                          Get.to(() => DoctorsListScreen(patientIDP!,false,"2"));
                         },
-                        child: Card(
+                        child:
+                        Card(
                           elevation: 0,
                           shadowColor: Colors.grey,
                           color: colorBlueDark,
@@ -2502,46 +2493,44 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                               borderRadius: BorderRadius.all(Radius.circular(
                                       10.0) //                 <--- border radius here
                                   ),
-                              side:
-                                  BorderSide(color: colorBlueDark, width: 1.5)),
+                              side: BorderSide(color: colorBlueDark, width: 1.5)),
                           child: Padding(
                             padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal! * 3.0,
+                              SizeConfig.blockSizeHorizontal !* 3.0,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Image.asset(
                                   "images/v-2-icn-doctor-nav-act.png",
-                                  width: SizeConfig.blockSizeHorizontal! * 6.0,
+                                  width: SizeConfig.blockSizeHorizontal !* 6.0,
                                 ),
                                 SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! * 2.0,
+                                  width: SizeConfig.blockSizeHorizontal !* 2.0,
                                 ),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Text(
                                         "Connect",
                                         style: TextStyle(
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.2,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    4.2,
                                             fontWeight: FontWeight.w700,
                                             color: colorWhite),
                                       ),
                                       SizedBox(
                                         height:
-                                            SizeConfig.blockSizeVertical! * 0.4,
+                                            SizeConfig.blockSizeVertical !* 0.4,
                                       ),
                                       Text(
                                         "Doctors",
                                         style: TextStyle(
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.2,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    4.2,
                                             fontWeight: FontWeight.w700,
                                             color: colorWhite),
                                       ),
@@ -2577,7 +2566,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                               side: BorderSide(color: red, width: 1.5)),
                           child: Padding(
                             padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal! * 3.0,
+                              SizeConfig.blockSizeHorizontal !* 3.0,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -2587,26 +2576,25 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                                   image: AssetImage(
                                     "images/v-2-icn-emergency.png",
                                   ),
-                                  height: SizeConfig.blockSizeHorizontal! * 9,
-                                  width: SizeConfig.blockSizeHorizontal! * 9,
+                                  height: SizeConfig.blockSizeHorizontal !* 9,
+                                  width: SizeConfig.blockSizeHorizontal !* 9,
                                 ),
                                 SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! * 2.0,
+                                  width: SizeConfig.blockSizeHorizontal !* 2.0,
                                 ),
                                 Expanded(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       FittedBox(
                                         fit: BoxFit.fitWidth,
                                         child: Text(
                                           "Emergency",
                                           style: TextStyle(
-                                              fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
-                                                  4.2,
+                                              fontSize:
+                                                  SizeConfig.blockSizeHorizontal !*
+                                                      4.2,
                                               fontWeight: FontWeight.w700,
                                               color: colorWhite),
                                         ),
@@ -2626,12 +2614,12 @@ class PatientDashboardState extends State<PatientDashboardScreen>
             ),
 
             SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2.0,
+              height: SizeConfig.blockSizeVertical !* 2.0,
             ),
             Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
-                  vertical: SizeConfig.blockSizeHorizontal! * 3.0,
+                  horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+                  vertical: SizeConfig.blockSizeHorizontal !* 3.0,
                 ),
                 decoration: BoxDecoration(
                   color: Color(0xfff0f1f5),
@@ -2649,7 +2637,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                     //Health Video
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.blockSizeHorizontal! * 3),
+                          horizontal: SizeConfig.blockSizeHorizontal !* 3),
                       child: Row(
                         children: [
                           Align(
@@ -2660,7 +2648,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w700,
-                                fontSize: SizeConfig.blockSizeHorizontal! * 5,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 5,
                               ),
                             ),
                           ),
@@ -2679,14 +2667,13 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                                       style: TextStyle(
                                           color: colorBlueDark,
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   4.0,
                                           fontWeight: FontWeight.w500),
                                     ),
                                   ),
                                   SizedBox(
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 2.0,
+                                    width: SizeConfig.blockSizeHorizontal !* 2.0,
                                   ),
                                 ],
                               ),
@@ -2696,7 +2683,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 1.0,
+                      height: SizeConfig.blockSizeVertical !* 1.0,
                     ),
                     Center(
                       child: GridView.builder(
@@ -2707,8 +2694,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   childAspectRatio: 1.0, crossAxisCount: 3),
                           itemBuilder: (context, index) {
-                            return IconCard(listIcons[
-                                index]) /*IconModel(listIconName[index], listImage[index], "")*/;
+                            return IconCard(listIcons[index]) /*IconModel(listIconName[index], listImage[index], "")*/;
                             /*);*/
                           }),
                     ),
@@ -2716,7 +2702,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                 )),
 
             SizedBox(
-              height: SizeConfig.blockSizeVertical! * 1,
+              height: SizeConfig.blockSizeVertical !* 1,
             ),
             // Padding(
             //   padding: EdgeInsets.symmetric(
@@ -2736,21 +2722,21 @@ class PatientDashboardState extends State<PatientDashboardScreen>
             // ),
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
+                horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
               ),
               child: Center(
                 child: listPhotos.length > 0
                     ? Container(
-                        height: SizeConfig.blockSizeVertical! * 25,
-                        width: SizeConfig.blockSizeHorizontal! * 98.0,
+                        height: SizeConfig.blockSizeVertical !* 25,
+                        width: SizeConfig.blockSizeHorizontal !* 98.0,
                         child: AutomaticPageView2(
                             listPhotos,
                             listSliderImagesWebViewOuter,
                             listSliderImagesWebViewTitleOuter),
                       )
                     : Container(
-                        height: SizeConfig.blockSizeVertical! * 25,
-                        width: SizeConfig.blockSizeHorizontal! * 98.0,
+                        height: SizeConfig.blockSizeVertical !* 25,
+                        width: SizeConfig.blockSizeHorizontal !* 98.0,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage('images/shimmer_effect.png'),
@@ -2762,12 +2748,12 @@ class PatientDashboardState extends State<PatientDashboardScreen>
             ),
 
             SizedBox(
-              height: SizeConfig.blockSizeVertical! * 1,
+              height: SizeConfig.blockSizeVertical !* 1,
             ),
 
             //Health Video
             Padding(
-              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
               child: Row(
                 children: [
                   Align(
@@ -2778,7 +2764,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w700,
-                        fontSize: SizeConfig.blockSizeHorizontal! * 5,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 5,
                       ),
                     ),
                   ),
@@ -2796,12 +2782,12 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                               "See All",
                               style: TextStyle(
                                 color: colorBlueDark,
-                                fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal! * 2.0,
+                            width: SizeConfig.blockSizeHorizontal !* 2.0,
                           ),
                         ],
                       ),
@@ -2812,7 +2798,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
+                horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
               ),
               child: ListView.builder(
                   shrinkWrap: true,
@@ -2837,16 +2823,15 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                             children: <Widget>[
                               CachedNetworkImage(
                                 placeholder: (context, url) => Image(
-                                  width: SizeConfig.blockSizeHorizontal! * 92,
-                                  height: SizeConfig.blockSizeVertical! * 32,
-                                  image:
-                                      AssetImage('images/shimmer_effect.png'),
+                                  width: SizeConfig.blockSizeHorizontal !* 92,
+                                  height: SizeConfig.blockSizeVertical !* 32,
+                                  image: AssetImage('images/shimmer_effect.png'),
                                   fit: BoxFit.contain,
                                 ),
                                 imageUrl: listHealthVideos[index].image!,
                                 fit: BoxFit.fitWidth,
-                                width: SizeConfig.blockSizeHorizontal! * 95,
-                                height: SizeConfig.blockSizeVertical! * 33,
+                                width: SizeConfig.blockSizeHorizontal !* 95,
+                                height: SizeConfig.blockSizeVertical !* 33,
                               ),
                               /*Image(
                                         width:
@@ -2862,27 +2847,27 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                                 child: Icon(
                                   Icons.play_arrow,
                                   color: Colors.green,
-                                  size: SizeConfig.blockSizeHorizontal! * 30,
+                                  size: SizeConfig.blockSizeHorizontal !* 30,
                                 ),
                               ),
                             ],
                           ),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical! * 1,
+                            height: SizeConfig.blockSizeVertical !* 1,
                           ),
                           Align(
                               alignment: Alignment.topLeft,
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                    left: SizeConfig.blockSizeHorizontal! * 2,
-                                    right: SizeConfig.blockSizeHorizontal! * 2),
+                                    left: SizeConfig.blockSizeHorizontal !* 2,
+                                    right: SizeConfig.blockSizeHorizontal !* 2),
                                 child: Text(
                                   listHealthVideos[index].iconName!,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal! * 4.2,
+                                        SizeConfig.blockSizeHorizontal !* 4.2,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -2915,7 +2900,7 @@ class PatientDashboardState extends State<PatientDashboardScreen>
                                                     ),
                                                   )),*/
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical! * 3,
+                            height: SizeConfig.blockSizeVertical !* 3,
                           ),
                         ],
                       ),
@@ -3039,14 +3024,16 @@ class PatientDashboardState extends State<PatientDashboardScreen>
     }
   }
 
-  void switchProfile(BuildContext mContext) async {
+  void switchProfile(BuildContext mContext) async
+  {
     await Get.to(SelectProfileScreen(json: userData))!.then((index) {
       generateSelectedProfile(mContext, userData[index]);
     });
   }
 
   getBackgroundImage() {
-    (imgUrl != "" && imgUrl != "null")
+    (imgUrl != "" &&
+        imgUrl != "null")
         ? NetworkImage("$userImgUrl$imgUrl")
         : AssetImage("images/ic_user_placeholder.png");
   }
@@ -3192,7 +3179,8 @@ class AutomaticPageViewState2 extends State<AutomaticPageView2> {
 
 // commented by ashwini for library issues - flutter_webview_plugin
 goToWebview(BuildContext context, String iconName, String webView) {
-  if (webView != "") {
+  if (webView != "")
+  {
     print('webView $webView');
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => WebViewContainer(webView)));
@@ -3252,9 +3240,9 @@ getAllChildrenForViewPager(
             placeholder: (context, url) => Image(
               image: AssetImage('images/shimmer_effect.png'),
               fit: BoxFit.cover,
-              height: SizeConfig.blockSizeVertical! * 28,
+              height: SizeConfig.blockSizeVertical !* 28,
             ),
-            height: SizeConfig.blockSizeVertical! * 28,
+            height: SizeConfig.blockSizeVertical !* 28,
             /*imageUrl: "$baseURL${listViewPagerImages[i]}",*/
             imageUrl: "${listViewPagerImages[i]}",
             fit: BoxFit.cover,
@@ -3277,16 +3265,19 @@ class IconCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return InkWell(
+    return
+      InkWell(
       highlightColor: Colors.green[200],
       customBorder: CircleBorder(),
       onTap: () async {
         String patientIDP = await getPatientOrDoctorIDP();
         if (model!.iconName == "Consultation") {
           Get.to(() => AllConsultation());
-        } else if (model!.iconName == "Order\nMedicine") {
+        } else if (model!.iconName == "Order\nMedicine")
+        {
           Get.to(() => OrderMedicineListScreen(patientIDP));
-        } else if (model!.iconName == "Order\nBlood Test") {
+        } else if (model!.iconName == "Order\nBlood Test")
+        {
           Get.to(() => OrderBloodListScreen(patientIDP));
         } else if (model!.iconName == "Blood\nPressure") {
           Get.to(() => VitalsCombineListScreen(patientIDP, "1"));
@@ -3295,41 +3286,43 @@ class IconCard extends StatelessWidget {
                 patientIDP,
                 from: "sugar",
               ));
-        } else if (model!.iconName == "Vitals") {
+        } else if (model!.iconName == "Vitals")
+        {
           Get.to(() => VitalsListScreen(patientIDP, "2"));
         }
       },
       child: Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.blockSizeHorizontal! * 0.0),
+            horizontal: SizeConfig.blockSizeHorizontal !* 0.0),
         child: Card(
           color: colorWhite,
           elevation: 2.0,
           //shadowColor: model.iconColor,
           margin: EdgeInsets.all(
-            SizeConfig.blockSizeHorizontal! * 2.0,
+            SizeConfig.blockSizeHorizontal !* 2.0,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
-              SizeConfig.blockSizeHorizontal! * 2.0,
+              SizeConfig.blockSizeHorizontal !* 2.0,
             ),
           ),
-          child: Column(
+          child:
+          Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: SizeConfig.blockSizeHorizontal! * 15,
-                  height: SizeConfig.blockSizeHorizontal! * 15,
+                  width: SizeConfig.blockSizeHorizontal !* 15,
+                  height: SizeConfig.blockSizeHorizontal !* 15,
                   child: Padding(
                     padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal! * 3.0,
+                      SizeConfig.blockSizeHorizontal !* 3.0,
                     ),
                     child: model!.iconType == "image"
                         ? Image(
-                            width: SizeConfig.blockSizeHorizontal! * 5,
-                            height: SizeConfig.blockSizeHorizontal! * 5,
+                            width: SizeConfig.blockSizeHorizontal !* 5,
+                            height: SizeConfig.blockSizeHorizontal !* 5,
                             image: AssetImage(
                               'images/${model!.iconImg}',
                             ),
@@ -3337,17 +3330,17 @@ class IconCard extends StatelessWidget {
                         : model!.iconType == "faIcon"
                             ? FaIcon(
                                 model!.iconData,
-                                size: SizeConfig.blockSizeHorizontal! * 5,
+                                size: SizeConfig.blockSizeHorizontal !* 5,
                                 color: Color(0xFF06A759),
                               )
                             : Container(
-                                width: SizeConfig.blockSizeHorizontal! * 5,
-                                height: SizeConfig.blockSizeHorizontal! * 5,
+                                width: SizeConfig.blockSizeHorizontal !* 5,
+                                height: SizeConfig.blockSizeHorizontal !* 5,
                               ),
                   ),
                 ),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical! * 0,
+                  height: SizeConfig.blockSizeVertical !* 0,
                 ),
                 FittedBox(
                   fit: BoxFit.fitWidth,
@@ -3356,7 +3349,7 @@ class IconCard extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal! * 3.2,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 3.2,
                         letterSpacing: 1.2,
                       )),
                 ),
@@ -3548,7 +3541,7 @@ class ImageRotaterState extends State<ImageRotater> {
         /*imageUrl: widget.photos.length > 0
             ? "$baseURL${widget.photos[_pos]}"
             : AssetImage('images/shimmer_effect.png'),*/
-        imageUrl: getShimmerEffect(widget.photos, _pos),
+        imageUrl: getShimmerEffect(widget.photos,_pos),
         fit: BoxFit.cover,
       ),
       /*FadeInImage(
@@ -3575,7 +3568,7 @@ class ImageRotaterState extends State<ImageRotater> {
   }
 }
 
-getShimmerEffect(List<String> photos, int _pos) {
+getShimmerEffect(List<String> photos,int _pos) {
   photos.length > 0
       ? "${photos[_pos]}"
       : AssetImage('images/shimmer_effect.png');

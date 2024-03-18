@@ -5,16 +5,15 @@ import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:silvertouch/api/api_helper.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
 
-String baseURL = "https://www.swasthyasetu.com/ws_silvertouch/";
-String baseImagePath = "https://www.swasthyasetu.com/ws/";
-String userImgUrl = "${baseImagePath}images/patientphoto/";
-String doctorImgUrl = "${baseImagePath}images/doctorphoto/";
-String chatImgUrl = "${baseImagePath}images/chatimage/";
-String doctorLogoUrl = "${baseImagePath}images/doctorlogo/";
-String doctorSignatureUrl = "${baseImagePath}images/doctorsignature/";
-String certificateUrl = "${baseImagePath}images/patientreport/";
+String baseURL = "https://www.swasthyasetu.com/ws/";
+String userImgUrl = "${baseURL}images/patientphoto/";
+String doctorImgUrl = "${baseURL}images/doctorphoto/";
+String chatImgUrl = "${baseURL}images/chatimage/";
+String doctorLogoUrl = "${baseURL}images/doctorlogo/";
+String doctorSignatureUrl = "${baseURL}images/doctorsignature/";
+String certificateUrl = "${baseURL}images/patientreport/";
 ApiHelper apiHelper = ApiHelper();
 
 setIsLoggedIn(bool isLoggedIn) async {
@@ -423,6 +422,7 @@ Future<TimeOfDay> showTimeSelectionDialog(
   return null!;
 }
 
+
 String getFormattedTimeInStrFromTimeOfDay(TimeOfDay time) {
   DateTime dateTime = DateTime(DateTime.now().year, DateTime.now().month,
       DateTime.now().day, time.hour, time.minute);
@@ -436,8 +436,7 @@ Future<File> chooseImageWithExIfRotate(
   // Pick an image.
   final XFile? image = await picker.pickImage(source: imageSource);
   File notRotatedFile = File(image!.path);
-  File rotatedFile =
-      await FlutterExifRotation.rotateImage(path: notRotatedFile.path);
+  File rotatedFile = await FlutterExifRotation.rotateImage(path: notRotatedFile.path);
   return rotatedFile;
 }
 
@@ -449,6 +448,7 @@ DateTime dateTimeFromTimeOfDay(TimeOfDay time) {
 }
 
 IconData getBackIconCorrespondingToPlatform() {
-  if (Platform.isAndroid) return Icons.keyboard_backspace;
+  if (Platform.isAndroid)
+    return Icons.keyboard_backspace;
   return Icons.arrow_back_ios;
 }

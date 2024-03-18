@@ -3,15 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:silvertouch/app_screens/patient_doctor_permissions_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
-import 'package:silvertouch/widgets/extensions.dart';
+import 'package:swasthyasetu/app_screens/patient_doctor_permissions_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/color.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/widgets/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'chat_screen.dart';
@@ -45,7 +43,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
     super.initState();
     print('Doctor Full Details');
     print(widget.doctorData["DoctorIDP"]);
-    if (widget.doctorData["DoctorIDP"] != null)
+    if(widget.doctorData["DoctorIDP"]!=null)
       getDoctorProfileDetails(context);
     // if (widget.from == "doctorList") {
     //   getDuePayment(context, widget.doctorData);
@@ -61,7 +59,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
       appBar: AppBar(
         title: Text("Profile", style: TextStyle(color: Colorsblack)),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
         backgroundColor: Color(0xFFf9faff),
         elevation: 0,
         centerTitle: true,
@@ -91,36 +89,36 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      (widget.doctorData["DoctorImage"].toString().length > 0)
-                          ? InkWell(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (context) {
-                                  return FullScreenImage(
-                                    "$doctorImgUrl${widget.doctorData["DoctorImage"]}",
-                                    heroTag:
-                                        "fullImg_$doctorImgUrl${widget.doctorData["DoctorImage"]}_${widget.doctorData['DoctorIDP']}",
-                                    showPlaceholder: !isImageNotNullAndBlank(),
-                                  );
-                                }));
-                              },
-                              child: CircleAvatar(
-                                radius: 50,
-                                backgroundColor: Colors.transparent,
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      "$doctorImgUrl${widget.doctorData["DoctorImage"]}"),
-                                  radius: 48,
-                                ),
-                              ))
-                          : CircleAvatar(
-                              radius: 60.0,
-                              backgroundColor: Colors.grey,
-                              backgroundImage: AssetImage(
-                                  "images/ic_user_placeholder.png") /*),*/
-                              ),
+                      (widget.doctorData["DoctorImage"].toString().length>0) ?
+                      InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return FullScreenImage(
+                                "$doctorImgUrl${widget.doctorData["DoctorImage"]}",
+                                heroTag:
+                                    "fullImg_$doctorImgUrl${widget.doctorData["DoctorImage"]}_${widget.doctorData['DoctorIDP']}",
+                                showPlaceholder: !isImageNotNullAndBlank(),
+                              );
+                            }));
+                          },
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.transparent,
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  "$doctorImgUrl${widget.doctorData["DoctorImage"]}"),
+                              radius: 48,
+                            ),
+                          )) :
+                      CircleAvatar(
+                          radius: 60.0,
+                          backgroundColor: Colors.grey,
+                          backgroundImage: AssetImage(
+                              "images/ic_user_placeholder.png") /*),*/
+                      ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 3,
+                        width: SizeConfig.blockSizeHorizontal !* 3,
                       ),
                       Expanded(
                         child: Column(
@@ -135,37 +133,37 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                   .trim(),
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal! * 4.2,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 4.2,
                                 fontWeight: FontWeight.w500,
                                 color: colorBlueDark,
                               ),
                             ),
                             SizedBox(
-                              height: SizeConfig.blockSizeVertical! * 0.5,
+                              height: SizeConfig.blockSizeVertical !* 0.5,
                             ),
                             Text(
                               widget.doctorData["Specility"]!,
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal! * 3.3,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 3.3,
                                 fontWeight: FontWeight.w400,
                                 color: colorBlueDark,
                               ),
                             ),
                             SizedBox(
-                              height: SizeConfig.blockSizeVertical! * 0.5,
+                              height: SizeConfig.blockSizeVertical !* 0.5,
                             ),
                             Text(
                               widget.doctorData["CityName"]!,
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal! * 3.3,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 3.3,
                                 fontWeight: FontWeight.w400,
                                 color: colorBlueDark,
                               ),
                             ),
                             SizedBox(
-                              height: SizeConfig.blockSizeVertical! * 1.3,
+                              height: SizeConfig.blockSizeVertical !* 1.3,
                             ),
                           ],
                         ),
@@ -175,8 +173,8 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                 ],
               ),
             ).pS(
-              horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
-              vertical: SizeConfig.blockSizeHorizontal! * 4.0,
+              horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+              vertical: SizeConfig.blockSizeHorizontal !* 4.0,
             ),
             Row(
               children: [
@@ -201,23 +199,21 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                 side: BorderSide(
                                     color: Color(0xffdcaead), width: 1.5)),
                             margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal! * 3.0,
+                              left: SizeConfig.blockSizeHorizontal !* 3.0,
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal! * 3.0,
+                                SizeConfig.blockSizeHorizontal !* 3.0,
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
                                     "images/v-2-icn-remove-doctor.png",
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 9.0,
+                                    width: SizeConfig.blockSizeHorizontal !* 9.0,
                                   ),
                                   SizedBox(
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 4.0,
+                                    width: SizeConfig.blockSizeHorizontal !* 4.0,
                                   ),
                                   Expanded(
                                     child: Column(
@@ -227,23 +223,22 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                         Text(
                                           "Remove",
                                           style: TextStyle(
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.2,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    4.2,
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ),
                                         SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeVertical! *
-                                                  0.4,
+                                          height: SizeConfig.blockSizeVertical !*
+                                              0.4,
                                         ),
                                         Text(
                                           "Doctor",
                                           style: TextStyle(
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.2,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    4.2,
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
@@ -270,24 +265,22 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                 side: BorderSide(
                                     color: colorBlueDark, width: 1.5)),
                             margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal! * 3.0,
+                              left: SizeConfig.blockSizeHorizontal !* 3.0,
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal! * 3.0,
+                                SizeConfig.blockSizeHorizontal !* 3.0,
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
                                     "images/ic_imp_links.png",
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 9.0,
+                                    width: SizeConfig.blockSizeHorizontal !* 9.0,
                                     color: colorWhite,
                                   ),
                                   SizedBox(
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 4.0,
+                                    width: SizeConfig.blockSizeHorizontal !* 4.0,
                                   ),
                                   Expanded(
                                     child: Column(
@@ -298,21 +291,20 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                           "Connect to",
                                           style: TextStyle(
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   4.2,
                                               fontWeight: FontWeight.w400,
                                               color: colorWhite),
                                         ),
                                         SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeVertical! *
-                                                  0.4,
+                                          height: SizeConfig.blockSizeVertical !*
+                                              0.4,
                                         ),
                                         Text(
                                           "Doctor",
                                           style: TextStyle(
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   4.2,
                                               fontWeight: FontWeight.w700,
                                               color: colorWhite),
@@ -353,11 +345,11 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                               ),
                           side: BorderSide(color: colorBlueDark, width: 1.5)),
                       margin: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal! * 3.0,
+                        left: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       child: Padding(
                         padding: EdgeInsets.all(
-                          SizeConfig.blockSizeHorizontal! * 3.0,
+                          SizeConfig.blockSizeHorizontal !* 3.0,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -366,11 +358,11 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                               image: AssetImage(
                                 "images/v-2-icn-make-payment.png",
                               ),
-                              height: SizeConfig.blockSizeHorizontal! * 9,
-                              width: SizeConfig.blockSizeHorizontal! * 9,
+                              height: SizeConfig.blockSizeHorizontal !* 9,
+                              width: SizeConfig.blockSizeHorizontal !* 9,
                             ),
                             SizedBox(
-                              width: SizeConfig.blockSizeHorizontal! * 4.0,
+                              width: SizeConfig.blockSizeHorizontal !* 4.0,
                             ),
                             Expanded(
                               child: Column(
@@ -380,19 +372,19 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                     "Make a",
                                     style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal! *
+                                            SizeConfig.blockSizeHorizontal !*
                                                 4.2,
                                         fontWeight: FontWeight.w400,
                                         color: colorWhite),
                                   ),
                                   SizedBox(
-                                    height: SizeConfig.blockSizeVertical! * 0.4,
+                                    height: SizeConfig.blockSizeVertical !* 0.4,
                                   ),
                                   Text(
                                     "Payment",
                                     style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal! *
+                                            SizeConfig.blockSizeHorizontal !*
                                                 4.2,
                                         fontWeight: FontWeight.w700,
                                         color: colorWhite),
@@ -408,7 +400,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                 ),
               ],
             ).paddingOnly(
-              right: SizeConfig.blockSizeHorizontal! * 3.0,
+              right: SizeConfig.blockSizeHorizontal !* 3.0,
             ),
             Container(
               padding: EdgeInsets.all(10),
@@ -426,26 +418,26 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                     "About Doctor",
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 5.3,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 5.3,
                       fontWeight: FontWeight.w500,
                     ),
                   ).pO(
-                    bottom: SizeConfig.blockSizeHorizontal! * 2.0,
+                    bottom: SizeConfig.blockSizeHorizontal !* 2.0,
                   ),
                   Text(
                     aboutDoctor != "" ? aboutDoctor : "-",
                     style: TextStyle(
                       color: Colors.grey[500],
-                      fontSize: SizeConfig.blockSizeHorizontal! * 3.8,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 3.8,
                     ),
                   ),
                 ],
               ),
             )
                 .pS(
-                  horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
+                  horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
                 )
-                .pO(top: SizeConfig.blockSizeHorizontal! * 4.0),
+                .pO(top: SizeConfig.blockSizeHorizontal !* 4.0),
             Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -462,7 +454,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                     "Clinic Details",
                     style: TextStyle(
                       color: Colorsblack,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 5.3,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 5.3,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -477,7 +469,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                         .trim(),
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4.2,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.2,
                       fontWeight: FontWeight.w400,
                       color: Colorsblack,
                     ),
@@ -490,7 +482,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                     "Address",
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                     ),
                   ),
                   SizedBox(
@@ -500,7 +492,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                     clinicAddress,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 3.8,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 3.8,
                     ),
                   ),
                   new Divider(
@@ -511,7 +503,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                     "Phone",
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                     ),
                   ),
                   SizedBox(
@@ -525,7 +517,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                         clinicContactNumber,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 3.8,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 3.8,
                         ),
                       )),
                   new Divider(
@@ -537,7 +529,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                           "Whatsapp",
                           style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                            fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                           ),
                         )
                       : Container(),
@@ -572,7 +564,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal! * 3.8,
+                                      SizeConfig.blockSizeHorizontal !* 3.8,
                                 ),
                               ),
                             ],
@@ -588,7 +580,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                     "Email",
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                     ),
                   ),
                   SizedBox(
@@ -602,14 +594,14 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                         emailID,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 3.8,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 3.8,
                         ),
                       )),
                 ],
               ),
             ).pS(
-              horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
-              vertical: SizeConfig.blockSizeHorizontal! * 4.0,
+              horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+              vertical: SizeConfig.blockSizeHorizontal !* 4.0,
             ),
             widget.from == "doctorList"
                 ? Column(
@@ -630,11 +622,10 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                   Image.asset(
                                     "images/ic_payment_due.png",
                                     width:
-                                        SizeConfig.blockSizeHorizontal! * 12.0,
+                                        SizeConfig.blockSizeHorizontal !* 12.0,
                                     fit: BoxFit.fill,
                                   ).paddingOnly(
-                                    right:
-                                        SizeConfig.blockSizeHorizontal! * 5.0,
+                                    right: SizeConfig.blockSizeHorizontal !* 5.0,
                                   ),
                                   Column(
                                     children: [
@@ -643,20 +634,20 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                         style: TextStyle(
                                           color: Colors.grey[500],
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   4.5,
                                           letterSpacing: 1.4,
                                         ),
                                       ).pO(
                                         bottom:
-                                            SizeConfig.blockSizeVertical! * 1.0,
+                                            SizeConfig.blockSizeVertical !* 1.0,
                                       ),
                                       Text(
                                         "\u20B9${widget.doctorData["DueAmount"]}",
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   6.5,
                                           fontWeight: FontWeight.bold,
                                           letterSpacing: 1.8,
@@ -664,8 +655,8 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                       ),
                                     ],
                                   ).pO(
-                                      right: SizeConfig.blockSizeHorizontal! *
-                                          6.0),
+                                      right:
+                                          SizeConfig.blockSizeHorizontal !* 6.0),
                                   MaterialButton(
                                     onPressed: () {
                                       startPayment(0, widget.doctorData);
@@ -677,19 +668,19 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                         color: Colors.white,
                                         letterSpacing: 1.3,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal! *
+                                            SizeConfig.blockSizeHorizontal !*
                                                 4.2,
                                       ),
                                     ),
                                   )
                                 ],
                               ).pO(
-                                left: SizeConfig.blockSizeHorizontal! * 3.0,
-                                bottom: SizeConfig.blockSizeVertical! * 4.0,
-                                top: SizeConfig.blockSizeVertical! * 3.0,
+                                left: SizeConfig.blockSizeHorizontal !* 3.0,
+                                bottom: SizeConfig.blockSizeVertical !* 4.0,
+                                top: SizeConfig.blockSizeVertical !* 3.0,
                               ),
                             ).pS(
-                              horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
+                              horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
                             )
                           : Container(),
                       Row(
@@ -725,11 +716,11 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                     side: BorderSide(
                                         color: colorBlueDark, width: 1.5)),
                                 margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal! * 3.0,
+                                  left: SizeConfig.blockSizeHorizontal !* 3.0,
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal! * 3.0,
+                                    SizeConfig.blockSizeHorizontal !* 3.0,
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -739,12 +730,12 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                           "images/v-2-icn-chate.png",
                                         ),
                                         height:
-                                            SizeConfig.blockSizeHorizontal! * 9,
+                                            SizeConfig.blockSizeHorizontal !* 9,
                                         width:
-                                            SizeConfig.blockSizeHorizontal! * 9,
+                                            SizeConfig.blockSizeHorizontal !* 9,
                                       ),
                                       SizedBox(
-                                        width: SizeConfig.blockSizeHorizontal! *
+                                        width: SizeConfig.blockSizeHorizontal !*
                                             4.0,
                                       ),
                                       Expanded(
@@ -756,21 +747,21 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                               "Chat with",
                                               style: TextStyle(
                                                   fontSize: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       4.2,
                                                   fontWeight: FontWeight.w400,
                                                   color: colorWhite),
                                             ),
                                             SizedBox(
-                                              height: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  0.4,
+                                              height:
+                                                  SizeConfig.blockSizeVertical !*
+                                                      0.4,
                                             ),
                                             Text(
                                               "Doctor",
                                               style: TextStyle(
                                                   fontSize: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       4.2,
                                                   fontWeight: FontWeight.w700,
                                                   color: colorWhite),
@@ -785,19 +776,18 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                             ),
                           ),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal! * 2.0,
+                            width: SizeConfig.blockSizeHorizontal !* 2.0,
                           ),
                           Expanded(
                             child: InkWell(
                               onTap: () async {
                                 Get.to(() => PatientDoctorPermissionScreen(
-                                          widget.doctorData["DoctorIDP"]!,
-                                          widget.doctorData[
-                                              "HealthRecordsDisplayStatus"]!,
-                                          widget.doctorData[
-                                              "ConsultationDisplayStatus"]!,
-                                        ))!
-                                    .then((value) {
+                                      widget.doctorData["DoctorIDP"]!,
+                                      widget.doctorData[
+                                          "HealthRecordsDisplayStatus"]!,
+                                      widget.doctorData[
+                                          "ConsultationDisplayStatus"]!,
+                                    ))!.then((value) {
                                   if (value != null && value == 1) {
                                     getDoctorProfileDetails(context);
                                     if (widget.from == "doctorList") {
@@ -819,11 +809,11 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                     side: BorderSide(
                                         color: colorBlueDark, width: 1.5)),
                                 margin: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal! * 3.0,
+                                  right: SizeConfig.blockSizeHorizontal !* 3.0,
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal! * 3.0,
+                                    SizeConfig.blockSizeHorizontal !* 3.0,
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -833,12 +823,12 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                           "images/v-2-icn-setup-permission.png",
                                         ),
                                         height:
-                                            SizeConfig.blockSizeHorizontal! * 9,
+                                            SizeConfig.blockSizeHorizontal !* 9,
                                         width:
-                                            SizeConfig.blockSizeHorizontal! * 9,
+                                            SizeConfig.blockSizeHorizontal !* 9,
                                       ),
                                       SizedBox(
-                                        width: SizeConfig.blockSizeHorizontal! *
+                                        width: SizeConfig.blockSizeHorizontal !*
                                             2.0,
                                       ),
                                       Expanded(
@@ -850,21 +840,21 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                                               "Set up",
                                               style: TextStyle(
                                                   fontSize: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       4.2,
                                                   fontWeight: FontWeight.w400,
                                                   color: colorWhite),
                                             ),
                                             SizedBox(
-                                              height: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  0.4,
+                                              height:
+                                                  SizeConfig.blockSizeVertical !*
+                                                      0.4,
                                             ),
                                             Text(
                                               "Permissions",
                                               style: TextStyle(
                                                   fontSize: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       4.2,
                                                   fontWeight: FontWeight.w700,
                                                   color: colorWhite),
@@ -880,8 +870,8 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
                           ),
                         ],
                       ).pO(
-                        top: SizeConfig.blockSizeVertical! * 1.5,
-                        bottom: SizeConfig.blockSizeVertical! * 1.0,
+                        top: SizeConfig.blockSizeVertical !* 1.5,
+                        bottom: SizeConfig.blockSizeVertical !* 1.0,
                       ),
                     ],
                   )
@@ -998,7 +988,7 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
             title: Text(
               "Request has been sent to $patientName to connect with you. You will be connected once doctor accepts your request.",
               style: TextStyle(
-                fontSize: SizeConfig.blockSizeHorizontal! * 3.8,
+                fontSize: SizeConfig.blockSizeHorizontal !* 3.8,
                 color: Colors.black,
               ),
             ),
@@ -1475,7 +1465,9 @@ class DoctorFullDetailsScreenState extends State<DoctorFullDetailsScreen> {
 
   isImageNotNullAndBlank1() {
     isImageNotNullAndBlank()
-        ? NetworkImage("$doctorImgUrl${widget.doctorData["DoctorImage"]}")
-        : AssetImage("images/ic_user_placeholder.png");
+        ? NetworkImage(
+        "$doctorImgUrl${widget.doctorData["DoctorImage"]}")
+        : AssetImage(
+        "images/ic_user_placeholder.png");
   }
 }

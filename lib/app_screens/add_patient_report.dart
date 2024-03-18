@@ -7,14 +7,12 @@ import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:silvertouch/api/api_helper.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/multipart_request_with_progress.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog_with_percentage.dart';
@@ -35,7 +33,7 @@ class AddPatientReportScreen extends StatefulWidget {
   String? from = "";
 
   AddPatientReportScreen(String? patientIDP, selectedCategoryIDP,
-      {this.from = ""}) {
+      {this.from=""}) {
     this.patientIDP = patientIDP;
     this.selectedCategoryIDP = selectedCategoryIDP;
   }
@@ -93,18 +91,12 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
         appBar: AppBar(
           title: Text(
             "Add Document",
-            style: TextStyle(fontSize: SizeConfig.blockSizeVertical! * 2.5),
+            style: TextStyle(fontSize: SizeConfig.blockSizeVertical !* 2.5),
           ),
           backgroundColor: Color(0xFFFFFFFF),
-          iconTheme: IconThemeData(color: Colorsblack),
-          toolbarTextStyle: TextTheme(
-                  titleMedium:
-                      TextStyle(color: Colorsblack, fontFamily: "Ubuntu"))
-              .bodyMedium,
-          titleTextStyle: TextTheme(
-                  titleMedium:
-                      TextStyle(color: Colorsblack, fontFamily: "Ubuntu"))
-              .titleLarge,
+          iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+              titleMedium: TextStyle(color: Colorsblack, fontFamily: "Ubuntu")).bodyMedium, titleTextStyle: TextTheme(
+              titleMedium: TextStyle(color: Colorsblack, fontFamily: "Ubuntu")).titleLarge,
         ),
         body: Builder(
           builder: (context) {
@@ -313,22 +305,23 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                                       /*mainAxisAlignment: MainAxisAlignment.center,*/
                                       children: <Widget>[
                                         Container(
-                                          child: selectedFileType == "image"
-                                              ? Image(
-                                                  fit: BoxFit.fill,
-                                                  image:
-                                                      FileImage(selectedFile!),
-                                                  height: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      25,
-                                                )
-                                              // Image.file(File(path))
+                                          child: selectedFileType ==
+                                                  "image"
+                                              ?Image(
+                                            fit: BoxFit.fill,
+                                            image:
+                                            FileImage(selectedFile!),
+                                            height: SizeConfig
+                                                .blockSizeVertical !*
+                                                25,
+                                          )
+                                                // Image.file(File(path))
                                               : Image(
                                                   fit: BoxFit.cover,
                                                   image: AssetImage(
                                                       "images/ic_doc.png"),
                                                   height: SizeConfig
-                                                          .blockSizeVertical! *
+                                                          .blockSizeVertical !*
                                                       18,
                                                 ),
                                         ),
@@ -344,14 +337,14 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                                               opacity: 0.6,
                                               child: CircleAvatar(
                                                 radius: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     5,
                                                 child: Image(
                                                   width: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       4,
                                                   height: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       4,
                                                   color: Colors.white,
                                                   //height: 80,
@@ -366,61 +359,60 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                                     ),
                                     SizedBox(
                                       height:
-                                          SizeConfig.blockSizeVertical! * 1.3,
+                                          SizeConfig.blockSizeVertical !* 1.3,
                                     ),
                                     Text(
                                       selectedFile!.path.split("/")[
-                                          selectedFile!.path.split("/").length -
-                                              1],
+                                      selectedFile!.path.split("/").length -
+                                          1],
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.grey[600],
                                       ),
                                     ),
                                   ],
-                                )
-                              //       widget.image!.path != null
-                              //           ? widget.image!.path.split("/")[widget
-                              //                   .image!.path
-                              //                   .split("/")
-                              //                   .length -
-                              //               1]
-                              //           : "",
-                              //       textAlign: TextAlign.center,
-                              //       style: TextStyle(
-                              //         color: Colors.grey[600],
-                              //       ),
-                              //     ),
-                              //   ],
-                              // )
+                              )
+                                //       widget.image!.path != null
+                                //           ? widget.image!.path.split("/")[widget
+                                //                   .image!.path
+                                //                   .split("/")
+                                //                   .length -
+                                //               1]
+                                //           : "",
+                                //       textAlign: TextAlign.center,
+                                //       style: TextStyle(
+                                //         color: Colors.grey[600],
+                                //       ),
+                                //     ),
+                                //   ],
+                                // )
                               : Container(
                                   width: double.infinity,
                                   color: Colors.blueGrey,
                                   child: Padding(
                                     padding: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal! * 5.0),
+                                        SizeConfig.blockSizeHorizontal !* 5.0),
                                     child: Column(children: [
                                       Image(
                                         image: AssetImage(
                                             "images/ic_file_upload.png"),
-                                        width: SizeConfig.blockSizeHorizontal! *
-                                            12,
+                                        width:
+                                            SizeConfig.blockSizeHorizontal !* 12,
                                         height:
-                                            SizeConfig.blockSizeHorizontal! *
-                                                12,
+                                            SizeConfig.blockSizeHorizontal !* 12,
                                         color: Colors.white,
                                       ),
                                       SizedBox(
                                         height:
-                                            SizeConfig.blockSizeVertical! * 2.0,
+                                            SizeConfig.blockSizeVertical !* 2.0,
                                       ),
                                       Text(
                                         "Click to upload document",
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3.8),
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    3.8),
                                       ),
                                     ]),
                                   )
@@ -480,27 +472,26 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                                 showCategorySelectionDialog(listCategories);
                               },
                               child: Container(
-                                width: SizeConfig.blockSizeHorizontal! * 90,
+                                width: SizeConfig.blockSizeHorizontal !* 90,
                                 padding: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal! * 3),
+                                    SizeConfig.blockSizeHorizontal !* 3),
                                 child: IgnorePointer(
                                   child: TextField(
                                     controller: categoryController,
                                     style: TextStyle(
                                         color: Colors.green,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! *
-                                                2.3),
+                                            SizeConfig.blockSizeVertical !* 2.3),
                                     decoration: InputDecoration(
                                       hintStyle: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.3),
                                       labelStyle: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.3),
                                       labelText: "Document Type",
                                       hintText: "",
@@ -514,21 +505,21 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal! * 90,
+                        width: SizeConfig.blockSizeHorizontal !* 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
                         child: TextField(
                           controller: tagNameController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
+                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
+                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
+                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
                             labelText: "Document Name",
                             hintText: "",
                           ),
@@ -542,25 +533,24 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                           showDateSelectionDialog();
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 90,
+                          width: SizeConfig.blockSizeHorizontal !* 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal! * 3),
+                              SizeConfig.blockSizeHorizontal !* 3),
                           child: IgnorePointer(
                             child: TextField(
                               controller: entryDateController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize:
-                                      SizeConfig.blockSizeVertical! * 2.3),
+                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical! * 2.3),
+                                        SizeConfig.blockSizeVertical !* 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical! * 2.3),
+                                        SizeConfig.blockSizeVertical !* 2.3),
                                 labelText: "Entry Date",
                                 hintText: "",
                               ),
@@ -576,25 +566,24 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                           showTimeSelectionDialog();
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 90,
+                          width: SizeConfig.blockSizeHorizontal !* 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal! * 3),
+                              SizeConfig.blockSizeHorizontal !* 3),
                           child: IgnorePointer(
                             child: TextField(
                               controller: entryTimeController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize:
-                                      SizeConfig.blockSizeVertical! * 2.3),
+                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical! * 2.3),
+                                        SizeConfig.blockSizeVertical !* 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical! * 2.3),
+                                        SizeConfig.blockSizeVertical !* 2.3),
                                 labelText: "Entry Time",
                                 hintText: "",
                               ),
@@ -608,13 +597,13 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                 Container(
                   height: 80.0,
                   padding: EdgeInsets.only(
-                      right: SizeConfig.blockSizeHorizontal! * 3.5,
-                      top: SizeConfig.blockSizeVertical! * 3.5),
+                      right: SizeConfig.blockSizeHorizontal !* 3.5,
+                      top: SizeConfig.blockSizeVertical !* 3.5),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Container(
-                      width: SizeConfig.blockSizeHorizontal! * 12,
-                      height: SizeConfig.blockSizeHorizontal! * 12,
+                      width: SizeConfig.blockSizeHorizontal !* 12,
+                      height: SizeConfig.blockSizeHorizontal !* 12,
                       child: RawMaterialButton(
                         onPressed: () {
                           submitPatientReport(context, selectedFile);
@@ -622,8 +611,8 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                         elevation: 2.0,
                         fillColor: Color(0xFF06A759),
                         child: Image(
-                          width: SizeConfig.blockSizeHorizontal! * 5.5,
-                          height: SizeConfig.blockSizeHorizontal! * 5.5,
+                          width: SizeConfig.blockSizeHorizontal !* 5.5,
+                          height: SizeConfig.blockSizeHorizontal !* 5.5,
                           //height: 80,
                           image: AssetImage(
                               "images/ic_right_arrow_triangular.png"),
@@ -647,35 +636,34 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
         await ImagePicker.pickImage(source: ImageSource.camera);*/
       //widget.image = await ImagePicker.pickImage(source: ImageSource.camera);
       File imgSelected =
-          await chooseImageWithExIfRotate(picker, ImageSource.camera);
+      await chooseImageWithExIfRotate(picker, ImageSource.camera);
       if (imgSelected != null) {
-        CroppedFile? croppedImage = await ImageCropper().cropImage(
-          sourcePath: imgSelected.path,
-          uiSettings: [
-            AndroidUiSettings(
-                toolbarTitle: 'Cropper',
-                toolbarColor: Colors.deepOrange,
-                toolbarWidgetColor: Colors.white,
-                initAspectRatio: CropAspectRatioPreset.original,
-                lockAspectRatio: false),
-            IOSUiSettings(
-              minimumAspectRatio: 1.0,
-            )
-          ],
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-            CropAspectRatioPreset.ratio3x2,
-            CropAspectRatioPreset.original,
-            CropAspectRatioPreset.ratio4x3,
-            CropAspectRatioPreset.ratio16x9
-          ],
-        );
-        final path = croppedImage!.path;
-        selectedFile = File(path);
-        selectedFileType = "image";
-        Navigator.of(context).pop();
-        setState(() {});
-      }
+      CroppedFile? croppedImage = await ImageCropper().cropImage(
+        sourcePath: imgSelected.path,
+        uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Colors.deepOrange,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          )
+        ],
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],);
+      final path = croppedImage!.path;
+      selectedFile = File(path);
+      selectedFileType = "image";
+      Navigator.of(context).pop();
+      setState(() {});
+    }
       //if (image != null) submitImageForUpdate(context, image);
       //_controller.add(image);
     }
@@ -696,32 +684,34 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
         await ImagePicker.pickImage(source: ImageSource.gallery);*/
       //widget.image = await ImagePicker.pickImage(source: ImageSource.gallery);
       File imgSelected =
-          await chooseImageWithExIfRotate(picker, ImageSource.gallery);
+      await chooseImageWithExIfRotate(picker, ImageSource.gallery);
       if (imgSelected != null) {
-        CroppedFile? croppedImage = await ImageCropper()
-            .cropImage(sourcePath: imgSelected.path, uiSettings: [
-          AndroidUiSettings(
-              toolbarTitle: 'Cropper',
-              toolbarColor: Colors.deepOrange,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
-          IOSUiSettings(
-            minimumAspectRatio: 1.0,
-          )
-        ], aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-          CropAspectRatioPreset.ratio3x2,
-          CropAspectRatioPreset.original,
-          CropAspectRatioPreset.ratio4x3,
-          CropAspectRatioPreset.ratio16x9
-        ]);
-        final path = croppedImage!.path;
-        selectedFile = File(path);
-        selectedFileType = "image";
-        Navigator.of(context).pop();
-        setState(() {});
-      }
+      CroppedFile? croppedImage = await ImageCropper().cropImage(
+          sourcePath: imgSelected.path,
+          uiSettings: [
+            AndroidUiSettings(
+                toolbarTitle: 'Cropper',
+                toolbarColor: Colors.deepOrange,
+                toolbarWidgetColor: Colors.white,
+                initAspectRatio: CropAspectRatioPreset.original,
+                lockAspectRatio: false),
+            IOSUiSettings(
+              minimumAspectRatio: 1.0,
+            )
+          ],
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+            CropAspectRatioPreset.original,
+            CropAspectRatioPreset.ratio4x3,
+            CropAspectRatioPreset.ratio16x9
+          ]);
+      final path = croppedImage!.path;
+      selectedFile = File(path);
+      selectedFileType = "image";
+      Navigator.of(context).pop();
+      setState(() {});
+    }
       //if (image != null) submitImageForUpdate(context, image);
       //_controller.add(image);
     }
@@ -730,13 +720,13 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
       children: <Widget>[
         //...bottom card part,
         Container(
-          width: SizeConfig.blockSizeHorizontal! * 90,
-          height: SizeConfig.blockSizeVertical! * 45,
+          width: SizeConfig.blockSizeHorizontal !* 90,
+          height: SizeConfig.blockSizeVertical !* 45,
           padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeHorizontal! * 1,
-            bottom: SizeConfig.blockSizeHorizontal! * 1,
-            left: SizeConfig.blockSizeHorizontal! * 1,
-            right: SizeConfig.blockSizeHorizontal! * 1,
+            top: SizeConfig.blockSizeHorizontal !* 1,
+            bottom: SizeConfig.blockSizeHorizontal !* 1,
+            left: SizeConfig.blockSizeHorizontal !* 1,
+            right: SizeConfig.blockSizeHorizontal !* 1,
           ),
           decoration: new BoxDecoration(
             color: Colors.white,
@@ -750,33 +740,33 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal! * 3.0,
+                    width: SizeConfig.blockSizeHorizontal !* 3.0,
                   ),
                   InkWell(
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.red[800],
-                      size: SizeConfig.blockSizeVertical! * 3.2,
+                      size: SizeConfig.blockSizeVertical !* 3.2,
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal! * 5.0,
+                    width: SizeConfig.blockSizeHorizontal !* 5.0,
                   ),
                   Text(
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4.2,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.2,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 1.5,
+                height: SizeConfig.blockSizeVertical !* 1.5,
               ),
               /*MaterialButton(
               onPressed: () {},
@@ -801,7 +791,7 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
             ),*/
               Container(
                 margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal! * 10,
+                  left: SizeConfig.blockSizeHorizontal !* 10,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -818,19 +808,19 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                     children: [
                       Image(
                         fit: BoxFit.contain,
-                        width: SizeConfig.blockSizeHorizontal! * 8,
-                        height: SizeConfig.blockSizeVertical! * 8,
+                        width: SizeConfig.blockSizeHorizontal !* 8,
+                        height: SizeConfig.blockSizeVertical !* 8,
                         //height: 80,
                         image: AssetImage("images/ic_camera.png"),
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 3.0,
+                        width: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       Text(
                         "Camera",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         ),
                       )
                     ],
@@ -839,7 +829,7 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal! * 10,
+                  left: SizeConfig.blockSizeHorizontal !* 10,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -856,19 +846,19 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                     children: [
                       Image(
                         fit: BoxFit.contain,
-                        width: SizeConfig.blockSizeHorizontal! * 8,
-                        height: SizeConfig.blockSizeVertical! * 8,
+                        width: SizeConfig.blockSizeHorizontal !* 8,
+                        height: SizeConfig.blockSizeVertical !* 8,
                         //height: 80,
                         image: AssetImage("images/ic_gallery.png"),
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 3.0,
+                        width: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       Text(
                         "Gallery",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         ),
                       )
                     ],
@@ -877,11 +867,11 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal! * 10,
+                  left: SizeConfig.blockSizeHorizontal !* 10,
                 ),
                 padding: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical! * 1.3,
-                  bottom: SizeConfig.blockSizeVertical! * 1.3,
+                  top: SizeConfig.blockSizeVertical !* 1.3,
+                  bottom: SizeConfig.blockSizeVertical !* 1.3,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -899,19 +889,19 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                     children: [
                       Image(
                         fit: BoxFit.contain,
-                        width: SizeConfig.blockSizeHorizontal! * 8,
-                        height: SizeConfig.blockSizeVertical! * 5,
+                        width: SizeConfig.blockSizeHorizontal !* 8,
+                        height: SizeConfig.blockSizeVertical !* 5,
                         //height: 80,
                         image: AssetImage("images/ic_doc.png"),
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 3.0,
+                        width: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       Text(
                         "Document Files",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         ),
                       )
                     ],
@@ -919,11 +909,11 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 1.5,
+                height: SizeConfig.blockSizeVertical !* 1.5,
               ),
               Container(
                 margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal! * 10,
+                  left: SizeConfig.blockSizeHorizontal !* 10,
                 ),
                 child: InkWell(
                   onTap: () {
@@ -934,16 +924,16 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                       Icon(
                         Icons.close,
                         color: Colors.red,
-                        size: SizeConfig.blockSizeHorizontal! * 8,
+                        size: SizeConfig.blockSizeHorizontal !* 8,
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 3.0,
+                        width: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       Text(
                         "No Document",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         ),
                       )
                     ],
@@ -951,7 +941,7 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 1.0,
+                height: SizeConfig.blockSizeVertical !* 1.0,
               ),
               /*Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1199,11 +1189,13 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
     TimeOfDay? time = await showTimePicker(
         context: context,
         initialTime: pickedTime,
+
+
         builder: (BuildContext? context, Widget? child) {
           return MediaQuery(
               child: child!,
-              data: MediaQuery.of(context!)
-                  .copyWith(alwaysUse24HourFormat: true));
+              data:
+                  MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: true));
         });
 
     if (time != null) {
@@ -1482,20 +1474,20 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                         child: Icon(
                           Icons.arrow_back,
                           color: Colors.red,
-                          size: SizeConfig.blockSizeHorizontal! * 6.2,
+                          size: SizeConfig.blockSizeHorizontal !* 6.2,
                         ),
                         onTap: () {
                           Navigator.of(context).pop();
                         },
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 6,
+                        width: SizeConfig.blockSizeHorizontal !* 6,
                       ),
                       Text(
                         "Select Document Type",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
                           fontWeight: FontWeight.bold,
                           color: Colors.green,
                           decoration: TextDecoration.none,
@@ -1540,7 +1532,7 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
                           child: Padding(
                               padding: EdgeInsets.all(0.0),
                               child: Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 90,
+                                  width: SizeConfig.blockSizeHorizontal !* 90,
                                   padding: EdgeInsets.only(
                                     top: 5,
                                     bottom: 5,
@@ -1603,9 +1595,9 @@ class AddPatientReportScreenState extends State<AddPatientReportScreen> {
     if (result != null) {
       File fileSelected = File((result.files.single.path)!);
       if (fileSelected != null) selectedFile = fileSelected;
-      //      String path = (result.files.single.path)!;
-      //      CroppedFile fileSelected = CroppedFile(path);
-      // selectedFile = fileSelected;
+ //      String path = (result.files.single.path)!;
+ //      CroppedFile fileSelected = CroppedFile(path);
+ // selectedFile = fileSelected;
       selectedFileType = "doc";
       Navigator.of(context).pop();
       setState(() {});

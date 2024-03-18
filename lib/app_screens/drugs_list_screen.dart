@@ -2,19 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:silvertouch/app_screens/add_drug_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_masters.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
-import 'package:silvertouch/widgets/extensions.dart';
-import '../podo/dropdown_item.dart';
-import '../utils/color.dart';
-import '../utils/progress_dialog.dart';
+import 'package:swasthyasetu/app_screens/add_drug_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_masters.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -113,7 +105,7 @@ class DrugsListScreenState extends State<DrugsListScreen> {
                       },
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                       ),
                       decoration: InputDecoration(
                         /*hintStyle: TextStyle(
@@ -139,18 +131,16 @@ class DrugsListScreenState extends State<DrugsListScreen> {
               },
               icon: icon,
             )
-          ],
-          toolbarTextStyle: TextTheme(
+          ], toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical! * 2.5,
-          )).bodyMedium,
-          titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          )).bodyMedium, titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
           )).titleLarge,
         ),
         floatingActionButton: Visibility(
@@ -174,7 +164,7 @@ class DrugsListScreenState extends State<DrugsListScreen> {
         body: Builder(
           builder: (context) {
             return Container(
-              width: SizeConfig.blockSizeHorizontal! * 100,
+              width: SizeConfig.blockSizeHorizontal !* 100,
               color: Color(0xBBDCDCDC),
               child: Column(
                 children: <Widget>[
@@ -194,26 +184,25 @@ class DrugsListScreenState extends State<DrugsListScreen> {
                                   return Card(
                                     margin: EdgeInsets.symmetric(
                                         horizontal:
-                                            SizeConfig.blockSizeHorizontal! * 3,
+                                            SizeConfig.blockSizeHorizontal !* 3,
                                         vertical:
-                                            SizeConfig.blockSizeHorizontal! *
-                                                2),
+                                            SizeConfig.blockSizeHorizontal !* 2),
                                     child: Row(
                                       children: <Widget>[
                                         Padding(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   3,
                                               vertical: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   2),
                                           child: Image(
                                             image: AssetImage(
                                                 'images/ic_drugs.png'),
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                8,
+                                            width:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    8,
                                             color: Colors.green,
                                           ),
                                         ),
@@ -221,10 +210,10 @@ class DrugsListScreenState extends State<DrugsListScreen> {
                                           child: Padding(
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       3,
                                                   vertical: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       2),
                                               child: Column(
                                                 crossAxisAlignment:
@@ -240,13 +229,13 @@ class DrugsListScreenState extends State<DrugsListScreen> {
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           4,
                                                     ),
                                                   ),
                                                   SizedBox(
                                                     height: SizeConfig
-                                                            .blockSizeVertical! *
+                                                            .blockSizeVertical !*
                                                         1,
                                                   ),
                                                   Text(
@@ -257,7 +246,7 @@ class DrugsListScreenState extends State<DrugsListScreen> {
                                                     style: TextStyle(
                                                       color: Colors.grey,
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           3,
                                                     ),
                                                   )
@@ -281,14 +270,14 @@ class DrugsListScreenState extends State<DrugsListScreen> {
                                           child: Icon(
                                             Icons.edit,
                                             color: Colors.teal,
-                                            size: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                7,
+                                            size:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    7,
                                           ),
                                         ),
                                         SizedBox(
                                           width:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   2,
                                         ),
                                         InkWell(
@@ -301,14 +290,14 @@ class DrugsListScreenState extends State<DrugsListScreen> {
                                           child: Icon(
                                             Icons.delete,
                                             color: Colors.red,
-                                            size: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                7,
+                                            size:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    7,
                                           ),
                                         ),
                                         SizedBox(
                                           width:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   2,
                                         ),
                                       ],

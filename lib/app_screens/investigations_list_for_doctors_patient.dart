@@ -4,19 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:silvertouch/app_screens/investigation_list_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/dropdown_item.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_investigation_master_list_with_date_time.dart';
-import 'package:silvertouch/podo/model_vitals_list.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/flutter_echarts_custom.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/investigation_list_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/dropdown_item.dart';
+import 'package:swasthyasetu/podo/model_investigation_master_list.dart';
+import 'package:swasthyasetu/podo/model_investigation_master_list_with_date_time.dart';
+import 'package:swasthyasetu/podo/model_vitals_list.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/flutter_echarts_custom.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
+    as DateRagePicker;
 
 var pickedDate = DateTime.now();
 List<Map<String, String>> listCategories = [];
@@ -97,7 +96,10 @@ class InvestigationsListForDoctorsPatientScreenState
   @override
   void initState() {
     super.initState();
-    dateRange = DateTimeRange(start: fromDate!, end: toDate!);
+    dateRange = DateTimeRange(
+        start: fromDate!,
+        end: toDate!
+    );
     keyForChart = GlobalKey();
     widget.emptyMessage = "${widget.emptyTextInvestigation1}";
     var formatter = new DateFormat('dd-MM-yyyy');
@@ -131,9 +133,9 @@ class InvestigationsListForDoctorsPatientScreenState
       }
     });
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical !* 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -173,7 +175,7 @@ class InvestigationsListForDoctorsPatientScreenState
       lastDate: DateTime(2100),
     );
 
-    if (newDateRange == null) return;
+    if(newDateRange == null) return;
 
     setState(() {
       dateRange = newDateRange;
@@ -208,13 +210,13 @@ class InvestigationsListForDoctorsPatientScreenState
             controller: hideFABController,
             children: <Widget>[
               Container(
-                height: SizeConfig.blockSizeVertical! * 100,
+                height: SizeConfig.blockSizeVertical !* 100,
                 child: Column(
                   children: <Widget>[
                     Align(
                       alignment: Alignment.topLeft,
                       child: Container(
-                        height: SizeConfig.blockSizeVertical! * 8,
+                        height: SizeConfig.blockSizeVertical !* 8,
                         color: Color(0xFFF0F0F0),
                         child: Padding(
                           padding: EdgeInsets.only(left: 5.0, right: 5.0),
@@ -248,19 +250,17 @@ class InvestigationsListForDoctorsPatientScreenState
                                     // ),
                                     Expanded(
                                         child: ElevatedButton(
-                                      child: Text(
-                                          '${start.day}/${start.month}/${start.year}'),
-                                      onPressed: pickDateRange,
-                                    )),
-                                    const SizedBox(
-                                      width: 10,
+                                          child: Text('${start.day}/${start.month}/${start.year}'),
+                                          onPressed: pickDateRange,
+                                        )
                                     ),
+                                    const SizedBox(width: 10,),
                                     Expanded(
                                         child: ElevatedButton(
-                                      child: Text(
-                                          '${end.day}/${end.month}/${end.year}'),
-                                      onPressed: pickDateRange,
-                                    )),
+                                          child: Text('${end.day}/${end.month}/${end.year}'),
+                                          onPressed: pickDateRange,
+                                        )
+                                    ),
                                   ],
                                 )),
                             padding: EdgeInsets.all(5.0),
@@ -276,13 +276,13 @@ class InvestigationsListForDoctorsPatientScreenState
                       ),
                     ),
                     Container(
-                      height: SizeConfig.blockSizeVertical! * 10,
-                      width: SizeConfig.blockSizeHorizontal! * 100,
+                      height: SizeConfig.blockSizeVertical !* 10,
+                      width: SizeConfig.blockSizeHorizontal !* 100,
                       color: Color(0xFFF0F0F0),
                       child: Padding(
                         padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal! * 2,
-                            right: SizeConfig.blockSizeHorizontal! * 2),
+                            left: SizeConfig.blockSizeHorizontal !* 2,
+                            right: SizeConfig.blockSizeHorizontal !* 2),
                         child: ListView.separated(
                           itemCount: listCategories.length,
                           scrollDirection: Axis.horizontal,
@@ -299,17 +299,17 @@ class InvestigationsListForDoctorsPatientScreenState
                                     setState(() {
                                       selectedCategoryIDP =
                                           listCategories[index]["categoryIDP"]!;
-                                      selectedCategory = listCategories[index]
-                                          ["categoryName"]!;
+                                      selectedCategory =
+                                          listCategories[index]["categoryName"]!;
                                       getInvestigationDatesList();
                                     });
                                   },
                                   child: Chip(
                                     padding: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal! * 3),
+                                        SizeConfig.blockSizeHorizontal !* 3),
                                     label: Text(
-                                      listCategories[index]["categoryName"]!
-                                          .trim(),
+                                      listCategories[index]["categoryName"]
+                                          !.trim(),
                                       style: TextStyle(
                                         color: listCategories[index]
                                                     ["categoryIDP"] ==
@@ -331,7 +331,7 @@ class InvestigationsListForDoctorsPatientScreenState
                           },
                           separatorBuilder: (BuildContext context, int index) {
                             return SizedBox(
-                              width: SizeConfig.blockSizeHorizontal! * 5,
+                              width: SizeConfig.blockSizeHorizontal !* 5,
                             );
                           },
                         ),
@@ -345,59 +345,51 @@ class InvestigationsListForDoctorsPatientScreenState
                                     width: SizeConfig.screenWidth,
                                     color: Colors.white,
                                     child: Padding(
-                                      padding: EdgeInsets.all(
-                                          SizeConfig.blockSizeHorizontal! * 3),
-                                      child: Column(
-                                        children: <Widget>[
-                                          if (widget
-                                              .shouldShowEmptyMessageWidget)
-                                            Expanded(
-                                              child: SizedBox(
-                                                child: Container(
-                                                  padding: EdgeInsets.all(SizeConfig
-                                                          .blockSizeHorizontal! *
-                                                      5),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      Image(
-                                                        image: AssetImage(
-                                                            "images/ic_idea_new.png"),
-                                                        width: 100,
-                                                        height: 100,
-                                                      ),
-                                                      SizedBox(
-                                                        height: 30.0,
-                                                      ),
-                                                      Text(
-                                                        selectedCategory
-                                                                .isNotEmpty
-                                                            ? "No Investigation Records found for $selectedCategory."
-                                                            : "No Investigation Records found.",
-                                                        style: TextStyle(
-                                                          fontSize: 16.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
+                                        padding: EdgeInsets.all(
+                                            SizeConfig.blockSizeHorizontal !* 3),
+                                        child: Column(
+                                          children: <Widget>[
+                                            if (widget.shouldShowEmptyMessageWidget)
+                                              Expanded(
+                                                child: SizedBox(
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: <Widget>[
+                                                        Image(
+                                                          image: AssetImage("images/ic_idea_new.png"),
+                                                          width: 100,
+                                                          height: 100,
                                                         ),
-                                                      ),
-                                                    ],
+                                                        SizedBox(
+                                                          height: 30.0,
+                                                        ),
+                                                        Text(
+                                                          selectedCategory.isNotEmpty
+                                                              ? "No Investigation Records found for $selectedCategory."
+                                                              : "No Investigation Records found.",
+                                                          style: TextStyle(
+                                                            fontSize: 16.0,
+                                                            fontWeight: FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          if (!widget
-                                              .shouldShowEmptyMessageWidget)
-                                            MyEChart(
-                                              key: keyForChart,
-                                              chartTypeID: "1",
-                                              titleOfChart:
-                                                  selectedCategory.trim(),
-                                            ),
-                                        ],
-                                      ),
-                                    ))),
+                                            if (!widget.shouldShowEmptyMessageWidget)
+                                              MyEChart(
+                                                key: keyForChart,
+                                                chartTypeID: "1",
+                                                titleOfChart: selectedCategory.trim(),
+                                              ),
+                                          ],
+                                        ),
+                                    )
+                                )
+                            ),
                           )
                         : Container()
                     /*: (listInvestigations.length > 0
@@ -641,7 +633,7 @@ class InvestigationsListForDoctorsPatientScreenState
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: EdgeInsets.all(
-                  SizeConfig.blockSizeHorizontal! * 3,
+                  SizeConfig.blockSizeHorizontal !* 3,
                 ),
                 child: FloatingActionButton(
                   onPressed: () {
@@ -649,8 +641,7 @@ class InvestigationsListForDoctorsPatientScreenState
                     // print('widget.patientIDP ${widget.patientIDP}');
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return InvestigationListScreen(widget.patientIDP!,
-                          preInvestTypeIDP: selectedCategoryIDP);
+                      return InvestigationListScreen(widget.patientIDP!,preInvestTypeIDP:selectedCategoryIDP);
                     })).then((value) {
                       getInvestigationDatesList();
                     });
@@ -757,9 +748,8 @@ class InvestigationsListForDoctorsPatientScreenState
       }
       pr!.hide();
       if (widget.selectedSubCategoryIDP == "")
-        selectedCategoryIDP = (listCategories.length > 0
-            ? listCategories[0]["categoryIDP"]
-            : "")!;
+        selectedCategoryIDP =
+            (listCategories.length > 0 ? listCategories[0]["categoryIDP"] : "")!;
       else {
         if (listCategoriesIDP.contains(widget.selectedSubCategoryIDP)) {
           selectedCategoryIDP = widget.selectedSubCategoryIDP!;
@@ -924,20 +914,20 @@ class InvestigationsListForDoctorsPatientScreenState
                         child: Icon(
                           Icons.arrow_back,
                           color: Colors.red,
-                          size: SizeConfig.blockSizeHorizontal! * 6.2,
+                          size: SizeConfig.blockSizeHorizontal !* 6.2,
                         ),
                         onTap: () {
                           Navigator.of(context).pop();
                         },
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 6,
+                        width: SizeConfig.blockSizeHorizontal !* 6,
                       ),
                       Text(
                         "Select $type",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
                           fontWeight: FontWeight.bold,
                           color: Colors.green,
                           decoration: TextDecoration.none,
@@ -956,7 +946,7 @@ class InvestigationsListForDoctorsPatientScreenState
                           child: Padding(
                               padding: EdgeInsets.all(0.0),
                               child: Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 90,
+                                  width: SizeConfig.blockSizeHorizontal !* 90,
                                   padding: EdgeInsets.only(
                                     top: 5,
                                     bottom: 5,
@@ -1184,27 +1174,27 @@ class InvestigationsListForDoctorsPatientScreenState
   }
 
   Future<void> showDateRangePickerDialog(BuildContext context) async {
-    //   List<DateTime?>? listPicked = await DateRagePicker.showDatePicker(
-    //       context: context,
-    //       initialFirstDate: widget.fromDate,
-    //       initialLastDate: widget.toDate,
-    //       firstDate: DateTime.now().subtract(Duration(days: 365 * 100)),
-    //       lastDate: DateTime.now(),
-    //       handleOk: () {},
-    //       handleCancel: () {});
-    //   if (listPicked!.length == 2) {
-    //     widget.fromDate = listPicked[0]!;
-    //     widget.toDate = listPicked[1]!;
-    //     var formatter = new DateFormat('dd-MM-yyyy');
-    //     widget.fromDateString = formatter.format(widget.fromDate);
-    //     widget.toDateString = formatter.format(widget.toDate);
-    //     widget.dateString =
-    //         "${widget.fromDateString}  to  ${widget.toDateString}";
-    //     setState(() {
-    //       getCategoryList(context);
-    //     });
-    //     //print(picked);
-    //   }
+  //   List<DateTime?>? listPicked = await DateRagePicker.showDatePicker(
+  //       context: context,
+  //       initialFirstDate: widget.fromDate,
+  //       initialLastDate: widget.toDate,
+  //       firstDate: DateTime.now().subtract(Duration(days: 365 * 100)),
+  //       lastDate: DateTime.now(),
+  //       handleOk: () {},
+  //       handleCancel: () {});
+  //   if (listPicked!.length == 2) {
+  //     widget.fromDate = listPicked[0]!;
+  //     widget.toDate = listPicked[1]!;
+  //     var formatter = new DateFormat('dd-MM-yyyy');
+  //     widget.fromDateString = formatter.format(widget.fromDate);
+  //     widget.toDateString = formatter.format(widget.toDate);
+  //     widget.dateString =
+  //         "${widget.fromDateString}  to  ${widget.toDateString}";
+  //     setState(() {
+  //       getCategoryList(context);
+  //     });
+  //     //print(picked);
+  //   }
   }
 }
 
@@ -1300,11 +1290,10 @@ class MyEChartState extends State<MyEChart> {
     return listOnlyString.length > 0
         ? Container(
             width: SizeConfig.screenWidth,
-            height: SizeConfig.blockSizeVertical! * 60,
+            height: SizeConfig.blockSizeVertical !* 60,
             child: widget.chartTypeID != "5"
                 ? EchartsCustom(
-                    option:
-                        '''
+                    option: '''
                         {
                           tooltip: {
                                 trigger: 'axis',
@@ -1347,8 +1336,7 @@ class MyEChartState extends State<MyEChart> {
                     //,name:'BP'
                   )
                 : EchartsCustom(
-                    option:
-                        '''
+                    option: '''
                   {
                     tooltip: {
                           trigger: 'axis',

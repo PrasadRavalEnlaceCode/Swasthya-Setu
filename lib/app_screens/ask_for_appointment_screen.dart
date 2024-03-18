@@ -2,15 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:silvertouch/app_screens/add_patient_screen.dart';
-import 'package:silvertouch/podo/slot_model.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/patient_dashboard_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/podo/slot_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/color.dart';
@@ -113,18 +109,16 @@ class AskForAppointmentScreenState extends State<AskForAppointmentScreen> {
         appBar: AppBar(
           title: Text("Ask for Appointment"),
           backgroundColor: Color(0xFFFFFFFF),
-          iconTheme: IconThemeData(color: Colorsblack),
-          toolbarTextStyle: TextTheme(
+          iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical! * 2.5,
-          )).bodyMedium,
-          titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          )).bodyMedium, titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
           )).titleLarge,
         ),
         body: Builder(
@@ -137,37 +131,34 @@ class AskForAppointmentScreenState extends State<AskForAppointmentScreen> {
                   shrinkWrap: true,
                   children: <Widget>[
                     Container(
-                        height: SizeConfig.blockSizeVertical! * 12,
-                        width: SizeConfig.blockSizeHorizontal! * 100,
+                        height: SizeConfig.blockSizeVertical !* 12,
+                        width: SizeConfig.blockSizeHorizontal !* 100,
                         color: Colors.blueGrey,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            SizedBox(
-                                width: SizeConfig.blockSizeHorizontal! * 3),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal !* 3),
                             Icon(
                               Icons.warning,
                               color: Colors.white,
-                              size: SizeConfig.blockSizeHorizontal! * 8,
+                              size: SizeConfig.blockSizeHorizontal !* 8,
                             ),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal !* 3),
                             SizedBox(
-                                width: SizeConfig.blockSizeHorizontal! * 3),
-                            SizedBox(
-                                width: SizeConfig.blockSizeHorizontal! * 82,
+                                width: SizeConfig.blockSizeHorizontal !* 82,
                                 child: Text(
                                   "Information here will be sent as appoinment request. Our customer support will contact you for further details.",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize:
-                                          SizeConfig.blockSizeHorizontal! *
-                                              3.6),
+                                          SizeConfig.blockSizeHorizontal !* 3.6),
                                 )),
                           ],
                         )),
                     Padding(
                       padding:
-                          EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
+                          EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
                       child: Align(
                         alignment: Alignment.center,
                         child: InkWell(
@@ -181,16 +172,16 @@ class AskForAppointmentScreenState extends State<AskForAppointmentScreen> {
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical! * 2.1),
+                                        SizeConfig.blockSizeVertical !* 2.1),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.1),
+                                          SizeConfig.blockSizeVertical !* 2.1),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical! * 2.1),
+                                          SizeConfig.blockSizeVertical !* 2.1),
                                   labelText: "Appointment Date",
                                   hintText: "",
                                 ),
@@ -203,7 +194,7 @@ class AskForAppointmentScreenState extends State<AskForAppointmentScreen> {
                     widget.appointmentStatus == "1"
                         ? Padding(
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal! * 3),
+                                SizeConfig.blockSizeHorizontal !* 3),
                             child: Align(
                               alignment: Alignment.center,
                               child: InkWell(
@@ -218,18 +209,18 @@ class AskForAppointmentScreenState extends State<AskForAppointmentScreen> {
                                       style: TextStyle(
                                           color: Colors.green,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.1),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.1),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.1),
                                         labelText: "Time Slot",
                                         hintText: "",
@@ -283,7 +274,7 @@ class AskForAppointmentScreenState extends State<AskForAppointmentScreen> {
                     ,
                     Padding(
                       padding:
-                          EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
+                          EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
                       child: TextField(
                         controller: purposeController,
                         textAlign: TextAlign.left,
@@ -299,11 +290,11 @@ class AskForAppointmentScreenState extends State<AskForAppointmentScreen> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    height: SizeConfig.blockSizeVertical! * 12,
+                    height: SizeConfig.blockSizeVertical !* 12,
                     child: Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal! * 80,
+                        width: SizeConfig.blockSizeHorizontal !* 80,
                         child: MaterialButton(
                           onPressed: () {
                             submitAppointmentRequest(patientIDP!, context);
@@ -365,7 +356,7 @@ class AskForAppointmentScreenState extends State<AskForAppointmentScreen> {
             child: Column(
               children: <Widget>[
                 Container(
-                  height: SizeConfig.blockSizeVertical! * 8,
+                  height: SizeConfig.blockSizeVertical !* 8,
                   child: Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Row(
@@ -375,24 +366,24 @@ class AskForAppointmentScreenState extends State<AskForAppointmentScreen> {
                           child: Icon(
                             Icons.arrow_back,
                             color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal! * 6.2,
+                            size: SizeConfig.blockSizeHorizontal !* 6.2,
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal! * 6,
+                          width: SizeConfig.blockSizeHorizontal !* 6,
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal! * 50,
-                          height: SizeConfig.blockSizeVertical! * 8,
+                          width: SizeConfig.blockSizeHorizontal !* 50,
+                          height: SizeConfig.blockSizeVertical !* 8,
                           child: Center(
                             child: Text(
                               "Select Time Slot",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green,
                                 decoration: TextDecoration.none,
@@ -437,7 +428,7 @@ class AskForAppointmentScreenState extends State<AskForAppointmentScreen> {
                             child: Padding(
                                 padding: EdgeInsets.all(0.0),
                                 child: Container(
-                                    width: SizeConfig.blockSizeHorizontal! * 90,
+                                    width: SizeConfig.blockSizeHorizontal !* 90,
                                     padding: EdgeInsets.only(
                                       top: 5,
                                       bottom: 5,

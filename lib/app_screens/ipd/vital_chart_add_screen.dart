@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:silvertouch/app_screens/ipd/vital_chart_table.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/color.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 
 class VitalChartScreen extends StatefulWidget {
 
@@ -104,159 +103,72 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
             // scrollDirection: Axis.horizontal,
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Text(
-                          "Patient Name:",
-                          style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        "${widget.firstname} ${widget.lastName}",
-                        style: TextStyle(
-                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.5,
-                        ),
-                      ),
-                    ],
-                  ),
+                ElevatedButton(
+                  onPressed: () => _selectDate(context),
+
+                  child: Text("${selectedDate.day}-${selectedDate.month}-${selectedDate.year}"),
                 ),
-                InkWell(
-                  onTap: () => _selectDate(context),
-                  child: Container(
-                    margin: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal !* 3.0,
-                    ),
-                    padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal !* 3.0,
-                    ),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                    child:
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 3.0,
-                        ),
-                        Text(
-                          "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}",
-                          style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.grey,
-                          size: SizeConfig.blockSizeHorizontal !* 6.0,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // InkWell(
-                //   onTap: () => _selectDate(context),
-                //   child: Container(
-                //     // height:  SizeConfig.blockSizeVertical !* 50,
-                //   width: double.infinity,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(7.0),
-                //   ),
-                //     child: Center(
-                //         child: Text(
-                //             "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}",
-                //                 style: TextStyle(
-                //                     color: Colorsblack,
-                //                     fontFamily: "Ubuntu",
-                //                     fontSize: SizeConfig.blockSizeVertical !* 2.5
-                //                 ),
-                //         )
-                //     ),
-                //   ),
-                // ),
                 Divider(),
                 Padding(
                   padding: const EdgeInsets.all(14.0),
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     // crossAxisAlignment: CrossAxisAlignment.baseline,
                     children: [
+
                       Padding(
                         padding: const EdgeInsets.all(17.0),
                         child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black, // Set the border color
-                                width: 2.0, // Set the border width
-                              ),
-                              borderRadius: BorderRadius.circular(8.0), // Set border radius if you want rounded corners
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black, // Set the border color
+                              width: 2.0, // Set the border width
                             ),
-                            child:
-                            DropdownButton<String>(
-                              value: selectedValue,
-                              isExpanded: true,
-                              items: [
-                                DropdownMenuItem<String>(
-                                  value: 'Select Time',  // Placeholder value
-                                  child: Center(child: Text('Select Time',textAlign: TextAlign.center)),
-                                ),
-                                ...List.generate(12, (index) {
-                                  String hour = (index + 1).toString();
-                                  String labelAM = '$hour AM';
-                                  String labelPM = '$hour PM';
+                            borderRadius: BorderRadius.circular(8.0), // Set border radius if you want rounded corners
+                          ),
+                          child:
+                          DropdownButton<String>(
+                            value: selectedValue,
+                            items: [
+                              DropdownMenuItem<String>(
+                                value: 'Select Time',  // Placeholder value
+                                child: Text('Select Time'),
+                              ),
+                              ...List.generate(12, (index) {
+                                String hour = (index + 1).toString();
+                                String labelAM = '$hour AM';
+                                String labelPM = '$hour PM';
 
-                                  // // Swap 12 AM to 12 PM and 12 PM to 12 AM
-                                  // if (hour == '12') {
-                                  //   labelAM = '12 PM';
-                                  //   labelPM = '12 AM';
-                                  // }
-
-                                  return DropdownMenuItem<String>(
-                                    value: labelAM,
-                                    child: Text(labelAM),
-                                  );
-                                }),
-                                ...List.generate(12, (index) {
-                                  String hour = (index + 1).toString();
-                                  String labelPM = '$hour PM';
-
-                                  return DropdownMenuItem<String>(
-                                    value: labelPM,
-                                    child: Text(labelPM),
-                                  );
-                                }),
-                              ],
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedValue = value!;
-                                });
-                                // Convert to formatted time
-                                String formattedTime = convertToFormattedTime(selectedValue);
-
-                                // Call your API with the formatted time value
-                                getVitalChartValue(
-                                  widget.patientindooridp,
-                                  widget.PatientIDP,
-                                  formattedTime,
+                                return DropdownMenuItem<String>(
+                                  value: labelAM,
+                                  child: Text(labelAM),
                                 );
-                              },
-                            )
+                              }),
+                              ...List.generate(12, (index) {
+                                String hour = (index + 1).toString();
+                                String labelPM = '$hour PM';
+
+                                return DropdownMenuItem<String>(
+                                  value: labelPM,
+                                  child: Text(labelPM),
+                                );
+                              }),
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                selectedValue = value!;
+                              });
+                              // Convert to formatted time
+                              String formattedTime = convertToFormattedTime(selectedValue);
+
+                              // Call your API with the formatted time value
+                              getVitalChartValue(
+                                widget.patientindooridp,
+                                widget.PatientIDP,
+                                formattedTime,
+                              );
+                            },
+                          )
 
                         ),
                       ),
@@ -265,11 +177,9 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                       Column(
                         children: [
                           Container(
-                              width:double.infinity,
+                              width:SizeConfig.blockSizeHorizontal! *30,
                               child: TextField(
                                 controller: tempController,
-                                keyboardType: TextInputType.number,
-                                maxLength: 5,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(), // Add border here
                                   labelText: 'temp', // Optional label
@@ -279,141 +189,126 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                           ),
                           SizedBox(height: 10,),
                           Container(
-                              width:double.infinity,
+                              width:SizeConfig.blockSizeHorizontal! *30,
                               child: TextField(
                                 controller: PulseController,
-                                keyboardType: TextInputType.number,
-                                maxLength: 5,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(), // Add border here
                                   labelText: 'Pulse', // Optional label
-                                  hintText: 'Enter Pulse', // Optional hint text
+                                  hintText: 'Enter temperature', // Optional hint text
                                 ),
                               )
                           ),
                           SizedBox(height: 10,),
                           Container(
-                              width:double.infinity,
+                              width:SizeConfig.blockSizeHorizontal! *30,
                               child: TextField(
                                 controller: RespController,
-                                keyboardType: TextInputType.number,
-                                maxLength: 5,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(), // Add border here
                                   labelText: 'Resp', // Optional label
-                                  hintText: 'Enter Resp', // Optional hint text
+                                  hintText: 'Enter temperature', // Optional hint text
                                 ),
                               )
                           ),
                           SizedBox(height: 10,),
                           Container(
-                              width:double.infinity,
+                              width:SizeConfig.blockSizeHorizontal! *30,
                               child: TextField(
                                 controller: BpSystolicController,
-                                keyboardType: TextInputType.number,
-                                maxLength: 5,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(), // Add border here
                                   labelText: 'BpSystolic', // Optional label
-                                  hintText: 'Enter BpSystolic', // Optional hint text
+                                  hintText: 'Enter temperature', // Optional hint text
                                 ),
                               )
                           ),
                           SizedBox(height: 10,),
                           Container(
-                              width:double.infinity,
+                              width:SizeConfig.blockSizeHorizontal! *30,
                               child: TextField(
                                 controller: BpDiastolicController,
-                                keyboardType: TextInputType.number,
-                                maxLength: 5,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(), // Add border here
                                   labelText: 'BpDiastolic', // Optional label
-                                  hintText: 'Enter BpDiastolic', // Optional hint text
+                                  hintText: 'Enter temperature', // Optional hint text
                                 ),
                               )
                           ),
                           SizedBox(height: 10,),
-                          Container(
-                              width:double.infinity,
-                              child: TextField(
-                                controller: SPO2Controller,
-                                keyboardType: TextInputType.number,
-                                maxLength: 5,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'SPO2',
-                                  hintText: 'Enter SPO2',
-                                ),
-                              )
-                          ),
+                              Container(
+                                  width:SizeConfig.blockSizeHorizontal! *30,
+                                  child: TextField(
+                                    controller: SPO2Controller,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'SPO2',
+                                      hintText: 'Enter temperature',
+                                    ),
+                                  )
+                              ),
                         ],
                       ),
 
                     ],
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    child: InkWell(
-                      onTap: () {
-                        String formattedTime = convertToFormattedTime(selectedValue);
+                Container(
+                  child: InkWell(
+                    onTap: () {
+                      String formattedTime = convertToFormattedTime(selectedValue);
 
-                        VitalChartValueSend(
-                          widget.patientindooridp,
-                          widget.PatientIDP,
-                          widget.doctoridp,
-                          widget.firstname,
-                          widget.lastName,
-                          formattedTime,
-                          tempController,
-                          PulseController,
-                          RespController,
-                          BpSystolicController,
-                          BpDiastolicController,
-                          SPO2Controller,
-                        );
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal !*
-                                3),
-                        child: ClipOval(
-                          child: Container(
-                              color: Color(0xFF06A759),
-                              height:
-                              SizeConfig.blockSizeHorizontal !*
-                                  12,
-                              // height of the button
-                              width:
-                              SizeConfig.blockSizeHorizontal !*
-                                  12,
-                              // width of the button
-                              child: Padding(
-                                padding: EdgeInsets.all(SizeConfig
+
+                      VitalChartValueSend(
+                        widget.patientindooridp,
+                        widget.PatientIDP,
+                        formattedTime,
+                        tempController,
+                        PulseController,
+                        RespController,
+                        BpSystolicController,
+                        BpDiastolicController,
+                        SPO2Controller,
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal !*
+                              3),
+                      child: ClipOval(
+                        child: Container(
+                            color: Color(0xFF06A759),
+                            height:
+                            SizeConfig.blockSizeHorizontal !*
+                                12,
+                            // height of the button
+                            width:
+                            SizeConfig.blockSizeHorizontal !*
+                                12,
+                            // width of the button
+                            child: Padding(
+                              padding: EdgeInsets.all(SizeConfig
+                                  .blockSizeHorizontal !*
+                                  3),
+                              child: Image(
+                                width: SizeConfig
                                     .blockSizeHorizontal !*
-                                    3),
-                                child: Image(
-                                  width: SizeConfig
-                                      .blockSizeHorizontal !*
-                                      7.5,
-                                  height: SizeConfig
-                                      .blockSizeHorizontal !*
-                                      7.5,
-                                  //height: 80,
-                                  image: AssetImage(
-                                      "images/ic_right_arrow_triangular.png"),
-                                ),
-                              )),
-                        ),
+                                    7.5,
+                                height: SizeConfig
+                                    .blockSizeHorizontal !*
+                                    7.5,
+                                //height: 80,
+                                image: AssetImage(
+                                    "images/ic_right_arrow_triangular.png"),
+                              ),
+                            )),
                       ),
                     ),
-                    decoration: BoxDecoration(
-                        border: Border(
-                            left: BorderSide(
-                                color: Colors.grey, width: 1.0))),
                   ),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          left: BorderSide(
+                              color: Colors.grey, width: 1.0))),
                 ),
 
               ],
@@ -557,17 +452,17 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
 
           // Check if all values are non-empty
 
-          Map<String, dynamic> OrganizationMap = {
-            "IndoorNursingChartIDP": IndoorNursingChartIDP,
-            "Temperature": Temperature,
-            "Pulse": Pulse,
-            "RR": RR,
-            "BPSystolic": BPSystolic,
-            "BPDiastolic": BPDiastolic,
-            "SPO2": SPO2,
-          };
+            Map<String, dynamic> OrganizationMap = {
+              "IndoorNursingChartIDP": IndoorNursingChartIDP,
+              "Temperature": Temperature,
+              "Pulse": Pulse,
+              "RR": RR,
+              "BPSystolic": BPSystolic,
+              "BPDiastolic": BPDiastolic,
+              "SPO2": SPO2,
+            };
 
-          listVitalChartValues.add(OrganizationMap);
+            listVitalChartValues.add(OrganizationMap);
         }
 
         // Print the values of listVitalChartValues
@@ -593,9 +488,6 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
   void VitalChartValueSend(
       String patientindooridp,
       String PatientIDF,
-      String doctoridp,
-      String firstname,
-      String lastName,
       selectedValue,
       TextEditingController tempController,
       TextEditingController PulseController,
@@ -663,24 +555,38 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
 
       if (model.status == "OK") {
 
+        // [{"IndoorNursingChartIDP":"1","Temperature":"66.00",
+        //   "Pulse":"56.00","RR":"","BPSystolic":"56.00","BPDiastolic":"56.00","SPO2":"56.00"}]
+
+        // for (var i = 0; i < jsonData.length; i++) {
+        //
+        //   final jo = jsonData[i];
+        //   String Temperature = jo['Temperature'].toString();
+        //   String Pulse = jo['Pulse'].toString();
+        //   String RR = jo['RR'].toString();
+        //   String BPSystolic = jo['BPSystolic'].toString();
+        //   String BPDiastolic = jo['BPDiastolic'].toString();
+        //   String SPO2 = jo['SPO2'].toString();
+        //
+        //   Map<String, dynamic> OrganizationMap = {
+        //     "Temperature": Temperature,
+        //     "Pulse": Pulse,
+        //     "RR" : RR,
+        //     "BPSystolic" : BPSystolic,
+        //     "BPDiastolic" : BPDiastolic,
+        //     "SPO2" : SPO2,
+        //   };
+        //   listVitalChartValues.add(OrganizationMap);
+        //   // debugPrint("Added to list: $complainName");
+        //
+        // }
         final snackBar = SnackBar(
           backgroundColor: Colors.green,
           content: Text("Vitals Added Successfully"),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         setState(() {});
-        Navigator.pushReplacement (
-            context,
-            MaterialPageRoute(builder: (context) =>
-                VitalChartTableScreen(
-                  patientindooridp: patientindooridp,
-                  PatientIDP: PatientIDF,
-                  doctoridp: doctoridp,
-                  firstname: firstname,
-                  lastName: lastName,
-                )
-            )
-        );
+
       }
       else {final snackBar = SnackBar(
         backgroundColor: Colors.red,
@@ -688,7 +594,7 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-      setState(() {});
+        setState(() {});
       }
     }catch (e) {
       print('Error decoding JSON: $e');

@@ -2,21 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:silvertouch/api/api_helper.dart';
-import 'package:silvertouch/app_screens/opd_registration_screen.dart';
-import 'package:silvertouch/app_screens/view_profile_details_patient_inside_doctor.dart';
-import 'package:silvertouch/app_screens/vital_investigation_patient_wise_screen_from_notification.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_notification_patient_data.dart';
-import 'package:silvertouch/podo/model_notiofication_list.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
-import 'package:silvertouch/widgets/extensions.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
+import 'package:swasthyasetu/app_screens/opd_registration_screen.dart';
+import 'package:swasthyasetu/app_screens/view_profile_details_patient_inside_doctor.dart';
+import 'package:swasthyasetu/app_screens/vital_investigation_patient_wise_screen_from_notification.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_notification_patient_data.dart';
+import 'package:swasthyasetu/podo/model_notiofication_list.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/widgets/extensions.dart';
+
 import '../utils/color.dart';
 import 'custom_dialog.dart';
 
@@ -42,6 +39,7 @@ class NotificationListState extends State<NotificationList> {
 
   @override
   Widget build(BuildContext context) {
+
     clearNotification(ModelNotificationList model, bool clearAll) async {
       setState(() {
         listNotification = [];
@@ -62,7 +60,7 @@ class NotificationListState extends State<NotificationList> {
               Text(
                 "Notifications",
                 style:
-                    TextStyle(fontSize: SizeConfig.blockSizeHorizontal! * 4.2),
+                    TextStyle(fontSize: SizeConfig.blockSizeHorizontal !* 4.2),
               ),
               Visibility(
                   visible: listNotification!.length > 0 ? true : false,
@@ -76,24 +74,22 @@ class NotificationListState extends State<NotificationList> {
                       child: Text(
                         "Clear All",
                         style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal! * 3.5),
+                            fontSize: SizeConfig.blockSizeHorizontal !* 3.5),
                         textAlign: TextAlign.end,
                       ),
                     ),
                   )))
             ],
-          ),
-          toolbarTextStyle: TextTheme(
+          ), toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical! * 2.5,
-          )).bodyMedium,
-          titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          )).bodyMedium, titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
           )).titleLarge,
         ),
         body: ColoredBox(
@@ -102,8 +98,8 @@ class NotificationListState extends State<NotificationList> {
               ? ListView.builder(
                   itemCount: listNotification!.length,
                   itemBuilder: (context, pos) => InkWell(
-                        onTap: () => onClickNotification(
-                            listNotification![pos], context),
+                        onTap: () =>
+                            onClickNotification(listNotification![pos], context),
                         child: Padding(
                           padding:
                               EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
@@ -122,12 +118,12 @@ class NotificationListState extends State<NotificationList> {
                                       CircleAvatar(
                                           backgroundColor: Colors.blueGrey,
                                           child: Padding(
-                                            padding: EdgeInsets.all(SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                2),
+                                            padding: EdgeInsets.all(
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    2),
                                             child: Image(
                                               width: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   30,
                                               image: AssetImage(
                                                 "images/ic_notification_bell.png",
@@ -135,7 +131,7 @@ class NotificationListState extends State<NotificationList> {
                                               ),
                                             ),
                                           )).pO(
-                                        left: SizeConfig.blockSizeHorizontal! *
+                                        left: SizeConfig.blockSizeHorizontal !*
                                             3.0,
                                       ),
                                       SizedBox(
@@ -163,7 +159,7 @@ class NotificationListState extends State<NotificationList> {
                                                     children: [
                                                       SizedBox(
                                                         height: SizeConfig
-                                                                .blockSizeVertical! *
+                                                                .blockSizeVertical !*
                                                             1.0,
                                                       ),
                                                       Text(
@@ -171,14 +167,14 @@ class NotificationListState extends State<NotificationList> {
                                                             .title!,
                                                         style: TextStyle(
                                                           fontSize: SizeConfig
-                                                                  .blockSizeHorizontal! *
+                                                                  .blockSizeHorizontal !*
                                                               3.5,
                                                           color: Colors.black,
                                                         ),
                                                       ),
                                                       SizedBox(
                                                         height: SizeConfig
-                                                                .blockSizeVertical! *
+                                                                .blockSizeVertical !*
                                                             0.5,
                                                       ),
                                                       Row(
@@ -188,12 +184,12 @@ class NotificationListState extends State<NotificationList> {
                                                             color: Colors
                                                                 .grey[500],
                                                             size: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                    .blockSizeHorizontal !*
                                                                 5.0,
                                                           ),
                                                           SizedBox(
                                                             width: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                    .blockSizeHorizontal !*
                                                                 1.0,
                                                           ),
                                                           Text(
@@ -202,7 +198,7 @@ class NotificationListState extends State<NotificationList> {
                                                                 .desc!,
                                                             style: TextStyle(
                                                               fontSize: SizeConfig
-                                                                      .blockSizeHorizontal! *
+                                                                      .blockSizeHorizontal !*
                                                                   3.5,
                                                               color: Colors
                                                                   .grey[500],
@@ -212,7 +208,7 @@ class NotificationListState extends State<NotificationList> {
                                                       ),
                                                       SizedBox(
                                                         height: SizeConfig
-                                                                .blockSizeVertical! *
+                                                                .blockSizeVertical !*
                                                             1.0,
                                                       ),
                                                     ],
@@ -220,22 +216,21 @@ class NotificationListState extends State<NotificationList> {
                                                 ),
                                                 SizedBox(
                                                   width: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       2,
                                                 ),
                                                 InkWell(
                                                   customBorder: CircleBorder(),
                                                   onTap: () =>
                                                       clearNotification(
-                                                          listNotification![
-                                                              pos],
+                                                          listNotification![pos],
                                                           false),
                                                   child: Container(
                                                     height: SizeConfig
-                                                            .blockSizeVertical! *
+                                                            .blockSizeVertical !*
                                                         12.0,
                                                     width: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                         8.0,
                                                     color: Colors.red,
                                                     child: Image(
@@ -243,7 +238,7 @@ class NotificationListState extends State<NotificationList> {
                                                           "images/ic_cancel.png"),
                                                       color: Colors.white,
                                                       width: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           6,
                                                     ),
                                                   ),
@@ -269,17 +264,16 @@ class NotificationListState extends State<NotificationList> {
                                             CrossAxisAlignment.center,
                                         children: <Widget>[
                                           SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3.0,
+                                            width:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    3.0,
                                           ),
                                           CircleAvatar(
                                               radius: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   5,
                                               backgroundColor: Colors.grey,
-                                              backgroundImage:
-                                                  getBackgroundImage(pos) /*),*/
+                                              backgroundImage: getBackgroundImage(pos) /*),*/
                                               ),
                                           SizedBox(
                                             width: 15.0,
@@ -295,7 +289,7 @@ class NotificationListState extends State<NotificationList> {
                                                     children: <Widget>[
                                                       SizedBox(
                                                         height: SizeConfig
-                                                                .blockSizeVertical! *
+                                                                .blockSizeVertical !*
                                                             1.0,
                                                       ),
                                                       Row(
@@ -306,14 +300,14 @@ class NotificationListState extends State<NotificationList> {
                                                             color: Colors
                                                                 .grey[600],
                                                             size: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                    .blockSizeHorizontal !*
                                                                 4.8,
                                                           ),
                                                           Text(
                                                             "Appointment requested",
                                                             style: TextStyle(
                                                               fontSize: SizeConfig
-                                                                      .blockSizeHorizontal! *
+                                                                      .blockSizeHorizontal !*
                                                                   3.8,
                                                               color: Colors
                                                                   .blue[600],
@@ -329,23 +323,23 @@ class NotificationListState extends State<NotificationList> {
                                                       ),
                                                       SizedBox(
                                                         height: SizeConfig
-                                                                .blockSizeVertical! *
+                                                                .blockSizeVertical !*
                                                             1.3,
                                                       ),
                                                       Text(
                                                         listNotification![pos]
-                                                            .modelNotificationPatientData!
-                                                            .patientName!,
+                                                            .modelNotificationPatientData
+                                                        !.patientName!,
                                                         style: TextStyle(
                                                           fontSize: SizeConfig
-                                                                  .blockSizeHorizontal! *
+                                                                  .blockSizeHorizontal !*
                                                               3.5,
                                                           color: Colors.black,
                                                         ),
                                                       ),
                                                       SizedBox(
                                                         height: SizeConfig
-                                                                .blockSizeVertical! *
+                                                                .blockSizeVertical !*
                                                             0.8,
                                                       ),
                                                       Row(children: <Widget>[
@@ -353,7 +347,7 @@ class NotificationListState extends State<NotificationList> {
                                                           "${listNotification![pos].modelNotificationPatientData!.gender}/${listNotification![pos].modelNotificationPatientData!.age}",
                                                           style: TextStyle(
                                                             fontSize: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                    .blockSizeHorizontal !*
                                                                 3.5,
                                                             color: Colors
                                                                 .blue[900],
@@ -361,7 +355,7 @@ class NotificationListState extends State<NotificationList> {
                                                         ),
                                                         SizedBox(
                                                           width: SizeConfig
-                                                                  .blockSizeHorizontal! *
+                                                                  .blockSizeHorizontal !*
                                                               6,
                                                         ),
                                                         Icon(
@@ -369,21 +363,21 @@ class NotificationListState extends State<NotificationList> {
                                                           color:
                                                               Colors.grey[500],
                                                           size: SizeConfig
-                                                                  .blockSizeHorizontal! *
+                                                                  .blockSizeHorizontal !*
                                                               5.0,
                                                         ),
                                                         SizedBox(
                                                           width: SizeConfig
-                                                                  .blockSizeHorizontal! *
+                                                                  .blockSizeHorizontal !*
                                                               1.0,
                                                         ),
                                                         Text(
                                                           listNotification![pos]
-                                                              .modelNotificationPatientData!
-                                                              .date!,
+                                                              .modelNotificationPatientData
+                                                          !.date!,
                                                           style: TextStyle(
                                                             fontSize: SizeConfig
-                                                                    .blockSizeHorizontal! *
+                                                                    .blockSizeHorizontal !*
                                                                 3.5,
                                                             color: Colors
                                                                 .grey[800],
@@ -392,7 +386,7 @@ class NotificationListState extends State<NotificationList> {
                                                       ]),
                                                       SizedBox(
                                                         height: SizeConfig
-                                                                .blockSizeVertical! *
+                                                                .blockSizeVertical !*
                                                             1.0,
                                                       ),
                                                     ],
@@ -400,22 +394,21 @@ class NotificationListState extends State<NotificationList> {
                                                 ),
                                                 SizedBox(
                                                   width: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       2,
                                                 ),
                                                 InkWell(
                                                   customBorder: CircleBorder(),
                                                   onTap: () =>
                                                       clearNotification(
-                                                          listNotification![
-                                                              pos],
+                                                          listNotification![pos],
                                                           false),
                                                   child: Container(
                                                     height: SizeConfig
-                                                            .blockSizeVertical! *
+                                                            .blockSizeVertical !*
                                                         12.0,
                                                     width: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                         8.0,
                                                     color: Colors.red,
                                                     child: Image(
@@ -423,7 +416,7 @@ class NotificationListState extends State<NotificationList> {
                                                           "images/ic_cancel.png"),
                                                       color: Colors.white,
                                                       width: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           6,
                                                     ),
                                                   ),
@@ -447,12 +440,10 @@ class NotificationListState extends State<NotificationList> {
                                             children: <Widget>[
                                               CircleAvatar(
                                                   radius: SizeConfig
-                                                          .blockSizeHorizontal! *
+                                                          .blockSizeHorizontal !*
                                                       5,
                                                   backgroundColor: Colors.grey,
-                                                  backgroundImage:
-                                                      getBackgroundImage(
-                                                          pos) /*),*/
+                                                  backgroundImage: getBackgroundImage(pos)/*),*/
                                                   ),
                                               SizedBox(
                                                 width: 15.0,
@@ -474,7 +465,7 @@ class NotificationListState extends State<NotificationList> {
                                                                 color: Colors
                                                                     .grey[600],
                                                                 size: SizeConfig
-                                                                        .blockSizeHorizontal! *
+                                                                        .blockSizeHorizontal !*
                                                                     4.8,
                                                               ),
                                                               Text(
@@ -483,7 +474,7 @@ class NotificationListState extends State<NotificationList> {
                                                                     TextStyle(
                                                                   fontSize:
                                                                       SizeConfig
-                                                                              .blockSizeHorizontal! *
+                                                                              .blockSizeHorizontal !*
                                                                           3.8,
                                                                   color: Colors
                                                                           .blue[
@@ -500,17 +491,17 @@ class NotificationListState extends State<NotificationList> {
                                                           ),
                                                           SizedBox(
                                                             height: SizeConfig
-                                                                    .blockSizeVertical! *
+                                                                    .blockSizeVertical !*
                                                                 1.3,
                                                           ),
                                                           Text(
                                                             listNotification![
                                                                     pos]
-                                                                .modelNotificationPatientData!
-                                                                .patientName!,
+                                                                .modelNotificationPatientData
+                                                            !.patientName!,
                                                             style: TextStyle(
                                                               fontSize: SizeConfig
-                                                                      .blockSizeHorizontal! *
+                                                                      .blockSizeHorizontal !*
                                                                   3.5,
                                                               color:
                                                                   Colors.black,
@@ -518,15 +509,16 @@ class NotificationListState extends State<NotificationList> {
                                                           ),
                                                           SizedBox(
                                                             height: SizeConfig
-                                                                    .blockSizeVertical! *
+                                                                    .blockSizeVertical !*
                                                                 0.8,
                                                           ),
-                                                          Row(children: <Widget>[
+                                                          Row(children: <
+                                                              Widget>[
                                                             Text(
                                                               "${listNotification![pos].modelNotificationPatientData!.gender}/${listNotification![pos].modelNotificationPatientData!.age}",
                                                               style: TextStyle(
                                                                 fontSize: SizeConfig
-                                                                        .blockSizeHorizontal! *
+                                                                        .blockSizeHorizontal !*
                                                                     3.5,
                                                                 color: Colors
                                                                     .blue[900],
@@ -538,7 +530,7 @@ class NotificationListState extends State<NotificationList> {
                                                     ),
                                                     SizedBox(
                                                       width: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           2,
                                                     ),
                                                     InkWell(
@@ -551,10 +543,10 @@ class NotificationListState extends State<NotificationList> {
                                                               false),
                                                       child: Container(
                                                         height: SizeConfig
-                                                                .blockSizeVertical! *
+                                                                .blockSizeVertical !*
                                                             12.0,
                                                         width: SizeConfig
-                                                                .blockSizeHorizontal! *
+                                                                .blockSizeHorizontal !*
                                                             8.0,
                                                         color: Colors.red,
                                                         child: Image(
@@ -562,7 +554,7 @@ class NotificationListState extends State<NotificationList> {
                                                               "images/ic_cancel.png"),
                                                           color: Colors.white,
                                                           width: SizeConfig
-                                                                  .blockSizeHorizontal! *
+                                                                  .blockSizeHorizontal !*
                                                               6,
                                                         ),
                                                       ),
@@ -593,17 +585,17 @@ class NotificationListState extends State<NotificationList> {
                               radius: SizeConfig.blockSizeHorizontal * 10,*/
                               child: Padding(
                                 padding: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal! * 3),
+                                    SizeConfig.blockSizeHorizontal !* 3),
                                 child: Image(
-                                  width: SizeConfig.blockSizeHorizontal! * 12,
-                                  height: SizeConfig.blockSizeHorizontal! * 12,
+                                  width: SizeConfig.blockSizeHorizontal !* 12,
+                                  height: SizeConfig.blockSizeHorizontal !* 12,
                                   image: AssetImage(
                                     "images/ic_notification_bell.png",
                                   ),
                                 ),
                               )),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical! * 2,
+                            height: SizeConfig.blockSizeVertical !* 2,
                           ),
                           Text(
                             "No Notification(s) to show.",
@@ -672,7 +664,7 @@ class NotificationListState extends State<NotificationList> {
       for (int i = 0; i < jsonData[2]['BindPatientRequest'].length; i++) {
         final jo = jsonData[2]['BindPatientRequest'][i];
         listNotification!.add(ModelNotificationList(
-            "", jo["PatientIDP"], "", "", "", "", "",
+            jo["AppoinmentRequestIDP"], jo["PatientIDP"], "", "", "", "", "",
             notificationType: "bind",
             modelNotificationPatientData: ModelNotificationPatientData(
               patientIDP: jo["PatientIDP"],
@@ -753,9 +745,7 @@ class NotificationListState extends State<NotificationList> {
         categoryIDP = "1";
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return ShowVitalsInvestigationPatientWiseFromNotifications(
-              modelNotification.patientIDP!,
-              categoryIDP,
-              modelNotification.idf!);
+              modelNotification.patientIDP!, categoryIDP, modelNotification.idf!);
         })).then((value) {
           getNotificationList(context);
         });
@@ -768,9 +758,7 @@ class NotificationListState extends State<NotificationList> {
         categoryIDP = "2";
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return ShowVitalsInvestigationPatientWiseFromNotifications(
-              modelNotification.patientIDP!,
-              categoryIDP,
-              modelNotification.idf!);
+              modelNotification.patientIDP!, categoryIDP, modelNotification.idf!);
         })).then((value) {
           getNotificationList(context);
         });
@@ -833,7 +821,7 @@ class NotificationListState extends State<NotificationList> {
                   children: <Widget>[
                     Container(
                       padding:
-                          EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
+                          EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
                       decoration: BoxDecoration(
                         color: Color(0xEEFEF1B5),
                       ),
@@ -844,7 +832,7 @@ class NotificationListState extends State<NotificationList> {
                             icon: Icon(
                               getBackIconCorrespondingToPlatform(),
                               color: Colors.black,
-                              size: SizeConfig.blockSizeHorizontal! * 7.0,
+                              size: SizeConfig.blockSizeHorizontal !* 7.0,
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -858,7 +846,7 @@ class NotificationListState extends State<NotificationList> {
                                   : "Connect Request",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal! * 5.5,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 5.5,
                                 color: Colors.blue[600],
                                 fontStyle: FontStyle.italic,
                                 fontWeight: FontWeight.w500,
@@ -868,12 +856,12 @@ class NotificationListState extends State<NotificationList> {
                         ],
                       ),
                     ),
-                    SizedBox(height: SizeConfig.blockSizeVertical! * 1),
+                    SizedBox(height: SizeConfig.blockSizeVertical !* 1),
                     Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal! * 3),
+                              SizeConfig.blockSizeHorizontal !* 3),
                           child: Column(
                             children: [
                               Align(
@@ -884,7 +872,7 @@ class NotificationListState extends State<NotificationList> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal! * 5.0,
+                                        SizeConfig.blockSizeHorizontal !* 5.0,
                                   ),
                                 ),
                               ),
@@ -893,27 +881,26 @@ class NotificationListState extends State<NotificationList> {
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                     horizontal:
-                                        SizeConfig.blockSizeHorizontal! * 5,
+                                        SizeConfig.blockSizeHorizontal !* 5,
                                     vertical:
-                                        SizeConfig.blockSizeHorizontal! * 2,
+                                        SizeConfig.blockSizeHorizontal !* 2,
                                   ),
                                   child: Text(
                                     modelNotification
-                                            .modelNotificationPatientData!
-                                            .patientName! +
+                                            .modelNotificationPatientData
+                                    !.patientName! +
                                         "(" +
                                         modelNotification
-                                            .modelNotificationPatientData!
-                                            .gender! +
+                                            .modelNotificationPatientData
+                                        !.gender! +
                                         "/" +
                                         modelNotification
-                                            .modelNotificationPatientData!
-                                            .age! +
+                                            .modelNotificationPatientData!.age! +
                                         ")",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize:
-                                          SizeConfig.blockSizeHorizontal! * 4.0,
+                                          SizeConfig.blockSizeHorizontal !* 4.0,
                                     ),
                                   ),
                                 ),
@@ -928,7 +915,7 @@ class NotificationListState extends State<NotificationList> {
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   5.0,
                                         ),
                                       ),
@@ -941,21 +928,21 @@ class NotificationListState extends State<NotificationList> {
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
                                           horizontal:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   5,
                                           vertical:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   2,
                                         ),
                                         child: Text(
                                           modelNotification
-                                              .modelNotificationPatientData!
-                                              .purpose!,
+                                              .modelNotificationPatientData
+                                          !.purpose!,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.0,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    4.0,
                                           ),
                                         ),
                                       ),
@@ -971,7 +958,7 @@ class NotificationListState extends State<NotificationList> {
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   5.0,
                                         ),
                                       ),
@@ -984,10 +971,10 @@ class NotificationListState extends State<NotificationList> {
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
                                           horizontal:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   5,
                                           vertical:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   2,
                                         ),
                                         child: Row(
@@ -997,13 +984,13 @@ class NotificationListState extends State<NotificationList> {
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     4.0,
                                               ),
                                             ),
                                             SizedBox(
                                               width: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   3.0,
                                             ),
                                             InkWell(
@@ -1036,7 +1023,7 @@ class NotificationListState extends State<NotificationList> {
                                                 Icons.edit,
                                                 color: Colors.blueGrey,
                                                 size: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     5.0,
                                               ),
                                               /*)*/
@@ -1061,8 +1048,8 @@ class NotificationListState extends State<NotificationList> {
                                                 builder: (context) {
                                           return ViewProfileDetailsInsideDoctor(
                                             modelNotification
-                                                .modelNotificationPatientData!
-                                                .patientIDP,
+                                                .modelNotificationPatientData
+                                            !.patientIDP,
                                             from: "notification",
                                           );
                                         })).then((value) {
@@ -1077,7 +1064,7 @@ class NotificationListState extends State<NotificationList> {
                                     ),
                                   ) /*)*/,
                                   SizedBox(
-                                    width: SizeConfig.blockSizeHorizontal! * 3,
+                                    width: SizeConfig.blockSizeHorizontal !* 3,
                                   ),
                                   Align(
                                     alignment: Alignment.topRight,
@@ -1145,7 +1132,7 @@ class NotificationListState extends State<NotificationList> {
                           ),
                         )),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 0.5,
+                      height: SizeConfig.blockSizeVertical !* 0.5,
                     ),
                   ],
                 ),
@@ -1441,7 +1428,7 @@ class NotificationListState extends State<NotificationList> {
             title: Text(
               "${modelNotificationPatientData.patientName} is now connected with you. You can go to My Patients and access health records.",
               style: TextStyle(
-                fontSize: SizeConfig.blockSizeHorizontal! * 3.8,
+                fontSize: SizeConfig.blockSizeHorizontal !* 3.8,
                 color: Colors.black,
               ),
             ),
@@ -1476,10 +1463,17 @@ class NotificationListState extends State<NotificationList> {
   }
 
   getBackgroundImage(int pos) {
-    (listNotification![pos].modelNotificationPatientData!.photo != null &&
-            listNotification![pos].modelNotificationPatientData!.photo != "")
+    (listNotification![pos]
+        .modelNotificationPatientData
+    !.photo !=
+        null &&
+        listNotification![pos]
+            .modelNotificationPatientData
+        !.photo !=
+            "")
         ? NetworkImage(
-            "$userImgUrl${listNotification![pos].modelNotificationPatientData!.photo}")
-        : AssetImage("images/ic_user_placeholder.png");
+        "$userImgUrl${listNotification![pos].modelNotificationPatientData!.photo}")
+        : AssetImage(
+        "images/ic_user_placeholder.png");
   }
 }

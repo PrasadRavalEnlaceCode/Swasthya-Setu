@@ -9,22 +9,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:silvertouch/api/api_helper.dart';
-import 'package:silvertouch/app_screens/add_vital_screen.dart';
-import 'package:silvertouch/app_screens/water_intake_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/dropdown_item.dart';
-import 'package:silvertouch/podo/model_graph_values.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_vitals_list.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/flutter_echarts_custom.dart';
-import 'package:silvertouch/utils/fontstyle.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
+
+//import 'package:share_extend/share_extend.dart';
+import 'package:swasthyasetu/app_screens/add_vital_screen.dart';
+import 'package:swasthyasetu/app_screens/water_intake_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/dropdown_item.dart';
+import 'package:swasthyasetu/podo/model_graph_values.dart';
+import 'package:swasthyasetu/podo/model_vitals_list.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/common_methods.dart';
+import 'package:swasthyasetu/utils/flutter_echarts_custom.dart';
+import 'package:swasthyasetu/utils/fontstyle.dart';
+
+//import 'package:progress_dialog/progress_dialog.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
+as DateRagePicker;
 
 import '../utils/color.dart';
 
@@ -194,8 +197,7 @@ class VitalsListScreen extends StatefulWidget {
   String? emptyTextWaterIntake =
       "You can Add Your Water Intake Data. Kindly click on Plus icon to add one.";
 
-  String? emptyTextSleep =
-      "You can track how many hours you sleep every night.";
+  String? emptyTextSleep = "You can track how many hours you sleep every night.";
 
   /*String emptyTextVitals1 =  "- Monitor your Vitals regularly and share to your doctor very easily.";
   String emptyTextVitals2 ="- Monitor and record your Vitals values of Pluse Rate, Temperature, SPO2 (Oxygen Saturation), Respiratory rate by selecting PLUS button from the bottom od screen.";*/
@@ -275,9 +277,10 @@ class VitalsListScreenState extends State<VitalsListScreen> {
       lastDate: DateTime(2100),
     );
 
-    if (newDateRange == null) return;
+    if(newDateRange == null) return;
 
-    setState(() {
+    setState(()
+    {
       dateRange = newDateRange;
       fromDate = dateRange.start;
       toDate = dateRange.end;
@@ -319,2678 +322,2553 @@ class VitalsListScreenState extends State<VitalsListScreen> {
     listBPTabsWidgets = [
       widget.vitalGroupIDP == "1"
           ? widget.listVitals!.length > 0
-              ? ListView.builder(
-                  padding: const EdgeInsets.only(
-                      bottom: kFloatingActionButtonMargin + 60),
-                  itemCount: widget.listVitals!.length,
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                        onTap: () {},
-                        child: Padding(
-                            padding: EdgeInsets.all(0.0),
-                            child: Container(
-                                width: SizeConfig.blockSizeHorizontal! * 90,
-                                padding: EdgeInsets.only(
-                                  top: 5,
-                                  bottom: 5,
-                                  left: 5,
-                                  right: 5,
-                                ),
-                                decoration: new BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.rectangle,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1.0, color: Color(0xFF636F7B)),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 10.0,
-                                      offset: const Offset(0.0, 10.0),
-                                    ),
-                                  ],
-                                ),
-                                child: Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Container(
-                                      /*decoration: BoxDecoration(
-                                        color: Colors.primaries[Random()
-                                            .nextInt(Colors.primaries.length)],
-                                        borderRadius: BorderRadius.circular(35),
-                                      ),*/
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Text(
-                                                    "${widget.listVitals![index]!.vitalEntryDate} (",
-                                                    style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeVertical! *
-                                                          2.3,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "${widget.listVitals![index]!.vitalEntryTime})",
-                                                    style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeVertical! *
-                                                          2.3,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: SizeConfig
-                                                        .blockSizeVertical! *
-                                                    0.8,
-                                              ),
-                                              Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  children: [
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          widget.vitalGroupIDP ==
-                                                                  "2"
-                                                              ? "Pulse"
-                                                              : (widget.vitalGroupIDP ==
-                                                                      "1"
-                                                                  ? "BP Systolic"
-                                                                  : title1),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          "${listVital[index].value} (${widget.unit})",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          "Entry By",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          listVital[index]
-                                                              .byWhom!,
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  children: [
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          widget.vitalGroupIDP ==
-                                                                  "1"
-                                                              ? "BP Diastolic"
-                                                              : "$title2 (${widget.unit2})",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          "${listVital2[index].value} (${widget.unit2})",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      width: 20,
-                                                      height: 20,
-                                                    ),
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          "Entry By",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          listVital[index]
-                                                              .byWhom!,
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Expanded(
-                                            child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  deleteTheVitalFromTheListForBP1(
-                                                      listVital[index],
-                                                      listVital2[index]);
-                                                },
-                                                child: Icon(
-                                                  Icons.delete,
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )))));
-                  })
-              : widget.emptyMessageWidget!
-          : widget.listVitals!.length > 0
-              ? ListView.builder(
-                  padding: const EdgeInsets.only(
-                      bottom: kFloatingActionButtonMargin + 60),
-                  itemCount: listVital.length,
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                        onTap: () {},
-                        child: Padding(
-                            padding: EdgeInsets.all(0.0),
-                            child: Container(
-                                width: SizeConfig.blockSizeHorizontal! * 90,
-                                padding: EdgeInsets.only(
-                                  top: 5,
-                                  bottom: 5,
-                                  left: 5,
-                                  right: 5,
-                                ),
-                                decoration: new BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.rectangle,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1.0, color: Color(0xFF636F7B)),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 10.0,
-                                      offset: const Offset(0.0, 10.0),
-                                    ),
-                                  ],
-                                ),
-                                child: Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Container(
-                                      /*decoration: BoxDecoration(
-                                        color: Colors.primaries[Random()
-                                            .nextInt(Colors.primaries.length)],
-                                        borderRadius: BorderRadius.circular(35),
-                                      ),*/
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Text(
-                                                    "${listVital[index].date} (",
-                                                    style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeVertical! *
-                                                          2.3,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "${listVital[index].time})",
-                                                    style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeVertical! *
-                                                          2.3,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: SizeConfig
-                                                        .blockSizeVertical! *
-                                                    0.8,
-                                              ),
-                                              Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  children: [
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          widget.vitalGroupIDP ==
-                                                                  "2"
-                                                              ? "Pulse"
-                                                              : (widget.vitalGroupIDP ==
-                                                                      "1"
-                                                                  ? "BP Systolic"
-                                                                  : title1),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          " -  ${listVital[index].value} (${widget.unit})",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      width: 20,
-                                                      height: 20,
-                                                    ),
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          "Entry By",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          listVital[index]
-                                                              .byWhom!,
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Expanded(
-                                            child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  deleteTheVitalFromTheList(
-                                                      listVital[index]);
-                                                },
-                                                child: Icon(
-                                                  Icons.delete,
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )))));
-                  })
-              : widget.emptyMessageWidget!,
-      listVital2.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital2.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: widget.listVitals!.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital2[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital2[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${widget.listVitals![index]!.vitalEntryDate} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
+                                          Text(
+                                            "${widget.listVitals![index]!.vitalEntryTime})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      widget.vitalGroupIDP ==
-                                                              "2"
-                                                          ? "Temperature"
-                                                          : (widget.vitalGroupIDP ==
-                                                                  "1"
-                                                              ? "BP Diastolic"
-                                                              : (widget.vitalGroupIDP ==
-                                                                      "5"
-                                                                  ? title2
-                                                                  : title)),
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${listVital2[index].value} (${widget.unit2})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: SizeConfig
+                                            .blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  widget.vitalGroupIDP ==
+                                                      "2"
+                                                      ? "Pulse"
+                                                      : (widget.vitalGroupIDP ==
+                                                      "1"
+                                                      ? "BP Systolic"
+                                                      : title1),
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
                                                 ),
-                                                SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital2[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
+                                                Text(
+                                                  "${listVital[index].value} (${widget.unit})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital2[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                          ],
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  widget.vitalGroupIDP ==
+                                                      "1"
+                                                      ? "BP Diastolic"
+                                                      : "$title2 (${widget.unit2})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital2[index].value} (${widget.unit2})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheListForBP1(
+                                              listVital[index],
+                                              listVital2[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
+          : widget.emptyMessageWidget!
+          : widget.listVitals!.length > 0
+          ? ListView.builder(
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
+                                        color: Colors.primaries[Random()
+                                            .nextInt(Colors.primaries.length)],
+                                        borderRadius: BorderRadius.circular(35),
+                                      ),*/
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Text(
+                                            "${listVital[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
+                                          ),
+                                          Text(
+                                            "${listVital[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: SizeConfig
+                                            .blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  widget.vitalGroupIDP ==
+                                                      "2"
+                                                      ? "Pulse"
+                                                      : (widget.vitalGroupIDP ==
+                                                      "1"
+                                                      ? "BP Systolic"
+                                                      : title1),
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  " -  ${listVital[index].value} (${widget.unit})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text("Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
+          : widget.emptyMessageWidget!,
+      listVital2.length > 0
+          ? ListView.builder(
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital2.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
+                                        color: Colors.primaries[Random()
+                                            .nextInt(Colors.primaries.length)],
+                                        borderRadius: BorderRadius.circular(35),
+                                      ),*/
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Text(
+                                            "${listVital2[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
+                                          ),
+                                          Text(
+                                            "${listVital2[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  widget.vitalGroupIDP == "2"
+                                                      ? "Temperature"
+                                                      : (widget.vitalGroupIDP ==
+                                                      "1"
+                                                      ? "BP Diastolic"
+                                                      : (widget.vitalGroupIDP ==
+                                                      "5"
+                                                      ? title2
+                                                      : title)),
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital2[index].value} (${widget.unit2})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital2[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital2[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
     ];
 
     listVitalsTabsWidgets = [
       listVital.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      widget.vitalGroupIDP ==
-                                                              "2"
-                                                          ? "Pulse"
-                                                          : widget.vitalGroupIDP ==
-                                                                  "3"
-                                                              ? "FBS"
-                                                              : (widget.vitalGroupIDP ==
-                                                                      "1"
-                                                                  ? "BP Systolic"
-                                                                  : title1),
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${listVital[index].value} (${widget.unit})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  widget.vitalGroupIDP == "2"
+                                                      ? "Pulse"
+                                                      : widget.vitalGroupIDP ==
+                                                      "3"
+                                                      ? "FBS"
+                                                      : (widget.vitalGroupIDP ==
+                                                      "1"
+                                                      ? "BP Systolic"
+                                                      : title1),
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital[index].value} (${widget.unit})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
       listVital2.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital2.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital2.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital2[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital2[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital2[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      widget.vitalGroupIDP ==
-                                                              "2"
-                                                          ? "Temperature"
-                                                          : widget.vitalGroupIDP ==
-                                                                  "3"
-                                                              ? "PPBS"
-                                                              : "BP Diastolic",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${listVital2[index].value} (${widget.unit2})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital2[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital2[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital2[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  widget.vitalGroupIDP == "2"
+                                                      ? "Temperature"
+                                                      : widget.vitalGroupIDP ==
+                                                      "3"
+                                                      ? "PPBS"
+                                                      : "BP Diastolic",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital2[index].value} (${widget.unit2})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital2[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital2[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
       listVital3.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital3.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital3.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital3[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital3[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital3[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      title3,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${listVital3[index].value} (${widget.unit3})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital3[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital3[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital3[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  title3,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital3[index].value} (${widget.unit3})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital3[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital3[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
       listVital4.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital4.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital4.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital4[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital4[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital4[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      title4,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${listVital4[index].value} (${widget.unit4})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital4[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital4[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital4[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  title4,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital4[index].value} (${widget.unit4})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital4[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital4[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
     ];
 
     listThyroidTabsWidgets = [
       listVital.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      widget.vitalGroupIDP ==
-                                                              "2"
-                                                          ? "Pulse"
-                                                          : widget.vitalGroupIDP ==
-                                                                  "3"
-                                                              ? "RBS"
-                                                              : (widget.vitalGroupIDP ==
-                                                                      "2"
-                                                                  ? "BP Systolic"
-                                                                  : title1),
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      " -  ${listVital[index].value} (${widget.unit})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  widget.vitalGroupIDP == "2"
+                                                      ? "Pulse"
+                                                      : widget.vitalGroupIDP ==
+                                                      "3"
+                                                      ? "RBS"
+                                                      : (widget.vitalGroupIDP ==
+                                                      "2"
+                                                      ? "BP Systolic"
+                                                      : title1),
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  " -  ${listVital[index].value} (${widget.unit})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
       listVital2.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital2.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital2.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital2[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital2[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital2[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      widget.vitalGroupIDP ==
-                                                              "2"
-                                                          ? "Temperature"
-                                                          : widget.vitalGroupIDP ==
-                                                                  "3"
-                                                              ? "HbA1C"
-                                                              : title2,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${listVital2[index].value} (${widget.unit2})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital2[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital2[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital2[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  widget.vitalGroupIDP == "2"
+                                                      ? "Temperature"
+                                                      : widget.vitalGroupIDP ==
+                                                      "3"
+                                                      ? "HbA1C"
+                                                      : title2,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital2[index].value} (${widget.unit2})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text("Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital2[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital2[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
       listVital3.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital3.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital3.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital3[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital3[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital3[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "T4",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${listVital3[index].value} (${widget.unit3})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital3[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital3[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital3[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "T4",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital3[index].value} (${widget.unit3})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital3[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital3[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
       listVital4.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital4.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital4.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital4[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital4[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital4[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Free T3",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${listVital4[index].value} (${widget.unit4})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital4[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital4[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital4[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Free T3",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital4[index].value} (${widget.unit4})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital4[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital4[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
       listVital5.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital5.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital5.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital5[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital5[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital5[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "$title5",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      " -  ${listVital5[index].value} (${widget.unit5})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital5[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital5[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital5[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "$title5",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  " -  ${listVital5[index].value} (${widget.unit5})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital5[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital5[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
     ];
 
     listWeightHeightTabsWidgets = [
       listVital.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Weight",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${listVital[index].value} (${widget.unit})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Weight",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital[index].value} (${widget.unit})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
       listVital2.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital2.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital2.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital2[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital2[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital2[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Height",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${listVital2[index].value} (${widget.unit2})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital2[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital2[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital2[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Height",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital2[index].value} (${widget.unit2})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital2[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital2[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
       listVital3.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital3.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital3.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital3[index].date} (",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital2[index].time})",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "${listVital3[index].date} (",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "BMI",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${listVital3[index].value} (${widget.unit3})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Entry By",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      listVital3[index].byWhom!,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital2[index].time})",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital3[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "BMI",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${listVital3[index].value} (${widget.unit3})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            SizedBox(width: 20,height: 20,),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listVital3[index].byWhom!,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital3[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
     ];
   }
@@ -3012,7 +2890,7 @@ class VitalsListScreenState extends State<VitalsListScreen> {
         title = "Blood Pressure";
         title1 = "Blood Pressure";
         widget.emptyMessage =
-            "${widget.emptyTextBP1}\n\n${widget.emptyTextBP2}\n\n${widget.emptyTextBP3}\n\n${widget.emptyTextBP4}";
+        "${widget.emptyTextBP1}\n\n${widget.emptyTextBP2}\n\n${widget.emptyTextBP3}\n\n${widget.emptyTextBP4}";
         widget.unit = "mm of hg";
         widget.unit2 = "mm of hg";
         break;
@@ -3031,7 +2909,7 @@ class VitalsListScreenState extends State<VitalsListScreen> {
         widget.unit3 = "%";
         widget.unit4 = "per min.";
         widget.emptyMessage =
-            "${widget.emptyTextVitals1}\n\n${widget.emptyTextVitals2}";
+        "${widget.emptyTextVitals1}\n\n${widget.emptyTextVitals2}";
         break;
       case "3":
         listVitalIDPs.add("6");
@@ -3048,7 +2926,7 @@ class VitalsListScreenState extends State<VitalsListScreen> {
         widget.unit3 = "mg/dl";
         widget.unit4 = "mg/dl";
         widget.emptyMessage =
-            "${widget.emptyTextSugar1}\n\n${widget.emptyTextSugar2}\n\n${widget.emptyTextSugar3}\n\n${widget.emptyTextSugar4}";
+        "${widget.emptyTextSugar1}\n\n${widget.emptyTextSugar2}\n\n${widget.emptyTextSugar3}\n\n${widget.emptyTextSugar4}";
         break;
       case "4":
         listVitalIDPs.add("11");
@@ -3199,9 +3077,9 @@ class VitalsListScreenState extends State<VitalsListScreen> {
     }*/
 
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical !* 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -3223,9 +3101,9 @@ class VitalsListScreenState extends State<VitalsListScreen> {
     );
 
     widget.emptyMessageWidgetFBS = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical !* 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -3246,9 +3124,9 @@ class VitalsListScreenState extends State<VitalsListScreen> {
       ),
     );
     widget.emptyMessageWidgetPPBS = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical !* 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -3269,9 +3147,9 @@ class VitalsListScreenState extends State<VitalsListScreen> {
       ),
     );
     widget.emptyMessageWidgetRBS = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical !* 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -3292,9 +3170,9 @@ class VitalsListScreenState extends State<VitalsListScreen> {
       ),
     );
     widget.emptyMessageWidgetHbA1C = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical !* 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -3349,7 +3227,10 @@ class VitalsListScreenState extends State<VitalsListScreen> {
         }
       }
     });
-    dateRange = DateTimeRange(start: fromDate!, end: toDate!);
+    dateRange = DateTimeRange(
+        start: fromDate!,
+        end: toDate!
+    );
     getVitalsList();
   }
 
@@ -3366,7 +3247,7 @@ class VitalsListScreenState extends State<VitalsListScreen> {
           title: Text(title, style: TextStyle(color: Colorsblack)),
           centerTitle: true,
           bottom:
-              /*widget.vitalIDP == "1" && widget.mainType == "list"
+          /*widget.vitalIDP == "1" && widget.mainType == "list"
               ? TabBar(
                   tabs: <Widget>[
                     Tab(
@@ -3378,111 +3259,92 @@ class VitalsListScreenState extends State<VitalsListScreen> {
                   ],
                 )
               : (*/
-              (widget.vitalGroupIDP == "2" || widget.vitalGroupIDP == "3") &&
-                      widget.mainType == "list"
-                  ? TabBar(
-                      tabs: <Widget>[
-                        Tab(
-                          child: Text(
-                              widget.vitalGroupIDP == "2" ? "Pulse" : "FBS",
-                              style: CustomTextStyle.nameOfTextStyle),
-                        ),
-                        Tab(
-                          child: Text(
-                              widget.vitalGroupIDP == "2"
-                                  ? "Temperature"
-                                  : "PPBS",
-                              style: CustomTextStyle.nameOfTextStyle),
-                        ),
-                        Tab(
-                          child: Text(
-                              widget.vitalGroupIDP == "2" ? "SPO2" : "RBS",
-                              style: CustomTextStyle.nameOfTextStyle),
-                        ),
-                        Tab(
-                          child: Text(
-                              widget.vitalGroupIDP == "2"
-                                  ? "Respiratory Rate"
-                                  : "HbA1C",
-                              style: CustomTextStyle.nameOfTextStyle),
-                        ),
-                      ],
-                    )
-                  : (widget.vitalGroupIDP == "4" && widget.mainType == "list"
-                      ? TabBar(
-                          tabs: <Widget>[
-                            Tab(
-                              child: Text("Weight",
-                                  style: CustomTextStyle.nameOfTextStyle),
-                            ),
-                            Tab(
-                              child: Text("Height",
-                                  style: CustomTextStyle.nameOfTextStyle),
-                            ),
-                            Tab(
-                              child: Text("BMI",
-                                  style: CustomTextStyle.nameOfTextStyle),
-                            ),
-                          ],
-                        )
-                      : (widget.vitalGroupIDP == "5" &&
-                              widget.mainType == "list"
-                          ? TabBar(
-                              tabs: <Widget>[
-                                Tab(
-                                  child: Text("Exercise",
-                                      style: CustomTextStyle.nameOfTextStyle),
-                                ),
-                                Tab(
-                                  child: Text("Walking",
-                                      style: CustomTextStyle.nameOfTextStyle),
-                                ),
-                                Tab(
-                                  child: Text("Waist",
-                                      style: CustomTextStyle.nameOfTextStyle),
-                                ),
-                                Tab(
-                                  child: Text("Hip",
-                                      style: CustomTextStyle.nameOfTextStyle),
-                                ),
-                              ],
-                            )
-                          : (widget.vitalGroupIDP == "6" &&
-                                  widget.mainType == "list"
-                              ? TabBar(
-                                  tabs: <Widget>[
-                                    Tab(
-                                      child: Text("TSH",
-                                          style:
-                                              CustomTextStyle.nameOfTextStyle),
-                                    ),
-                                    Tab(
-                                      child: Text("T3",
-                                          style:
-                                              CustomTextStyle.nameOfTextStyle),
-                                    ),
-                                    Tab(
-                                      child: Text("T4",
-                                          style:
-                                              CustomTextStyle.nameOfTextStyle),
-                                    ),
-                                    Tab(
-                                      child: Text("FreeT3",
-                                          style:
-                                              CustomTextStyle.nameOfTextStyle),
-                                    ),
-                                    Tab(
-                                      child: Text("FreeT4",
-                                          style:
-                                              CustomTextStyle.nameOfTextStyle),
-                                    ),
-                                  ],
-                                )
-                              : PreferredSize(
-                                  child: Container(),
-                                  preferredSize:
-                                      Size(SizeConfig.screenWidth!, 0),
-                                )))) /*)*/,
+          (widget.vitalGroupIDP == "2" || widget.vitalGroupIDP == "3") &&
+              widget.mainType == "list"
+              ? TabBar(
+            tabs: <Widget>[
+              Tab(
+                child: Text(
+                    widget.vitalGroupIDP == "2" ? "Pulse" : "FBS",
+                    style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text(widget.vitalGroupIDP == "2"
+                    ? "Temperature"
+                    : "PPBS",
+                    style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text(
+                    widget.vitalGroupIDP == "2" ? "SPO2" : "RBS",
+                    style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text(widget.vitalGroupIDP == "2"
+                    ? "Respiratory Rate"
+                    : "HbA1C",
+                    style: CustomTextStyle.nameOfTextStyle),
+              ),
+            ],
+          )
+              : (widget.vitalGroupIDP == "4" && widget.mainType == "list"
+              ? TabBar(
+            tabs: <Widget>[
+              Tab(
+                child: Text("Weight",style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text("Height",style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text("BMI",style: CustomTextStyle.nameOfTextStyle),
+              ),
+            ],
+          )
+              : (widget.vitalGroupIDP == "5" &&
+              widget.mainType == "list"
+              ? TabBar(
+            tabs: <Widget>[
+              Tab(
+                child: Text("Exercise",style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text("Walking",style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text("Waist",style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text("Hip",style: CustomTextStyle.nameOfTextStyle),
+              ),
+            ],
+          )
+              : (widget.vitalGroupIDP == "6" &&
+              widget.mainType == "list"
+              ? TabBar(
+            tabs: <Widget>[
+              Tab(
+                child: Text("TSH",style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text("T3",style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text("T4",style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text("FreeT3",style: CustomTextStyle.nameOfTextStyle),
+              ),
+              Tab(
+                child: Text("FreeT4",style: CustomTextStyle.nameOfTextStyle),
+              ),
+            ],
+          )
+              : PreferredSize(
+            child: Container(),
+            preferredSize:
+            Size(SizeConfig.screenWidth!, 0),
+          )))) /*)*/,
           backgroundColor: Color(0xFFFFFFFF),
           actions: <Widget>[
             InkWell(
@@ -3519,19 +3381,15 @@ class VitalsListScreenState extends State<VitalsListScreen> {
           )*/
           ],
           iconTheme: IconThemeData(
-              color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
-          toolbarTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
-              .bodyMedium,
-          titleTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
-              .titleLarge,
+              color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5), toolbarTextStyle: TextTheme(
+              titleMedium: TextStyle(
+                  color: Colorsblack,
+                  fontFamily: "Ubuntu",
+                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+              titleMedium: TextStyle(
+                  color: Colorsblack,
+                  fontFamily: "Ubuntu",
+                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
         ),
         floatingActionButton: Visibility(
           visible: isFABVisible,
@@ -3539,20 +3397,19 @@ class VitalsListScreenState extends State<VitalsListScreen> {
             onPressed: () {
               if (widget.vitalGroupIDP == "7") {
                 Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                WaterIntakeScreen(widget.patientIDP!)))
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            WaterIntakeScreen(widget.patientIDP!)))
                     .then((value) {
                   getVitalsList();
                 });
               } else {
                 Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddVitalsScreen(
-                                widget.patientIDP!, widget.vitalIDP!)))
-                    .then((value) {
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddVitalsScreen(
+                            widget.patientIDP!, widget.vitalIDP!))).then((value) {
                   getVitalsList();
                 });
               }
@@ -3572,7 +3429,7 @@ class VitalsListScreenState extends State<VitalsListScreen> {
                 height: 5.0,
               ),
               Container(
-                height: SizeConfig.blockSizeVertical! * 8,
+                height: SizeConfig.blockSizeVertical !* 8,
                 child: Padding(
                   padding: EdgeInsets.only(left: 5.0, right: 5.0),
                   child: Container(
@@ -3602,19 +3459,17 @@ class VitalsListScreenState extends State<VitalsListScreen> {
                             // ),
                             Expanded(
                                 child: ElevatedButton(
-                              child: Text(
-                                  '${start.day}/${start.month}/${start.year}'),
-                              onPressed: pickDateRange,
-                            )),
-                            const SizedBox(
-                              width: 10,
+                                  child: Text('${start.day}/${start.month}/${start.year}'),
+                                  onPressed: pickDateRange,
+                                )
                             ),
+                            const SizedBox(width: 10,),
                             Expanded(
                                 child: ElevatedButton(
-                              child:
-                                  Text('${end.day}/${end.month}/${end.year}'),
-                              onPressed: pickDateRange,
-                            )),
+                                  child: Text('${end.day}/${end.month}/${end.year}'),
+                                  onPressed: pickDateRange,
+                                )
+                            ),
                           ],
                         )),
                     padding: EdgeInsets.all(5.0),
@@ -3633,63 +3488,63 @@ class VitalsListScreenState extends State<VitalsListScreen> {
               ),
               showCategoryTabs() && listCategories.length > 0
                   ? Container(
-                      height: SizeConfig.blockSizeVertical! * 10,
-                      width: SizeConfig.blockSizeHorizontal! * 100,
-                      color: Color(0xFFF0F0F0),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal! * 2,
-                            right: SizeConfig.blockSizeHorizontal! * 2),
-                        child: Center(
-                          child: ListView.separated(
-                            itemCount: listCategories.length,
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            physics: ClampingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    selectedCategoryIDP =
-                                        listCategories[index].idp;
-                                    selectedCategory =
-                                        listCategories[index].value;
-                                  });
-                                },
-                                child: Chip(
-                                  padding: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal! * 3),
-                                  label: Text(
-                                    listCategories[index].value.trim(),
-                                    style: TextStyle(
-                                      color: listCategories[index].idp ==
-                                              selectedCategoryIDP
-                                          ? Colors.white
-                                          : Colors.black,
-                                    ),
-                                  ),
-                                  backgroundColor: listCategories[index].idp ==
-                                          selectedCategoryIDP
-                                      ? Color(0xFF06A759)
-                                      : Colors.grey,
+                  height: SizeConfig.blockSizeVertical !* 10,
+                  width: SizeConfig.blockSizeHorizontal !* 100,
+                  color: Color(0xFFF0F0F0),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.blockSizeHorizontal !* 2,
+                        right: SizeConfig.blockSizeHorizontal !* 2),
+                    child: Center(
+                      child: ListView.separated(
+                        itemCount: listCategories.length,
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                selectedCategoryIDP =
+                                    listCategories[index].idp;
+                                selectedCategory =
+                                    listCategories[index].value;
+                              });
+                            },
+                            child: Chip(
+                              padding: EdgeInsets.all(
+                                  SizeConfig.blockSizeHorizontal !* 3),
+                              label: Text(
+                                listCategories[index].value.trim(),
+                                style: TextStyle(
+                                  color: listCategories[index].idp ==
+                                      selectedCategoryIDP
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return SizedBox(
-                                width: SizeConfig.blockSizeHorizontal! * 5,
-                              );
-                            },
-                          ),
-                        ),
-                      ))
+                              ),
+                              backgroundColor: listCategories[index].idp ==
+                                  selectedCategoryIDP
+                                  ? Color(0xFF06A759)
+                                  : Colors.grey,
+                            ),
+                          );
+                        },
+                        separatorBuilder:
+                            (BuildContext context, int index) {
+                          return SizedBox(
+                            width: SizeConfig.blockSizeHorizontal !* 5,
+                          );
+                        },
+                      ),
+                    ),
+                  ))
                   : Container(),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 2,
+                height: SizeConfig.blockSizeVertical !* 2,
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 0.5,
+                height: SizeConfig.blockSizeVertical !* 0.5,
               ),
               getMainWidget(),
             ],
@@ -3760,7 +3615,7 @@ class VitalsListScreenState extends State<VitalsListScreen> {
 
   getVitalsList() async {
     switch (widget.vitalGroupIDP) {
-      /*case "1":
+    /*case "1":
         widget.shouldShowEmptyMessageWidget = true;
         getVitalsListForBP();
         break;*/
@@ -4594,32 +4449,32 @@ class VitalsListScreenState extends State<VitalsListScreen> {
   Widget getBPCharts() {
     return !widget.shouldShowEmptyMessageWidget!
         ? Column(
-            children: [
-              MyEChart(
-                key: keyForChart!,
-                chartTypeID: "1",
-                titleOfChart: "BP Systolic",
-                value: bpSystolicValue.toDouble(),
-              ),
-              MyEChart(
-                key: keyForChart2!,
-                chartTypeID: "2",
-                titleOfChart: "BP Diastolic",
-                value: bpDiastolicValue.toDouble(),
-              )
-            ],
-          )
+      children: [
+        MyEChart(
+          key: keyForChart!,
+          chartTypeID: "1",
+          titleOfChart: "BP Systolic",
+          value: bpSystolicValue.toDouble(),
+        ),
+        MyEChart(
+          key: keyForChart2!,
+          chartTypeID: "2",
+          titleOfChart: "BP Diastolic",
+          value: bpDiastolicValue.toDouble(),
+        )
+      ],
+    )
         : Container();
   }
 
   Widget getSleepCharts() {
     return !widget.shouldShowEmptyMessageWidget!
         ? MyEChart(
-            key: keyForChart!,
-            chartTypeID: "1",
-            titleOfChart: "Sleep (Hours)",
-            value: sleepValue.toDouble(),
-          )
+      key: keyForChart!,
+      chartTypeID: "1",
+      titleOfChart: "Sleep (Hours)",
+      value: sleepValue.toDouble(),
+    )
         : Container();
   }
 
@@ -4632,33 +4487,33 @@ class VitalsListScreenState extends State<VitalsListScreen> {
   Widget getSugarCharts() {
     return !widget.shouldShowEmptyMessageWidget!
         ? Column(
-            children: [
-              MyEChart(
-                key: keyForChart!,
-                chartTypeID: "1",
-                titleOfChart: "FBS (mg/dl)",
-                value: fbsValue.toDouble(),
-              ),
-              MyEChart(
-                key: keyForChart2!,
-                chartTypeID: "2",
-                titleOfChart: "PPBS (mg/dl)",
-                value: ppbsValue.toDouble(),
-              ),
-              MyEChart(
-                key: keyForChart3!,
-                chartTypeID: "3",
-                titleOfChart: "RBS (mg/dl)",
-                value: rbsValue.toDouble(),
-              ),
-              MyEChart(
-                key: keyForChart4!,
-                chartTypeID: "4",
-                titleOfChart: "HbA1C (mg/dl)",
-                value: hba1cValue.toDouble(),
-              ),
-            ],
-          )
+      children: [
+        MyEChart(
+          key: keyForChart!,
+          chartTypeID: "1",
+          titleOfChart: "FBS (mg/dl)",
+          value: fbsValue.toDouble(),
+        ),
+        MyEChart(
+          key: keyForChart2!,
+          chartTypeID: "2",
+          titleOfChart: "PPBS (mg/dl)",
+          value: ppbsValue.toDouble(),
+        ),
+        MyEChart(
+          key: keyForChart3!,
+          chartTypeID: "3",
+          titleOfChart: "RBS (mg/dl)",
+          value: rbsValue.toDouble(),
+        ),
+        MyEChart(
+          key: keyForChart4!,
+          chartTypeID: "4",
+          titleOfChart: "HbA1C (mg/dl)",
+          value: hba1cValue.toDouble(),
+        ),
+      ],
+    )
         : Container();
   }
 
@@ -4683,11 +4538,11 @@ class VitalsListScreenState extends State<VitalsListScreen> {
   Widget getWaterIntakeCharts() {
     return !widget.shouldShowEmptyMessageWidget!
         ? MyEChart(
-            key: keyForChart,
-            chartTypeID: "1",
-            titleOfChart: "Water Intake (ml)",
-            value: 0,
-          )
+      key: keyForChart,
+      chartTypeID: "1",
+      titleOfChart: "Water Intake (ml)",
+      value: 0,
+    )
         : Container();
   }
 
@@ -4803,8 +4658,8 @@ class VitalsListScreenState extends State<VitalsListScreen> {
 
   int getVitalTabsLength() {
     if ((widget.vitalGroupIDP == "2" ||
-            widget.vitalGroupIDP == "3" ||
-            widget.vitalGroupIDP == "5") &&
+        widget.vitalGroupIDP == "3" ||
+        widget.vitalGroupIDP == "5") &&
         widget.mainType == "list") {
       return 4;
     } else if (widget.vitalGroupIDP == "6" && widget.mainType == "list") {
@@ -4822,23 +4677,22 @@ class VitalsListScreenState extends State<VitalsListScreen> {
   Widget getMainWidget() {
     return widget.mainType == "chart"
         ? //DateTimeComboLinePointChart.withSampleData()
-        RepaintBoundary(
-            key: globalKey,
-            child: Container(
-                width: SizeConfig.screenWidth,
-                color: Colors.white,
-                child: Padding(
-                    padding:
-                        EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
-                    child: Column(
-                      children: <Widget>[
-                        /*InkWell(
+    RepaintBoundary(
+        key: globalKey,
+        child: Container(
+            width: SizeConfig.screenWidth,
+            color: Colors.white,
+            child: Padding(
+                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+                child: Column(
+                  children: <Widget>[
+                    /*InkWell(
                           child: Icon(
                             Icons.share,
                             color: Colors.black,
                           ),
                         ),*/
-                        /*Visibility(
+                    /*Visibility(
                                       visible: widget.mainType == "chart" &&
                                           listVital != null &&
                                           listVital.length > 0,
@@ -4848,11 +4702,11 @@ class VitalsListScreenState extends State<VitalsListScreen> {
                                   SizedBox(
                                     height: SizeConfig.blockSizeVertical * 1,
                                   ),*/
-                        widget.shouldShowEmptyMessageWidget!
-                            ? widget.emptyMessageWidget!
-                            : Container(),
-                        getChartsWidgets(),
-                        /*!widget.shouldShowEmptyMessageWidget
+                    widget.shouldShowEmptyMessageWidget!
+                        ? widget.emptyMessageWidget!
+                        : Container(),
+                    getChartsWidgets(),
+                    /*!widget.shouldShowEmptyMessageWidget
                                       ? (widget.vitalIDP == "1"
                                           ? MyEChart(
                                               key: keyForChart,
@@ -4969,15 +4823,15 @@ class VitalsListScreenState extends State<VitalsListScreen> {
                                             )
                                           : Container())
                                       : Container(),*/
-                      ],
-                    ))))
+                  ],
+                ))))
         : (widget.listVitals!.length > 0
-            ? SizedBox(
-                height: double.maxFinite,
-                child: TabBarView(
-                  children: widgetListForTabs(),
-                ))
-            : widget.emptyMessageWidget!);
+        ? SizedBox(
+        height: double.maxFinite,
+        child: TabBarView(
+          children: widgetListForTabs(),
+        ))
+        : widget.emptyMessageWidget!);
   }
 
   List<Widget> widgetListForTabs() {
@@ -5000,9 +4854,9 @@ class VitalsListScreenState extends State<VitalsListScreen> {
 
   bool showCategoryTabs() {
     if ((widget.vitalIDP == "2" ||
-            widget.vitalIDP == "4" ||
-            widget.vitalIDP == "5" ||
-            widget.vitalIDP == "6") &&
+        widget.vitalIDP == "4" ||
+        widget.vitalIDP == "5" ||
+        widget.vitalIDP == "6") &&
         widget.mainType == "chart") return true;
     return false;
   }
@@ -5360,7 +5214,7 @@ class MyEChartState extends State<MyEChart> {
     }
 
     series =
-        "[{data: $yAxisData,type: 'line',symbol: 'circle',symbolSize: 8,symbol: 'circle',symbolSize: 8,smooth: true,itemStyle: {color: $color},},]";
+    "[{data: $yAxisData,type: 'line',symbol: 'circle',symbolSize: 8,symbol: 'circle',symbolSize: 8,smooth: true,itemStyle: {color: $color},},]";
 
     if (widget.chartTypeID == "1" || widget.chartTypeID == "5") {
       listOnlyString = listVitalOnlyString;
@@ -5473,13 +5327,13 @@ class MyEChartState extends State<MyEChart> {
       children: [
         Text("Share button here"),
         SizedBox(height: 10,),*/
-        Container(
-            width: SizeConfig.screenWidth,
-            height: SizeConfig.blockSizeVertical! * 60,
-            child: widget.chartTypeID != "5"
-                ? EchartsCustom(
-                    option:
-                        '''
+    Container(
+      width: SizeConfig.screenWidth,
+      height: SizeConfig.blockSizeVertical !* 60,
+      child: widget.chartTypeID != "5"
+          ?
+      EchartsCustom(
+            option: '''
                         {
                           grid: {
                                  right: '12%',
@@ -5529,15 +5383,15 @@ class MyEChartState extends State<MyEChart> {
                         ''',
 /*                          min: 200,
                             max: 250,*/
-                    /*title: {
+        /*title: {
           text: 'BP',
           show: true
         },*/
-                    //,name:'BP'
-                  )
-                : EchartsCustom(
-                    option:
-                        '''
+        //,name:'BP'
+      )
+          :
+      EchartsCustom(
+        option: '''
                         {
                           grid: {
                                  right: '12%',
@@ -5591,8 +5445,10 @@ class MyEChartState extends State<MyEChart> {
                           {data: $yAxisData2,type: 'line',symbol: 'circle',symbolSize: 8,smooth: true,itemStyle: {color: 'rgb(0, 145, 234)'}, name:'Diastolic (mm of hg)'}]
                         }
                         ''',
-                  ),
-          )
-        : Container();
+      ),
+    )
+        : Container()
+    ;
   }
+
 }

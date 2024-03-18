@@ -2,20 +2,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:silvertouch/app_screens/add_vital_screen.dart';
-import 'package:silvertouch/app_screens/investigation_list_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/dropdown_item.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_investigation_master_list_with_date_time.dart';
-import 'package:silvertouch/podo/model_vitals_list.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/flutter_echarts_custom.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/add_vital_screen.dart';
+import 'package:swasthyasetu/app_screens/investigation_list_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/dropdown_item.dart';
+import 'package:swasthyasetu/podo/model_investigation_master_list_with_date_time.dart';
+import 'package:swasthyasetu/podo/model_vitals_list.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/flutter_echarts_custom.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
+    as DateRagePicker;
 
 import '../utils/color.dart';
 import 'investigation_list_read_only_screen.dart';
@@ -125,7 +123,10 @@ class InvestigationsListWithGraphState
     widget.toDate = DateTime.now();
     widget.fromDateString = formatter.format(widget.fromDate!);
     widget.toDateString = formatter.format(widget.toDate!);
-    dateRange = DateTimeRange(start: widget.fromDate!, end: widget.toDate!);
+    dateRange = DateTimeRange(
+        start: widget.fromDate!,
+        end: widget.toDate!
+    );
 
     hideFABController = ScrollController();
     hideFABController!.addListener(() {
@@ -153,9 +154,9 @@ class InvestigationsListWithGraphState
       }
     });
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical !* 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -199,7 +200,7 @@ class InvestigationsListWithGraphState
                   : "Investigations List"),
           backgroundColor: Color(0xFFFFFFFF),
           iconTheme: IconThemeData(
-              color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
+              color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
           actions: <Widget>[
             InkWell(
               onTap: () {
@@ -232,19 +233,15 @@ class InvestigationsListWithGraphState
 
             },
           )*/
-          ],
-          toolbarTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
-              .bodyMedium,
-          titleTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
-              .titleLarge,
+          ], toolbarTextStyle: TextTheme(
+              titleMedium: TextStyle(
+                  color: Colorsblack,
+                  fontFamily: "Ubuntu",
+                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+              titleMedium: TextStyle(
+                  color: Colorsblack,
+                  fontFamily: "Ubuntu",
+                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
         ),
         floatingActionButton: Visibility(
           visible: isFABVisible,
@@ -295,7 +292,7 @@ class InvestigationsListWithGraphState
                     height: 5.0,
                   ),
                   Container(
-                    height: SizeConfig.blockSizeVertical! * 8,
+                    height: SizeConfig.blockSizeVertical !* 8,
                     child: Padding(
                       padding: EdgeInsets.only(left: 5.0, right: 5.0),
                       child: Container(
@@ -311,16 +308,16 @@ class InvestigationsListWithGraphState
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeVertical! * 2.0,
+                                            SizeConfig.blockSizeVertical !* 2.0,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black),
                                   ),
                                 ),
                                 Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 15,
+                                  width: SizeConfig.blockSizeHorizontal !* 15,
                                   child: Icon(
                                     Icons.arrow_drop_down,
-                                    size: SizeConfig.blockSizeHorizontal! * 8,
+                                    size: SizeConfig.blockSizeHorizontal !* 8,
                                   ),
                                 ),
                               ],
@@ -338,10 +335,10 @@ class InvestigationsListWithGraphState
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal! * 2,
-                        right: SizeConfig.blockSizeHorizontal! * 2),
+                        left: SizeConfig.blockSizeHorizontal !* 2,
+                        right: SizeConfig.blockSizeHorizontal !* 2),
                     child: Container(
-                      height: SizeConfig.blockSizeVertical! * 10,
+                      height: SizeConfig.blockSizeVertical !* 10,
                       child: ListView.separated(
                         itemCount: listCategories.length,
                         scrollDirection: Axis.horizontal,
@@ -360,7 +357,7 @@ class InvestigationsListWithGraphState
                             },
                             child: Chip(
                               padding: EdgeInsets.all(
-                                  SizeConfig.blockSizeHorizontal! * 3),
+                                  SizeConfig.blockSizeHorizontal !* 3),
                               label: Text(
                                 listCategories[index]["categoryName"]!.trim(),
                                 style: TextStyle(
@@ -380,7 +377,7 @@ class InvestigationsListWithGraphState
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return SizedBox(
-                            width: SizeConfig.blockSizeHorizontal! * 5,
+                            width: SizeConfig.blockSizeHorizontal !* 5,
                           );
                         },
                       ),
@@ -389,19 +386,21 @@ class InvestigationsListWithGraphState
                   widget.mainType == "chart"
                       ? //DateTimeComboLinePointChart.withSampleData()
                       RepaintBoundary(
-                          child: Container(
+                          child:
+                          Container(
                               width: SizeConfig.screenWidth,
                               color: Colors.white,
                               child: Padding(
                                   padding: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal! * 3),
+                                      SizeConfig.blockSizeHorizontal !* 3),
                                   child: Column(
                                     children: <Widget>[
                                       widget.shouldShowEmptyMessageWidget
                                           ? widget.emptyMessageWidget!
                                           : Container(),
                                       !widget.shouldShowEmptyMessageWidget
-                                          ? MyEChart(
+                                          ?
+                                      MyEChart(
                                               key: keyForChart,
                                               chartTypeID: "1",
                                               titleOfChart:
@@ -411,253 +410,254 @@ class InvestigationsListWithGraphState
                                   ))))
                       //ColoredChart(context, listVital) // MyAnimatedChart()
                       : (listInvestigations.length > 0
-                          ? ListView.builder(
-                              padding: const EdgeInsets.only(
-                                  bottom: kFloatingActionButtonMargin + 60),
-                              itemCount: listInvestigations.length,
-                              physics: ScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                    onTap: () {
-                                      var modelInvestigation =
-                                          listInvestigations[index];
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                              builder: (context) =>
-                                                  InvestigationListReadOnlyScreen(
-                                                      widget.patientIDP,
-                                                      modelInvestigation)))
-                                          .then((value) =>
-                                              getCategoryList(context));
-                                    },
-                                    child: Padding(
-                                        padding: EdgeInsets.all(0.0),
-                                        child: Container(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                90,
-                                            padding: EdgeInsets.only(
-                                              top: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  0.4,
-                                              bottom: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  0.4,
-                                              left: SizeConfig
-                                                      .blockSizeHorizontal! *
-                                                  1.5,
-                                              right: SizeConfig
-                                                      .blockSizeHorizontal! *
-                                                  1.5,
+                          ?
+                      ListView.builder(
+                          padding: const EdgeInsets.only(
+                              bottom: kFloatingActionButtonMargin + 60),
+                          itemCount: listInvestigations.length,
+                          physics: ScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                                onTap: () {
+                                  var modelInvestigation =
+                                      listInvestigations[index];
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                          builder: (context) =>
+                                              InvestigationListReadOnlyScreen(
+                                                  widget.patientIDP,
+                                                  modelInvestigation)))
+                                      .then((value) =>
+                                          getCategoryList(context));
+                                },
+                                child: Padding(
+                                    padding: EdgeInsets.all(0.0),
+                                    child: Container(
+                                        width: SizeConfig
+                                                .blockSizeHorizontal !*
+                                            90,
+                                        padding: EdgeInsets.only(
+                                          top: SizeConfig
+                                                  .blockSizeVertical !*
+                                              0.4,
+                                          bottom: SizeConfig
+                                                  .blockSizeVertical !*
+                                              0.4,
+                                          left: SizeConfig
+                                                  .blockSizeHorizontal !*
+                                              1.5,
+                                          right: SizeConfig
+                                                  .blockSizeHorizontal !*
+                                              1.5,
+                                        ),
+                                        decoration: new BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.rectangle,
+                                          border: Border(
+                                            bottom: BorderSide(
+                                                width: 1.0,
+                                                color:
+                                                    Color(0xFF636F7B)),
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              blurRadius: 10.0,
+                                              offset: const Offset(
+                                                  0.0, 10.0),
                                             ),
-                                            decoration: new BoxDecoration(
-                                              color: Colors.white,
-                                              shape: BoxShape.rectangle,
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                    width: 1.0,
-                                                    color: Color(0xFF636F7B)),
-                                              ),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black26,
-                                                  blurRadius: 10.0,
-                                                  offset:
-                                                      const Offset(0.0, 10.0),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Padding(
-                                                padding: EdgeInsets.all(5.0),
-                                                child: Container(
-                                                  /*decoration: BoxDecoration(
+                                          ],
+                                        ),
+                                        child: Padding(
+                                            padding:
+                                                EdgeInsets.all(5.0),
+                                            child: Container(
+                                              /*decoration: BoxDecoration(
                                 color: Colors.primaries[Random()
                                     .nextInt(Colors.primaries.length)],
                                 borderRadius: BorderRadius.circular(35),
                               ),*/
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
+                                              child: Row(
+                                                mainAxisSize:
+                                                    MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .start,
+                                                children: <Widget>[
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Column(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.start,
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: <Widget>[
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: <Widget>[
-                                                          Row(
-                                                            children: <Widget>[
-                                                              Text(
-                                                                "${listInvestigations[index].date} (",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .green,
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .blockSizeVertical! *
-                                                                          2.3,
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                "${listInvestigations[index].time})",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .green,
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .blockSizeVertical! *
-                                                                          2.3,
-                                                                ),
-                                                              ),
-                                                            ],
+                                                      Row(
+                                                        children: <
+                                                            Widget>[
+                                                          Text(
+                                                            "${listInvestigations[index].date} (",
+                                                            style:
+                                                                TextStyle(
+                                                              color: Colors
+                                                                  .green,
+                                                              fontSize:
+                                                                  SizeConfig.blockSizeVertical !*
+                                                                      2.3,
+                                                            ),
                                                           ),
-                                                          SizedBox(
-                                                            height: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                0.8,
-                                                          ),
-                                                          Align(
-                                                            alignment: Alignment
-                                                                .topLeft,
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Column(
-                                                                  children: <Widget>[
-                                                                    Text(
-                                                                      selectedCategory
-                                                                          .trim(),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Color(
-                                                                            0xFF636F7B),
-                                                                        fontWeight:
-                                                                            FontWeight.w500,
-                                                                        fontSize:
-                                                                            SizeConfig.blockSizeVertical! *
-                                                                                2.1,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          SizeConfig.blockSizeVertical! *
-                                                                              0.8,
-                                                                    ),
-                                                                    Text(
-                                                                      "${listInvestigations[index].rangeValue}",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Color(
-                                                                            0xFF636F7B),
-                                                                        fontSize:
-                                                                            SizeConfig.blockSizeVertical! *
-                                                                                2.1,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 20,
-                                                                  height: 20,
-                                                                ),
-                                                                Column(
-                                                                  children: <Widget>[
-                                                                    Text(
-                                                                      "Entry By",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Color(
-                                                                            0xFF636F7B),
-                                                                        fontWeight:
-                                                                            FontWeight.w500,
-                                                                        fontSize:
-                                                                            SizeConfig.blockSizeVertical! *
-                                                                                2.1,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          SizeConfig.blockSizeVertical! *
-                                                                              0.8,
-                                                                    ),
-                                                                    Text(
-                                                                      "${listInvestigations[index].byWhom}",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Color(
-                                                                            0xFF636F7B),
-                                                                        fontSize:
-                                                                            SizeConfig.blockSizeVertical! *
-                                                                                2.1,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
+                                                          Text(
+                                                            "${listInvestigations[index].time})",
+                                                            style:
+                                                                TextStyle(
+                                                              color: Colors
+                                                                  .green,
+                                                              fontSize:
+                                                                  SizeConfig.blockSizeVertical !*
+                                                                      2.3,
                                                             ),
                                                           ),
                                                         ],
                                                       ),
-                                                      Expanded(
-                                                        child: Align(
-                                                          alignment: Alignment
-                                                              .centerRight,
-                                                          child: InkWell(
-                                                            onTap: () {
-                                                              var modelInvestigation =
-                                                                  listInvestigations[
-                                                                      index];
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .push(MaterialPageRoute(
-                                                                      builder: (context) => InvestigationListReadOnlyScreen(
-                                                                          widget
-                                                                              .patientIDP,
-                                                                          modelInvestigation)))
-                                                                  .then((value) =>
-                                                                      getCategoryList(
-                                                                          context));
-                                                            },
-                                                            child: Icon(
-                                                              Icons
-                                                                  .chevron_right,
-                                                              color:
-                                                                  Colors.black,
+                                                      SizedBox(
+                                                        height: SizeConfig
+                                                                .blockSizeVertical !*
+                                                            0.8,
+                                                      ),
+                                                      Align(
+                                                        alignment:
+                                                            Alignment
+                                                                .topLeft,
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Column(
+                                                              children: <
+                                                                  Widget>[
+                                                                Text(
+                                                                  selectedCategory
+                                                                      .trim(),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color(
+                                                                        0xFF636F7B),
+                                                                    fontWeight:
+                                                                        FontWeight.w500,
+                                                                    fontSize:
+                                                                        SizeConfig.blockSizeVertical !*
+                                                                            2.1,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: SizeConfig
+                                                                      .blockSizeVertical !*
+                                                                      0.8,
+                                                                ),
+                                                                Text(
+                                                                  "${listInvestigations[index].rangeValue}",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color(
+                                                                        0xFF636F7B),
+                                                                    fontSize:
+                                                                        SizeConfig.blockSizeVertical !*
+                                                                            2.1,
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                          ),
+                                                            SizedBox(width: 20,height: 20,),
+                                                            Column(
+                                                              children: <
+                                                                  Widget>[
+                                                                Text(
+                                                                  "Entry By",
+                                                                  textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                                  style:
+                                                                  TextStyle(
+                                                                    color: Color(
+                                                                        0xFF636F7B),
+                                                                    fontWeight:
+                                                                    FontWeight.w500,
+                                                                    fontSize:
+                                                                    SizeConfig.blockSizeVertical !*
+                                                                        2.1,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: SizeConfig
+                                                                      .blockSizeVertical !*
+                                                                      0.8,
+                                                                ),
+                                                                Text(
+                                                                  "${listInvestigations[
+                                                                  index]
+                                                                      .byWhom}",
+                                                                  textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                                  style:
+                                                                  TextStyle(
+                                                                    color: Color(
+                                                                        0xFF636F7B),
+                                                                    fontSize:
+                                                                    SizeConfig.blockSizeVertical !*
+                                                                        2.1,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                )))));
-                              })
+                                                  Expanded(
+                                                    child: Align(
+                                                      alignment: Alignment
+                                                          .centerRight,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          var modelInvestigation =
+                                                              listInvestigations[
+                                                                  index];
+                                                          Navigator.of(
+                                                                  context)
+                                                              .push(MaterialPageRoute(
+                                                                  builder: (context) => InvestigationListReadOnlyScreen(
+                                                                      widget
+                                                                          .patientIDP,
+                                                                      modelInvestigation)))
+                                                              .then((value) =>
+                                                                  getCategoryList(
+                                                                      context));
+                                                        },
+                                                        child: Icon(
+                                                          Icons
+                                                              .chevron_right,
+                                                          color: Colors
+                                                              .black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )))));
+                          })
                           : widget.emptyMessageWidget!),
                 ],
               ),
@@ -893,20 +893,20 @@ class InvestigationsListWithGraphState
                         child: Icon(
                           Icons.arrow_back,
                           color: Colors.red,
-                          size: SizeConfig.blockSizeHorizontal! * 6.2,
+                          size: SizeConfig.blockSizeHorizontal !* 6.2,
                         ),
                         onTap: () {
                           Navigator.of(context).pop();
                         },
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 6,
+                        width: SizeConfig.blockSizeHorizontal !* 6,
                       ),
                       Text(
                         "Select $type",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
                           fontWeight: FontWeight.bold,
                           color: Colors.green,
                           decoration: TextDecoration.none,
@@ -925,7 +925,7 @@ class InvestigationsListWithGraphState
                           child: Padding(
                               padding: EdgeInsets.all(0.0),
                               child: Container(
-                                  width: SizeConfig.blockSizeHorizontal! * 90,
+                                  width: SizeConfig.blockSizeHorizontal !* 90,
                                   padding: EdgeInsets.only(
                                     top: 5,
                                     bottom: 5,
@@ -1146,7 +1146,8 @@ class InvestigationsListWithGraphState
     }
   }
 
-  Future<void> showDateRangePickerDialog() async {
+  Future<void> showDateRangePickerDialog() async
+  {
     print('showDateRangePickerDialog $showDateRangePickerDialog');
     DateTimeRange? newDateRange = await showDateRangePicker(
       context: context,
@@ -1155,7 +1156,7 @@ class InvestigationsListWithGraphState
       lastDate: DateTime(2100),
     );
 
-    if (newDateRange == null) return;
+    if(newDateRange == null) return;
 
     setState(() {
       dateRange = newDateRange;
@@ -1165,7 +1166,7 @@ class InvestigationsListWithGraphState
       widget.fromDateString = formatter.format(widget.fromDate!);
       widget.toDateString = formatter.format(widget.toDate!);
       widget.dateString =
-          "${widget.fromDateString}  to  ${widget.toDateString}";
+      "${widget.fromDateString}  to  ${widget.toDateString}";
       getCategoryList(context);
     });
     // final List<DateTime>? listPicked = await DateRagePicker.showDatePicker(
@@ -1293,11 +1294,11 @@ class MyEChartState extends State<MyEChart> {
     return listOnlyString.length > 0
         ? Container(
             width: SizeConfig.screenWidth,
-            height: SizeConfig.blockSizeVertical! * 60,
+            height: SizeConfig.blockSizeVertical !* 60,
             child: widget.chartTypeID != "5"
-                ? EchartsCustom(
-                    option:
-                        '''
+                ?
+            EchartsCustom(
+                    option: '''
                         {
                           tooltip: {
                                 trigger: 'axis',
@@ -1339,8 +1340,7 @@ class MyEChartState extends State<MyEChart> {
                     //,name:'BP'
                   )
                 : EchartsCustom(
-                    option:
-                        '''
+                    option: '''
                   {
                     tooltip: {
                           trigger: 'axis',

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:silvertouch/database/tb_notifications.dart';
-import 'package:silvertouch/database/tb_reminder.dart';
-import 'package:silvertouch/main.dart';
+import 'package:swasthyasetu/database/tb_reminder.dart';
+import 'package:swasthyasetu/database/tb_notifications.dart';
+import 'package:swasthyasetu/main.dart';
 
 class ReminderListController extends GetxController {
   RxList<TbReminderTable?> activeReminderList = <TbReminderTable>[].obs;
@@ -17,6 +17,7 @@ class ReminderListController extends GetxController {
         getAllReminders();
     });*/
     getAllReminders();
+
   }
 
   void getAllReminders() async {

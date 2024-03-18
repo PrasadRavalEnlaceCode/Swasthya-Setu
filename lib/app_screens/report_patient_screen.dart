@@ -11,22 +11,24 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:silvertouch/api/api_helper.dart';
-import 'package:silvertouch/app_screens/PDFViewerCachedFromUrl.dart';
-import 'package:silvertouch/app_screens/add_patient_report.dart';
-import 'package:silvertouch/app_screens/fullscreen_image.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_profile_patient.dart';
-import 'package:silvertouch/podo/model_report.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
+import 'package:swasthyasetu/app_screens/PDFViewerCachedFromUrl.dart';
+import 'package:swasthyasetu/app_screens/add_patient_report.dart';
+import 'package:swasthyasetu/app_screens/fullscreen_image.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_report.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+//import 'package:bidirectional_scroll_view/bidirectional_scroll_view.dart';
+import 'package:swasthyasetu/utils/color.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
+    as DateRagePicker;
 
 class PatientReportScreen extends StatefulWidget {
   String? patientIDP;
   String? from;
-  bool? fetchPrescription = false;
+  bool? fetchPrescription=false;
   var fromDate = DateTime.now().subtract(Duration(days: 7));
   var toDate = DateTime.now();
 
@@ -45,14 +47,15 @@ class PatientReportScreen extends StatefulWidget {
 
   Widget? emptyMessageWidget;
 
-  PatientReportScreen(String patientIDP, String from, bool fetchPrescription) {
+  PatientReportScreen(String patientIDP, String from,bool fetchPrescription) {
     this.patientIDP = patientIDP;
     this.from = from;
     this.fetchPrescription = fetchPrescription;
   }
 
   @override
-  State<StatefulWidget> createState() {
+  State<StatefulWidget> createState()
+  {
     return PatientReportScreenState();
   }
 }
@@ -89,7 +92,10 @@ class PatientReportScreenState extends State<PatientReportScreen> {
     widget.toDate = DateTime.now();
     widget.fromDateString = formatter.format(widget.fromDate!);
     widget.toDateString = formatter.format(widget.toDate!);
-    dateRange = DateTimeRange(start: widget.fromDate!, end: widget.toDate!);
+    dateRange = DateTimeRange(
+        start: widget.fromDate!,
+        end: widget.toDate!
+    );
     hideFABController = ScrollController();
     hideFABController!.addListener(() {
       if (hideFABController!.position.userScrollDirection ==
@@ -116,9 +122,9 @@ class PatientReportScreenState extends State<PatientReportScreen> {
       }
     });
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical !* 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -139,14 +145,18 @@ class PatientReportScreenState extends State<PatientReportScreen> {
       ),
     );
 
-    if (widget.from == "Reports") {
+    if(widget.from=="Reports")
+    {
       selectedCategoryIDP = "2";
       getPatientReport(context);
-    } else if (widget.from == "prescription_fixed" ||
-        widget.from == "dashboard") {
-      selectedCategoryIDP = "-";
-      getPatientReport(context);
-    } else {
+    }
+    else if(widget.from=="prescription_fixed" || widget.from=="dashboard")
+      {
+        selectedCategoryIDP = "-";
+        getPatientReport(context);
+      }
+    else
+    {
       getPatientReport(context);
     }
   }
@@ -167,61 +177,54 @@ class PatientReportScreenState extends State<PatientReportScreen> {
       backgroundColor: Color(0xFFf9faff),
       appBar: AppBar(
         title: Text(
-            (widget.from == "1")
-                ? (widget.fetchPrescription == true)
-                    ? "Select Prescription"
-                    : "Prescriptions"
-                : "Documents",
+            (widget.from == "1") ?  (widget.fetchPrescription==true) ? "Select Prescription" : "Prescriptions" : "Documents",
             style: TextStyle(
-                fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                fontSize: SizeConfig.blockSizeVertical !* 2.5,
                 color: Colorsblack)),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
         backgroundColor: Color(0xFFf9faff),
         elevation: 0,
         centerTitle: true,
       ),
-      floatingActionButton: (widget.from == "1" ||
-              widget.from == "Reports" ||
-              widget.from == "12" ||
-              widget.from == "13")
-          ? Visibility(
-              visible: isFABVisible,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AddPatientReportScreen(
-                                widget.patientIDP!,
-                                selectedCategoryIDP,
-                                from: widget.from,
-                              ))).then((value) {
-                    getPatientReport(context);
-                  });
-                },
-                child: Icon(Icons.add),
-                backgroundColor: colorBlueDark,
-              ))
-          : Container(),
+      floatingActionButton: (widget.from == "1" || widget.from == "Reports" || widget.from == "12"
+          || widget.from == "13") ?
+      Visibility(
+          visible: isFABVisible,
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddPatientReportScreen(
+                            widget.patientIDP!,
+                            selectedCategoryIDP,
+                            from: widget.from,
+                          ))).then((value) {
+                getPatientReport(context);
+              });
+            },
+            child: Icon(Icons.add),
+            backgroundColor: colorBlueDark,
+          )) : Container(),
       body: RefreshIndicator(
-        child: ListView(
+        child:
+        ListView(
           shrinkWrap: true,
           children: <Widget>[
             Container(
-                height: SizeConfig.blockSizeVertical! * 100,
+                height: SizeConfig.blockSizeVertical !* 100,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    (widget.from != "1") &&
-                            (widget.from != "12") &&
-                            (widget.from != "13")
-                        ? Padding(
+                    (widget.from != "1") && (widget.from != "12") && (widget.from != "13")
+                        ?
+                    Padding(
                             padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal! * 2,
-                                right: SizeConfig.blockSizeHorizontal! * 2),
+                                left: SizeConfig.blockSizeHorizontal !* 2,
+                                right: SizeConfig.blockSizeHorizontal !* 2),
                             child: Container(
-                              height: SizeConfig.blockSizeVertical! * 10,
+                              height: SizeConfig.blockSizeVertical !* 10,
                               child: ListView.separated(
                                 itemCount: listCategories.length,
                                 scrollDirection: Axis.horizontal,
@@ -237,9 +240,10 @@ class PatientReportScreenState extends State<PatientReportScreen> {
                                         getPatientReport(context);
                                       });
                                     },
-                                    child: Chip(
+                                    child:
+                                    Chip(
                                       padding: EdgeInsets.all(
-                                          SizeConfig.blockSizeHorizontal! * 3),
+                                          SizeConfig.blockSizeHorizontal !* 3),
                                       label: Text(
                                         listCategories[index]["categoryName"]!,
                                         style: TextStyle(
@@ -261,7 +265,7 @@ class PatientReportScreenState extends State<PatientReportScreen> {
                                 separatorBuilder:
                                     (BuildContext context, int index) {
                                   return SizedBox(
-                                    width: SizeConfig.blockSizeHorizontal! * 5,
+                                    width: SizeConfig.blockSizeHorizontal !* 5,
                                   );
                                 },
                               ),
@@ -272,7 +276,7 @@ class PatientReportScreenState extends State<PatientReportScreen> {
                       height: 5.0,
                     ),
                     Container(
-                      height: SizeConfig.blockSizeVertical! * 6,
+                      height: SizeConfig.blockSizeVertical !* 6,
                       child: Padding(
                         padding: EdgeInsets.only(left: 20.0, right: 20.0),
                         child: Container(
@@ -297,7 +301,7 @@ class PatientReportScreenState extends State<PatientReportScreen> {
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.0,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black),
@@ -305,8 +309,7 @@ class PatientReportScreenState extends State<PatientReportScreen> {
                                   ),
                                   Image.asset(
                                     "images/v-2-icn-date.png",
-                                    width:
-                                        SizeConfig.blockSizeHorizontal! * 5.0,
+                                    width: SizeConfig.blockSizeHorizontal !* 5.0,
                                   ),
                                 ],
                               )),
@@ -316,8 +319,8 @@ class PatientReportScreenState extends State<PatientReportScreen> {
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical! * 2.0,
-                            bottom: SizeConfig.blockSizeVertical! * 8.0),
+                            top: SizeConfig.blockSizeVertical !* 2.0,
+                            bottom: SizeConfig.blockSizeVertical !* 8.0),
                         child: listPatientReport.length > 0
                             ? Container(
                                 padding: EdgeInsets.all(20.0),
@@ -332,204 +335,218 @@ class PatientReportScreenState extends State<PatientReportScreen> {
                                     itemBuilder: (context, index) {
                                       return InkWell(
                                         onTap: () {
-                                          if (widget.fetchPrescription ==
-                                              false) {
-                                            if (isADocument(index)) {
-                                              // downloadAndOpenTheFile(
-                                              //     "${baseURL}images/patientreport/${listPatientReport[index].reportImage}",
-                                              //     listPatientReport[index]
-                                              //         .reportImage);
-                                              String downloadPdfUrl =
-                                                  "${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}";
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute<dynamic>(
-                                                    builder: (_) =>
-                                                        PDFViewerCachedFromUrl(
-                                                      url: downloadPdfUrl,
-                                                    ),
-                                                  ));
-                                            } else {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                return FullScreenImage(
-                                                    "${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}");
-                                              }));
+                                          if(widget.fetchPrescription==false)
+                                            {
+                                              if (isADocument(index)) {
+                                                // downloadAndOpenTheFile(
+                                                //     "${baseURL}images/patientreport/${listPatientReport[index].reportImage}",
+                                                //     listPatientReport[index]
+                                                //         .reportImage);
+                                                String downloadPdfUrl = "${baseURL}images/patientreport/${listPatientReport[index].reportImage}";
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute<dynamic>(
+                                                      builder: (_) => PDFViewerCachedFromUrl(
+                                                        url: downloadPdfUrl,
+                                                      ),
+                                                    ));
+                                              } else {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                          return FullScreenImage(
+                                                              "${baseURL}images/patientreport/${listPatientReport[index].reportImage}");
+                                                        }));
+                                              }
                                             }
-                                          } else {
-                                            // reportName,reportDate,reportTime,reportImage
-                                            Navigator.pop(context,
-                                                listPatientReport[index]);
-                                          }
+                                          else
+                                            {
+                                              // reportName,reportDate,reportTime,reportImage
+                                              Navigator.pop(context, listPatientReport[index]);
+                                            }
+
                                         },
                                         child: index == 0
                                             ? Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 5, bottom: 10.0),
-                                                child: Text(
+                                                child:
+                                                Text(
                                                   getTitle(widget.from!),
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w700,
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           4.5,
                                                       color: Colorsblack),
-                                                ),
+                                                )
+                                                ,
                                               )
                                             : Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 10.0),
-                                                child: Card(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                    color: Colors.white,
-                                                    child: Padding(
-                                                      padding: EdgeInsets.all(
-                                                          SizeConfig
-                                                                  .blockSizeHorizontal! *
-                                                              4),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          Container(
-                                                              child:
-                                                                  isADocument(
-                                                                          index)
-                                                                      ? InkWell(
-                                                                          onTap:
-                                                                              () {
-                                                                            debugPrint("download file location");
-                                                                            debugPrint(
-                                                                              "${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}",
-                                                                            );
-                                                                            // downloadAndOpenTheFile(
-                                                                            // "${baseURL}images/patientreport/${listPatientReport[index].reportImage}",
-                                                                            // listPatientReport[index].reportImage);
-                                                                            String
-                                                                                downloadPdfUrl =
-                                                                                "${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}";
-                                                                            Navigator.push(
-                                                                                context,
-                                                                                MaterialPageRoute<dynamic>(
-                                                                                  builder: (_) => PDFViewerCachedFromUrl(
-                                                                                    url: downloadPdfUrl,
-                                                                                  ),
-                                                                                ));
-                                                                            /*OpenFile.open(
+                                              padding: const EdgeInsets.only(bottom:10.0),
+                                              child:
+                                              Card(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  color: Colors.white,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(SizeConfig
+                                                            .blockSizeHorizontal !*
+                                                        4),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        Container(
+                                                            child:
+                                                                isADocument(index)
+                                                                    ?
+                                                                InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          debugPrint(
+                                                                              "download file location");
+                                                                          debugPrint(
+                                                                            "${baseURL}images/patientreport/${listPatientReport[index].reportImage}",
+                                                                          );
+                                                                          // downloadAndOpenTheFile(
+                                                                              // "${baseURL}images/patientreport/${listPatientReport[index].reportImage}",
+                                                                              // listPatientReport[index].reportImage);
+                                                                          String downloadPdfUrl = "${baseURL}images/patientreport/${listPatientReport[index].reportImage}";
+                                                                          Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute<dynamic>(
+                                                                                builder: (_) => PDFViewerCachedFromUrl(
+                                                                                  url: downloadPdfUrl,
+                                                                                ),
+                                                                              ));
+                                                                          /*OpenFile.open(
                                                                     "${baseURL}images/patientreport/${listPatientReport[index].reportImage}");*/
-                                                                          },
+                                                                        },
+                                                                        child:
+                                                                            Container(
                                                                           child:
-                                                                              Container(
-                                                                            child:
+                                                                              Image(
+                                                                            image: AssetImage(selectedCategoryIDP == "1"
+                                                                                ? "images/v-2-icn-prescription-lrg.png"
+                                                                                : "images/ic_doc.png"),
+                                                                            fit: BoxFit
+                                                                                .fill,
+                                                                            width:
+                                                                                SizeConfig.blockSizeHorizontal !* 10,
+                                                                            height:
+                                                                                SizeConfig.blockSizeHorizontal !* 10,
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    : InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          Navigator.of(context).push(MaterialPageRoute(builder:
+                                                                              (context) {
+                                                                            return FullScreenImage(
+                                                                                "${baseURL}images/patientreport/${listPatientReport[index].reportImage}");
+                                                                          }));
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          child:
+                                                                              CachedNetworkImage(
+                                                                            placeholder: (context, url) =>
                                                                                 Image(
-                                                                              image: AssetImage(selectedCategoryIDP == "1" ? "images/v-2-icn-prescription-lrg.png" : "images/ic_doc.png"),
-                                                                              fit: BoxFit.fill,
-                                                                              width: SizeConfig.blockSizeHorizontal! * 10,
-                                                                              height: SizeConfig.blockSizeHorizontal! * 10,
+                                                                              width:
+                                                                                  SizeConfig.blockSizeHorizontal !* 35,
+                                                                              height:
+                                                                                  SizeConfig.blockSizeHorizontal !* 35,
+                                                                              image:
+                                                                                  AssetImage('images/shimmer_effect.png'),
+                                                                              fit:
+                                                                                  BoxFit.fitWidth,
                                                                             ),
+                                                                            imageUrl:
+                                                                                "${baseURL}images/patientreport/${listPatientReport[index].reportImage}",
+                                                                            fit: BoxFit
+                                                                                .fitWidth,
+                                                                            width:
+                                                                                SizeConfig.blockSizeHorizontal !* 10,
+                                                                            height:
+                                                                                SizeConfig.blockSizeHorizontal !* 10,
                                                                           ),
-                                                                        )
-                                                                      : InkWell(
-                                                                          onTap:
-                                                                              () {
-                                                                            Navigator.of(context).push(MaterialPageRoute(builder:
-                                                                                (context) {
-                                                                              return FullScreenImage("${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}");
-                                                                            }));
-                                                                          },
-                                                                          child:
-                                                                              Container(
-                                                                            child:
-                                                                                CachedNetworkImage(
-                                                                              placeholder: (context, url) => Image(
-                                                                                width: SizeConfig.blockSizeHorizontal! * 35,
-                                                                                height: SizeConfig.blockSizeHorizontal! * 35,
-                                                                                image: AssetImage('images/shimmer_effect.png'),
-                                                                                fit: BoxFit.fitWidth,
-                                                                              ),
-                                                                              imageUrl: "${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}",
-                                                                              fit: BoxFit.fitWidth,
-                                                                              width: SizeConfig.blockSizeHorizontal! * 10,
-                                                                              height: SizeConfig.blockSizeHorizontal! * 10,
-                                                                            ),
-                                                                          ),
-                                                                        )),
-                                                          SizedBox(
+                                                                        ),
+                                                                      )),
+                                                        SizedBox(
+                                                          width: SizeConfig
+                                                                  .blockSizeVertical !*
+                                                              1.0,
+                                                        ),
+                                                        Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: <Widget>[
+                                                              Text(
+                                                                listPatientReport[
+                                                                        index]
+                                                                    .reportTagName,
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontSize:
+                                                                        SizeConfig
+                                                                                .blockSizeHorizontal !*
+                                                                            4.5,
+                                                                    color:
+                                                                        colorBlueDark),
+                                                              ),
+                                                              SizedBox(
+                                                                height: SizeConfig
+                                                                        .blockSizeVertical !*
+                                                                    0.5,
+                                                              ),
+                                                              Text(
+                                                                "${listPatientReport[index].reportDate} , ${listPatientReport[index].reportTime}",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    fontSize:
+                                                                        SizeConfig
+                                                                                .blockSizeHorizontal !*
+                                                                            3.0),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        (widget.fetchPrescription==true) ?
+                                                        Container() : InkWell(
+                                                          onTap: () {
+                                                            deleteReportFromTheList(
+                                                                listPatientReport[
+                                                                index]
+                                                                    .patientReportIDP,
+                                                                listPatientReport[
+                                                                index]
+                                                                    .reportImage);
+                                                          },
+                                                          child: Image.asset(
+                                                            "images/v-2-icn-delete.png",
                                                             width: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                1.0,
+                                                                .blockSizeHorizontal !*
+                                                                5.0,
                                                           ),
-                                                          Expanded(
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: <Widget>[
-                                                                Text(
-                                                                  listPatientReport[
-                                                                          index]
-                                                                      .reportTagName,
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          SizeConfig.blockSizeHorizontal! *
-                                                                              4.5,
-                                                                      color:
-                                                                          colorBlueDark),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: SizeConfig
-                                                                          .blockSizeVertical! *
-                                                                      0.5,
-                                                                ),
-                                                                Text(
-                                                                  "${listPatientReport[index].reportDate} , ${listPatientReport[index].reportTime}",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .grey,
-                                                                      fontSize:
-                                                                          SizeConfig.blockSizeHorizontal! *
-                                                                              3.0),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          (widget.fetchPrescription ==
-                                                                  true)
-                                                              ? Container()
-                                                              : InkWell(
-                                                                  onTap: () {
-                                                                    deleteReportFromTheList(
-                                                                        listPatientReport[index]
-                                                                            .patientReportIDP,
-                                                                        listPatientReport[index]
-                                                                            .reportImage);
-                                                                  },
-                                                                  child: Image
-                                                                      .asset(
-                                                                    "images/v-2-icn-delete.png",
-                                                                    width: SizeConfig
-                                                                            .blockSizeHorizontal! *
-                                                                        5.0,
-                                                                  ),
-                                                                )
-                                                        ],
-                                                      ),
-                                                    )),
-                                              ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                            ),
                                       );
                                     }),
                               )
@@ -560,8 +577,9 @@ class PatientReportScreenState extends State<PatientReportScreen> {
       lastDate: DateTime(2100),
     );
 
-    if (newDateRange == null) return;
-    if (newDateRange != null) {
+    if(newDateRange == null) return;
+    if (newDateRange != null)
+    {
       dateRange = newDateRange;
       widget.fromDate = dateRange.start;
       widget.toDate = dateRange.end;
@@ -753,9 +771,10 @@ class PatientReportScreenState extends State<PatientReportScreen> {
       var strData = decodeBase64(data);
       debugPrint("Decoded Data Array : " + strData);
       final jsonData = json.decode(strData);
-      if (widget.from != "Reports")
+      if(widget.from!="Reports")
         listCategories.add({"categoryName": "All", "categoryIDP": "-"});
-      for (int i = 0; i < jsonData.length; i++) {
+      for (int i = 0; i < jsonData.length; i++)
+      {
         final jo = jsonData[i];
         print(widget.from);
         listCategories.add({
@@ -765,7 +784,8 @@ class PatientReportScreenState extends State<PatientReportScreen> {
         print(listCategories);
         setState(() {});
       }
-      if (widget.from == "Reports") {
+      if(widget.from=="Reports")
+      {
         // listCategories.remove({
         //   "categoryName": "Prescription'",
         //   "categoryIDP": "1"
@@ -779,18 +799,32 @@ class PatientReportScreenState extends State<PatientReportScreen> {
         //   "categoryIDP": "13"
         // });
         listCategories.removeWhere(
-          (item) => mapEquals(
-              item, ({'categoryName': 'Prescription', 'categoryIDP': '1'})),
+              (item) =>
+              mapEquals(item,
+                  ({
+                    'categoryName': 'Prescription',
+                    'categoryIDP': '1'
+                  })),
         );
         listCategories.removeWhere(
-          (item) => mapEquals(
-              item, ({'categoryName': 'Certificate', 'categoryIDP': '12'})),
+              (item) =>
+              mapEquals(item,
+                  ({
+                    'categoryName': 'Certificate',
+                    'categoryIDP': '12'
+                  })),
         );
         listCategories.removeWhere(
-          (item) => mapEquals(
-              item, ({'categoryName': 'Receipts', 'categoryIDP': '13'})),
+              (item) =>
+              mapEquals(item,
+                  ({
+                    'categoryName': 'Receipts',
+                    'categoryIDP': '13'
+                  })),
         );
-        setState(() {});
+        setState(() {
+
+        });
       }
       /*final List<Map<String, String>> listOfColumns = [
         {"Name": "AAAAAA", "Number": "1", "State": "Yes"},
@@ -962,7 +996,7 @@ class PatientReportScreenState extends State<PatientReportScreen> {
         pr!.hide();
         String query = "SELECT * FROM task WHERE task_id='" + id + "'";
         var tasks = FlutterDownloader.loadTasksWithRawQuery(query: query);
-        FlutterDownloader.open(taskId: id);
+ FlutterDownloader.open(taskId: id);
       }
       /*if (_tasks != null && _tasks.isNotEmpty) {
         final task = _tasks.firstWhere((task) => task.taskId == id);
@@ -980,7 +1014,8 @@ class PatientReportScreenState extends State<PatientReportScreen> {
     IsolateNameServer.removePortNameMapping('downloader_send_port');
   }
 
-  static void downloadCallback(String id, int status, int progress) {
+  static void downloadCallback(
+      String id, int status, int progress) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
     send!.send([id, status, progress]);
@@ -1001,11 +1036,13 @@ class PatientReportScreenState extends State<PatientReportScreen> {
   }
 }
 
-String getTitle(String categoryIDP) {
-  if (categoryIDP == "1")
+String getTitle(String categoryIDP)
+{
+  if(categoryIDP == "1")
     return "Prescriptions";
-  else if (categoryIDP == "12")
+  else if(categoryIDP == "12")
     return "Certificates";
   else
     return "Documents";
+
 }

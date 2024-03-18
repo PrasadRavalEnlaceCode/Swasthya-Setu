@@ -2,28 +2,28 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:silvertouch/app_screens/custom_dialog.dart';
-import 'package:silvertouch/app_screens/fullscreen_image.dart';
-import 'package:silvertouch/app_screens/selected_patient_screen.dart';
-import 'package:silvertouch/podo/chat_group_datewise.dart';
-import 'package:silvertouch/podo/model_message.dart';
-import 'package:silvertouch/widgets/blinking_widget.dart';
-import 'package:silvertouch/widgets/extensions.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/custom_dialog.dart';
+import 'package:swasthyasetu/app_screens/fullscreen_image.dart';
+import 'package:swasthyasetu/app_screens/selected_patient_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/chat_group_datewise.dart';
+import 'package:swasthyasetu/podo/model_message.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:swasthyasetu/utils/multipart_request_with_progress.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/widgets/blinking_widget.dart';
+import 'package:swasthyasetu/widgets/extensions.dart';
 
 class ChatScreen extends StatefulWidget {
   String? patientIDP, patientName, type, doctorIDP, patientImage;
@@ -76,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                       /*color: Colors.white,*/
                       width: SizeConfig.screenWidth,
                       padding: EdgeInsets.all(
-                        SizeConfig.blockSizeHorizontal! * 3.0,
+                        SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -91,8 +91,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                               children: [
                                 Image(
                                   image: FileImage(widget.image!),
-                                  width: SizeConfig.blockSizeHorizontal! * 35,
-                                  height: SizeConfig.blockSizeHorizontal! * 35,
+                                  width: SizeConfig.blockSizeHorizontal !* 35,
+                                  height: SizeConfig.blockSizeHorizontal !* 35,
                                   fit: BoxFit.fill,
                                 ),
                                 Positioned(
@@ -100,9 +100,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                   top: 0,
                                   child: MaterialButton(
                                     minWidth:
-                                        SizeConfig.blockSizeHorizontal! * 2.0,
+                                        SizeConfig.blockSizeHorizontal !* 2.0,
                                     height:
-                                        SizeConfig.blockSizeHorizontal! * 2.0,
+                                        SizeConfig.blockSizeHorizontal !* 2.0,
                                     onPressed: () {
                                       removeImage();
                                     },
@@ -114,10 +114,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                     child: Image(
                                       image: AssetImage("images/ic_cancel.png"),
                                       color: Colors.white,
-                                      width:
-                                          SizeConfig.blockSizeHorizontal! * 6,
+                                      width: SizeConfig.blockSizeHorizontal !* 6,
                                       height:
-                                          SizeConfig.blockSizeHorizontal! * 6,
+                                          SizeConfig.blockSizeHorizontal !* 6,
                                     ),
                                     /* ),*/
                                     padding: EdgeInsets.all(0),
@@ -323,7 +322,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
           child: Text(
             widget.patientName!,
             style: TextStyle(
-              fontSize: SizeConfig.blockSizeHorizontal! * 4.5,
+              fontSize: SizeConfig.blockSizeHorizontal !* 4.5,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -396,7 +395,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.only(
-                      bottom: SizeConfig.blockSizeVertical! * 1.5,
+                      bottom: SizeConfig.blockSizeVertical !* 1.5,
                     ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFEDE6DC),
@@ -415,9 +414,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                             Visibility(
                                 visible: isLoadingListView,
                                 child: Container(
-                                    width: SizeConfig.blockSizeHorizontal! * 10,
-                                    height:
-                                        SizeConfig.blockSizeHorizontal! * 10,
+                                    width: SizeConfig.blockSizeHorizontal !* 10,
+                                    height: SizeConfig.blockSizeHorizontal !* 10,
                                     child: Center(
                                       child: LinearProgressIndicator(
                                         backgroundColor: Colors.grey,
@@ -444,20 +442,20 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                                 shape: BoxShape.circle,
                                               ),*/
                                               child: Padding(
-                                            padding: EdgeInsets.all(SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3),
+                                            padding: EdgeInsets.all(
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    3),
                                             child: Icon(
                                               Icons.chat,
                                               color: Colors.grey[900],
                                               size: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   12.0,
                                             ),
                                           )),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     0.5,
                                           ),
                                           Text(
@@ -693,8 +691,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             videoCallStartedStatus: jo['VideoCallStarted'].toString(),
             audioCallRequestStatus: jo['AudioCallRequest'].toString(),
             audioCallStartedStatus: jo['AudioCallStarted'].toString(),
-            healthRecordsDisplayStatus:
-                jo['HealthRecordsDisplayStatus'].toString(),
+            healthRecordsDisplayStatus: jo['HealthRecordsDisplayStatus'].toString(),
           ));
         }
       }
@@ -729,7 +726,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   Future getImageFromCamera() async {
     File imgSelected =
         await chooseImageWithExIfRotate(picker, ImageSource.camera);
-    widget.image = imgSelected;
+ widget.image = imgSelected;
     Navigator.of(context).pop();
     setState(() {});
   }
@@ -742,7 +739,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   Future getImageFromGallery() async {
     File imgSelected =
         await chooseImageWithExIfRotate(picker, ImageSource.gallery);
-    widget.image = imgSelected;
+ widget.image = imgSelected;
     Navigator.of(context).pop();
     setState(() {});
   }
@@ -759,13 +756,13 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     return Stack(
       children: <Widget>[
         Container(
-          width: SizeConfig.blockSizeHorizontal! * 90,
-          height: SizeConfig.blockSizeVertical! * 25,
+          width: SizeConfig.blockSizeHorizontal !* 90,
+          height: SizeConfig.blockSizeVertical !* 25,
           padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical! * 1,
-            bottom: SizeConfig.blockSizeVertical! * 1,
-            left: SizeConfig.blockSizeHorizontal! * 1,
-            right: SizeConfig.blockSizeHorizontal! * 1,
+            top: SizeConfig.blockSizeVertical !* 1,
+            bottom: SizeConfig.blockSizeVertical !* 1,
+            left: SizeConfig.blockSizeHorizontal !* 1,
+            right: SizeConfig.blockSizeHorizontal !* 1,
           ),
           decoration: new BoxDecoration(
             color: Colors.white,
@@ -788,7 +785,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.red,
-                      size: SizeConfig.blockSizeVertical! * 2.8,
+                      size: SizeConfig.blockSizeVertical !* 2.8,
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -798,14 +795,14 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: SizeConfig.blockSizeVertical! * 2.3,
+                      fontSize: SizeConfig.blockSizeVertical !* 2.3,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 0.5,
+                height: SizeConfig.blockSizeVertical !* 0.5,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -816,14 +813,14 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     },
                     child: Image(
                       fit: BoxFit.contain,
-                      width: SizeConfig.blockSizeHorizontal! * 10,
-                      height: SizeConfig.blockSizeVertical! * 10,
+                      width: SizeConfig.blockSizeHorizontal !* 10,
+                      height: SizeConfig.blockSizeVertical !* 10,
                       //height: 80,
                       image: AssetImage("images/ic_camera.png"),
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal! * 1,
+                    width: SizeConfig.blockSizeHorizontal !* 1,
                   ),
                   MaterialButton(
                     onPressed: () {
@@ -831,14 +828,14 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     },
                     child: Image(
                       fit: BoxFit.contain,
-                      width: SizeConfig.blockSizeHorizontal! * 10,
-                      height: SizeConfig.blockSizeVertical! * 10,
+                      width: SizeConfig.blockSizeHorizontal !* 10,
+                      height: SizeConfig.blockSizeVertical !* 10,
                       //height: 80,
                       image: AssetImage("images/ic_gallery.png"),
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal! * 1,
+                    width: SizeConfig.blockSizeHorizontal !* 1,
                   ),
                   MaterialButton(
                     onPressed: () {
@@ -847,7 +844,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     child: Icon(
                       Icons.close,
                       color: Colors.red,
-                      size: SizeConfig.blockSizeHorizontal! * 10,
+                      size: SizeConfig.blockSizeHorizontal !* 10,
                     ),
                   ),
                 ],
@@ -1006,12 +1003,12 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             widget.patientImage != null &&
             widget.patientImage != "null"
         ? CircleAvatar(
-            radius: SizeConfig.blockSizeHorizontal! * 6,
+            radius: SizeConfig.blockSizeHorizontal !* 6,
             backgroundImage: NetworkImage(userType == "patient"
                 ? "$doctorImgUrl${widget.patientImage}"
                 : "$userImgUrl${widget.patientImage}"))
         : CircleAvatar(
-            radius: SizeConfig.blockSizeHorizontal! * 6,
+            radius: SizeConfig.blockSizeHorizontal !* 6,
             backgroundColor: Colors.grey,
             backgroundImage: AssetImage("images/ic_user_placeholder.png"));
   }
@@ -1225,10 +1222,10 @@ class _LeftThread extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(r)),
         child: Container(
           padding: EdgeInsets.fromLTRB(
-              SizeConfig.blockSizeHorizontal! * 1.0 + 3 * r,
-              SizeConfig.blockSizeHorizontal! * 2.0,
-              SizeConfig.blockSizeHorizontal! * 1.0,
-              SizeConfig.blockSizeHorizontal! * 2.0),
+              SizeConfig.blockSizeHorizontal !* 1.0 + 3 * r,
+              SizeConfig.blockSizeHorizontal !* 2.0,
+              SizeConfig.blockSizeHorizontal !* 1.0,
+              SizeConfig.blockSizeHorizontal !* 2.0),
           color: this.backgroundColor,
           child:
               child /*Text(
@@ -1259,10 +1256,10 @@ class _RightThread extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(r)),
         child: Container(
           padding: EdgeInsets.fromLTRB(
-              SizeConfig.blockSizeHorizontal! * 1.0 + 3 * r,
-              SizeConfig.blockSizeHorizontal! * 2.0,
-              SizeConfig.blockSizeHorizontal! * 1.0,
-              SizeConfig.blockSizeHorizontal! * 2.0),
+              SizeConfig.blockSizeHorizontal !* 1.0 + 3 * r,
+              SizeConfig.blockSizeHorizontal !* 2.0,
+              SizeConfig.blockSizeHorizontal !* 1.0,
+              SizeConfig.blockSizeHorizontal !* 2.0),
           color: this.backgroundColor,
           child: Transform(
             transform: Matrix4.diagonal3Values(-1.0, 1.0, 1.0),
@@ -1344,19 +1341,19 @@ class _StickyHeaderList extends StatelessWidget {
                 margin: isMe
                     ? EdgeInsets.only(
                         top: message.messageFrom != nextMessage?.messageFrom
-                            ? SizeConfig.blockSizeVertical! * 4.0
+                            ? SizeConfig.blockSizeVertical !* 4.0
                             : 2.0,
                         bottom: 2.0,
-                        left: SizeConfig.blockSizeHorizontal! * 1,
-                        right: SizeConfig.blockSizeHorizontal! * 1,
+                        left: SizeConfig.blockSizeHorizontal !* 1,
+                        right: SizeConfig.blockSizeHorizontal !* 1,
                       )
                     : EdgeInsets.only(
                         top: message.messageFrom != nextMessage?.messageFrom
-                            ? SizeConfig.blockSizeVertical! * 4.0
+                            ? SizeConfig.blockSizeVertical !* 4.0
                             : 2.0,
                         bottom: 2.0,
-                        right: SizeConfig.blockSizeHorizontal! * 1,
-                        left: SizeConfig.blockSizeHorizontal! * 1,
+                        right: SizeConfig.blockSizeHorizontal !* 1,
+                        left: SizeConfig.blockSizeHorizontal !* 1,
                       ),
                 child: message.videoCallRequestStatus == "1" ||
                         message.audioCallRequestStatus == "1"
@@ -1394,13 +1391,13 @@ class _StickyHeaderList extends StatelessWidget {
       String? patientImage) {
     if (message.videoCallStartedStatus == "1") {
       return Container(
-        width: SizeConfig.blockSizeHorizontal! * 98,
+        width: SizeConfig.blockSizeHorizontal !* 98,
         child: Align(
           alignment: Alignment.centerRight,
           child: _RightThread(
             "",
             SizedBox(
-              width: SizeConfig.blockSizeHorizontal! * 55,
+              width: SizeConfig.blockSizeHorizontal !* 55,
               child: Stack(
                 children: [
                   Column(
@@ -1414,10 +1411,10 @@ class _StickyHeaderList extends StatelessWidget {
                             Icon(
                               Icons.missed_video_call,
                               color: Colors.black,
-                              size: SizeConfig.blockSizeHorizontal! * 5.6,
+                              size: SizeConfig.blockSizeHorizontal !* 5.6,
                             ),
                             SizedBox(
-                              width: SizeConfig.blockSizeHorizontal! * 1.5,
+                              width: SizeConfig.blockSizeHorizontal !* 1.5,
                             ),
                             Expanded(
                               child: Center(
@@ -1429,7 +1426,7 @@ class _StickyHeaderList extends StatelessWidget {
                                   maxLines: 10,
                                   style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal! * 3.6,
+                                        SizeConfig.blockSizeHorizontal !* 3.6,
                                   ),
                                 ),
                               ),
@@ -1474,39 +1471,37 @@ class _StickyHeaderList extends StatelessWidget {
                                     splashColor: Colors.green[800],
                                     padding: EdgeInsets.symmetric(
                                       horizontal:
-                                          SizeConfig.blockSizeHorizontal! * 2.0,
+                                          SizeConfig.blockSizeHorizontal !* 2.0,
                                     ),
                                     child: Row(
                                       children: [
                                         BlinkingWidget(
                                             child: FaIcon(
                                           FontAwesomeIcons.video,
-                                          size:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  4.8,
+                                          size: SizeConfig.blockSizeHorizontal !*
+                                              4.8,
                                           color: Colors.white,
                                         )),
                                         SizedBox(
                                           width:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   3.0,
                                         ),
                                         Text(
                                           "Connect",
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3.4,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    3.4,
                                           ),
                                         ),
                                       ],
                                     ),
                                   ).pO(
-                                    right:
-                                        SizeConfig.blockSizeHorizontal! * 3.0)
+                                    right: SizeConfig.blockSizeHorizontal !* 3.0)
                                 : Container(
-                                    height: SizeConfig.blockSizeVertical! * 3.0,
+                                    height: SizeConfig.blockSizeVertical !* 3.0,
                                   ),
                           ],
                         ),
@@ -1514,13 +1509,13 @@ class _StickyHeaderList extends StatelessWidget {
                     ],
                   ),
                   Positioned(
-                    right: SizeConfig.blockSizeHorizontal! * 1.0,
-                    bottom: SizeConfig.blockSizeVertical! * 0.6,
+                    right: SizeConfig.blockSizeHorizontal !* 1.0,
+                    bottom: SizeConfig.blockSizeVertical !* 0.6,
                     child: Text(
                       message.time!,
                       style: TextStyle(
                         color: Colors.blueGrey[600],
-                        fontSize: SizeConfig.blockSizeHorizontal! * 3.0,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       softWrap: true,
                     ),
@@ -1537,13 +1532,13 @@ class _StickyHeaderList extends StatelessWidget {
         message.videoCallStartedStatus == "0") {
       if (message.messageFrom == matchingLetter) {
         return Container(
-          width: SizeConfig.blockSizeHorizontal! * 98,
+          width: SizeConfig.blockSizeHorizontal !* 98,
           child: Align(
             alignment: Alignment.centerRight,
             child: _RightThread(
               "",
               SizedBox(
-                width: SizeConfig.blockSizeHorizontal! * 98,
+                width: SizeConfig.blockSizeHorizontal !* 98,
                 child: Stack(
                   children: [
                     Center(
@@ -1553,10 +1548,10 @@ class _StickyHeaderList extends StatelessWidget {
                           Icon(
                             Icons.missed_video_call,
                             color: Colors.black,
-                            size: SizeConfig.blockSizeHorizontal! * 5.6,
+                            size: SizeConfig.blockSizeHorizontal !* 5.6,
                           ),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal! * 1.5,
+                            width: SizeConfig.blockSizeHorizontal !* 1.5,
                           ),
                           Text(
                             getTextVideoCallStartedForRequest(
@@ -1564,24 +1559,24 @@ class _StickyHeaderList extends StatelessWidget {
                             softWrap: true,
                             maxLines: 4,
                             style: TextStyle(
-                              fontSize: SizeConfig.blockSizeHorizontal! * 3.4,
+                              fontSize: SizeConfig.blockSizeHorizontal !* 3.4,
                             ),
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 6.8,
+                      height: SizeConfig.blockSizeVertical !* 6.8,
                     ),
                     Positioned(
-                      right: SizeConfig.blockSizeHorizontal! * 1.0,
-                      bottom: SizeConfig.blockSizeVertical! * 0.6,
+                      right: SizeConfig.blockSizeHorizontal !* 1.0,
+                      bottom: SizeConfig.blockSizeVertical !* 0.6,
                       child: Text(
                         message.time!,
                         /*textAlign: TextAlign.right,*/
                         style: TextStyle(
                           color: Colors.blueGrey[600],
-                          fontSize: SizeConfig.blockSizeHorizontal! * 3.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 3.0,
                         ),
                         softWrap: true,
                       ),
@@ -1596,13 +1591,13 @@ class _StickyHeaderList extends StatelessWidget {
         );
       } else {
         return Container(
-          width: SizeConfig.blockSizeHorizontal! * 98,
+          width: SizeConfig.blockSizeHorizontal !* 98,
           child: Align(
             alignment: Alignment.centerRight,
             child: _RightThread(
               "",
               SizedBox(
-                width: SizeConfig.blockSizeHorizontal! * 55,
+                width: SizeConfig.blockSizeHorizontal !* 55,
                 child: Stack(
                   children: [
                     Column(
@@ -1616,10 +1611,10 @@ class _StickyHeaderList extends StatelessWidget {
                               Icon(
                                 Icons.missed_video_call,
                                 color: Colors.black,
-                                size: SizeConfig.blockSizeHorizontal! * 5.6,
+                                size: SizeConfig.blockSizeHorizontal !* 5.6,
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal! * 1.5,
+                                width: SizeConfig.blockSizeHorizontal !* 1.5,
                               ),
                               Center(
                                 child: Text(
@@ -1630,7 +1625,7 @@ class _StickyHeaderList extends StatelessWidget {
                                   maxLines: 10,
                                   style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal! * 3.6,
+                                        SizeConfig.blockSizeHorizontal !* 3.6,
                                   ),
                                 ),
                               ),
@@ -1675,7 +1670,7 @@ class _StickyHeaderList extends StatelessWidget {
                                       splashColor: Colors.green[800],
                                       padding: EdgeInsets.symmetric(
                                         horizontal:
-                                            SizeConfig.blockSizeHorizontal! *
+                                            SizeConfig.blockSizeHorizontal !*
                                                 2.0,
                                       ),
                                       child: Row(
@@ -1683,22 +1678,22 @@ class _StickyHeaderList extends StatelessWidget {
                                           BlinkingWidget(
                                               child: FaIcon(
                                             FontAwesomeIcons.video,
-                                            size: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.8,
+                                            size:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    4.8,
                                             color: Colors.white,
                                           )),
                                           SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3.0,
+                                            width:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    3.0,
                                           ),
                                           Text(
                                             "Connect",
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   3.4,
                                             ),
                                           ),
@@ -1706,10 +1701,10 @@ class _StickyHeaderList extends StatelessWidget {
                                       ),
                                     ).pO(
                                       right:
-                                          SizeConfig.blockSizeHorizontal! * 3.0)
+                                          SizeConfig.blockSizeHorizontal !* 3.0)
                                   : Container(
                                       height:
-                                          SizeConfig.blockSizeVertical! * 3.0,
+                                          SizeConfig.blockSizeVertical !* 3.0,
                                     ),
                             ],
                           ),
@@ -1717,14 +1712,14 @@ class _StickyHeaderList extends StatelessWidget {
                       ],
                     ),
                     Positioned(
-                      right: SizeConfig.blockSizeHorizontal! * 1.0,
-                      bottom: SizeConfig.blockSizeVertical! * 0.6,
+                      right: SizeConfig.blockSizeHorizontal !* 1.0,
+                      bottom: SizeConfig.blockSizeVertical !* 0.6,
                       child: Text(
                         message.time!,
                         /*textAlign: TextAlign.right,*/
                         style: TextStyle(
                           color: Colors.blueGrey[600],
-                          fontSize: SizeConfig.blockSizeHorizontal! * 3.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 3.0,
                         ),
                         softWrap: true,
                       ),
@@ -1740,13 +1735,13 @@ class _StickyHeaderList extends StatelessWidget {
       }
     } else if (message.audioCallStartedStatus == "1") {
       return Container(
-        width: SizeConfig.blockSizeHorizontal! * 98,
+        width: SizeConfig.blockSizeHorizontal !* 98,
         child: Align(
           alignment: Alignment.centerRight,
           child: _RightThread(
             "",
             SizedBox(
-              width: SizeConfig.blockSizeHorizontal! * 55,
+              width: SizeConfig.blockSizeHorizontal !* 55,
               child: Stack(
                 children: [
                   Column(
@@ -1760,10 +1755,10 @@ class _StickyHeaderList extends StatelessWidget {
                             Icon(
                               Icons.call_missed_outgoing,
                               color: Colors.black,
-                              size: SizeConfig.blockSizeHorizontal! * 5.6,
+                              size: SizeConfig.blockSizeHorizontal !* 5.6,
                             ),
                             SizedBox(
-                              width: SizeConfig.blockSizeHorizontal! * 1.5,
+                              width: SizeConfig.blockSizeHorizontal !* 1.5,
                             ),
                             Expanded(
                               child: Center(
@@ -1775,7 +1770,7 @@ class _StickyHeaderList extends StatelessWidget {
                                   maxLines: 10,
                                   style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal! * 3.6,
+                                        SizeConfig.blockSizeHorizontal !* 3.6,
                                   ),
                                 ),
                               ),
@@ -1805,39 +1800,37 @@ class _StickyHeaderList extends StatelessWidget {
                                     splashColor: Colors.green[800],
                                     padding: EdgeInsets.symmetric(
                                       horizontal:
-                                          SizeConfig.blockSizeHorizontal! * 2.0,
+                                          SizeConfig.blockSizeHorizontal !* 2.0,
                                     ),
                                     child: Row(
                                       children: [
                                         BlinkingWidget(
                                             child: Icon(
                                           Icons.call,
-                                          size:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  4.8,
+                                          size: SizeConfig.blockSizeHorizontal !*
+                                              4.8,
                                           color: Colors.white,
                                         )),
                                         SizedBox(
                                           width:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   3.0,
                                         ),
                                         Text(
                                           "Connect",
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3.4,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    3.4,
                                           ),
                                         ),
                                       ],
                                     ),
                                   ).pO(
-                                    right:
-                                        SizeConfig.blockSizeHorizontal! * 3.0)
+                                    right: SizeConfig.blockSizeHorizontal !* 3.0)
                                 : Container(
-                                    height: SizeConfig.blockSizeVertical! * 3.0,
+                                    height: SizeConfig.blockSizeVertical !* 3.0,
                                   ),
                           ],
                         ),
@@ -1845,14 +1838,14 @@ class _StickyHeaderList extends StatelessWidget {
                     ],
                   ),
                   Positioned(
-                    right: SizeConfig.blockSizeHorizontal! * 1.0,
-                    bottom: SizeConfig.blockSizeVertical! * 0.6,
+                    right: SizeConfig.blockSizeHorizontal !* 1.0,
+                    bottom: SizeConfig.blockSizeVertical !* 0.6,
                     child: Text(
                       message.time!,
                       /*textAlign: TextAlign.right,*/
                       style: TextStyle(
                         color: Colors.blueGrey[600],
-                        fontSize: SizeConfig.blockSizeHorizontal! * 3.0,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 3.0,
                       ),
                       softWrap: true,
                     ),
@@ -1869,13 +1862,13 @@ class _StickyHeaderList extends StatelessWidget {
         message.audioCallStartedStatus == "0") {
       if (message.messageFrom == matchingLetter) {
         return Container(
-          width: SizeConfig.blockSizeHorizontal! * 98,
+          width: SizeConfig.blockSizeHorizontal !* 98,
           child: Align(
             alignment: Alignment.centerRight,
             child: _RightThread(
               "",
               SizedBox(
-                width: SizeConfig.blockSizeHorizontal! * 98,
+                width: SizeConfig.blockSizeHorizontal !* 98,
                 child: Stack(
                   children: [
                     Center(
@@ -1885,10 +1878,10 @@ class _StickyHeaderList extends StatelessWidget {
                           Icon(
                             Icons.call_missed_outgoing,
                             color: Colors.black,
-                            size: SizeConfig.blockSizeHorizontal! * 5.6,
+                            size: SizeConfig.blockSizeHorizontal !* 5.6,
                           ),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal! * 1.5,
+                            width: SizeConfig.blockSizeHorizontal !* 1.5,
                           ),
                           Text(
                             getTexAudioCallStartedForRequest(
@@ -1896,24 +1889,24 @@ class _StickyHeaderList extends StatelessWidget {
                             softWrap: true,
                             maxLines: 4,
                             style: TextStyle(
-                              fontSize: SizeConfig.blockSizeHorizontal! * 3.4,
+                              fontSize: SizeConfig.blockSizeHorizontal !* 3.4,
                             ),
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 6.8,
+                      height: SizeConfig.blockSizeVertical !* 6.8,
                     ),
                     Positioned(
-                      right: SizeConfig.blockSizeHorizontal! * 1.0,
-                      bottom: SizeConfig.blockSizeVertical! * 0.6,
+                      right: SizeConfig.blockSizeHorizontal !* 1.0,
+                      bottom: SizeConfig.blockSizeVertical !* 0.6,
                       child: Text(
                         message.time!,
                         /*textAlign: TextAlign.right,*/
                         style: TextStyle(
                           color: Colors.blueGrey[600],
-                          fontSize: SizeConfig.blockSizeHorizontal! * 3.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 3.0,
                         ),
                         softWrap: true,
                       ),
@@ -1928,13 +1921,13 @@ class _StickyHeaderList extends StatelessWidget {
         );
       } else {
         return Container(
-          width: SizeConfig.blockSizeHorizontal! * 98,
+          width: SizeConfig.blockSizeHorizontal !* 98,
           child: Align(
             alignment: Alignment.centerRight,
             child: _RightThread(
               "",
               SizedBox(
-                width: SizeConfig.blockSizeHorizontal! * 55,
+                width: SizeConfig.blockSizeHorizontal !* 55,
                 child: Stack(
                   children: [
                     Column(
@@ -1948,10 +1941,10 @@ class _StickyHeaderList extends StatelessWidget {
                               Icon(
                                 Icons.missed_video_call,
                                 color: Colors.black,
-                                size: SizeConfig.blockSizeHorizontal! * 5.6,
+                                size: SizeConfig.blockSizeHorizontal !* 5.6,
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal! * 1.5,
+                                width: SizeConfig.blockSizeHorizontal !* 1.5,
                               ),
                               Center(
                                 child: Text(
@@ -1962,7 +1955,7 @@ class _StickyHeaderList extends StatelessWidget {
                                   maxLines: 10,
                                   style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal! * 3.6,
+                                        SizeConfig.blockSizeHorizontal !* 3.6,
                                   ),
                                 ),
                               ),
@@ -1991,7 +1984,7 @@ class _StickyHeaderList extends StatelessWidget {
                                       splashColor: Colors.green[800],
                                       padding: EdgeInsets.symmetric(
                                         horizontal:
-                                            SizeConfig.blockSizeHorizontal! *
+                                            SizeConfig.blockSizeHorizontal !*
                                                 2.0,
                                       ),
                                       child: Row(
@@ -1999,22 +1992,22 @@ class _StickyHeaderList extends StatelessWidget {
                                           BlinkingWidget(
                                               child: Icon(
                                             Icons.call,
-                                            size: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.8,
+                                            size:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    4.8,
                                             color: Colors.white,
                                           )),
                                           SizedBox(
-                                            width: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                3.0,
+                                            width:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    3.0,
                                           ),
                                           Text(
                                             "Connect",
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   3.4,
                                             ),
                                           ),
@@ -2022,10 +2015,10 @@ class _StickyHeaderList extends StatelessWidget {
                                       ),
                                     ).pO(
                                       right:
-                                          SizeConfig.blockSizeHorizontal! * 3.0)
+                                          SizeConfig.blockSizeHorizontal !* 3.0)
                                   : Container(
                                       height:
-                                          SizeConfig.blockSizeVertical! * 3.0,
+                                          SizeConfig.blockSizeVertical !* 3.0,
                                     ),
                             ],
                           ),
@@ -2033,14 +2026,14 @@ class _StickyHeaderList extends StatelessWidget {
                       ],
                     ),
                     Positioned(
-                      right: SizeConfig.blockSizeHorizontal! * 1.0,
-                      bottom: SizeConfig.blockSizeVertical! * 0.6,
+                      right: SizeConfig.blockSizeHorizontal !* 1.0,
+                      bottom: SizeConfig.blockSizeVertical !* 0.6,
                       child: Text(
                         message.time!,
                         /*textAlign: TextAlign.right,*/
                         style: TextStyle(
                           color: Colors.blueGrey[600],
-                          fontSize: SizeConfig.blockSizeHorizontal! * 3.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 3.0,
                         ),
                         softWrap: true,
                       ),
@@ -2059,21 +2052,21 @@ class _StickyHeaderList extends StatelessWidget {
       children: [
         Container(
           constraints: BoxConstraints(
-            minWidth: SizeConfig.blockSizeHorizontal! * 15.0,
+            minWidth: SizeConfig.blockSizeHorizontal !* 15.0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal! * 1.3,
+                    horizontal: SizeConfig.blockSizeHorizontal !* 1.3,
                   ),
                   child: message.imageStatus == "0"
                       ? Align(
                           alignment: Alignment.topLeft,
                           child: Container(
                               constraints: BoxConstraints(
-                                maxWidth: SizeConfig.blockSizeHorizontal! * 85,
+                                maxWidth: SizeConfig.blockSizeHorizontal !* 85,
                               ),
                               child: Text(
                                 message.messageContent!,
@@ -2081,7 +2074,7 @@ class _StickyHeaderList extends StatelessWidget {
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal! * 3.8,
+                                      SizeConfig.blockSizeHorizontal !* 3.8,
                                   fontWeight: FontWeight.w500,
                                 ),
                                 maxLines: 100,
@@ -2108,17 +2101,17 @@ class _StickyHeaderList extends StatelessWidget {
                                 child: Image(
                                   image: NetworkImage(
                                       '$chatImgUrl${message.imageName}'),
-                                  width: SizeConfig.blockSizeHorizontal! * 45,
-                                  height: SizeConfig.blockSizeHorizontal! * 45,
+                                  width: SizeConfig.blockSizeHorizontal !* 45,
+                                  height: SizeConfig.blockSizeHorizontal !* 45,
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
                             SizedBox(
-                              height: SizeConfig.blockSizeVertical! * 0.5,
+                              height: SizeConfig.blockSizeVertical !* 0.5,
                             ),
                             Container(
-                              width: SizeConfig.blockSizeHorizontal! * 45,
+                              width: SizeConfig.blockSizeHorizontal !* 45,
                               child: Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
@@ -2127,7 +2120,7 @@ class _StickyHeaderList extends StatelessWidget {
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal! * 3.8,
+                                        SizeConfig.blockSizeHorizontal !* 3.8,
                                     fontWeight: FontWeight.w500,
                                   ),
                                   softWrap: true,
@@ -2136,14 +2129,14 @@ class _StickyHeaderList extends StatelessWidget {
                             ),
                             message.messageContent != ""
                                 ? SizedBox(
-                                    height: SizeConfig.blockSizeVertical! * 1.0,
+                                    height: SizeConfig.blockSizeVertical !* 1.0,
                                   )
                                 : Container(),
                           ],
                         )),
               message.messageContent != ""
                   ? SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 2.5,
+                      height: SizeConfig.blockSizeVertical !* 2.5,
                     )
                   : Container(),
             ],
@@ -2158,7 +2151,7 @@ class _StickyHeaderList extends StatelessWidget {
               /*textAlign: TextAlign.right,*/
               style: TextStyle(
                 color: Colors.grey,
-                fontSize: SizeConfig.blockSizeHorizontal! * 3.0,
+                fontSize: SizeConfig.blockSizeHorizontal !* 3.0,
               ),
               softWrap: true,
             ),
@@ -2360,15 +2353,15 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-        vertical: SizeConfig.blockSizeVertical! * 2.2,
+        vertical: SizeConfig.blockSizeVertical !* 2.2,
       ),
       alignment: Alignment.centerLeft,
       child: Center(
           child: Container(
         color: Colors.brown[500],
         padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.blockSizeHorizontal! * 2.0,
-            vertical: SizeConfig.blockSizeHorizontal! * 1.3),
+            horizontal: SizeConfig.blockSizeHorizontal !* 2.0,
+            vertical: SizeConfig.blockSizeHorizontal !* 1.3),
         child: Text(
           headerText,
           style: const TextStyle(color: Colors.white),

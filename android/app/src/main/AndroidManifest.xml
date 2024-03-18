@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.app.silvertouch">
+    package="com.swashtyasetu.swashtyasetu">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -26,11 +26,10 @@
         android:requestLegacyExternalStorage="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Silver Touch"
+        android:label="Swasthya Setu"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:label"
-        android:supportsRtl="true">
+        tools:replace="android:label">
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

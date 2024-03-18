@@ -6,42 +6,41 @@ import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:silvertouch/api/api_helper.dart';
-import 'package:silvertouch/app_screens/add_prescription_screen.dart';
-import 'package:silvertouch/app_screens/add_vital_screen.dart';
-import 'package:silvertouch/app_screens/chat_screen.dart';
-import 'package:silvertouch/app_screens/fitness_certificate_screen.dart';
-import 'package:silvertouch/app_screens/fullscreen_image.dart';
-import 'package:silvertouch/app_screens/opd_reg_details_screen.dart';
-import 'package:silvertouch/app_screens/patient_resources_from_profile_screen.dart';
-import 'package:silvertouch/app_screens/patient_resources_screen.dart';
-import 'package:silvertouch/app_screens/selected_patient_screen.dart';
-import 'package:silvertouch/app_screens/view_profile_details_patient_inside_doctor.dart';
-import 'package:silvertouch/controllers/consultation_vitals_controller.dart';
-import 'package:silvertouch/controllers/pdf_type_controller.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/consultation_template_model.dart';
-import 'package:silvertouch/podo/model_certificate.dart';
-import 'package:silvertouch/podo/model_health_doc.dart';
-import 'package:silvertouch/podo/model_opd_reg.dart';
-import 'package:silvertouch/podo/model_templates_advice_investigations.dart';
-import 'package:silvertouch/podo/model_templates_complaint.dart';
-import 'package:silvertouch/podo/model_templates_diagnosis.dart';
-import 'package:silvertouch/podo/model_templates_examination.dart';
-import 'package:silvertouch/podo/model_templates_remarks.dart';
-import 'package:silvertouch/podo/pdf_type.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/ultimate_slider.dart';
-import 'package:silvertouch/widgets/autocomplete_custom.dart';
-import 'package:silvertouch/widgets/blinking_text.dart';
-import 'package:silvertouch/widgets/extensions.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
+import 'package:swasthyasetu/app_screens/add_prescription_screen.dart';
+import 'package:swasthyasetu/app_screens/add_vital_screen.dart';
+import 'package:swasthyasetu/app_screens/chat_screen.dart';
+import 'package:swasthyasetu/app_screens/fitness_certificate_screen.dart';
+import 'package:swasthyasetu/app_screens/fullscreen_image.dart';
+import 'package:swasthyasetu/app_screens/opd_reg_details_screen.dart';
+import 'package:swasthyasetu/app_screens/patient_resources_from_profile_screen.dart';
+import 'package:swasthyasetu/app_screens/patient_resources_screen.dart';
+import 'package:swasthyasetu/app_screens/selected_patient_screen.dart';
+import 'package:swasthyasetu/app_screens/view_profile_details_patient_inside_doctor.dart';
+import 'package:swasthyasetu/controllers/consultation_vitals_controller.dart';
+import 'package:swasthyasetu/controllers/pdf_type_controller.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/consultation_template_model.dart';
+import 'package:swasthyasetu/podo/model_certificate.dart';
+import 'package:swasthyasetu/podo/model_health_doc.dart';
+import 'package:swasthyasetu/podo/model_opd_reg.dart';
+import 'package:swasthyasetu/podo/model_templates_advice_investigations.dart';
+import 'package:swasthyasetu/podo/model_templates_complaint.dart';
+import 'package:swasthyasetu/podo/model_templates_diagnosis.dart';
+import 'package:swasthyasetu/podo/model_templates_examination.dart';
+import 'package:swasthyasetu/podo/model_templates_remarks.dart';
+import 'package:swasthyasetu/podo/pdf_type.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/utils/ultimate_slider.dart';
+import 'package:swasthyasetu/widgets/autocomplete_custom.dart';
+import 'package:swasthyasetu/widgets/blinking_text.dart';
+import 'package:swasthyasetu/widgets/extensions.dart';
 
 import '../controllers/certificate_controller.dart';
 import '../podo/dropdown_item.dart';
@@ -53,38 +52,22 @@ import 'medical_certificate.dart';
 import 'select_investigations_to_send_to_lab.dart';
 
 TextEditingController historyController = TextEditingController();
-
-
 TextEditingController complaintController = TextEditingController();
-TextEditingController complaintSupportController = TextEditingController();
-
-TextEditingController examinationController = TextEditingController();
-TextEditingController examinationSupportController = TextEditingController();
-
-TextEditingController adviceInvestigationController = TextEditingController();
-TextEditingController adviceInvestigationSupportController = TextEditingController();
-
-TextEditingController diagnosisController = TextEditingController();
-TextEditingController diagnosisSupportController = TextEditingController();
-
-TextEditingController radiologyInvestigationsController = TextEditingController();
-TextEditingController radiologyInvestigationsSupportController = TextEditingController();
-
-
-
 TextEditingController systemicIllnessController = TextEditingController();
+TextEditingController examinationController = TextEditingController();
 TextEditingController adviceController = TextEditingController();
 TextEditingController nextVisitPlanController = TextEditingController();
 TextEditingController followUpDateController = TextEditingController();
 TextEditingController followUpTimeController = TextEditingController();
-
+TextEditingController diagnosisController = TextEditingController();
 
 TextEditingController bpSystolicController = TextEditingController();
 TextEditingController bpDiastolicController = TextEditingController();
 TextEditingController temperatureController = TextEditingController();
 TextEditingController pulseController = TextEditingController();
 TextEditingController spo2Controller = TextEditingController();
-
+TextEditingController radiologyInvestigationsController = TextEditingController();
+TextEditingController adviceInvestigationController = TextEditingController();
 TextEditingController remarksController = TextEditingController();
 TextEditingController referredDoctorController = TextEditingController();
 TextEditingController referredDoctorNameController = TextEditingController();
@@ -107,15 +90,8 @@ List<ModelOPDRegistration> listSendToLabInvestigationsResults = [];
 List<String> listComplaintDetails = [];
 List<String> listExaminationDetails = [];
 List<String> listDiagnosisDetails = [];
-List<String> listRadiologyDetails = [];
+List<String> listOfDocumentDropDown = [];
 List<String> listPathologyDetails = [];
-
-
-List<String> _selectedComplaints = [];
-List<String> _selectedExamination = [];
-List<String> _selectedDiagnosis = [];
-List<String> _selectedAdviceInvestigation = [];
-List<String> _selectedRadiologyInvestigations = [];
 
 
 // ScrollController _scrollController = new ScrollController();
@@ -155,7 +131,7 @@ class AddConsultationScreen extends StatefulWidget {
   final String idp, patientIDP;
   ModelOPDRegistration modelOPDRegistration;
   ConsultationVitalsController consultationVitalsController =
-  Get.put(ConsultationVitalsController());
+      Get.put(ConsultationVitalsController());
 
   String imgUrl = "",
       fullName = "",
@@ -241,7 +217,7 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
 
     final now = new DateTime.now();
     var dateOfTime =
-    DateTime(now.year, now.month, now.day, now.hour, now.minute);
+        DateTime(now.year, now.month, now.day, now.hour, now.minute);
 
     var slashFormatter = new DateFormat('dd/MM/yyyy');
     slashFormatted = slashFormatter.format(now);
@@ -441,30 +417,43 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
   Widget build(BuildContext context) {
     var certController = Get.put(CertificateController());
     SizeConfig().init(context);
-    return WillPopScope(
-      onWillPop: (){
-        _selectedComplaints.clear();
-        _selectedExamination.clear();
-        _selectedDiagnosis.clear();
-        _selectedAdviceInvestigation.clear();
-        _selectedRadiologyInvestigations.clear();
-
-        return Future.value(true); // Return true or false based on your condition
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Add Consultation"),
-          iconTheme: IconThemeData(color: Colorsblack),
-          actions: [
-            InkWell(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Add Consultation"),
+        iconTheme: IconThemeData(color: Colorsblack),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return ChatScreen(
+                  patientIDP: widget.patientIDP,
+                  patientName: widget.modelOPDRegistration.name,
+                  patientImage: "",
+                );
+              }));
+            },
+            customBorder: CircleBorder(),
+            child: Container(
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2.0),
+              /*decoration: BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+              ),*/
+              child: Image(
+                width: SizeConfig.blockSizeHorizontal !* 5.5,
+                color: Colors.black,
+                //height: 80,
+                image: AssetImage("images/ic_chat.png"),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: SizeConfig.blockSizeHorizontal !* 2.0,
+          ),
+          InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                  return ChatScreen(
-                    patientIDP: widget.patientIDP,
-                    patientName: widget.modelOPDRegistration.name,
-                    patientImage: "",
-                  );
-                }));
+                showVideoCallRequestDialog(context, widget.patientIDP,
+                    widget.modelOPDRegistration.name, "");
               },
               customBorder: CircleBorder(),
               child: Container(
@@ -477,403 +466,380 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
                   width: SizeConfig.blockSizeHorizontal !* 5.5,
                   color: Colors.black,
                   //height: 80,
-                  image: AssetImage("images/ic_chat.png"),
+                  image: AssetImage("images/ic_video_consultation.png"),
                 ),
-              ),
-            ),
-            SizedBox(
-              width: SizeConfig.blockSizeHorizontal !* 2.0,
-            ),
-            InkWell(
-                onTap: () {
-                  showVideoCallRequestDialog(context, widget.patientIDP,
-                      widget.modelOPDRegistration.name, "");
-                },
-                customBorder: CircleBorder(),
-                child: Container(
-                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2.0),
-                  /*decoration: BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),*/
-                  child: Image(
-                    width: SizeConfig.blockSizeHorizontal !* 5.5,
-                    color: Colors.black,
-                    //height: 80,
-                    image: AssetImage("images/ic_video_consultation.png"),
-                  ),
-                )),
-            SizedBox(
-              width: SizeConfig.blockSizeHorizontal !* 2.0,
-            ),
-          ], toolbarTextStyle: TextTheme(
+              )),
+          SizedBox(
+            width: SizeConfig.blockSizeHorizontal !* 2.0,
+          ),
+        ], toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
-              color: Colorsblack,
-              fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.5,
-            )).bodyMedium, titleTextStyle: TextTheme(
+          color: Colorsblack,
+          fontFamily: "Ubuntu",
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+        )).bodyMedium, titleTextStyle: TextTheme(
             titleMedium: TextStyle(
-              color: Colorsblack,
-              fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.5,
-            )).titleLarge,
-        ),
-        body: Builder(
-          builder: (context) {
-            return Column(
-              children: <Widget>[
-                Container(
-                  color: Colors.white,
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 7,
-                      ),
-                      Expanded(
-                        child: Card(
-                          elevation: 0,
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Column(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return FullScreenImage(
-                                                        "$userImgUrl${widget.imgUrl}");
-                                                  }));
-                                        },
-                                        child: CircleAvatar(
-                                          radius: SizeConfig.blockSizeHorizontal !*
-                                              6.5,
-                                          backgroundColor: colorBlueApp,
-                                          child: (widget.imgUrl != "") ?
-                                          CircleAvatar(
-                                              radius: SizeConfig.blockSizeHorizontal !* 6,
-                                              backgroundColor: Colors.grey,
-                                              backgroundImage: NetworkImage("$userImgUrl${widget.imgUrl}")) :
-                                          CircleAvatar(
-                                              radius: SizeConfig.blockSizeHorizontal !* 6,
-                                              backgroundColor: Colors.grey,
-                                              backgroundImage: AssetImage("images/ic_user_placeholder.png")
+          color: Colorsblack,
+          fontFamily: "Ubuntu",
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+        )).titleLarge,
+      ),
+      body: Builder(
+        builder: (context) {
+          return Column(
+            children: <Widget>[
+              Container(
+                color: Colors.white,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 7,
+                    ),
+                    Expanded(
+                      child: Card(
+                        elevation: 0,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return FullScreenImage(
+                                              "$userImgUrl${widget.imgUrl}");
+                                        }));
+                                      },
+                                      child: CircleAvatar(
+                                        radius: SizeConfig.blockSizeHorizontal !*
+                                            6.5,
+                                        backgroundColor: colorBlueApp,
+                                        child: (widget.imgUrl != "") ?
+                                        CircleAvatar(
+                                            radius: SizeConfig.blockSizeHorizontal !* 6,
+                                            backgroundColor: Colors.grey,
+                                            backgroundImage: NetworkImage("$userImgUrl${widget.imgUrl}")) :
+                                        CircleAvatar(
+                                            radius: SizeConfig.blockSizeHorizontal !* 6,
+                                            backgroundColor: Colors.grey,
+                                            backgroundImage: AssetImage("images/ic_user_placeholder.png")
                                           ),
-                                        ),
                                       ),
-                                      SizedBox(
-                                        width: SizeConfig.blockSizeVertical !* 5,
-                                      ),
-                                      isCamp == '1'
-                                          ? Image.asset('images/ic_camp.png',
-                                          scale: 25, color: colorBlueApp)
-                                          : Container()
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: SizeConfig.blockSizeHorizontal !* 5,
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical:
-                                            SizeConfig.blockSizeHorizontal !*
-                                                1.5),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: <Widget>[
+                                    ),
+                                    SizedBox(
+                                      width: SizeConfig.blockSizeVertical !* 5,
+                                    ),
+                                    isCamp == '1'
+                                        ? Image.asset('images/ic_camp.png',
+                                            scale: 25, color: colorBlueApp)
+                                        : Container()
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: SizeConfig.blockSizeHorizontal !* 5,
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical:
+                                              SizeConfig.blockSizeHorizontal !*
+                                                  1.5),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            widget.fullName,
+                                            style: TextStyle(
+                                                color: colorBlueApp,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: SizeConfig
+                                                        .blockSizeHorizontal !*
+                                                    4),
+                                          ),
+                                          SizedBox(
+                                            height:
+                                                SizeConfig.blockSizeVertical !*
+                                                    1,
+                                          ),
+                                          Row(
+                                              children: <Widget>[
                                             Text(
-                                              widget.fullName,
+                                              "ID - ${widget.patientID}",
                                               style: TextStyle(
-                                                  color: colorBlueApp,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: SizeConfig
-                                                      .blockSizeHorizontal !*
-                                                      4),
+                                                fontSize: SizeConfig
+                                                        .blockSizeHorizontal !*
+                                                    3.5,
+                                                color: Colors.grey,
+                                              ),
                                             ),
                                             SizedBox(
-                                              height:
-                                              SizeConfig.blockSizeVertical !*
-                                                  1,
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal !*
+                                                  5,
                                             ),
-                                            Row(
-                                                children: <Widget>[
-                                                  Text(
-                                                    "ID - ${widget.patientID}",
-                                                    style: TextStyle(
-                                                      fontSize: SizeConfig
-                                                          .blockSizeHorizontal !*
-                                                          3.5,
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: SizeConfig
+                                            Text(
+                                              "${widget.gender}/${widget.age}",
+                                              style: TextStyle(
+                                                fontSize: SizeConfig
                                                         .blockSizeHorizontal !*
-                                                        5,
-                                                  ),
-                                                  Text(
-                                                    "${widget.gender}/${widget.age}",
-                                                    style: TextStyle(
-                                                      fontSize: SizeConfig
+                                                    3.5,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            /*VerticalDivider(
+                                  color: Colors.grey,
+                                ),*/
+                                            SizedBox(
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal !*
+                                                  5,
+                                            ),
+                                            Text(
+                                              widget.cityName,
+                                              style: TextStyle(
+                                                  fontSize: SizeConfig
                                                           .blockSizeHorizontal !*
-                                                          3.5,
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                  /*VerticalDivider(
-                                    color: Colors.grey,
-                                  ),*/
-                                                  SizedBox(
-                                                    width: SizeConfig
-                                                        .blockSizeHorizontal !*
-                                                        5,
-                                                  ),
-                                                  Text(
-                                                    widget.cityName,
-                                                    style: TextStyle(
-                                                        fontSize: SizeConfig
-                                                            .blockSizeHorizontal !*
-                                                            3.5,
-                                                        color: Colors.grey),
-                                                  ),
-                                                ]),
-                                          ],
-                                        )),
+                                                      3.5,
+                                                  color: Colors.grey),
+                                            ),
+                                          ]),
+                                        ],
+                                      )),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical !* 0.6,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  right: SizeConfig.blockSizeHorizontal !* 3),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        SizeConfig.blockSizeHorizontal !* 17.0,
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return SelectedPatientScreen(
+                                            widget.patientIDP,
+                                            healthRecordsDisplayStatus,
+                                            "consultation_${widget.patientIDP}",
+                                            notificationDisplayStatus:
+                                                notificationDisplayStatus,
+                                          );
+                                        }));
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.all(
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    1),
+                                            decoration: BoxDecoration(
+                                                color: colorBlueApp,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
+                                            child: Text(
+                                              "View Records",
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    1,
+                                          ),
+                                          /*Image(
+                                            image: AssetImage(
+                                                "images/ic_right_arrow_double.png"),
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2.0,
+                                            color: Colors.blue,
+                                          ),*/
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return ViewProfileDetailsInsideDoctor(
+                                              widget.patientIDP);
+                                        }));
+                                        //ViewProfileDetailsInsideDoctor
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            "View Profile",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width:
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    1,
+                                          ),
+                                          /*Image(
+                                            image: AssetImage(
+                                                "images/ic_right_arrow_double.png"),
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2.0,
+                                            color: Colors.blue,
+                                          ),*/
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical !* 0.6,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical !* 2,
+              ),
+              /*Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Notify me upon entry of health records",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: SizeConfig.blockSizeHorizontal * 3.5,
+                      letterSpacing: 1.3,
+                    ),
+                  ),
+                  Switch(
+                    activeColor: Colors.green,
+                    value: notify,
+                    onChanged: (isOn) {
+                      setState(() {
+                        notify = isOn;
+                      });
+                    },
+                  ),
+                ],
+              ),*/
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xFF06A759),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal !* 3,
+                          right: SizeConfig.blockSizeHorizontal !* 3),
+                      child: MaterialButton(
+                          elevation: 0,
+                          child: Row(
+                            children: [
+                              Image(
+                                image: AssetImage(
+                                  "images/icn-template.png",
+                                ),
+                                width: SizeConfig.blockSizeHorizontal !* 5,
+                                height: SizeConfig.blockSizeHorizontal !* 5,
+                                color: Colors.white,
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    right: SizeConfig.blockSizeHorizontal !* 3),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width:
-                                      SizeConfig.blockSizeHorizontal !* 17.0,
-                                    ),
-                                    Expanded(
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return SelectedPatientScreen(
-                                                      widget.patientIDP,
-                                                      healthRecordsDisplayStatus,
-                                                      "consultation_${widget.patientIDP}",
-                                                      notificationDisplayStatus:
-                                                      notificationDisplayStatus,
-                                                    );
-                                                  }));
-                                        },
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.all(
-                                                  SizeConfig.blockSizeHorizontal !*
-                                                      1),
-                                              decoration: BoxDecoration(
-                                                  color: colorBlueApp,
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(10))),
-                                              child: Text(
-                                                "View Records",
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width:
-                                              SizeConfig.blockSizeHorizontal !*
-                                                  1,
-                                            ),
-                                            /*Image(
-                                              image: AssetImage(
-                                                  "images/ic_right_arrow_double.png"),
-                                              width:
-                                                  SizeConfig.blockSizeHorizontal *
-                                                      2.0,
-                                              color: Colors.blue,
-                                            ),*/
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return ViewProfileDetailsInsideDoctor(
-                                                        widget.patientIDP);
-                                                  }));
-                                          //ViewProfileDetailsInsideDoctor
-                                        },
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              "View Profile",
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width:
-                                              SizeConfig.blockSizeHorizontal !*
-                                                  1,
-                                            ),
-                                            /*Image(
-                                              image: AssetImage(
-                                                  "images/ic_right_arrow_double.png"),
-                                              width:
-                                                  SizeConfig.blockSizeHorizontal *
-                                                      2.0,
-                                              color: Colors.blue,
-                                            ),*/
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                              SizedBox(
+                                width: SizeConfig.blockSizeHorizontal !* 2.0,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  "Consultation\nTemplate",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal !* 3.3,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                    ],
+                          minWidth: double.maxFinite,
+                          color: Color(0xFF06A759),
+                          onPressed: () async {
+                            var patientIDP = await getPatientOrDoctorIDP();
+                            if (selectedPatientOfSameDate()) {
+                              showTemplateSelectionDialog(
+                                  context, "Con", setStateOfParent);
+                            }
+                          }),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical !* 2,
-                ),
-                /*Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Notify me upon entry of health records",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal * 3.5,
-                        letterSpacing: 1.3,
-                      ),
-                    ),
-                    Switch(
-                      activeColor: Colors.green,
-                      value: notify,
-                      onChanged: (isOn) {
-                        setState(() {
-                          notify = isOn;
-                        });
-                      },
-                    ),
-                  ],
-                ),*/
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Color(0xFF06A759),
-                            borderRadius: BorderRadius.all(Radius.circular(10))),
-                        margin: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal !* 3,
-                            right: SizeConfig.blockSizeHorizontal !* 3),
-                        child: MaterialButton(
-                            elevation: 0,
-                            child: Row(
-                              children: [
-                                Image(
-                                  image: AssetImage(
-                                    "images/icn-template.png",
-                                  ),
-                                  width: SizeConfig.blockSizeHorizontal !* 5,
-                                  height: SizeConfig.blockSizeHorizontal !* 5,
-                                  color: Colors.white,
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xFF06A759),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal !* 3,
+                          right: SizeConfig.blockSizeHorizontal !* 3),
+                      child: MaterialButton(
+                          child: Row(
+                            children: [
+                              Image(
+                                image: AssetImage(
+                                  "images/icn-add-prescription.png",
                                 ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal !* 2.0,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    "Consultation\nTemplate",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 3.3,
-                                    ),
+                                width: SizeConfig.blockSizeHorizontal !* 5,
+                                height: SizeConfig.blockSizeHorizontal !* 5,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: SizeConfig.blockSizeHorizontal !* 2.0,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  "Add\nPrescription",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal !* 3.3,
                                   ),
                                 ),
-                              ],
-                            ),
-                            minWidth: double.maxFinite,
-                            color: Color(0xFF06A759),
-                            onPressed: () async {
-                              var patientIDP = await getPatientOrDoctorIDP();
-                              if (selectedPatientOfSameDate()) {
-                                showTemplateSelectionDialog(
-                                    context, "Con", setStateOfParent);
-                              }
-                            }),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Color(0xFF06A759),
-                            borderRadius: BorderRadius.all(Radius.circular(10))),
-                        margin: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal !* 3,
-                            right: SizeConfig.blockSizeHorizontal !* 3),
-                        child: MaterialButton(
-                            child: Row(
-                              children: [
-                                Image(
-                                  image: AssetImage(
-                                    "images/icn-add-prescription.png",
-                                  ),
-                                  width: SizeConfig.blockSizeHorizontal !* 5,
-                                  height: SizeConfig.blockSizeHorizontal !* 5,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal !* 2.0,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    "Add\nPrescription",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 3.3,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            elevation: 0,
-                            minWidth: double.maxFinite,
-                            color: Color(0xFF06A759),
-                            onPressed: () async {
-                              var patientIDP = await getPatientOrDoctorIDP();
-                              if (selectedPatientOfSameDate()) {
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (context) {
-                                  return AddPrescriptionScreen(
+                              ),
+                            ],
+                          ),
+                          elevation: 0,
+                          minWidth: double.maxFinite,
+                          color: Color(0xFF06A759),
+                          onPressed: () async {
+                            var patientIDP = await getPatientOrDoctorIDP();
+                            if (selectedPatientOfSameDate()) {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return AddPrescriptionScreen(
                                     patientIDP,
                                     widget.idp,
                                     widget.imgUrl,
@@ -883,1147 +849,745 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
                                     widget.age,
                                     widget.cityName,
                                     // widget.campID,
-                                  );
-                                }));
-                              }
-                            }),
+                                );
+                              }));
+                            }
+                          }),
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: ListView(
+                  controller: _scrollController,
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  children: <Widget>[
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical !* 1,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.blockSizeHorizontal !* 3),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            vitalsVisible = !vitalsVisible;
+                          });
+                        },
+                        child: Container(
+                          color: const Color(0xFFeef2df),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: SizeConfig.blockSizeHorizontal !* 3,
+                                vertical: SizeConfig.blockSizeVertical !* 0.5),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Vitals",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal !* 4.2),
+                                ),
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Icon(
+                                      vitalsVisible
+                                          ? Icons.arrow_drop_up
+                                          : Icons.arrow_drop_down,
+                                      size: SizeConfig.blockSizeHorizontal !* 8,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ],
-                ),
-                Expanded(
-                  child: ListView(
-                    controller: _scrollController,
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    children: <Widget>[
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 1,
-                      ),
-                      Padding(
+                    Visibility(
+                      visible: vitalsVisible,
+                      child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: SizeConfig.blockSizeHorizontal !* 3),
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              vitalsVisible = !vitalsVisible;
-                            });
-                          },
-                          child: Container(
-                            color: const Color(0xFFeef2df),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: SizeConfig.blockSizeHorizontal !* 3,
-                                  vertical: SizeConfig.blockSizeVertical !* 0.5),
-                              child: Row(
+                        child: Container(
+                          color: const Color(0x70eef2df),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical !* 1,
+                              ),
+                              Row(
                                 children: [
-                                  Text(
-                                    "Vitals",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize:
-                                        SizeConfig.blockSizeHorizontal !* 4.2),
+                                  SliderWidget(
+                                    min: 30,
+                                    max: 300,
+                                    value: bpSystolicValue.toDouble(),
+                                    title: "BP Systolic",
+                                    unit: "mm of hg",
+                                    selectedPatientOfSameDate:
+                                        selectedPatientOfSameDate,
                                   ),
-                                  Expanded(
-                                    child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: Icon(
-                                        vitalsVisible
-                                            ? Icons.arrow_drop_up
-                                            : Icons.arrow_drop_down,
-                                        size: SizeConfig.blockSizeHorizontal !* 8,
-                                      ),
-                                    ),
-                                  )
                                 ],
                               ),
-                            ),
+                              SliderWidget(
+                                min: 10,
+                                max: 200,
+                                value: bpDiastolicValue.toDouble(),
+                                title: "BP Diastolic",
+                                unit: "mm of hg",
+                                selectedPatientOfSameDate:
+                                    selectedPatientOfSameDate,
+                              ),
+                              SliderWidget(
+                                min: 0,
+                                max: 100,
+                                value: spo2Value.toDouble(),
+                                title: "SPO2",
+                                unit: "%",
+                                selectedPatientOfSameDate:
+                                    selectedPatientOfSameDate,
+                              ),
+                              SliderWidget(
+                                min: 20,
+                                max: 250,
+                                value: pulseValue.toDouble(),
+                                title: "Pulse",
+                                unit: "per min.",
+                                selectedPatientOfSameDate:
+                                    selectedPatientOfSameDate,
+                              ),
+                              SliderWidget(
+                                min: 90,
+                                max: 105,
+                                value: tempValue,
+                                title: "Temperature",
+                                unit: "per min.",
+                                selectedPatientOfSameDate:
+                                    selectedPatientOfSameDate,
+                                isDecimal: true,
+                              ),
+                              // SliderWidget(
+                              //   min: 0,
+                              //   max: 200,
+                              //   value: heightValue.toDouble(),
+                              //   title: "Height",
+                              //   unit: "Cm",
+                              //   callbackFromBMI: setStateOfParent,
+                              //   selectedPatientOfSameDate:
+                              //       selectedPatientOfSameDate,
+                              // ),
+                              // SliderWidget(
+                              //   min: 0,
+                              //   max: 120,
+                              //   value: weightValue.toDouble(),
+                              //   title: "Weight",
+                              //   unit: "Kg",
+                              //   callbackFromBMI: setStateOfParent,
+                              //   selectedPatientOfSameDate:
+                              //       selectedPatientOfSameDate,
+                              // ),
+                              /*Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        SizeConfig.blockSizeHorizontal * 8),
+                                child: TextField(
+                                  enabled:
+                                      jsonConsultation['CheckOutStatus'] == "0",
+                                  controller: temperatureController,
+                                  style: TextStyle(color: Colors.green),
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    hintStyle: TextStyle(color: Colors.black),
+                                    labelStyle: TextStyle(color: Colors.black),
+                                    labelText: "Temperature",
+                                    hintText: "",
+                                    counterText: "",
+                                  ),
+                                ),
+                              ),*/
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical !* 2.5,
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      Visibility(
-                        visible: vitalsVisible,
-                        child: Padding(
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical !* 2,
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              if (isCertificate.length > 0) {
+                                certController
+                                    .viewCertificate(
+                                        widget.patientIDP, certId, context)
+                                    .then((value) {
+                                  if (value.length > 0) {
+                                    downloadAndOpenTheFile(
+                                        "$certificateUrl$value", value);
+                                  }
+                                });
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Certificate List'),
+                                        content: showCertificates(),
+                                      );
+                                    });
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: colorBlueApp,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              padding: EdgeInsets.all(
+                                  SizeConfig.blockSizeHorizontal !* 3),
+                              child: Text(
+                                isCertificate.length > 0
+                                    ? 'View Certificate'
+                                    : 'Issue Certificate',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        SizeConfig.blockSizeVertical !* 2.1),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) =>
+                                      PatientResourcesFromProfileScreen(patientIDP: widget.patientIDP,)));
+                              // showDialog(
+                              //     context: context,
+                              //     builder: (BuildContext context) {
+                              //       return AlertDialog(
+                              //         title: Text('Material List'),
+                              //         content: showMaterial(certController),
+                              //       );
+                              //     });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: colorBlueApp,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              padding: EdgeInsets.all(
+                                  SizeConfig.blockSizeHorizontal !* 3),
+                              child: Text(
+                                'Patient Resources',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        SizeConfig.blockSizeVertical !* 2.1),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
                           padding: EdgeInsets.symmetric(
+                              vertical: SizeConfig.blockSizeVertical !* 5,
                               horizontal: SizeConfig.blockSizeHorizontal !* 3),
-                          child: Container(
-                            color: const Color(0x70eef2df),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 1,
-                                ),
-                                Row(
-                                  children: [
-                                    SliderWidget(
-                                      min: 30,
-                                      max: 300,
-                                      value: bpSystolicValue.toDouble(),
-                                      title: "BP Systolic",
-                                      unit: "mm of hg",
-                                      selectedPatientOfSameDate:
-                                      selectedPatientOfSameDate,
-                                    ),
-                                  ],
-                                ),
-                                SliderWidget(
-                                  min: 10,
-                                  max: 200,
-                                  value: bpDiastolicValue.toDouble(),
-                                  title: "BP Diastolic",
-                                  unit: "mm of hg",
-                                  selectedPatientOfSameDate:
-                                  selectedPatientOfSameDate,
-                                ),
-                                SliderWidget(
-                                  min: 0,
-                                  max: 100,
-                                  value: spo2Value.toDouble(),
-                                  title: "SPO2",
-                                  unit: "%",
-                                  selectedPatientOfSameDate:
-                                  selectedPatientOfSameDate,
-                                ),
-                                SliderWidget(
-                                  min: 20,
-                                  max: 250,
-                                  value: pulseValue.toDouble(),
-                                  title: "Pulse",
-                                  unit: "per min.",
-                                  selectedPatientOfSameDate:
-                                  selectedPatientOfSameDate,
-                                ),
-                                SliderWidget(
-                                  min: 90,
-                                  max: 105,
-                                  value: tempValue,
-                                  title: "Temperature",
-                                  unit: "per min.",
-                                  selectedPatientOfSameDate:
-                                  selectedPatientOfSameDate,
-                                  isDecimal: true,
-                                ),
-                                // SliderWidget(
-                                //   min: 0,
-                                //   max: 200,
-                                //   value: heightValue.toDouble(),
-                                //   title: "Height",
-                                //   unit: "Cm",
-                                //   callbackFromBMI: setStateOfParent,
-                                //   selectedPatientOfSameDate:
-                                //       selectedPatientOfSameDate,
-                                // ),
-                                // SliderWidget(
-                                //   min: 0,
-                                //   max: 120,
-                                //   value: weightValue.toDouble(),
-                                //   title: "Weight",
-                                //   unit: "Kg",
-                                //   callbackFromBMI: setStateOfParent,
-                                //   selectedPatientOfSameDate:
-                                //       selectedPatientOfSameDate,
-                                // ),
-                                /*Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          SizeConfig.blockSizeHorizontal * 8),
-                                  child: TextField(
+                          child: Row(
+                            children: [
+                              Container(
+                                width: SizeConfig.blockSizeVertical !* 40,
+                                child:
+                                CustomAutocompleteSearch(
+                                  suggestions: listComplaintDetails,
                                     enabled:
-                                        jsonConsultation['CheckOutStatus'] == "0",
-                                    controller: temperatureController,
-                                    style: TextStyle(color: Colors.green),
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      labelStyle: TextStyle(color: Colors.black),
-                                      labelText: "Temperature",
-                                      hintText: "",
-                                      counterText: "",
-                                    ),
-                                  ),
-                                ),*/
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 2.5,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 2,
-                      ),
-                      Padding(
-                        padding:
-                        EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                if (isCertificate.length > 0) {
-                                  certController
-                                      .viewCertificate(
-                                      widget.patientIDP, certId, context)
-                                      .then((value) {
-                                    if (value.length > 0) {
-                                      downloadAndOpenTheFile(
-                                          "$certificateUrl$value", value);
-                                    }
-                                  });
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text('Certificate List'),
-                                          content: showCertificates(),
-                                        );
-                                      });
-                                }
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: colorBlueApp,
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                                padding: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal !* 3),
-                                child: Text(
-                                  isCertificate.length > 0
-                                      ? 'View Certificate'
-                                      : 'Issue Certificate',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                      SizeConfig.blockSizeVertical !* 2.1),
+                                    jsonConsultation['CheckOutStatus'] == "0" &&
+                                        selectedPatientOfSameDate(),
+                                    hint: "Complaint",
+                                    controller: complaintController,
+                                    hideSuggestionsOnCreate: true,
+                                    onSelected: (text) => selectedFieldComplaint(
+                                        context, complaintController, text),
+                                    onTap: () {
+                                      if (onTapStatus != "Tapped") {
+                                        _scrollController.animateTo(
+                                            _scrollController
+                                                .position.maxScrollExtent,
+                                            duration:
+                                            Duration(milliseconds: 500),
+                                            curve: Curves.easeOut);
+                                        onTapStatus = "Tapped";
+                                      }
+                                    },
+                                  // maxLines: 5,
+                                  // minLines: 5,
+                                  // maxLength: 500,
                                 ),
                               ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) =>
-                                        PatientResourcesFromProfileScreen(patientIDP: widget.patientIDP,)));
-                                // showDialog(
-                                //     context: context,
-                                //     builder: (BuildContext context) {
-                                //       return AlertDialog(
-                                //         title: Text('Material List'),
-                                //         content: showMaterial(certController),
-                                //       );
-                                //     });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: colorBlueApp,
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                                padding: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal !* 3),
-                                child: Text(
-                                  'Patient Resources',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                      SizeConfig.blockSizeVertical !* 2.1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: SizeConfig.blockSizeVertical !* 5,
-                                horizontal: SizeConfig.blockSizeHorizontal !* 3),
-                            child: Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    Container(
-                                        width: SizeConfig.blockSizeVertical !* 40,
-                                        child:
-                                        TypeAheadField<String>(
-                                          textFieldConfiguration: TextFieldConfiguration(
-                                            controller: complaintSupportController,
-                                            enabled:
-                                            jsonConsultation['CheckOutStatus'] == "0" &&
-                                                selectedPatientOfSameDate(),
-                                            decoration: InputDecoration(
-                                              labelText: 'Complaints',
-                                              // border: OutlineInputBorder(),
-                                            ),
-                                          ),
-                                          // suggestionsCallback: (pattern) {
-                                          //   return listComplaintDetails.where((listComplaintDetails) =>
-                                          //       listComplaintDetails.toLowerCase().contains(pattern.toLowerCase()));
-                                          // },
-                                          suggestionsCallback: (pattern) {
-                                            // Always return the full list of options
-                                            // return listComplaintDetails;
-
-                                            return listComplaintDetails.where((listComplaintDetails) =>
-                                                listComplaintDetails.toLowerCase().contains(pattern.toLowerCase()));
-                                          },
-                                          itemBuilder: (context,String  suggestion) {
-                                            return ListTile(
-                                              title: Text(suggestion),
-                                            );
-                                          },
-                                          onSuggestionSelected: (String suggestion) {
-                                            setState(() {
-                                              setState(() {
-                                                // complaintSupportController.clear();
-                                                _selectedComplaints.add(suggestion);
-                                              });
-                                            });
-                                          },
-                                        )
-                                      // CustomAutocompleteSearch1(
-                                      //   suggestions: listComplaintDetails,
-                                      //     enabled:
-                                      //     jsonConsultation['CheckOutStatus'] == "0" &&
-                                      //         selectedPatientOfSameDate(),
-                                      //     hint: "Complaint",
-                                      //     controller: complaintController,
-                                      //     hideSuggestionsOnCreate: true,
-                                      //     onSelected: (text) => selectedFieldComplaint(
-                                      //         context, complaintController, text,_selectedOptions ),
-                                      //     onTap: () {
-                                      //       if (onTapStatus != "Tapped") {
-                                      //         _scrollController.animateTo(
-                                      //             _scrollController
-                                      //                 .position.maxScrollExtent,
-                                      //             duration:
-                                      //             Duration(milliseconds: 500),
-                                      //             curve: Curves.easeOut);
-                                      //         onTapStatus = "Tapped";
-                                      //       }
-                                      //     },
-                                      // ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          constraints: BoxConstraints(
-                                            maxWidth: MediaQuery.of(context).size.width -50, // Set maximum width
-                                          ),
-                                          child:
-                                          Wrap(
-                                            spacing: 8.0,
-                                            runSpacing: 4.0,
-                                            children: _selectedComplaints
-                                                .map(
-                                                  (String option) => Chip(
-                                                label: Text(option),
-                                                onDeleted: () {
-                                                  setState(() {
-                                                    _selectedComplaints.remove(option);
-                                                  });
-                                                },
-                                              ),
-                                            )
-                                                .toList(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                // TextField(
-                                //   controller: complaintController,
-                                //   enabled:
-                                //       jsonConsultation['CheckOutStatus'] == "0" &&
-                                //           selectedPatientOfSameDate(),
-                                //   style: TextStyle(color: Colors.green),
-                                //   decoration: InputDecoration(
-                                //     hintStyle: TextStyle(color: Colors.black),
-                                //     labelStyle: TextStyle(color: darkgrey),
-                                //     labelText: "Complaint",
-                                //     hintText: "",
-                                //     counterText: "",
-                                //   ),
-                                //   keyboardType: TextInputType.multiline,
-                                //   maxLines: 5,
-                                //   minLines: 5,
-                                //   maxLength: 500,
-                                // ),
-                                InkWell(
-                                  onTap: () {
-                                    if (jsonConsultation['CheckOutStatus'] ==
-                                        "0" &&
-                                        selectedPatientOfSameDate()) {
-                                      showTemplateSelectionDialog(
-                                          context, "C", setStateOfParent);
-                                    }
-                                  },
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Icon(Icons.add_box_rounded),
-                                    // Container(
-                                    //   margin: EdgeInsets.only(
-                                    //       top:
-                                    //           SizeConfig.blockSizeHorizontal !* 2),
-                                    //   decoration: BoxDecoration(
-                                    //       border: Border.all(
-                                    //         color: colorBlueApp,
-                                    //       ),
-                                    //       color: white,
-                                    //       borderRadius: BorderRadius.all(
-                                    //           Radius.circular(10))),
-                                    //   child: Padding(
-                                    //     padding: EdgeInsets.all(
-                                    //         SizeConfig.blockSizeHorizontal !* 3),
-                                    //     child: Text(
-                                    //       "From Templates",
-                                    //       style: TextStyle(
-                                    //         color: colorBlueApp,
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: SizeConfig.blockSizeVertical !* 5,
-                                horizontal: SizeConfig.blockSizeHorizontal !* 3),
-                            child: Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    Container(
-                                        width: SizeConfig.blockSizeVertical !* 40,
-                                        child:
-                                        TypeAheadField<String>(
-                                          textFieldConfiguration: TextFieldConfiguration(
-                                            controller: examinationSupportController,
-                                            enabled:
-                                            jsonConsultation['CheckOutStatus'] == "0" &&
-                                                selectedPatientOfSameDate(),
-                                            decoration: InputDecoration(
-                                              labelText: 'Examinations',
-                                              // border: OutlineInputBorder(),
-                                            ),
-                                          ),
-                                          suggestionsCallback: (pattern) {
-                                            // Always return the full list of options
-                                            // return listExaminationDetails;
-
-                                            return listExaminationDetails.where((listExaminationDetails) =>
-                                                listExaminationDetails.toLowerCase().contains(pattern.toLowerCase()));
-                                          },
-                                          itemBuilder: (context,String  suggestion) {
-                                            return ListTile(
-                                              title: Text(suggestion),
-                                            );
-                                          },
-                                          onSuggestionSelected: (String suggestion) {
-                                            setState(() {
-                                              setState(() {
-                                                // complaintSupportController.clear();
-                                                _selectedExamination.add(suggestion);
-                                              });
-                                            });
-                                          },
-                                        )
-                                      // CustomAutocompleteSearch1(
-                                      //   suggestions: listComplaintDetails,
-                                      //     enabled:
-                                      //     jsonConsultation['CheckOutStatus'] == "0" &&
-                                      //         selectedPatientOfSameDate(),
-                                      //     hint: "Complaint",
-                                      //     controller: complaintController,
-                                      //     hideSuggestionsOnCreate: true,
-                                      //     onSelected: (text) => selectedFieldComplaint(
-                                      //         context, complaintController, text,_selectedOptions ),
-                                      //     onTap: () {
-                                      //       if (onTapStatus != "Tapped") {
-                                      //         _scrollController.animateTo(
-                                      //             _scrollController
-                                      //                 .position.maxScrollExtent,
-                                      //             duration:
-                                      //             Duration(milliseconds: 500),
-                                      //             curve: Curves.easeOut);
-                                      //         onTapStatus = "Tapped";
-                                      //       }
-                                      //     },
-                                      // ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          constraints: BoxConstraints(
-                                            maxWidth: MediaQuery.of(context).size.width -50, // Set maximum width
-                                          ),
-                                          child:
-                                          Wrap(
-                                            spacing: 8.0,
-                                            runSpacing: 4.0,
-                                            children: _selectedExamination
-                                                .map(
-                                                  (String option) => Chip(
-                                                label: Text(option),
-                                                onDeleted: () {
-                                                  setState(() {
-                                                    _selectedExamination.remove(option);
-                                                  });
-                                                },
-                                              ),
-                                            )
-                                                .toList(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                // TextField(
-                                //   controller: examinationController,
-                                //   enabled:
-                                //       jsonConsultation['CheckOutStatus'] == "0" &&
-                                //           selectedPatientOfSameDate(),
-                                //   style: TextStyle(color: Colors.green),
-                                //   decoration: InputDecoration(
-                                //     hintStyle: TextStyle(color: Colors.black),
-                                //     labelStyle: TextStyle(color: darkgrey),
-                                //     labelText: "Examination",
-                                //     hintText: "",
-                                //     counterText: "",
-                                //   ),
-                                //   maxLines: 5,
-                                //   minLines: 5,
-                                //   maxLength: 500,
-                                // ),
-                                InkWell(
-                                  onTap: () {
-                                    if (jsonConsultation['CheckOutStatus'] ==
-                                        "0" &&
-                                        selectedPatientOfSameDate()) {
-                                      showTemplateSelectionDialog(
-                                          context, "E", setStateOfParent);
-                                    }
-                                  },
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Icon(Icons.add_box_rounded),
-                                    // Container(
-                                    //   margin: EdgeInsets.only(
-                                    //       top:
-                                    //           SizeConfig.blockSizeHorizontal !* 2),
-                                    //   decoration: BoxDecoration(
-                                    //       border: Border.all(
-                                    //         color: colorBlueApp,
-                                    //       ),
-                                    //       color: white,
-                                    //       borderRadius: BorderRadius.all(
-                                    //           Radius.circular(10))),
-                                    //   child: Padding(
-                                    //     padding: EdgeInsets.all(
-                                    //         SizeConfig.blockSizeHorizontal !* 3),
-                                    //     child: Text(
-                                    //       "From Templates",
-                                    //       style: TextStyle(
-                                    //         color: colorBlueApp,
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: SizeConfig.blockSizeVertical !* 5,
-                                horizontal: SizeConfig.blockSizeHorizontal !* 3),
-                            child: Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    Container(
-                                        width: SizeConfig.blockSizeVertical !* 40,
-                                        child:
-                                        TypeAheadField<String>(
-                                          textFieldConfiguration: TextFieldConfiguration(
-                                            controller: diagnosisSupportController,
-                                            enabled:
-                                            jsonConsultation['CheckOutStatus'] == "0" &&
-                                                selectedPatientOfSameDate(),
-                                            decoration: InputDecoration(
-                                              labelText: 'Diagnosis',
-                                              // border: OutlineInputBorder(),
-                                            ),
-                                          ),
-                                          suggestionsCallback: (pattern) {
-                                            // Always return the full list of options
-                                            // return listDiagnosisDetails;
-
-                                            return listDiagnosisDetails.where((listDiagnosisDetails) =>
-                                                listDiagnosisDetails.toLowerCase().contains(pattern.toLowerCase()));
-                                          },
-                                          itemBuilder: (context,String  suggestion) {
-                                            return ListTile(
-                                              title: Text(suggestion),
-                                            );
-                                          },
-                                          onSuggestionSelected: (String suggestion) {
-                                            setState(() {
-                                              setState(() {
-                                                // complaintSupportController.clear();
-                                                _selectedDiagnosis.add(suggestion);
-                                              });
-                                            });
-                                          },
-                                        )
-                                      // CustomAutocompleteSearch1(
-                                      //   suggestions: listComplaintDetails,
-                                      //     enabled:
-                                      //     jsonConsultation['CheckOutStatus'] == "0" &&
-                                      //         selectedPatientOfSameDate(),
-                                      //     hint: "Complaint",
-                                      //     controller: complaintController,
-                                      //     hideSuggestionsOnCreate: true,
-                                      //     onSelected: (text) => selectedFieldComplaint(
-                                      //         context, complaintController, text,_selectedOptions ),
-                                      //     onTap: () {
-                                      //       if (onTapStatus != "Tapped") {
-                                      //         _scrollController.animateTo(
-                                      //             _scrollController
-                                      //                 .position.maxScrollExtent,
-                                      //             duration:
-                                      //             Duration(milliseconds: 500),
-                                      //             curve: Curves.easeOut);
-                                      //         onTapStatus = "Tapped";
-                                      //       }
-                                      //     },
-                                      // ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          constraints: BoxConstraints(
-                                            maxWidth: MediaQuery.of(context).size.width -50, // Set maximum width
-                                          ),
-                                          child:
-                                          Wrap(
-                                            spacing: 8.0,
-                                            runSpacing: 4.0,
-                                            children: _selectedDiagnosis
-                                                .map(
-                                                  (String option) => Chip(
-                                                label: Text(option),
-                                                onDeleted: () {
-                                                  setState(() {
-                                                    _selectedDiagnosis.remove(option);
-                                                  });
-                                                },
-                                              ),
-                                            )
-                                                .toList(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                // TextField(
-                                //   controller: diagnosisController,
-                                //   enabled:
-                                //       jsonConsultation['CheckOutStatus'] == "0" &&
-                                //           selectedPatientOfSameDate(),
-                                //   style: TextStyle(color: Colors.green),
-                                //   decoration: InputDecoration(
-                                //     hintStyle: TextStyle(color: Colors.black),
-                                //     labelStyle: TextStyle(color: darkgrey),
-                                //     labelText: "Diagnosis",
-                                //     hintText: "",
-                                //     counterText: "",
-                                //   ),
-                                //   maxLines: 5,
-                                //   minLines: 5,
-                                //   maxLength: 500,
-                                // ),
-                                InkWell(
-                                  onTap: () {
-                                    if (jsonConsultation['CheckOutStatus'] ==
-                                        "0" &&
-                                        selectedPatientOfSameDate()) {
-                                      showTemplateSelectionDialog(
-                                          context, "D", setStateOfParent);
-                                    }
-                                  },
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Icon(Icons.add_box_rounded),
-                                    // Container(
-                                    //   margin: EdgeInsets.only(
-                                    //       top:
-                                    //           SizeConfig.blockSizeHorizontal !* 2),
-                                    //   decoration: BoxDecoration(
-                                    //       border: Border.all(
-                                    //         color: colorBlueApp,
-                                    //       ),
-                                    //       color: white,
-                                    //       borderRadius: BorderRadius.all(
-                                    //           Radius.circular(10))),
-                                    //   child: Padding(
-                                    //     padding: EdgeInsets.all(
-                                    //         SizeConfig.blockSizeHorizontal !* 3),
-                                    //     child: Text(
-                                    //       "From Templates",
-                                    //       style: TextStyle(
-                                    //         color: colorBlueApp,
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                  ),
-                                  // child: Align(
-                                  //   alignment: Alignment.centerRight,
-                                  //   child: Container(
-                                  //     margin: EdgeInsets.only(
-                                  //         top:
-                                  //             SizeConfig.blockSizeHorizontal !* 2),
-                                  //     decoration: BoxDecoration(
-                                  //         border: Border.all(
-                                  //           color: colorBlueApp,
-                                  //         ),
-                                  //         color: white,
-                                  //         borderRadius: BorderRadius.all(
-                                  //             Radius.circular(10))),
-                                  //     child: Padding(
-                                  //       padding: EdgeInsets.all(
-                                  //           SizeConfig.blockSizeHorizontal !* 3),
-                                  //       child: Text(
-                                  //         "From Templates",
-                                  //         style: TextStyle(
-                                  //           color: colorBlueApp,
-                                  //         ),
+                              // TextField(
+                              //   controller: complaintController,
+                              //   enabled:
+                              //       jsonConsultation['CheckOutStatus'] == "0" &&
+                              //           selectedPatientOfSameDate(),
+                              //   style: TextStyle(color: Colors.green),
+                              //   decoration: InputDecoration(
+                              //     hintStyle: TextStyle(color: Colors.black),
+                              //     labelStyle: TextStyle(color: darkgrey),
+                              //     labelText: "Complaint",
+                              //     hintText: "",
+                              //     counterText: "",
+                              //   ),
+                              //   keyboardType: TextInputType.multiline,
+                              //   maxLines: 5,
+                              //   minLines: 5,
+                              //   maxLength: 500,
+                              // ),
+                              InkWell(
+                                onTap: () {
+                                  if (jsonConsultation['CheckOutStatus'] ==
+                                          "0" &&
+                                      selectedPatientOfSameDate()) {
+                                    showTemplateSelectionDialog(
+                                        context, "C", setStateOfParent);
+                                  }
+                                },
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Icon(Icons.add_box_rounded),
+                                  // Container(
+                                  //   margin: EdgeInsets.only(
+                                  //       top:
+                                  //           SizeConfig.blockSizeHorizontal !* 2),
+                                  //   decoration: BoxDecoration(
+                                  //       border: Border.all(
+                                  //         color: colorBlueApp,
+                                  //       ),
+                                  //       color: white,
+                                  //       borderRadius: BorderRadius.all(
+                                  //           Radius.circular(10))),
+                                  //   child: Padding(
+                                  //     padding: EdgeInsets.all(
+                                  //         SizeConfig.blockSizeHorizontal !* 3),
+                                  //     child: Text(
+                                  //       "From Templates",
+                                  //       style: TextStyle(
+                                  //         color: colorBlueApp,
                                   //       ),
                                   //     ),
                                   //   ),
                                   // ),
                                 ),
-                              ],
-                            )),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 1,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: SizeConfig.blockSizeHorizontal !* 3),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Container(
-                                            width: SizeConfig.blockSizeVertical !* 40,
-                                            child:
-                                            TypeAheadField<String>(
-                                              textFieldConfiguration: TextFieldConfiguration(
-                                                controller: radiologyInvestigationsSupportController,
-                                                enabled:
-                                                jsonConsultation['CheckOutStatus'] == "0" &&
-                                                    selectedPatientOfSameDate(),
-                                                decoration: InputDecoration(
-                                                  labelText: 'Radiology Investigation',
-                                                  // border: OutlineInputBorder(),
-                                                ),
-                                              ),
-                                              suggestionsCallback: (pattern) {
-                                                // Always return the full list of options
-                                                // return listRadiologyDetails;
-
-                                                return listRadiologyDetails.where((listRadiologyDetails) =>
-                                                    listRadiologyDetails.toLowerCase().contains(pattern.toLowerCase()));
-                                              },
-                                              itemBuilder: (context,String  suggestion) {
-                                                return ListTile(
-                                                  title: Text(suggestion),
-                                                );
-                                              },
-                                              onSuggestionSelected: (String suggestion) {
-                                                setState(() {
-                                                  setState(() {
-                                                    // complaintSupportController.clear();
-                                                    _selectedRadiologyInvestigations.add(suggestion);
-                                                  });
-                                                });
-                                              },
-                                            )
-                                          // CustomAutocompleteSearch1(
-                                          //   suggestions: listComplaintDetails,
-                                          //     enabled:
-                                          //     jsonConsultation['CheckOutStatus'] == "0" &&
-                                          //         selectedPatientOfSameDate(),
-                                          //     hint: "Complaint",
-                                          //     controller: complaintController,
-                                          //     hideSuggestionsOnCreate: true,
-                                          //     onSelected: (text) => selectedFieldComplaint(
-                                          //         context, complaintController, text,_selectedOptions ),
-                                          //     onTap: () {
-                                          //       if (onTapStatus != "Tapped") {
-                                          //         _scrollController.animateTo(
-                                          //             _scrollController
-                                          //                 .position.maxScrollExtent,
-                                          //             duration:
-                                          //             Duration(milliseconds: 500),
-                                          //             curve: Curves.easeOut);
-                                          //         onTapStatus = "Tapped";
-                                          //       }
-                                          //     },
-                                          // ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              constraints: BoxConstraints(
-                                                maxWidth: MediaQuery.of(context).size.width -50, // Set maximum width
-                                              ),
-                                              child:
-                                              Wrap(
-                                                spacing: 8.0,
-                                                runSpacing: 4.0,
-                                                children: _selectedRadiologyInvestigations
-                                                    .map(
-                                                      (String option) => Chip(
-                                                    label: Text(option),
-                                                    onDeleted: () {
-                                                      setState(() {
-                                                        _selectedRadiologyInvestigations.remove(option);
-                                                      });
-                                                    },
-                                                  ),
-                                                )
-                                                    .toList(),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Container(
-                                            width: SizeConfig.blockSizeVertical !* 40,
-                                            child:
-                                            TypeAheadField<String>(
-                                              textFieldConfiguration: TextFieldConfiguration(
-                                                controller: adviceInvestigationSupportController,
-                                                enabled:
-                                                jsonConsultation['CheckOutStatus'] == "0" &&
-                                                    selectedPatientOfSameDate(),
-                                                decoration: InputDecoration(
-                                                  labelText: 'Pathology Investigations',
-                                                  // border: OutlineInputBorder(),
-                                                ),
-                                              ),
-                                              suggestionsCallback: (pattern) {
-                                                // Always return the full list of options
-                                                // return listPathologyDetails;
-
-                                                return listPathologyDetails.where((listPathologyDetails) =>
-                                                    listPathologyDetails.toLowerCase().contains(pattern.toLowerCase()));
-                                              },
-                                              itemBuilder: (context,String  suggestion) {
-                                                return ListTile(
-                                                  title: Text(suggestion),
-                                                );
-                                              },
-                                              onSuggestionSelected: (String suggestion) {
-                                                setState(() {
-                                                  setState(() {
-                                                    // complaintSupportController.clear();
-                                                    _selectedAdviceInvestigation .add(suggestion);
-                                                  });
-                                                });
-                                              },
-                                            )
-                                          // CustomAutocompleteSearch1(
-                                          //   suggestions: listComplaintDetails,
-                                          //     enabled:
-                                          //     jsonConsultation['CheckOutStatus'] == "0" &&
-                                          //         selectedPatientOfSameDate(),
-                                          //     hint: "Complaint",
-                                          //     controller: complaintController,
-                                          //     hideSuggestionsOnCreate: true,
-                                          //     onSelected: (text) => selectedFieldComplaint(
-                                          //         context, complaintController, text,_selectedOptions ),
-                                          //     onTap: () {
-                                          //       if (onTapStatus != "Tapped") {
-                                          //         _scrollController.animateTo(
-                                          //             _scrollController
-                                          //                 .position.maxScrollExtent,
-                                          //             duration:
-                                          //             Duration(milliseconds: 500),
-                                          //             curve: Curves.easeOut);
-                                          //         onTapStatus = "Tapped";
-                                          //       }
-                                          //     },
-                                          // ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              constraints: BoxConstraints(
-                                                maxWidth: MediaQuery.of(context).size.width -50, // Set maximum width
-                                              ),
-                                              child:
-                                              Wrap(
-                                                spacing: 8.0,
-                                                runSpacing: 4.0,
-                                                children: _selectedAdviceInvestigation
-                                                    .map(
-                                                      (String option) => Chip(
-                                                    label: Text(option),
-                                                    onDeleted: () {
-                                                      setState(() {
-                                                        _selectedAdviceInvestigation.remove(option);
-                                                      });
-                                                    },
-                                                  ),
-                                                )
-                                                    .toList(),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        if (jsonConsultation['CheckOutStatus'] ==
-                                            "0" &&
-                                            selectedPatientOfSameDate()) {
-                                          showTemplateSelectionDialog(
-                                              context, "I", setStateOfParent);
-                                        }
-                                      },
-                                      child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Icon(Icons.add_box_rounded),
-                                        // Container(
-                                        //   margin: EdgeInsets.only(
-                                        //       top:
-                                        //           SizeConfig.blockSizeHorizontal !* 2),
-                                        //   decoration: BoxDecoration(
-                                        //       border: Border.all(
-                                        //         color: colorBlueApp,
-                                        //       ),
-                                        //       color: white,
-                                        //       borderRadius: BorderRadius.all(
-                                        //           Radius.circular(10))),
-                                        //   child: Padding(
-                                        //     padding: EdgeInsets.all(
-                                        //         SizeConfig.blockSizeHorizontal !* 3),
-                                        //     child: Text(
-                                        //       "From Templates",
-                                        //       style: TextStyle(
-                                        //         color: colorBlueApp,
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ),
-
-                                    ),
-                                  ],
-                                ),
-                                // TextField(
-                                //   controller: adviceInvestigationController,
-                                //   enabled:
-                                //       jsonConsultation['CheckOutStatus'] == "0" &&
-                                //           selectedPatientOfSameDate(),
-                                //   readOnly:
-                                //       jsonConsultation['CheckOutStatus'] == "1" ||
-                                //           !selectedPatientOfSameDate(),
-                                //   style: TextStyle(
-                                //       color: Colors.green,
-                                //       fontSize:
-                                //           SizeConfig.blockSizeVertical !* 2.1),
-                                //   decoration: InputDecoration(
-                                //     hintStyle: TextStyle(
-                                //         color: Colors.black,
-                                //         fontSize:
-                                //             SizeConfig.blockSizeVertical !* 2.1),
-                                //     labelStyle: TextStyle(
-                                //         color: darkgrey,
-                                //         fontSize:
-                                //             SizeConfig.blockSizeVertical !* 2.1),
-                                //     labelText: "Pathology Investigations",
-                                //     hintText: "",
-                                //   ),
-                                // ),
-
-                              ],
-                            )),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          selectInvestigationsToSendToLab();
-                        },
-                        child: Row(
-                          children: [
-                            Checkbox(
-                              value: isCheckedSendToLab,
-                              onChanged: (isChecked) {
-                                if (isChecked!)
-                                  selectInvestigationsToSendToLab();
-                                else {
-                                  setState(() {
-                                    isCheckedSendToLab = isChecked;
-                                  });
-                                }
-                              },
-                            ),
-                            Text(
-                              "Send to Lab",
-                              style: TextStyle(
-                                  color: Colors.grey[800],
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: SizeConfig.blockSizeHorizontal !* 3.6),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: SizeConfig.blockSizeHorizontal !* 3),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: SizeConfig.blockSizeVertical !* 40,
-                              child: TextField(
-                                controller: remarksController,
-                                enabled:
-                                jsonConsultation['CheckOutStatus'] == "0" &&
-                                    selectedPatientOfSameDate(),
-                                style: TextStyle(
-                                  color: Colors.green,
-                                ),
-                                decoration: InputDecoration(
-                                  hintStyle: TextStyle(color: Colors.black),
-                                  labelStyle: TextStyle(color: darkgrey),
-                                  labelText: "Notes",
-                                  hintText: "",
-                                  counterText: "",
-                                ),
-                                maxLines: 5,
-                                minLines: 5,
-                                maxLength: 500,
                               ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                if (jsonConsultation['CheckOutStatus'] == "0" &&
-                                    selectedPatientOfSameDate()) {
-                                  showTemplateSelectionDialog(
-                                      context, "R", setStateOfParent);
-                                }
-                              },
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(Icons.add_box_rounded),
-                                // Container(
-                                //   margin: EdgeInsets.only(
-                                //       top:
-                                //           SizeConfig.blockSizeHorizontal !* 2),
-                                //   decoration: BoxDecoration(
-                                //       border: Border.all(
-                                //         color: colorBlueApp,
-                                //       ),
-                                //       color: white,
-                                //       borderRadius: BorderRadius.all(
-                                //           Radius.circular(10))),
-                                //   child: Padding(
-                                //     padding: EdgeInsets.all(
-                                //         SizeConfig.blockSizeHorizontal !* 3),
-                                //     child: Text(
-                                //       "From Templates",
-                                //       style: TextStyle(
-                                //         color: colorBlueApp,
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
+                            ],
+                          )),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: SizeConfig.blockSizeVertical !* 5,
+                              horizontal: SizeConfig.blockSizeHorizontal !* 3),
+                          child: Column(
+                            children: [
+                              CustomAutocompleteSearch(
+                                  suggestions: listComplaintDetails,
+                                  enabled:
+                                  jsonConsultation['CheckOutStatus'] == "0" &&
+                                      selectedPatientOfSameDate(),
+                                  hint: "Examination",
+                                  controller: examinationController,
+                                  hideSuggestionsOnCreate: true,
+                                  onSelected: (text) => selectedFieldExamination(
+                                      context, examinationController, text),
+                                  onTap: () {
+                                    if (onTapStatus != "Tapped") {
+                                      _scrollController.animateTo(
+                                          _scrollController
+                                              .position.maxScrollExtent,
+                                          duration:
+                                          Duration(milliseconds: 500),
+                                          curve: Curves.easeOut);
+                                      onTapStatus = "Tapped";
+                                    }
+                                  }
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 1,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: MaterialButton(
-                                onPressed: () {
-                                  if (jsonConsultation['CheckOutStatus'] == "0" &&
+                              // TextField(
+                              //   controller: examinationController,
+                              //   enabled:
+                              //       jsonConsultation['CheckOutStatus'] == "0" &&
+                              //           selectedPatientOfSameDate(),
+                              //   style: TextStyle(color: Colors.green),
+                              //   decoration: InputDecoration(
+                              //     hintStyle: TextStyle(color: Colors.black),
+                              //     labelStyle: TextStyle(color: darkgrey),
+                              //     labelText: "Examination",
+                              //     hintText: "",
+                              //     counterText: "",
+                              //   ),
+                              //   maxLines: 5,
+                              //   minLines: 5,
+                              //   maxLength: 500,
+                              // ),
+                              InkWell(
+                                onTap: () {
+                                  if (jsonConsultation['CheckOutStatus'] ==
+                                          "0" &&
                                       selectedPatientOfSameDate()) {
-                                    showDateSelectionDialog();
+                                    showTemplateSelectionDialog(
+                                        context, "E", setStateOfParent);
                                   }
                                 },
-                                child: Container(
-                                  child: IgnorePointer(
-                                    child: TextField(
-                                      controller: followUpDateController,
-                                      enabled:
-                                      jsonConsultation['CheckOutStatus'] ==
-                                          "0" &&
-                                          selectedPatientOfSameDate(),
-                                      style: TextStyle(
-                                          color: Colors.green,
-                                          fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
-                                      decoration: InputDecoration(
-                                        hintStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontSize:
-                                            SizeConfig.blockSizeVertical !*
-                                                2.1),
-                                        labelStyle: TextStyle(
-                                            color: darkgrey,
-                                            fontSize:
-                                            SizeConfig.blockSizeVertical !*
-                                                2.1),
-                                        labelText: "Next Appointment",
-                                        hintText: "",
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        top:
+                                            SizeConfig.blockSizeHorizontal !* 2),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: colorBlueApp,
+                                        ),
+                                        color: white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.blockSizeHorizontal !* 3),
+                                      child: Text(
+                                        "From Templates",
+                                        style: TextStyle(
+                                          color: colorBlueApp,
+                                        ),
                                       ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: SizeConfig.blockSizeVertical !* 5,
+                              horizontal: SizeConfig.blockSizeHorizontal !* 3),
+                          child: Column(
+                            children: [
+                              CustomAutocompleteSearch(
+                                  suggestions: listComplaintDetails,
+                                  enabled:
+                                  jsonConsultation['CheckOutStatus'] == "0" &&
+                                      selectedPatientOfSameDate(),
+                                  hint: "Diagnosis",
+                                  controller: diagnosisController,
+                                  hideSuggestionsOnCreate: true,
+                                  onSelected: (text) => selectedFieldDiagnosis(
+                                      context, diagnosisController, text),
+                                  onTap: () {
+                                    if (onTapStatus != "Tapped") {
+                                      _scrollController.animateTo(
+                                          _scrollController
+                                              .position.maxScrollExtent,
+                                          duration:
+                                          Duration(milliseconds: 500),
+                                          curve: Curves.easeOut);
+                                      onTapStatus = "Tapped";
+                                    }
+                                  }
+                              ),
+                              // TextField(
+                              //   controller: diagnosisController,
+                              //   enabled:
+                              //       jsonConsultation['CheckOutStatus'] == "0" &&
+                              //           selectedPatientOfSameDate(),
+                              //   style: TextStyle(color: Colors.green),
+                              //   decoration: InputDecoration(
+                              //     hintStyle: TextStyle(color: Colors.black),
+                              //     labelStyle: TextStyle(color: darkgrey),
+                              //     labelText: "Diagnosis",
+                              //     hintText: "",
+                              //     counterText: "",
+                              //   ),
+                              //   maxLines: 5,
+                              //   minLines: 5,
+                              //   maxLength: 500,
+                              // ),
+                              InkWell(
+                                onTap: () {
+                                  if (jsonConsultation['CheckOutStatus'] ==
+                                          "0" &&
+                                      selectedPatientOfSameDate()) {
+                                    showTemplateSelectionDialog(
+                                        context, "D", setStateOfParent);
+                                  }
+                                },
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        top:
+                                            SizeConfig.blockSizeHorizontal !* 2),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: colorBlueApp,
+                                        ),
+                                        color: white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.blockSizeHorizontal !* 3),
+                                      child: Text(
+                                        "From Templates",
+                                        style: TextStyle(
+                                          color: colorBlueApp,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical !* 1,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: SizeConfig.blockSizeHorizontal !* 3),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: SizeConfig.blockSizeHorizontal !* 3),
+                                child: CustomAutocompleteSearch(
+                                    suggestions: listOfDocumentDropDown,
+                                    enabled:
+                                    jsonConsultation['CheckOutStatus'] == "0" &&
+                                        selectedPatientOfSameDate(),
+                                    hint: "Radiology Investigations",
+                                    controller: radiologyInvestigationsController,
+                                    hideSuggestionsOnCreate: true,
+                                    onSelected: (text) => selectedFieldRadiology(
+                                        context, radiologyInvestigationsController, text),
+                                    onTap: () {
+                                      if (onTapStatus != "Tapped") {
+                                        _scrollController.animateTo(
+                                            _scrollController
+                                                .position.maxScrollExtent,
+                                            duration:
+                                            Duration(milliseconds: 500),
+                                            curve: Curves.easeOut);
+                                        onTapStatus = "Tapped";
+                                      }
+                                    }
+                                ),
+                                // TextField(
+                                // controller: radiologyInvestigationsController,
+                                // enabled:
+                                // jsonConsultation['CheckOutStatus'] == "0" &&
+                                //     selectedPatientOfSameDate(),
+                                // readOnly:
+                                // jsonConsultation['CheckOutStatus'] == "1" ||
+                                //     !selectedPatientOfSameDate(),
+                                // style: TextStyle(
+                                //     color: Colors.green,
+                                //     fontSize:
+                                //     SizeConfig.blockSizeVertical !* 2.1),
+                                // decoration: InputDecoration(
+                                //   hintStyle: TextStyle(
+                                //       color: Colors.black,
+                                //       fontSize:
+                                //       SizeConfig.blockSizeVertical !* 2.1),
+                                //   labelStyle: TextStyle(
+                                //       color: darkgrey,
+                                //       fontSize:
+                                //       SizeConfig.blockSizeVertical !* 2.1),
+                                //   labelText: "Radiology Investigations",
+                                //   hintText: "",
+                                // ),
+                                // ),
+                              ),
+                              CustomAutocompleteSearch(
+                                  suggestions: listPathologyDetails,
+                                  enabled:
+                                  jsonConsultation['CheckOutStatus'] == "0" &&
+                                      selectedPatientOfSameDate(),
+                                  hint: "Pathology Investigations",
+                                  controller: adviceInvestigationController,
+                                  hideSuggestionsOnCreate: true,
+                                  onSelected: (text) => selectedFieldPathology(
+                                      context, adviceInvestigationController, text),
+                                  onTap: () {
+                                    if (onTapStatus != "Tapped") {
+                                      _scrollController.animateTo(
+                                          _scrollController
+                                              .position.maxScrollExtent,
+                                          duration:
+                                          Duration(milliseconds: 500),
+                                          curve: Curves.easeOut);
+                                      onTapStatus = "Tapped";
+                                    }
+                                  }
+                              ),
+                              // TextField(
+                              //   controller: adviceInvestigationController,
+                              //   enabled:
+                              //       jsonConsultation['CheckOutStatus'] == "0" &&
+                              //           selectedPatientOfSameDate(),
+                              //   readOnly:
+                              //       jsonConsultation['CheckOutStatus'] == "1" ||
+                              //           !selectedPatientOfSameDate(),
+                              //   style: TextStyle(
+                              //       color: Colors.green,
+                              //       fontSize:
+                              //           SizeConfig.blockSizeVertical !* 2.1),
+                              //   decoration: InputDecoration(
+                              //     hintStyle: TextStyle(
+                              //         color: Colors.black,
+                              //         fontSize:
+                              //             SizeConfig.blockSizeVertical !* 2.1),
+                              //     labelStyle: TextStyle(
+                              //         color: darkgrey,
+                              //         fontSize:
+                              //             SizeConfig.blockSizeVertical !* 2.1),
+                              //     labelText: "Pathology Investigations",
+                              //     hintText: "",
+                              //   ),
+                              // ),
+                              InkWell(
+                                onTap: () {
+                                  if (jsonConsultation['CheckOutStatus'] ==
+                                          "0" &&
+                                      selectedPatientOfSameDate()) {
+                                    showTemplateSelectionDialog(
+                                        context, "I", setStateOfParent);
+                                  }
+                                },
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        top:
+                                            SizeConfig.blockSizeHorizontal !* 2),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: colorBlueApp,
+                                        ),
+                                        color: white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.blockSizeHorizontal !* 3),
+                                      child: Text(
+                                        "From Templates",
+                                        style: TextStyle(
+                                          color: colorBlueApp,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        selectInvestigationsToSendToLab();
+                      },
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: isCheckedSendToLab,
+                            onChanged: (isChecked) {
+                              if (isChecked!)
+                                selectInvestigationsToSendToLab();
+                              else {
+                                setState(() {
+                                  isCheckedSendToLab = isChecked;
+                                });
+                              }
+                            },
+                          ),
+                          Text(
+                            "Send to Lab",
+                            style: TextStyle(
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.w500,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 3.6),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.blockSizeHorizontal !* 3),
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: remarksController,
+                            enabled:
+                                jsonConsultation['CheckOutStatus'] == "0" &&
+                                    selectedPatientOfSameDate(),
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black),
+                              labelStyle: TextStyle(color: darkgrey),
+                              labelText: "Notes",
+                              hintText: "",
+                              counterText: "",
+                            ),
+                            maxLines: 5,
+                            minLines: 5,
+                            maxLength: 500,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              if (jsonConsultation['CheckOutStatus'] == "0" &&
+                                  selectedPatientOfSameDate()) {
+                                showTemplateSelectionDialog(
+                                    context, "R", setStateOfParent);
+                              }
+                            },
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeHorizontal !* 2),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: colorBlueApp,
+                                    ),
+                                    color: white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: Padding(
+                                  padding: EdgeInsets.all(
+                                      SizeConfig.blockSizeHorizontal !* 3),
+                                  child: Text(
+                                    "From Templates",
+                                    style: TextStyle(
+                                      color: colorBlueApp,
                                     ),
                                   ),
                                 ),
@@ -2032,160 +1596,129 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 1.0,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Checkbox(
-                              value: markAsCheckout,
-                              onChanged: (isChecked) {
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical !* 1,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: MaterialButton(
+                              onPressed: () {
                                 if (jsonConsultation['CheckOutStatus'] == "0" &&
                                     selectedPatientOfSameDate()) {
-                                  setState(() {
-                                    markAsCheckout = isChecked!;
-                                  });
+                                  showDateSelectionDialog();
                                 }
-                              }),
-                          InkWell(
-                            onTap: () {
-                              if (jsonConsultation['CheckOutStatus'] == "0" &&
-                                  selectedPatientOfSameDate()) {
-                                setState(() {
-                                  markAsCheckout = !markAsCheckout;
-                                });
-                              }
-                            },
-                            child: Text("Mark as Checkout"),
-                          )
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: SizeConfig.blockSizeHorizontal !* 3),
-                        child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
-                          padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
-                          child: TextField(
-                            controller: internalNotesController,
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.1),
-                            decoration: InputDecoration(
-                              hintStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.1),
-                              labelStyle: TextStyle(
-                                  color: darkgrey,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.1),
-                              labelText: "Internal Notes",
-                              hintText: "",
+                              },
+                              child: Container(
+                                child: IgnorePointer(
+                                  child: TextField(
+                                    controller: followUpDateController,
+                                    enabled:
+                                        jsonConsultation['CheckOutStatus'] ==
+                                                "0" &&
+                                            selectedPatientOfSameDate(),
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize:
+                                            SizeConfig.blockSizeVertical !* 2.1),
+                                    decoration: InputDecoration(
+                                      hintStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              SizeConfig.blockSizeVertical !*
+                                                  2.1),
+                                      labelStyle: TextStyle(
+                                          color: darkgrey,
+                                          fontSize:
+                                              SizeConfig.blockSizeVertical !*
+                                                  2.1),
+                                      labelText: "Next Appointment",
+                                      hintText: "",
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical !* 1.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Checkbox(
+                            value: markAsCheckout,
+                            onChanged: (isChecked) {
+                              if (jsonConsultation['CheckOutStatus'] == "0" &&
+                                  selectedPatientOfSameDate()) {
+                                setState(() {
+                                  markAsCheckout = isChecked!;
+                                });
+                              }
+                            }),
+                        InkWell(
+                          onTap: () {
+                            if (jsonConsultation['CheckOutStatus'] == "0" &&
+                                selectedPatientOfSameDate()) {
+                              setState(() {
+                                markAsCheckout = !markAsCheckout;
+                              });
+                            }
+                          },
+                          child: Text("Mark as Checkout"),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.blockSizeHorizontal !* 3),
+                      child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.all(
+                            SizeConfig.blockSizeHorizontal !* 1),
+                        child: TextField(
+                          controller: internalNotesController,
+                          style: TextStyle(
+                              color: Colors.green,
+                              fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                            labelStyle: TextStyle(
+                                color: darkgrey,
+                                fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                            labelText: "Internal Notes",
+                            hintText: "",
+                          ),
+                        ),
                       ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: MaterialButton(
-                          onPressed: () {
-                            // if(str_referred_to_doctor==null)
-                            // {
-                            //
-                            // }
-                            print('selectedReferredDoctorId1 ${selectedReferredDoctorId1.length}');
-                            if(selectedReferredDoctorId1.length==0)
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: MaterialButton(
+                        onPressed: () {
+                          // if(str_referred_to_doctor==null)
+                          // {
+                          //
+                          // }
+                          print('selectedReferredDoctorId1 ${selectedReferredDoctorId1.length}');
+                          if(selectedReferredDoctorId1.length==0)
                             {
                               showDropdownDialog(listReferredDoctorSearchResults,
                                   str_referred_to_doctor);
                             }
-                          },
-                          child: IgnorePointer(
-                            child:
-                            TextField(
-                              controller: referredDoctorController,
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
-                              decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: SizeConfig.blockSizeVertical !* 2.3),
-                                labelStyle: TextStyle(
-                                    color: darkgrey,
-                                    fontSize: SizeConfig.blockSizeVertical !* 2.3),
-                                labelText: str_referred_to_doctor,
-                                hintText: "",
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Align(
-                          alignment: Alignment.center,
-                          child: selectedReferredDoctorId == '-1'
-                              ? Container(
-                            width: SizeConfig.blockSizeHorizontal !* 90,
-                            padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
-                            child: TextField(
-                              controller: referredDoctorNameController,
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize:
-                                  SizeConfig.blockSizeVertical !* 2.3),
-                              decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                    SizeConfig.blockSizeVertical !* 2.3),
-                                labelStyle: TextStyle(
-                                    color: darkgrey,
-                                    fontSize:
-                                    SizeConfig.blockSizeVertical !* 2.3),
-                                labelText: str_referred_doctor_name,
-                                hintText: "",
-                              ),
-                            ),
-                          )
-                              : Container()),
-                      Align(
-                          alignment: Alignment.center,
-                          child: selectedReferredDoctorId == "-1"
-                              ? Container(
-                            width: SizeConfig.blockSizeHorizontal !* 90,
-                            padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
-                            child: TextField(
-                              controller: referredDoctorMobileController,
-                              keyboardType: TextInputType.phone,
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize:
-                                  SizeConfig.blockSizeVertical !* 2.3),
-                              decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                    SizeConfig.blockSizeVertical !* 2.3),
-                                labelStyle: TextStyle(
-                                    color: darkgrey,
-                                    fontSize:
-                                    SizeConfig.blockSizeVertical !* 2.3),
-                                labelText: str_referred_doctor_no,
-                                hintText: "",
-                              ),
-                            ),
-                          )
-                              : Container()),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
-                          padding:
-                          EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
-                          child: TextField(
-                            controller: referenceNoteController,
+                        },
+                        child: IgnorePointer(
+                          child:
+                          TextField(
+                            controller: referredDoctorController,
                             style: TextStyle(
                                 color: Colors.green,
                                 fontSize: SizeConfig.blockSizeVertical !* 2.3),
@@ -2196,243 +1729,322 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
                               labelStyle: TextStyle(
                                   color: darkgrey,
                                   fontSize: SizeConfig.blockSizeVertical !* 2.3),
-                              labelText: str_reference_note,
+                              labelText: str_referred_to_doctor,
                               hintText: "",
                             ),
-                            maxLines: 5,
-                            minLines: 3,
-                            maxLength: 500,
                           ),
                         ),
                       ),
-                    ],
+                    ),
+                    Align(
+                        alignment: Alignment.center,
+                        child: selectedReferredDoctorId == '-1'
+                            ? Container(
+                                width: SizeConfig.blockSizeHorizontal !* 90,
+                                padding: EdgeInsets.all(
+                                    SizeConfig.blockSizeHorizontal !* 1),
+                                child: TextField(
+                                  controller: referredDoctorNameController,
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize:
+                                          SizeConfig.blockSizeVertical !* 2.3),
+                                  decoration: InputDecoration(
+                                    hintStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize:
+                                            SizeConfig.blockSizeVertical !* 2.3),
+                                    labelStyle: TextStyle(
+                                        color: darkgrey,
+                                        fontSize:
+                                            SizeConfig.blockSizeVertical !* 2.3),
+                                    labelText: str_referred_doctor_name,
+                                    hintText: "",
+                                  ),
+                                ),
+                              )
+                            : Container()),
+                    Align(
+                        alignment: Alignment.center,
+                        child: selectedReferredDoctorId == "-1"
+                            ? Container(
+                                width: SizeConfig.blockSizeHorizontal !* 90,
+                                padding: EdgeInsets.all(
+                                    SizeConfig.blockSizeHorizontal !* 1),
+                                child: TextField(
+                                  controller: referredDoctorMobileController,
+                                  keyboardType: TextInputType.phone,
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize:
+                                          SizeConfig.blockSizeVertical !* 2.3),
+                                  decoration: InputDecoration(
+                                    hintStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize:
+                                            SizeConfig.blockSizeVertical !* 2.3),
+                                    labelStyle: TextStyle(
+                                        color: darkgrey,
+                                        fontSize:
+                                            SizeConfig.blockSizeVertical !* 2.3),
+                                    labelText: str_referred_doctor_no,
+                                    hintText: "",
+                                  ),
+                                ),
+                              )
+                            : Container()),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding:
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                        child: TextField(
+                          controller: referenceNoteController,
+                          style: TextStyle(
+                              color: Colors.green,
+                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                            labelStyle: TextStyle(
+                                color: darkgrey,
+                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                            labelText: str_reference_note,
+                            hintText: "",
+                          ),
+                          maxLines: 5,
+                          minLines: 3,
+                          maxLength: 500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: SizeConfig.blockSizeHorizontal !* 3,
+                      vertical: SizeConfig.blockSizeHorizontal !* 1,
+                    ),
+                    child: Row(children: [
+                      Expanded(
+                        child: firstEditStatus == "1"
+                            ? Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      pdfButtonClick(context,
+                                          widget.modelOPDRegistration, "full");
+                                    },
+                                    customBorder: CircleBorder(),
+                                    child: Container(
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.blockSizeHorizontal !* 2.0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.blue[800],
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: FaIcon(
+                                        FontAwesomeIcons.print,
+                                        size:
+                                            SizeConfig.blockSizeHorizontal !* 5,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal !* 3.0,
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        preparePdfList();
+                                        showPdfTypeSelectionDialog(
+                                          listPdfType,
+                                          ModelOPDRegistration(
+                                              widget.idp, "", "", "",
+                                              patientIDP: widget.patientIDP),
+                                          context,
+                                        );
+                                      },
+                                      customBorder: CircleBorder(),
+                                      child: Container(
+                                        padding: EdgeInsets.all(
+                                            SizeConfig.blockSizeHorizontal !*
+                                                2.0),
+                                        decoration: BoxDecoration(
+                                          color: Colors.blue,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Image(
+                                          width:
+                                              SizeConfig.blockSizeHorizontal !*
+                                                  5,
+                                          color: Colors.white,
+                                          //height: 80,
+                                          image: AssetImage(
+                                              "images/ic_download.png"),
+                                        ),
+                                      )),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        dueAmount > 0
+                                            ? Center(
+                                                child: BlinkingText(
+                                                  "Due Amount : \u20B9$dueAmount",
+                                                  //textAlign: TextAlign.left,
+                                                  textStyle: TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: SizeConfig
+                                                            .blockSizeHorizontal !*
+                                                        3.8,
+                                                    fontWeight: FontWeight.w500,
+                                                    letterSpacing: 1.5,
+                                                  ),
+                                                ),
+                                              ).expanded()
+                                            : Container(),
+                                        jsonConsultation['CheckOutStatus'] ==
+                                                    "0" &&
+                                                selectedPatientOfSameDate()
+                                            ? Align(
+                                                alignment: Alignment.topRight,
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius
+                                                        .circular(SizeConfig
+                                                                .blockSizeHorizontal !*
+                                                            20.0),
+                                                    color: colorBlueDark,
+                                                  ),
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: SizeConfig
+                                                              .blockSizeHorizontal !*
+                                                          3.0,
+                                                      vertical: SizeConfig
+                                                              .blockSizeHorizontal !*
+                                                          3.0),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      submitConsultationDetails(
+                                                          context);
+                                                    },
+                                                    child: Text(
+                                                      "Send",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: SizeConfig
+                                                                  .blockSizeHorizontal !*
+                                                              4.0),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            : Container()
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                      ),
+                      firstEditStatus == "1"
+                          ? Container()
+                          : Container(
+                              width: SizeConfig.blockSizeHorizontal !* 90,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: dueAmount > 0
+                                          ? Center(
+                                              child: BlinkingText(
+                                                "Due Amount : \u20B9$dueAmount",
+                                                //textAlign: TextAlign.left,
+                                                textStyle: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal !*
+                                                      3.8,
+                                                  fontWeight: FontWeight.w500,
+                                                  letterSpacing: 1.5,
+                                                ),
+                                              ),
+                                            )
+                                          : Container()),
+                                  selectedPatientOfSameDate()
+                                      ? Expanded(
+                                          child: Align(
+                                          alignment: Alignment.topRight,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius
+                                                  .circular(SizeConfig
+                                                          .blockSizeHorizontal !*
+                                                      20.0),
+                                              color: colorBlueDark,
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: SizeConfig
+                                                        .blockSizeHorizontal !*
+                                                    3.0,
+                                                vertical: SizeConfig
+                                                        .blockSizeHorizontal !*
+                                                    3.0),
+                                            child: InkWell(
+                                              onTap: () {
+                                                submitConsultationDetails(
+                                                    context);
+                                              },
+                                              child: Text(
+                                                "SEND",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: SizeConfig
+                                                            .blockSizeHorizontal !*
+                                                        4.0),
+                                              ),
+                                            ),
+                                          ),
+                                        ))
+                                      : Container()
+                                ],
+                              ),
+                            )
+                    ]),
+                  )),
+              /*Align(
+                alignment: Alignment.bottomRight,
+                child: Container(
+                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 2.5),
+                  margin: EdgeInsets.only(
+                    right: SizeConfig.blockSizeHorizontal * 2.5,
+                    bottom: SizeConfig.blockSizeHorizontal * 2.5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF06A759),
+                    shape: BoxShape.circle,
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      submitConsultationDetails(context);
+                    },
+                    child: Image(
+                      width: SizeConfig.blockSizeHorizontal * 5.5,
+                      height: SizeConfig.blockSizeHorizontal * 5.5,
+                      //height: 80,
+                      image: AssetImage("images/ic_right_arrow_triangular.png"),
+                    ),
+                    customBorder: CircleBorder(),
                   ),
                 ),
-                Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.blockSizeHorizontal !* 3,
-                        vertical: SizeConfig.blockSizeHorizontal !* 1,
-                      ),
-                      child: Row(children: [
-                        Expanded(
-                          child: firstEditStatus == "1"
-                              ? Row(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  pdfButtonClick(context,
-                                      widget.modelOPDRegistration, "full");
-                                },
-                                customBorder: CircleBorder(),
-                                child: Container(
-                                  padding: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal !* 2.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue[800],
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: FaIcon(
-                                    FontAwesomeIcons.print,
-                                    size:
-                                    SizeConfig.blockSizeHorizontal !* 5,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 3.0,
-                              ),
-                              InkWell(
-                                  onTap: () {
-                                    preparePdfList();
-                                    showPdfTypeSelectionDialog(
-                                      listPdfType,
-                                      ModelOPDRegistration(
-                                          widget.idp, "", "", "",
-                                          patientIDP: widget.patientIDP),
-                                      context,
-                                    );
-                                  },
-                                  customBorder: CircleBorder(),
-                                  child: Container(
-                                    padding: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal !*
-                                            2.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.blue,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Image(
-                                      width:
-                                      SizeConfig.blockSizeHorizontal !*
-                                          5,
-                                      color: Colors.white,
-                                      //height: 80,
-                                      image: AssetImage(
-                                          "images/ic_download.png"),
-                                    ),
-                                  )),
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    dueAmount > 0
-                                        ? Center(
-                                      child: BlinkingText(
-                                        "Due Amount : \u20B9$dueAmount",
-                                        //textAlign: TextAlign.left,
-                                        textStyle: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: SizeConfig
-                                              .blockSizeHorizontal !*
-                                              3.8,
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: 1.5,
-                                        ),
-                                      ),
-                                    ).expanded()
-                                        : Container(),
-                                    jsonConsultation['CheckOutStatus'] ==
-                                        "0" &&
-                                        selectedPatientOfSameDate()
-                                        ? Align(
-                                      alignment: Alignment.topRight,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius
-                                              .circular(SizeConfig
-                                              .blockSizeHorizontal !*
-                                              20.0),
-                                          color: colorBlueDark,
-                                        ),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: SizeConfig
-                                                .blockSizeHorizontal !*
-                                                3.0,
-                                            vertical: SizeConfig
-                                                .blockSizeHorizontal !*
-                                                3.0),
-                                        child: InkWell(
-                                          onTap: () {
-                                            combineAndStoreValues(); // Call the function to combine and store values
-                                            submitConsultationDetails(
-                                                context);
-                                          },
-                                          child: Text(
-                                            "Send",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: SizeConfig
-                                                    .blockSizeHorizontal !*
-                                                    4.0),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                        : Container()
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                              : Container(),
-                        ),
-                        firstEditStatus == "1"
-                            ? Container()
-                            : Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: dueAmount > 0
-                                      ? Center(
-                                    child: BlinkingText(
-                                      "Due Amount : \u20B9$dueAmount",
-                                      //textAlign: TextAlign.left,
-                                      textStyle: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: SizeConfig
-                                            .blockSizeHorizontal !*
-                                            3.8,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 1.5,
-                                      ),
-                                    ),
-                                  )
-                                      : Container()),
-                              selectedPatientOfSameDate()
-                                  ? Expanded(
-                                  child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius
-                                            .circular(SizeConfig
-                                            .blockSizeHorizontal !*
-                                            20.0),
-                                        color: colorBlueDark,
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: SizeConfig
-                                              .blockSizeHorizontal !*
-                                              3.0,
-                                          vertical: SizeConfig
-                                              .blockSizeHorizontal !*
-                                              3.0),
-                                      child: InkWell(
-                                        onTap: () {
-                                          combineAndStoreValues(); // Call the function to combine and store values
-                                          submitConsultationDetails(
-                                              context);
-                                        },
-                                        child: Text(
-                                          "SEND",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: SizeConfig
-                                                  .blockSizeHorizontal !*
-                                                  4.0),
-                                        ),
-                                      ),
-                                    ),
-                                  ))
-                                  : Container()
-                            ],
-                          ),
-                        )
-                      ]),
-                    )),
-                /*Align(
-                  alignment: Alignment.bottomRight,
-                  child: Container(
-                    padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 2.5),
-                    margin: EdgeInsets.only(
-                      right: SizeConfig.blockSizeHorizontal * 2.5,
-                      bottom: SizeConfig.blockSizeHorizontal * 2.5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF06A759),
-                      shape: BoxShape.circle,
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        submitConsultationDetails(context);
-                      },
-                      child: Image(
-                        width: SizeConfig.blockSizeHorizontal * 5.5,
-                        height: SizeConfig.blockSizeHorizontal * 5.5,
-                        //height: 80,
-                        image: AssetImage("images/ic_right_arrow_triangular.png"),
-                      ),
-                      customBorder: CircleBorder(),
-                    ),
-                  ),
-                )*/
-              ],
-            );
-          },
-        ),
+              )*/
+            ],
+          );
+        },
       ),
     );
   }
@@ -2566,11 +2178,11 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
         saveInPublicStorage: true,
         // show download progress in status bar (for Android)
         openFileFromNotification:
-        false, // click on notification to open downloaded file (for Android)
+            false, // click on notification to open downloaded file (for Android)
       ) /*.then((value) {
         taskId = value;
       })*/
-      ;
+          ;
       var tasks = await FlutterDownloader.loadTasks();
       debugPrint("File path");
     } catch (e) {
@@ -2593,13 +2205,13 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
       DownloadTaskStatus status = data[1];
       int progress = data[2];
       if (/*status == DownloadTaskStatus.complete*/ status.toString() ==
-          "DownloadTaskStatus(3)" &&
+              "DownloadTaskStatus(3)" &&
           progress == 100) {
         debugPrint("Successfully downloaded");
         pr!.hide();
         String query = "SELECT * FROM task WHERE task_id='" + id + "'";
         var tasks = FlutterDownloader.loadTasksWithRawQuery(query: query);
-        FlutterDownloader.open(taskId: id);
+ FlutterDownloader.open(taskId: id);
       }
     });
   }
@@ -2611,7 +2223,7 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
   static void downloadCallback(
       String id, int status, int progress) {
     final SendPort? send =
-    IsolateNameServer.lookupPortByName('downloader_send_port');
+        IsolateNameServer.lookupPortByName('downloader_send_port');
     send!.send([id, status, progress]);
   }
 
@@ -2633,7 +2245,7 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
           return MediaQuery(
               child: child!,
               data:
-              MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: true));
+                  MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: true));
         });
 
     if (time != null) {
@@ -2733,21 +2345,21 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
         String lastName = jsonData[0]['LastName'];
         String middleName = jsonData[0]['MiddleName'];
         widget.fullName = (firstName.trim() +
-            " " +
-            middleName.trim() +
-            " " +
-            lastName.trim())
-            .trim() !=
-            ""
+                        " " +
+                        middleName.trim() +
+                        " " +
+                        lastName.trim())
+                    .trim() !=
+                ""
             ? firstName.trim() + " " + middleName.trim() + " " + lastName.trim()
             : "-";
         widget.imgUrl = jsonData[0]['Image'];
 
         widget.cityName =
-        jsonData[0]['CityName'] != "" ? jsonData[0]['CityName'] : "-";
+            jsonData[0]['CityName'] != "" ? jsonData[0]['CityName'] : "-";
 
         widget.gender =
-        jsonData[0]['Gender'] != "" ? jsonData[0]['Gender'] : "-";
+            jsonData[0]['Gender'] != "" ? jsonData[0]['Gender'] : "-";
         widget.age = jsonData[0]['Age'] != "" ? jsonData[0]['Age'] : "-";
         heightValue = double.parse(jsonData[0]['Height']);
         weightValue = double.parse(jsonData[0]['Wieght']);
@@ -2785,13 +2397,6 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
     //   // pr.show();
     // });
     //listIcon = new List();
-
-    complaintSupportController.clear();
-    examinationSupportController.clear();
-    adviceInvestigationSupportController.clear();
-    diagnosisSupportController.clear();
-    radiologyInvestigationsSupportController.clear();
-
     String patientIDP = await getPatientOrDoctorIDP();
     String patientUniqueKey = await getPatientUniqueKey();
     String userType = await getUserType();
@@ -2844,17 +2449,16 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
         isCertificate = jsonConsultation['CertificateDetailsIDF'];
         certId = jsonConsultation['CertificateDetailsIDF'];
         isCamp = jsonConsultation['DoctorCampStatus'].toString();
-
         historyController.text =
             append(historyController, jsonData[0]['History']);
-        complaintSupportController.text =
-            append(complaintSupportController, jsonData[0]['Complain']);
-        diagnosisSupportController.text =
-            append(diagnosisSupportController, jsonData[0]['Diagnosis']);
+        complaintController.text =
+            append(complaintController, jsonData[0]['Complain']);
+        diagnosisController.text =
+            append(diagnosisController, jsonData[0]['Diagnosis']);
         /*systemicIllnessController =
           TextEditingController(text: jsonData[0]['SystemicIllness']);*/
-        examinationSupportController.text =
-            append(examinationSupportController, jsonData[0]['Examination']);
+        examinationController.text =
+            append(examinationController, jsonData[0]['Examination']);
         firstEditStatus = jsonData[0]['FirstEditStatus'];
         /*adviceController = TextEditingController(text: jsonData[0]['Advice']);*/
         /*nextVisitPlanController =
@@ -2873,10 +2477,10 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
         healthRecordsDisplayStatus = jsonData[0]['HealthRecordsDisplayStatus'];
         notificationDisplayStatus = jsonData[0]['NotificationDisplayStatus'];
         paymentDueStatus = jsonData[0]['PaymentDueStatus'].toString();
-        radiologyInvestigationsSupportController.text = append(
-            radiologyInvestigationsSupportController,jsonData[0]['RadiologyInvestigations']);
-        adviceInvestigationSupportController.text = append(
-            adviceInvestigationSupportController, jsonData[0]['AdviceInvestigations']);
+        radiologyInvestigationsController.text = append(
+            radiologyInvestigationsController,jsonData[0]['RadiologyInvestigations']);
+        adviceInvestigationController.text = append(
+            adviceInvestigationController, jsonData[0]['AdviceInvestigations']);
         internalNotesController.text = jsonData[0]['InternalNotes'];
         clearedFromDueStatus = jsonData[0]['ClearedFromDueStatus'];
         referenceNoteController.text = jsonData[0]['Reason'];
@@ -2884,15 +2488,15 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
         selectedReferredDoctorId1 = jsonData[0]['ToDoctorIDF'];
         //paymentDueStatus = jsonData[0]['PaymentDueStatus'];
         for(int i=0;i<listReferredDoctor.length;i++)
-        {
-          if(selectedReferredDoctorId1 == listReferredDoctor[i].idp)
           {
-            selectedReferredDoctor = listReferredDoctor[i];
-            print('selectedReferredDoctor ${selectedReferredDoctor.idp} ${selectedReferredDoctor.value}');
-            referredDoctorController.text = selectedReferredDoctor.value;
-            break;
+            if(selectedReferredDoctorId1 == listReferredDoctor[i].idp)
+              {
+                selectedReferredDoctor = listReferredDoctor[i];
+                print('selectedReferredDoctor ${selectedReferredDoctor.idp} ${selectedReferredDoctor.value}');
+                referredDoctorController.text = selectedReferredDoctor.value;
+                break;
+              }
           }
-        }
         dueAmount = double.parse(jsonData[0]['DueAmount']);
         if (jsonData[0]['SendtoStatus'] == "1")
           isCheckedSendToLab = true;
@@ -2979,8 +2583,8 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
       {
         healthDocList.add(
             ModelHealthDoc(
-                healthInfoDocumentIDP: jsonData[i]['HealthInfoDocumentIDP'],
-                fileName: jsonData[i]['FileName']));
+            healthInfoDocumentIDP: jsonData[i]['HealthInfoDocumentIDP'],
+            fileName: jsonData[i]['FileName']));
       }
     }
   }
@@ -2997,17 +2601,17 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
                 Navigator.of(context).pop();
                 if (index == 0)
                   Get.to(FitnessCertificateScreen(
-                      cert: certList[0],
-                      idp: widget.idp,
-                      patientIDP: widget.patientIDP))
+                          cert: certList[0],
+                          idp: widget.idp,
+                          patientIDP: widget.patientIDP))
                       ?.then((value) {
                     getConsultationDetails(context);
                   });
                 if (index == 1)
                   Get.to(MedicalCertificate(
-                      cert: certList[1],
-                      idp: widget.idp,
-                      patientIDP: widget.patientIDP))
+                          cert: certList[1],
+                          idp: widget.idp,
+                          patientIDP: widget.patientIDP))
                       ?.then((value) {
                     getConsultationDetails(context);
                   });
@@ -3108,206 +2712,133 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
   //   );
   // }
 
-  TextEditingController complaintController = TextEditingController();
-  TextEditingController complaintSupportController = TextEditingController();
+  selectedFieldRadiology(
+      BuildContext context, TextEditingController anyController, text){
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+    if (listOfDocumentDropDown.isNotEmpty) {
+      int index = listOfDocumentDropDown.indexOf(text);
+      if (index != -1) {
+        debugPrint(listOfDocumentDropDown[index]);
+        // Handle the logic related to the selected complaint
 
-  TextEditingController examinationController = TextEditingController();
-  TextEditingController examinationSupportController = TextEditingController();
+        // Assuming that getComplaintList is a function to fetch the details
+        getRadiologyList(context);
 
-  TextEditingController adviceInvestigationController = TextEditingController();
-  TextEditingController adviceInvestigationSupportController = TextEditingController();
-
-  TextEditingController diagnosisController = TextEditingController();
-  TextEditingController diagnosisSupportController = TextEditingController();
-
-  TextEditingController radiologyInvestigationsController = TextEditingController();
-  TextEditingController radiologyInvestigationsSupportController = TextEditingController();
-
-  void combineAndStoreValues() {
-    // Combine selected options and text from the controller
-    String combinedValue = _selectedComplaints.join(', ') + (_selectedComplaints.isNotEmpty && complaintSupportController.text.isNotEmpty ? ', ' : '') + complaintSupportController.text;
-    // Store the combined value into the complaintController (which is also textEditingController)
-    complaintController.text = combinedValue;
-
-    // Combine selected options and text from the controller
-    String combinedValueExaminations = _selectedExamination.join(', ') + (_selectedExamination.isNotEmpty && examinationSupportController.text.isNotEmpty ? ', ' : '') + examinationSupportController.text;
-    // String combinedValueExaminations = _selectedExamination .join(', ') + (examinationSupportController.text.isNotEmpty ? ', ${examinationSupportController.text}' : '');
-
-    // Store the combined value into the complaintController (which is also textEditingController)
-    examinationController.text = combinedValueExaminations;
-
-    // Combine selected options and text from the controller
-    String combinedValueDiagnosis = _selectedDiagnosis.join(', ') + (_selectedDiagnosis.isNotEmpty && diagnosisSupportController.text.isNotEmpty ? ', ' : '') + diagnosisSupportController.text;
-    // String combinedValueDiagnosis = _selectedDiagnosis .join(', ') + (diagnosisSupportController.text.isNotEmpty ? ', ${diagnosisSupportController.text}' : '');
-
-    // Store the combined value into the complaintController (which is also textEditingController)
-    diagnosisController.text = combinedValueDiagnosis;
-
-    // Combine selected options and text from the controller
-    String combinedValueAdviceInvestigation = _selectedAdviceInvestigation.join(', ') + (_selectedAdviceInvestigation.isNotEmpty && adviceInvestigationSupportController.text.isNotEmpty ? ', ' : '') + adviceInvestigationSupportController.text;
-    // String combinedValueAdviceInvestigation = _selectedAdviceInvestigation .join(', ') + (adviceInvestigationSupportController.text.isNotEmpty ? ', ${adviceInvestigationSupportController.text}' : '');
-
-    // Store the combined value into the complaintController (which is also textEditingController)
-    adviceInvestigationController.text = combinedValueAdviceInvestigation;
-
-    // Combine selected options and text from the controller
-    String combinedValueRadiologyInvestigations = _selectedRadiologyInvestigations.join(', ') + (_selectedRadiologyInvestigations.isNotEmpty && radiologyInvestigationsSupportController.text.isNotEmpty ? ', ' : '') + radiologyInvestigationsSupportController.text;
-    // String combinedValueRadiologyInvestigations = _selectedRadiologyInvestigations .join(', ') + (radiologyInvestigationsSupportController.text.isNotEmpty ? ', ${radiologyInvestigationsSupportController.text}' : '');
-
-    // Store the combined value into the complaintController (which is also textEditingController)
-    radiologyInvestigationsController.text = combinedValueRadiologyInvestigations;
-
-    // Clear the selectedOptions and the textEditingController
-    setState(() {
-      _selectedComplaints.clear();
-      _selectedExamination.clear();
-      _selectedDiagnosis.clear();
-      _selectedAdviceInvestigation.clear();
-      _selectedRadiologyInvestigations.clear();
-      complaintSupportController.clear();
-    });
+        anyController.text = text;
+        initialState = false;
+      } else {
+        debugPrint("Text not found in listDiagnosisDetails");
+      }
+    } else {
+      debugPrint("List is empty");
+    }
   }
 
-  // void selectedFieldComplaint(
-  //     BuildContext context,
-  //     TextEditingController anyController,
-  //     text,
-  //     List<String> selectedOptions
-  //     ) {
-  //   FocusScopeNode currentFocus = FocusScope.of(context);
-  //   String mergedText = '';
-  //
-  //   if (!currentFocus.hasPrimaryFocus) {
-  //     currentFocus.unfocus();
-  //   }
-  //
-  //   if (listComplaintDetails.isNotEmpty) {
-  //     int index = listComplaintDetails.indexOf(text);
-  //     if (index != -1) {
-  //       debugPrint(listComplaintDetails[index]);
-  //       // Handle the logic related to the selected complaint
-  //       // Assuming that getComplaintList is a function to fetch the details
-  //       getComplaintList(context);
-  //
-  //       // Add the selected option to the list of selected options
-  //       selectedOptions.add(text);
-  //
-  //       // Concatenate the selected options to form a single string
-  //       mergedText = selectedOptions.join(', ');
-  //
-  //       // Set the concatenated text as the controller's text
-  //       anyController.text = mergedText;
-  //       initialState = false;
-  //     } else {
-  //       debugPrint("Text not found in listComplaintDetails");
-  //     }
-  //   } else {
-  //     debugPrint("List is empty");
-  //   }
-  // }
-  //
-  // selectedFieldDiagnosis(
-  //     BuildContext context, TextEditingController anyController, text){
-  //   FocusScopeNode currentFocus = FocusScope.of(context);
-  //   if (!currentFocus.hasPrimaryFocus) {
-  //     currentFocus.unfocus();
-  //   }
-  //   if (listDiagnosisDetails.isNotEmpty) {
-  //     int index = listDiagnosisDetails.indexOf(text);
-  //     if (index != -1) {
-  //       debugPrint(listDiagnosisDetails[index]);
-  //       // Handle the logic related to the selected complaint
-  //
-  //       // Assuming that getComplaintList is a function to fetch the details
-  //       getDiagnosisList(context);
-  //
-  //       anyController.text = text;
-  //       initialState = false;
-  //     } else {
-  //       debugPrint("Text not found in listDiagnosisDetails");
-  //     }
-  //   } else {
-  //     debugPrint("List is empty");
-  //   }
-  // }
-  //
-  // selectedFieldExamination(
-  //     BuildContext context, TextEditingController anyController, text){
-  //   FocusScopeNode currentFocus = FocusScope.of(context);
-  //   if (!currentFocus.hasPrimaryFocus) {
-  //     currentFocus.unfocus();
-  //   }
-  //   if (listExaminationDetails.isNotEmpty) {
-  //     int index = listExaminationDetails.indexOf(text);
-  //     if (index != -1) {
-  //       debugPrint(listExaminationDetails[index]);
-  //       // Handle the logic related to the selected complaint
-  //
-  //       // Assuming that getComplaintList is a function to fetch the details
-  //       getExaminationList(context);
-  //
-  //       anyController.text = text;
-  //       initialState = false;
-  //     } else {
-  //       debugPrint("Text not found in listExaminationDetails");
-  //     }
-  //   } else {
-  //     debugPrint("List is empty");
-  //   }
-  // }
-  //
-  // selectedFieldRadiology(
-  //     BuildContext context, TextEditingController anyController, text){
-  //   FocusScopeNode currentFocus = FocusScope.of(context);
-  //   if (!currentFocus.hasPrimaryFocus) {
-  //     currentFocus.unfocus();
-  //   }
-  //   if (listRadiologyDetails.isNotEmpty) {
-  //     int index = listRadiologyDetails.indexOf(text);
-  //     if (index != -1) {
-  //       debugPrint(listRadiologyDetails[index]);
-  //       // Handle the logic related to the selected complaint
-  //
-  //       // Assuming that getComplaintList is a function to fetch the details
-  //       getRadiologyList(context);
-  //
-  //       anyController.text = text;
-  //       initialState = false;
-  //     } else {
-  //       debugPrint("Text not found in listDiagnosisDetails");
-  //     }
-  //   } else {
-  //     debugPrint("List is empty");
-  //   }
-  // }
-  //
-  // selectedFieldPathology(
-  //     BuildContext context, TextEditingController anyController, text){
-  //   FocusScopeNode currentFocus = FocusScope.of(context);
-  //   if (!currentFocus.hasPrimaryFocus) {
-  //     currentFocus.unfocus();
-  //   }
-  //   if (listPathologyDetails.isNotEmpty) {
-  //     int index = listPathologyDetails.indexOf(text);
-  //     if (index != -1) {
-  //       debugPrint(listPathologyDetails[index]);
-  //       // Handle the logic related to the selected complaint
-  //
-  //       // Assuming that getComplaintList is a function to fetch the details
-  //       getPathologyList(context);
-  //
-  //       anyController.text = text;
-  //       initialState = false;
-  //     } else {
-  //       debugPrint("Text not found in listDiagnosisDetails");
-  //     }
-  //   } else {
-  //     debugPrint("List is empty");
-  //   }
-  // }
+  selectedFieldPathology(
+      BuildContext context, TextEditingController anyController, text){
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+    if (listDiagnosisDetails.isNotEmpty) {
+      int index = listDiagnosisDetails.indexOf(text);
+      if (index != -1) {
+        debugPrint(listDiagnosisDetails[index]);
+        // Handle the logic related to the selected complaint
+
+        // Assuming that getComplaintList is a function to fetch the details
+        getPathologyList(context);
+
+        anyController.text = text;
+        initialState = false;
+      } else {
+        debugPrint("Text not found in listDiagnosisDetails");
+      }
+    } else {
+      debugPrint("List is empty");
+    }
+  }
+
+  selectedFieldDiagnosis(
+      BuildContext context, TextEditingController anyController, text){
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+    if (listPathologyDetails.isNotEmpty) {
+      int index = listPathologyDetails.indexOf(text);
+      if (index != -1) {
+        debugPrint(listPathologyDetails[index]);
+        // Handle the logic related to the selected complaint
+
+        // Assuming that getComplaintList is a function to fetch the details
+        getDiagnosisList(context);
+
+        anyController.text = text;
+        initialState = false;
+      } else {
+        debugPrint("Text not found in listDiagnosisDetails");
+      }
+    } else {
+      debugPrint("List is empty");
+    }
+  }
+
+  selectedFieldExamination(
+      BuildContext context, TextEditingController anyController, text){
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+    if (listExaminationDetails.isNotEmpty) {
+      int index = listExaminationDetails.indexOf(text);
+      if (index != -1) {
+        debugPrint(listExaminationDetails[index]);
+        // Handle the logic related to the selected complaint
+
+        // Assuming that getComplaintList is a function to fetch the details
+        getExaminationList(context);
+
+        anyController.text = text;
+        initialState = false;
+      } else {
+        debugPrint("Text not found in listExaminationDetails");
+      }
+    } else {
+      debugPrint("List is empty");
+    }
+  }
+
+  selectedFieldComplaint(
+      BuildContext context, TextEditingController anyController, text){
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+    if (listComplaintDetails.isNotEmpty) {
+      int index = listComplaintDetails.indexOf(text);
+      if (index != -1) {
+        debugPrint(listComplaintDetails[index]);
+        // Handle the logic related to the selected complaint
+
+        // Assuming that getComplaintList is a function to fetch the details
+        getComplaintList(context);
+
+        anyController.text = text;
+        initialState = false;
+      } else {
+        debugPrint("Text not found in listComplaintDetails");
+      }
+    } else {
+      debugPrint("List is empty");
+    }
+  }
 
   void getRadiologyList(BuildContext context) async{
-    listRadiologyDetails = [];
+    listOfDocumentDropDown = [];
     String loginUrl = "${baseURL}doctor_radiology_list.php";
     String patientUniqueKey = await getPatientUniqueKey();
     String userType = await getUserType();
@@ -3363,7 +2894,7 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
           {
             final jo = jsonData[i];
             String adviceInvestigationName = jo['AdviceInvestigationName'].toString();
-            listRadiologyDetails.add(adviceInvestigationName);
+            listOfDocumentDropDown.add(adviceInvestigationName);
             // debugPrint("Added to list: $diagnosisName");
           }
 
@@ -3749,6 +3280,7 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
             ),
             backgroundColor: Colors.white,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
                   height: SizeConfig.blockSizeVertical !* 8,
@@ -3791,88 +3323,83 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
                     ),
                   ),
                 ),
-                ListView(
-                  shrinkWrap: true,
-                  children: [
-                    ListView.builder(
-                        itemCount: getListLength(whichTemplate),
-                        physics: ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                                //if (getNullCondition(whichTemplate, index)) {
-                                /*if (whichTemplate == "I") {
-                                  onClickTemplate(whichTemplate, index);
-                                } else if (whichTemplate == "R") {
-                                  String remarks = "";
-                                  if (getNullCondition(whichTemplate, index)) {
-                                    if (remarksController.text != "") {
-                                      remarksController.text
-                                          .substring(remarksController.text.length);
-                                      remarks = remarksController.text +
-                                          " " +
-                                          */
-                                /*", " +*/ /*
-                                          listRemarks[index]
-                                              .remarksTemplateDetails
-                                              .trim();
-                                    } else {
-                                      remarks = listRemarks[index]
+                ListView.builder(
+                    itemCount: getListLength(whichTemplate),
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            //if (getNullCondition(whichTemplate, index)) {
+                            /*if (whichTemplate == "I") {
+                              onClickTemplate(whichTemplate, index);
+                            } else if (whichTemplate == "R") {
+                              String remarks = "";
+                              if (getNullCondition(whichTemplate, index)) {
+                                if (remarksController.text != "") {
+                                  remarksController.text
+                                      .substring(remarksController.text.length);
+                                  remarks = remarksController.text +
+                                      " " +
+                                      */
+                            /*", " +*/ /*
+                                      listRemarks[index]
                                           .remarksTemplateDetails
                                           .trim();
-                                    }
-                                    debugPrint(remarks);
-                                    remarksController.text = remarks;
-                                  } else {
-                                    remarksController.text = "";
-                                  }
-                                }*/
-                                onClickTemplate(whichTemplate, index);
-                                setState(() {});
-                              },
-                              child: Padding(
-                                  padding: EdgeInsets.all(0.0),
-                                  child: Container(
-                                      width: SizeConfig.blockSizeHorizontal !* 90,
-                                      padding: EdgeInsets.only(
-                                        top: 5,
-                                        bottom: 5,
-                                        left: 5,
-                                        right: 5,
+                                } else {
+                                  remarks = listRemarks[index]
+                                      .remarksTemplateDetails
+                                      .trim();
+                                }
+                                debugPrint(remarks);
+                                remarksController.text = remarks;
+                              } else {
+                                remarksController.text = "";
+                              }
+                            }*/
+                            onClickTemplate(whichTemplate, index);
+                            setState(() {});
+                          },
+                          child: Padding(
+                              padding: EdgeInsets.all(0.0),
+                              child: Container(
+                                  width: SizeConfig.blockSizeHorizontal !* 90,
+                                  padding: EdgeInsets.only(
+                                    top: 5,
+                                    bottom: 5,
+                                    left: 5,
+                                    right: 5,
+                                  ),
+                                  decoration: new BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.rectangle,
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 2.0, color: Colors.grey),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 10.0,
+                                        offset: const Offset(0.0, 10.0),
                                       ),
-                                      decoration: new BoxDecoration(
-                                        color: Colors.white,
-                                        shape: BoxShape.rectangle,
-                                        border: Border(
-                                          bottom: BorderSide(
-                                              width: 2.0, color: Colors.grey),
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            blurRadius: 10.0,
-                                            offset: const Offset(0.0, 10.0),
-                                          ),
-                                        ],
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                      getNameFromTemplatePrefix(
+                                          whichTemplate, index),
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        decoration: TextDecoration.none,
                                       ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                          getNameFromTemplatePrefix(
-                                              whichTemplate, index),
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.black,
-                                            decoration: TextDecoration.none,
-                                          ),
-                                        ),
-                                      ))));
-                        }),
-                  ],
-                ),
+                                    ),
+                                  ))));
+                    }),
               ],
             )));
   }
@@ -3922,13 +3449,13 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
   }
 
   TextEditingController? getController(String prefix) {
-    if (prefix == "I") return adviceInvestigationSupportController;
+    if (prefix == "I") return adviceInvestigationController;
     // if (prefix == "P") return radiologyInvestigationsController;
     if (prefix == "R") return remarksController;
-    if (prefix == "C") return complaintSupportController;
+    if (prefix == "C") return complaintController;
     if (prefix == "Con") return complaintController;
-    if (prefix == "D") return diagnosisSupportController;
-    if (prefix == "E") return examinationSupportController;
+    if (prefix == "D") return diagnosisController;
+    if (prefix == "E") return examinationController;
     return null;
   }
 
@@ -4009,7 +3536,7 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
     for (var i = 0; i < listSendToLabInvestigationsResults.length; i++) {
       if (listSendToLabInvestigationsResults[i].isChecked!) {
         jArrayLabInvestigation =
-        "$jArrayLabInvestigation{\"HealthCareProviderIDP\":\"${listSendToLabInvestigationsResults[i].idp}\"},";
+            "$jArrayLabInvestigation{\"HealthCareProviderIDP\":\"${listSendToLabInvestigationsResults[i].idp}\"},";
       }
     }
 
@@ -4045,8 +3572,8 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
         pulse = "",
         spo2 = "",
         temperature = "";
-    // height = "",
-    // weight = "";
+        // height = "",
+        // weight = "";
     if (widget.consultationVitalsController.isCheckedBPSystolic.value) {
       bpSystolic = bpSystolicValue.toString();
       bpDiastolic = bpDiastolicValue.toString();
@@ -4109,8 +3636,6 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
         ",\"reason\":\"${referenceNoteController.text.trim()}\"" +
         ",\"LabInvestigationData\":$jArrayLabInvestigation" +
         "}";
-
-
 
     debugPrint('Check------------------------------------------------');
     debugPrint(jsonStr);
@@ -4262,7 +3787,7 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
       var strData = decodeBase64(data);
       debugPrint("Decoded Data Complaints Templates : " + strData);
       if (//strData != null ||
-      strData.trim() != "null") {
+          strData.trim() != "null") {
         listComplaints = complaintTemplateModelFromJson(strData);
         setState(() {});
       }
@@ -4475,14 +4000,14 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
       debugPrint("Decoded Data Consultation templates : " + strData);
       final jsonData = json.decode(strData);
       final jo = jsonData[0];
-      complaintSupportController.text =
-          append(complaintSupportController, jo['ComplainTemplateName']);
-      examinationSupportController.text =
-          append(examinationSupportController, jo['ExaminationTemplateName']);
-      diagnosisSupportController.text =
-          append(diagnosisSupportController, jo['DiagnosisTemplateName']);
-      adviceInvestigationSupportController.text = append(
-          adviceInvestigationSupportController, jo['InvestigationTemplateName']);
+      complaintController.text =
+          append(complaintController, jo['ComplainTemplateName']);
+      examinationController.text =
+          append(examinationController, jo['ExaminationTemplateName']);
+      diagnosisController.text =
+          append(diagnosisController, jo['DiagnosisTemplateName']);
+      adviceInvestigationController.text = append(
+          adviceInvestigationController, jo['InvestigationTemplateName']);
       remarksController.text =
           append(remarksController, jo['NotesTemplateName']);
       setState(() {});
@@ -4598,21 +4123,21 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
                                           FaIcon(
                                             list[index].iconData,
                                             size:
-                                            SizeConfig.blockSizeHorizontal !*
-                                                5,
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    5,
                                             color: Colors.green,
                                           ),
                                           SizedBox(
                                             width:
-                                            SizeConfig.blockSizeHorizontal !*
-                                                6.0,
+                                                SizeConfig.blockSizeHorizontal !*
+                                                    6.0,
                                           ),
                                           Text(
                                             list[index].typeName,
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               fontSize: SizeConfig
-                                                  .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal !*
                                                   4.3,
                                               color: Colors.black,
                                               fontWeight: FontWeight.w500,
@@ -4653,12 +4178,12 @@ class AddConsultationScreenState extends State<AddConsultationScreen> {
                     },
                   )
                       .paddingSymmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
-                  )
+                        horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+                      )
                       .paddingOnly(
-                    bottom: SizeConfig.blockSizeVertical !* 3.0,
-                    top: SizeConfig.blockSizeVertical !* 1.5,
-                  ),
+                        bottom: SizeConfig.blockSizeVertical !* 3.0,
+                        top: SizeConfig.blockSizeVertical !* 1.5,
+                      ),
                   Column(
                     children: [
                       Text(
@@ -4880,7 +4405,7 @@ class DropDownDialogState extends State<DropDownDialog> {
                                       Icons.cancel,
                                       color: Colors.red,
                                       size:
-                                      SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal !* 6.2,
                                     );
                                     this.titleWidget = TextField(
                                       controller: searchController,
@@ -4890,30 +4415,30 @@ class DropDownDialogState extends State<DropDownDialog> {
                                         setState(() {
                                           widget.list = listReferredDoctor
                                               .where((dropDownObj) =>
-                                              dropDownObj.value
-                                                  .toLowerCase()
-                                                  .contains(
-                                                  text.toLowerCase()))
+                                                  dropDownObj.value
+                                                      .toLowerCase()
+                                                      .contains(
+                                                          text.toLowerCase()))
                                               .toList();
                                         });
                                       },
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                        SizeConfig.blockSizeHorizontal !*
-                                            4.0,
+                                            SizeConfig.blockSizeHorizontal !*
+                                                4.0,
                                       ),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                            SizeConfig.blockSizeVertical !*
-                                                2.1),
+                                                SizeConfig.blockSizeVertical !*
+                                                    2.1),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                            SizeConfig.blockSizeVertical !*
-                                                2.1),
+                                                SizeConfig.blockSizeVertical !*
+                                                    2.1),
                                         //hintStyle: TextStyle(color: Colors.grey),
                                         hintText: "Search ${widget.type}",
                                       ),
@@ -4923,15 +4448,15 @@ class DropDownDialogState extends State<DropDownDialog> {
                                       Icons.search,
                                       color: Colors.blue,
                                       size:
-                                      SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal !* 6.2,
                                     );
                                     this.titleWidget = Text(
                                       "Select ${widget.type}",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize:
-                                        SizeConfig.blockSizeHorizontal !*
-                                            4.8,
+                                            SizeConfig.blockSizeHorizontal !*
+                                                4.8,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.green,
                                         decoration: TextDecoration.none,
@@ -5090,9 +4615,9 @@ class _SliderWidgetState extends State<SliderWidget> {
       color: Colors.white,
       width: SizeConfig.blockSizeHorizontal !* 92.0,
       padding:
-      EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal !* 6),
+          EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal !* 6),
       child: Obx(
-            () => Column(
+        () => Column(
           children: <Widget>[
             Visibility(
               visible: widget.title == "Height",
@@ -5126,7 +4651,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                     onChanged: (isChecked) {
                       if (widget.title == "Pulse") {
                         consultationVitalsController.isCheckedPulse.value =
-                        isChecked!;
+                            isChecked!;
                         /*if (!isChecked) {
                                 widget.value = widget.min.toDouble();
                                 pulseValue = widget.min.toDouble();
@@ -5134,7 +4659,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                               }*/
                       } else if (widget.title == "BP Systolic") {
                         consultationVitalsController.isCheckedBPSystolic.value =
-                        isChecked!;
+                            isChecked!;
                         /*if (!isChecked) {
                                 widget.value = widget.min.toDouble();
                                 bpSystolicValue = widget.min;
@@ -5142,7 +4667,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                               }*/
                       } else if (widget.title == "BP Diastolic") {
                         consultationVitalsController.isCheckedBPSystolic.value =
-                        isChecked!;
+                            isChecked!;
                         /*if (!isChecked) {
                                 widget.value = widget.min.toDouble();
                                 bpDiastolicValue = widget.min;
@@ -5153,7 +4678,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                             .isCheckedTemperature.value = isChecked!;
                       } else if (widget.title == "Height") {
                         consultationVitalsController.isCheckedHeight.value =
-                        isChecked!;
+                            isChecked!;
                         /*if (!isChecked) {
                                 widget.value = widget.min.toDouble();
                                 heightValue = widget.min;
@@ -5161,7 +4686,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                               }*/
                       } else if (widget.title == "Weight") {
                         consultationVitalsController.isCheckedWeight.value =
-                        isChecked!;
+                            isChecked!;
                         /*if (!isChecked) {
                                 widget.value = widget.min.toDouble();
                                 weightValue = widget.min;
@@ -5169,7 +4694,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                               }*/
                       } else if (widget.title == "SPO2") {
                         consultationVitalsController.isCheckedSPO2.value =
-                        isChecked!;
+                            isChecked!;
                         /*if (!isChecked) {
                                 widget.value = widget.min.toDouble();
                                 spo2Value = widget.min;
@@ -5220,7 +4745,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                             } else if (widget.title == "SPO2") {
                               spo2Value = widget.value;
                               consultationVitalsController.isCheckedSPO2.value =
-                              true;
+                                  true;
                               debugPrint(spo2Value.round().toString());
                             } else if (widget.title == "Weight") {
                               weightValue = widget.value;

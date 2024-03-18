@@ -2,15 +2,13 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:silvertouch/app_screens/provider_favourite_doctor_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/provider_detail.dart';
+import 'package:swasthyasetu/app_screens/provider_favourite_doctor_screen.dart';
+import 'package:swasthyasetu/app_screens/provider_favourite_screen.dart';
+import 'package:swasthyasetu/app_screens/provider_order_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
 import '../podo/dropdown_item.dart';
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -19,16 +17,20 @@ import 'doctor_order_screen.dart';
 import 'fullscreen_image.dart';
 import 'not_connected_doctors_list.dart';
 
+
 class MarketPlaceDashboardScreen extends StatefulWidget {
   String? patientIDP = "";
-  final String urlFetchPatientProfileDetails = "${baseURL}marketplacelist.php";
+  final String urlFetchPatientProfileDetails =
+      "${baseURL}marketplacelist.php";
 
   final String urlSaveRemoveFavouriteDetails =
       "${baseURL}doctor_wishlist_save.php";
 
-  final String urlAddToCart = "${baseURL}market_place_doctororder.php";
+  final String urlAddToCart =
+      "${baseURL}market_place_doctororder.php";
 
-  String emptyTextMyDoctors1 = "Please wait";
+  String emptyTextMyDoctors1 =
+      "Please wait";
 
   String emptyMessage = "";
 
@@ -44,8 +46,7 @@ class MarketPlaceDashboardScreen extends StatefulWidget {
   }
 }
 
-class MarketPlaceDashboardScreenState
-    extends State<MarketPlaceDashboardScreen> {
+class MarketPlaceDashboardScreenState extends State<MarketPlaceDashboardScreen> {
   List<Map<String, String>> listDoctorsSearchResults = [];
   String cityIDF = "";
   String firstName = "";
@@ -69,9 +70,9 @@ class MarketPlaceDashboardScreenState
     super.initState();
     widget.emptyMessage = "${widget.emptyTextMyDoctors1}";
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical ! * 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal ! * 5),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,390 +105,350 @@ class MarketPlaceDashboardScreenState
         title: titleWidget,
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical ! * 2.5),
         toolbarTextStyle: TextTheme(
-                titleLarge: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .bodyMedium,
+            titleLarge: TextStyle(
+                color: Colorsblack,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical ! * 2.5)).bodyMedium,
         titleTextStyle: TextTheme(
-                titleLarge: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .titleLarge,
+            titleLarge: TextStyle(
+                color: Colorsblack,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical ! * 2.5)).titleLarge,
       ),
       body: Builder(
         builder: (context) {
           return RefreshIndicator(
-            child: listDoctorsSearchResults.length > 0
-                ? Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: listDoctorsSearchResults.length,
-                            shrinkWrap: true,
-                            physics: ScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {},
-                                child: Container(
-                                    child: Padding(
-                                        padding: EdgeInsets.all(
-                                            SizeConfig.blockSizeHorizontal! *
-                                                2),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  // listDoctorsSearchResults[index]['ProviderLogo']
-                                                  (listDoctorsSearchResults[
-                                                                      index][
-                                                                  'ProviderLogo']
-                                                              .toString()
-                                                              .length) >
-                                                          0
-                                                      ? InkWell(
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            fadeInDuration:
-                                                                Duration.zero,
-                                                            placeholder:
-                                                                (context,
-                                                                        url) =>
-                                                                    Image(
-                                                              image: AssetImage(
-                                                                  'images/shimmer_effect.png'),
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                            imageUrl: listDoctorsSearchResults[
-                                                                        index][
-                                                                    'ProviderLogo']
-                                                                .toString(),
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        )
-                                                      : InkWell(
-                                                          onTap: () {},
-                                                          child: CircleAvatar(
-                                                            radius: 20,
-                                                            child: Icon(
-                                                              Icons
-                                                                  .storefront_sharp,
-                                                              size: 20,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                  SizedBox(
-                                                    width: SizeConfig
-                                                            .blockSizeHorizontal! *
-                                                        2,
-                                                  ),
-                                                  Container(
-                                                    width: 200,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          (listDoctorsSearchResults[
-                                                                      index][
-                                                                  "ProductName"]!
-                                                              .trim()),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeHorizontal! *
-                                                                4.2,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Colors.black,
-                                                            letterSpacing: 1.3,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          "Company - " +
-                                                              listDoctorsSearchResults[
-                                                                          index]
-                                                                      [
-                                                                      "ProviderCompanyName"]!
-                                                                  .trim(),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeHorizontal! *
-                                                                3.0,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color:
-                                                                Colors.black54,
-                                                            letterSpacing: 1.3,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                            "Area - " +
-                                                                listDoctorsSearchResults[
-                                                                            index]
-                                                                        [
-                                                                        "ProviderArea"]!
-                                                                    .trim(),
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style: TextStyle(
-                                                              fontSize: SizeConfig
-                                                                      .blockSizeHorizontal! *
-                                                                  3.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color:
-                                                                  Colors.black,
-                                                              letterSpacing:
-                                                                  1.3,
-                                                            )),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    child: Row(
-                                                      children: [
-                                                        InkWell(
-                                                            onTap: () {
-                                                              showOrderDialog(
-                                                                  listDoctorsSearchResults[
-                                                                      index]);
-                                                            },
-                                                            child: Icon(
-                                                              Icons
-                                                                  .shopping_cart,
-                                                              color:
-                                                                  Colors.blue,
-                                                              size: 30.0,
-                                                              semanticLabel:
-                                                                  'Add to order',
-                                                            )),
-                                                        SizedBox(
-                                                          width: SizeConfig
-                                                                  .blockSizeVertical! *
-                                                              2.0,
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            print('OnTap');
-                                                            print(listDoctorsSearchResults[
-                                                                    index][
-                                                                'IsFavourite']);
-                                                            String?
-                                                                healthcareProviderIDP =
-                                                                listDoctorsSearchResults[
-                                                                        index][
-                                                                    'HealthCareProviderIDP'];
-                                                            String?
-                                                                healthcareProviderProductIDP =
-                                                                listDoctorsSearchResults[
-                                                                        index][
-                                                                    'HealthCareProviderProductIDP'];
-                                                            if (listDoctorsSearchResults[
-                                                                        index][
-                                                                    'IsFavourite'] ==
-                                                                "0") {
-                                                              // save
-                                                              saveRemovePatientFavouriteDetails(
-                                                                  healthcareProviderIDP,
-                                                                  healthcareProviderProductIDP,
-                                                                  "0");
-                                                            } else {
-                                                              // remove
-                                                              saveRemovePatientFavouriteDetails(
-                                                                  healthcareProviderIDP,
-                                                                  healthcareProviderProductIDP,
-                                                                  "1");
-                                                            }
-                                                          },
-                                                          child: listDoctorsSearchResults[
-                                                                          index]
-                                                                      [
-                                                                      'IsFavourite'] ==
-                                                                  "0"
-                                                              ? Icon(
-                                                                  Icons
-                                                                      .star_border,
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  size: 30.0,
-                                                                  semanticLabel:
-                                                                      'Remove from Favourite',
-                                                                )
-                                                              : Icon(
-                                                                  Icons
-                                                                      .star_outlined,
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  size: 30.0,
-                                                                  semanticLabel:
-                                                                      'Add to Favourite',
-                                                                ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ]),
+            child: listDoctorsSearchResults.length > 0 ?
+            Column(
+              children: <Widget>[
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: listDoctorsSearchResults.length,
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+
+                          },
+                          child:
+                          Container(
+                              child: Padding(
+                                  padding: EdgeInsets.all(
+                                      SizeConfig.blockSizeHorizontal ! * 2),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            // listDoctorsSearchResults[index]['ProviderLogo']
+                                            (listDoctorsSearchResults[index]['ProviderLogo'].toString().length)>0
+                                                ?
+                                            InkWell(
+                                              child: CachedNetworkImage(
+                                                fadeInDuration: Duration.zero,
+                                                placeholder: (context, url) => Image(
+                                                  image: AssetImage('images/shimmer_effect.png'),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                imageUrl: listDoctorsSearchResults[index]['ProviderLogo'].toString(),
+                                                fit: BoxFit.cover,
+                                                ),
+                                            )  :
+                                            InkWell(
+                                              onTap: () {},
+                                              child: CircleAvatar(
+                                                radius: 20,
+                                                child: Icon(
+                                                  Icons.storefront_sharp,
+                                                  size: 20,),
+                                              ),
+                                            ),
                                             SizedBox(
-                                              height: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  0.5,
+                                              width: SizeConfig
+                                                  .blockSizeHorizontal ! *
+                                                  2,
                                             ),
                                             Container(
-                                              color: Colors.grey,
-                                              height: 0.5,
-                                            )
-                                                .paddingSymmetric(
-                                                    horizontal: SizeConfig
-                                                            .blockSizeHorizontal! *
-                                                        2)
-                                                .paddingOnly(
-                                                  top: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      1.8,
-                                                )
-                                          ],
-                                        ))),
-                              );
-                            }),
+                                              width: 200,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment
+                                                    .start,
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    (listDoctorsSearchResults[index]["ProductName"]
+                                                    !.trim()),
+                                                    textAlign: TextAlign
+                                                        .left,
+                                                    style: TextStyle(
+                                                      fontSize: SizeConfig
+                                                          .blockSizeHorizontal ! *
+                                                          4.2,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                      color: Colors
+                                                          .black,
+                                                      letterSpacing:
+                                                      1.3,
+                                                    ),
+                                                  ),
+                                                  Text("Company - " +
+                                                      listDoctorsSearchResults[index]["ProviderCompanyName"]
+                                                      !.trim(),
+                                                    textAlign: TextAlign
+                                                        .left,
+                                                    style: TextStyle(
+                                                      fontSize: SizeConfig
+                                                          .blockSizeHorizontal ! *
+                                                          3.0,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                      color: Colors
+                                                          .black54,
+                                                      letterSpacing:
+                                                      1.3,
+                                                    ),
+                                                  ),
+                                                  Text("Area - " +
+                                                      listDoctorsSearchResults[index]["ProviderArea"]
+                                                      !.trim(),
+                                                    textAlign: TextAlign
+                                                        .left,
+                                                    style: TextStyle(
+                                                      fontSize: SizeConfig
+                                                          .blockSizeHorizontal ! *
+                                                          3.0,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                      color: Colors
+                                                          .black,
+                                                      letterSpacing:
+                                                      1.3,
+                                                    )
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Row(
+                                                children: [
+                                                  InkWell(
+                                                      onTap: () {
+                                                        showOrderDialog(listDoctorsSearchResults[index]);
+                                                      },
+                                                      child:
+                                                      Icon(
+                                                        Icons.shopping_cart,
+                                                        color: Colors.blue,
+                                                        size: 30.0,
+                                                        semanticLabel: 'Add to order',
+                                                      )
+                                                  ),
+                                                  SizedBox(
+                                                    width: SizeConfig.blockSizeVertical ! *
+                                                        2.0,
+                                                  ),
+                                                  InkWell(
+                                                    onTap: ()
+                                                    {
+                                                      print('OnTap');
+                                                      print(listDoctorsSearchResults[index]['IsFavourite']);
+                                                      String? healthcareProviderIDP = listDoctorsSearchResults[index]['HealthCareProviderIDP'];
+                                                      String? healthcareProviderProductIDP = listDoctorsSearchResults[index]['HealthCareProviderProductIDP'];
+                                                      if (listDoctorsSearchResults[index]['IsFavourite'] == "0") {
+                                                        // save
+                                                        saveRemovePatientFavouriteDetails(
+                                                            healthcareProviderIDP,
+                                                            healthcareProviderProductIDP,
+                                                            "0");
+                                                      }
+                                                      else {
+                                                        // remove
+                                                        saveRemovePatientFavouriteDetails(
+                                                            healthcareProviderIDP,
+                                                            healthcareProviderProductIDP,
+                                                            "1");
+                                                      }
+                                                    },
+                                                    child:
+                                                    listDoctorsSearchResults[index]['IsFavourite'] ==
+                                                        "0" ?
+                                                    Icon(
+                                                      Icons.star_border,
+                                                      color: Colors.blue,
+                                                      size: 30.0,
+                                                      semanticLabel: 'Remove from Favourite',
+                                                    ) :
+                                                    Icon(
+                                                      Icons.star_outlined,
+                                                      color: Colors.blue,
+                                                      size: 30.0,
+                                                      semanticLabel: 'Add to Favourite',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ]
+                                      ),
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical ! *
+                                            0.5,
+                                      ),
+                                      Container(
+                                        color: Colors.grey,
+                                        height: 0.5,
+                                      )
+                                          .paddingSymmetric(
+                                          horizontal: SizeConfig
+                                              .blockSizeHorizontal ! *
+                                              2)
+                                          .paddingOnly(
+                                        top: SizeConfig
+                                            .blockSizeVertical ! *
+                                            1.8,
+                                      )
+                                    ],
+                                  ))),
+                        );
+                      }),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children:
+                  [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(() =>
+                              ProviderFavouriteDoctorScreen(
+                                widget.patientIDP!
+                              ))?.then((value) {
+                            getPatientProfileDetails();
+                          });
+                        },
+                        child:
+                        Card(
+                          elevation: 0,
+                          shadowColor: Colors.grey,
+                          color: colorBlueDark,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(
+                                      10.0) //                 <--- border radius here
+                              ),
+                              side: BorderSide(
+                                  color: colorBlueDark, width: 1.5)),
+                          margin: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal ! * 3.0,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(
+                              SizeConfig.blockSizeHorizontal ! * 3.0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage(
+                                    "images/ic_favourite.png",
+                                  ),
+                                  height:
+                                  SizeConfig.blockSizeHorizontal ! * 7,
+                                  width:
+                                  SizeConfig.blockSizeHorizontal ! * 7,
+                                ),
+                                SizedBox(
+                                  width: SizeConfig.blockSizeHorizontal ! *
+                                      2.0,
+                                ),
+                                Text(
+                                  "My Favourite",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: colorWhite),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                Get.to(() => ProviderFavouriteDoctorScreen(
-                                    widget.patientIDP!))?.then((value) {
-                                  getPatientProfileDetails();
-                                });
-                              },
-                              child: Card(
-                                elevation: 0,
-                                shadowColor: Colors.grey,
-                                color: colorBlueDark,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            10.0) //                 <--- border radius here
-                                        ),
-                                    side: BorderSide(
-                                        color: colorBlueDark, width: 1.5)),
-                                margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal! * 3.0,
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal! * 3.0,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image(
-                                        image: AssetImage(
-                                          "images/ic_favourite.png",
-                                        ),
-                                        height:
-                                            SizeConfig.blockSizeHorizontal! * 7,
-                                        width:
-                                            SizeConfig.blockSizeHorizontal! * 7,
-                                      ),
-                                      SizedBox(
-                                        width: SizeConfig.blockSizeHorizontal! *
-                                            2.0,
-                                      ),
-                                      Text(
-                                        "My Favourite",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            color: colorWhite),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder:
+                                      (context) {
+                                    return DoctorOrderScreen(
+                                        widget.patientIDP!
+                                    );
+                                  }));
+                        },
+                        child:
+                        Card(
+                          elevation: 0,
+                          shadowColor: Colors.grey,
+                          color: colorBlueDark,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(
+                                      10.0) //                 <--- border radius here
                               ),
+                              side: BorderSide(
+                                  color: colorBlueDark, width: 1.5)),
+                          margin: EdgeInsets.all(
+                              SizeConfig.blockSizeHorizontal ! * 3.0
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(
+                              SizeConfig.blockSizeHorizontal ! * 3.0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage(
+                                    "images/ic_order.png",
+                                  ),
+                                  height:
+                                  SizeConfig.blockSizeHorizontal ! * 7,
+                                  width:
+                                  SizeConfig.blockSizeHorizontal ! * 7,
+                                ),
+                                SizedBox(
+                                  width: SizeConfig.blockSizeHorizontal ! *
+                                      2.0,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "My Order",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        color: colorWhite),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (context) {
-                                  return DoctorOrderScreen(widget.patientIDP!);
-                                }));
-                              },
-                              child: Card(
-                                elevation: 0,
-                                shadowColor: Colors.grey,
-                                color: colorBlueDark,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            10.0) //                 <--- border radius here
-                                        ),
-                                    side: BorderSide(
-                                        color: colorBlueDark, width: 1.5)),
-                                margin: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal! * 3.0),
-                                child: Padding(
-                                  padding: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal! * 3.0,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image(
-                                        image: AssetImage(
-                                          "images/ic_order.png",
-                                        ),
-                                        height:
-                                            SizeConfig.blockSizeHorizontal! * 7,
-                                        width:
-                                            SizeConfig.blockSizeHorizontal! * 7,
-                                      ),
-                                      SizedBox(
-                                        width: SizeConfig.blockSizeHorizontal! *
-                                            2.0,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "My Order",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              color: colorWhite),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  )
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            )
                 : widget.emptyMessageWidget!,
             onRefresh: () {
               return getPatientProfileDetails();
@@ -577,10 +538,10 @@ class MarketPlaceDashboardScreenState
           doctorApiCalled = true;
         else
           doctorApiCalled = false;
-        if (listDoctorsSearchResults != null &&
-            listDoctorsSearchResults.length > 0) {
-          listDoctorsSearchResults.clear();
-        }
+        if(listDoctorsSearchResults!=null && listDoctorsSearchResults.length>0)
+          {
+            listDoctorsSearchResults.clear();
+          }
         for (var i = 0; i < jsonData.length; i++) {
           var jo = jsonData[i];
           listDoctorsSearchResults.add({
@@ -592,8 +553,7 @@ class MarketPlaceDashboardScreenState
             "ProductName": jo['ProductName'].toString(),
             "IsFavourite": jo['IsFavourite'].toString(),
             "ProductDetails": jo['ProductDetails'].toString(),
-            "HealthCareProviderProductIDP":
-                jo['HealthCareProviderProductIDP'].toString()
+            "HealthCareProviderProductIDP": jo['HealthCareProviderProductIDP'].toString()
           });
         }
         pr.hide();
@@ -601,6 +561,7 @@ class MarketPlaceDashboardScreenState
       }
     } catch (exception) {
       if (!doctorApiCalled) {
+
       } else {
         pr.hide();
       }
@@ -608,16 +569,15 @@ class MarketPlaceDashboardScreenState
     return 'success';
   }
 
-  Future<String> saveRemovePatientFavouriteDetails(
-      String? healthcareProviderIDP,
-      String? healthcareProviderProductIDP,
-      String updateType) async {
+  Future<String> saveRemovePatientFavouriteDetails(String? healthcareProviderIDP,String? healthcareProviderProductIDP,String updateType) async
+  {
     ProgressDialog pr = ProgressDialog(context);
     Future.delayed(Duration.zero, () {
       pr.show();
     });
 
-    try {
+    try
+    {
       String patientUniqueKey = await getPatientUniqueKey();
       String userType = await getUserType();
       debugPrint("Key and type");
@@ -770,8 +730,7 @@ class MarketPlaceDashboardScreenState
     return 'success';
   }
 
-  Future<String> addToCart(String? healthcareProviderIDP,
-      String? healthcareProviderProductIDP) async {
+  Future<String> addToCart(String? healthcareProviderIDP,String? healthcareProviderProductIDP) async {
     /*List<IconModel> listIcon;*/
     var doctorApiCalled = false;
     print('addToCart $healthcareProviderIDP $healthcareProviderProductIDP');
@@ -780,7 +739,8 @@ class MarketPlaceDashboardScreenState
       pr.show();
     });
 
-    try {
+    try
+    {
       String patientUniqueKey = await getPatientUniqueKey();
       String userType = await getUserType();
       debugPrint("Key and type");
@@ -829,7 +789,8 @@ class MarketPlaceDashboardScreenState
       debugPrint(response.body.toString());
       final jsonResponse = json.decode(response.body.toString());
       ResponseModel model = ResponseModel.fromJSON(jsonResponse);
-      if (model.status == "OK") {
+      if (model.status == "OK")
+      {
         var data = jsonResponse['Data'];
         pr.hide();
         final snackBar = SnackBar(
@@ -909,7 +870,8 @@ class MarketPlaceDashboardScreenState
               doctorApiCalled = true;
             else
               doctorApiCalled = false;
-            for (var i = 0; i < jsonData.length; i++) {
+            for (var i = 0; i < jsonData.length; i++)
+            {
               var jo = jsonData[i];
               listDoctorsSearchResults.add({
                 "HealthCareProviderIDP": jo['HealthCareProviderIDP'].toString(),
@@ -920,8 +882,7 @@ class MarketPlaceDashboardScreenState
                 "CityName": jo['CityName'].toString(),
                 "IsFavourite": jo['IsFavourite'].toString(),
                 "ProductName": jo['ProductName'].toString(),
-                "HealthCareProviderProductIDP":
-                    jo['HealthCareProviderProductIDP'].toString()
+                "HealthCareProviderProductIDP": jo['HealthCareProviderProductIDP'].toString()
               });
             }
             setState(() {});
@@ -929,27 +890,26 @@ class MarketPlaceDashboardScreenState
         } catch (exception) {
           pr.hide();
         }
-      } else {
+      }
+      else
+      {
         pr.hide();
       }
     }
     return 'success';
   }
 
-  Future<void> showOrderDialog(
-      Map<String, String> listDoctorsSearchResult) async {
+  Future<void> showOrderDialog(Map<String, String> listDoctorsSearchResult) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          // <-- SEE HERE
+        return AlertDialog( // <-- SEE HERE
           title: const Text('Please confirm'),
           content: SingleChildScrollView(
             child: ListBody(
               children: const <Widget>[
-                Text(
-                    "Once order is placed, vendor will contact you for details."),
+                Text("Once order is placed, vendor will contact you for details."),
               ],
             ),
           ),
@@ -964,8 +924,7 @@ class MarketPlaceDashboardScreenState
               child: const Text('Place Order'),
               onPressed: () {
                 Navigator.of(context).pop();
-                addToCart(listDoctorsSearchResult['HealthCareProviderIDP'],
-                    listDoctorsSearchResult['HealthCareProviderProductIDP']);
+                addToCart(listDoctorsSearchResult['HealthCareProviderIDP'], listDoctorsSearchResult['HealthCareProviderProductIDP']);
               },
             ),
           ],
@@ -973,4 +932,5 @@ class MarketPlaceDashboardScreenState
       },
     );
   }
+
 }

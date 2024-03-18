@@ -1,17 +1,10 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get_it/get_it.dart';
-import 'package:silvertouch/app_screens/doctor_dashboard_screen.dart';
-import 'package:silvertouch/app_screens/login_screen.dart';
-import 'package:silvertouch/app_screens/patient_dashboard_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/services/navigation_service.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/app_screens/doctor_dashboard_screen.dart';
+import 'package:swasthyasetu/app_screens/login_screen.dart';
+import 'package:swasthyasetu/app_screens/patient_dashboard_screen.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/services/navigation_service.dart';
 
 class DynamicLinksService {
   var navigationService;
@@ -31,7 +24,7 @@ class DynamicLinksService {
     // using a dynamic link.
     FirebaseDynamicLinks.instance.onLink.listen((dynamicLink) {
       _handleDeepLink(dynamicLink);
-    }).onError((e) {
+    }).onError((e){
       print('Link Failed: ${e.message}');
     });
 
@@ -45,22 +38,23 @@ class DynamicLinksService {
   }
 
   void _handleDeepLink(PendingDynamicLinkData? data) async {
-    if (data != null) {
-      final Uri deepLink = data!.link;
-      if (deepLink != null) {
-        var referCode = deepLink.path.replaceAll('/', '');
-        doctorIDP = referCode.substring(5).replaceAll("0", "");
-        String userType = await getUserType();
-        if (userType != "") {
-          if (userType == "patient") {
-            navigationService.navigateTo(PatientDashboardScreen(doctorIDP));
-          } else if (userType == "doctor") {
-            navigationService.navigateTo(DoctorDashboardScreen());
+    if(data!=null)
+      {
+        final Uri deepLink = data!.link;
+        if (deepLink != null) {
+          var referCode = deepLink.path.replaceAll('/', '');
+          doctorIDP = referCode.substring(5).replaceAll("0", "");
+          String userType = await getUserType();
+          if (userType != "") {
+            if (userType == "patient") {
+              navigationService.navigateTo(PatientDashboardScreen(doctorIDP));
+            } else if (userType == "doctor") {
+              navigationService.navigateTo(DoctorDashboardScreen());
+            }
+          } else {
+            navigationService.navigateTo(LoginScreen(doctorIDP));
           }
-        } else {
-          navigationService.navigateTo(LoginScreen(doctorIDP));
-        }
-      } else {}
-    }
+        } else {}
+      }
   }
 }

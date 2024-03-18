@@ -7,21 +7,24 @@ import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_files_and_screenshot_widgets/share_files_and_screenshot_widgets.dart';
-import 'package:silvertouch/api/api_helper.dart';
-import 'package:silvertouch/app_screens/add_vital_screen.dart';
-import 'package:silvertouch/app_screens/water_intake_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/dropdown_item.dart';
-import 'package:silvertouch/podo/model_graph_values.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_vitals_list.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/common_methods.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
+
+//import 'package:share_extend/share_extend.dart';
+import 'package:swasthyasetu/app_screens/add_vital_screen.dart';
+import 'package:swasthyasetu/app_screens/water_intake_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/dropdown_item.dart';
+import 'package:swasthyasetu/podo/model_graph_values.dart';
+import 'package:swasthyasetu/podo/model_vitals_list.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/common_methods.dart';
+import 'package:swasthyasetu/utils/flutter_echarts_custom.dart';
+
+//import 'package:progress_dialog/progress_dialog.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
+as DateRagePicker;
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../utils/color.dart';
 
@@ -62,7 +65,9 @@ List<String> listVitalOnlyStringDate2 = [];
 
 var chartType = "";
 
-int bpSystolicValue = 30, bpDiastolicValue = 10;
+int bpSystolicValue = 30,
+    bpDiastolicValue = 10;
+
 
 var selectedGradientColors = [
   Colors.white,
@@ -87,7 +92,8 @@ GlobalKey<MyEChartState>? keyForChart2 = GlobalKey();
 class VitalsCombineListScreen extends StatefulWidget {
   List<ModelVitalsList> listVitals = [];
   String? patientIDP = "";
-  String? vitalIDP = "", vitalIDP2 = "";
+  String? vitalIDP = "",
+      vitalIDP2 = "";
   String? vitalGroupIDP = "";
   String unit = "", unit2 = "", unit3 = "", unit4 = "", unit5 = "";
   DropDownItem selectedCountry = DropDownItem("", "");
@@ -116,6 +122,7 @@ class VitalsCombineListScreen extends StatefulWidget {
       "Monitor your Blood sugar level regularly and share to your doctor very easily.";
   String emptyTextSugar3 =
       "Monitor and record your Blood Sugar values as Fasting Sugar (FBS), Sugar after Lunch (PPBS), RBS, HbA1C by selecting PLUS button from the bottom od screen.";*/
+
 
   String emptyMessage = "";
 
@@ -179,7 +186,8 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
   late DateTimeRange dateRange;
 
   @override
-  void dispose() {
+  void dispose()
+  {
     keyForChart = null;
     keyForChart2 = null;
     listVital = [];
@@ -196,971 +204,943 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
     listBPTabsWidgets = [
       widget.vitalGroupIDP == "1"
           ? widget.listVitals.length > 0
-              ? ListView.builder(
-                  padding: const EdgeInsets.only(
-                      bottom: kFloatingActionButtonMargin + 60),
-                  itemCount: widget.listVitals.length,
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                        onTap: () {},
-                        child: Padding(
-                            padding: EdgeInsets.all(0.0),
-                            child: Container(
-                                width: SizeConfig.blockSizeHorizontal! * 90,
-                                padding: EdgeInsets.only(
-                                  top: 5,
-                                  bottom: 5,
-                                  left: 5,
-                                  right: 5,
-                                ),
-                                decoration: new BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.rectangle,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1.0, color: Color(0xFF636F7B)),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 10.0,
-                                      offset: const Offset(0.0, 10.0),
-                                    ),
-                                  ],
-                                ),
-                                child: Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Container(
-                                      /*decoration: BoxDecoration(
-                                        color: Colors.primaries[Random()
-                                            .nextInt(Colors.primaries.length)],
-                                        borderRadius: BorderRadius.circular(35),
-                                      ),*/
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          // Container(
-                                          //   margin: EdgeInsets.all(5.0),
-                                          //   padding: EdgeInsets.all(5.0),
-                                          //   decoration: BoxDecoration(
-                                          //       shape: BoxShape.circle,
-                                          //       gradient: LinearGradient(
-                                          //           begin: Alignment.topLeft,
-                                          //           end: Alignment.bottomRight,
-                                          //           colors: [
-                                          //             Colors.white,
-                                          //             Color(0xFF636F7B),
-                                          //             Colors.black,
-                                          //           ]),
-                                          //       color: Color(0xFF636F7B)),
-                                          //   child: Text(
-                                          //     "${index + 1}",
-                                          //     style: TextStyle(
-                                          //         color: Colors.white,
-                                          //         fontSize: SizeConfig
-                                          //             .blockSizeVertical *
-                                          //             2.3),
-                                          //   ),
-                                          // ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Text(
-                                                    "${widget.listVitals[index].vitalEntryDate}",
-                                                    style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeVertical! *
-                                                          2.3,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    ' (${widget.listVitals[index].vitalEntryTime})',
-                                                    style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeVertical! *
-                                                          2.3,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: SizeConfig
-                                                        .blockSizeVertical! *
-                                                    0.8,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          widget.vitalGroupIDP ==
-                                                                  "2"
-                                                              ? "Pulse"
-                                                              : (widget.vitalGroupIDP ==
-                                                                      "1"
-                                                                  ? "Systolic"
-                                                                  : title1),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.2,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          // "${listVital[index].value} (${widget.unit})",
-                                                          "${listVital[index].value}",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.2,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 20,
-                                                    height: 20,
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          widget.vitalGroupIDP ==
-                                                                  "1"
-                                                              ? "Diastolic"
-                                                              : "$title2 (${widget.unit2}",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.2,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          // "${listVital2[index].value} (${widget.unit2})",
-                                                          "${listVital2[index].value})",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 20,
-                                                    height: 20,
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          "Entry By",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.2,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          // "${listVital2[index].value} (${widget.unit2})",
-                                                          "${listVital2[index].byWhom}",
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF636F7B),
-                                                            fontSize: SizeConfig
-                                                                    .blockSizeVertical! *
-                                                                2.1,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          Expanded(
-                                            child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  deleteTheVitalFromTheListForBP1(
-                                                      listVital[index],
-                                                      listVital2[index]);
-                                                },
-                                                child: Icon(
-                                                  Icons.delete,
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )))));
-                  })
-              : widget.emptyMessageWidget!
-          : widget.listVitals.length > 0
-              ? ListView.builder(
-                  padding: const EdgeInsets.only(
-                      bottom: kFloatingActionButtonMargin + 60),
-                  itemCount: listVital.length,
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                        onTap: () {},
-                        child: Padding(
-                            padding: EdgeInsets.all(0.0),
-                            child: Container(
-                                width: SizeConfig.blockSizeHorizontal! * 90,
-                                padding: EdgeInsets.only(
-                                  top: 5,
-                                  bottom: 5,
-                                  left: 5,
-                                  right: 5,
-                                ),
-                                decoration: new BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.rectangle,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1.0, color: Color(0xFF636F7B)),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 10.0,
-                                      offset: const Offset(0.0, 10.0),
-                                    ),
-                                  ],
-                                ),
-                                child: Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Container(
-                                      /*decoration: BoxDecoration(
-                                        color: Colors.primaries[Random()
-                                            .nextInt(Colors.primaries.length)],
-                                        borderRadius: BorderRadius.circular(35),
-                                      ),*/
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            margin: EdgeInsets.all(5.0),
-                                            padding: EdgeInsets.all(5.0),
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                gradient: LinearGradient(
-                                                    begin: Alignment.topLeft,
-                                                    end: Alignment.bottomRight,
-                                                    colors: [
-                                                      Colors.white,
-                                                      Color(0xFF636F7B),
-                                                      Colors.black,
-                                                    ]),
-                                                color: Color(0xFF636F7B)),
-                                            child: Text(
-                                              "${index + 1}",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Text(
-                                                    "${listVital[index].date} - ",
-                                                    style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeVertical! *
-                                                          2.3,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "${listVital[index].time}",
-                                                    style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeVertical! *
-                                                          2.3,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: SizeConfig
-                                                        .blockSizeVertical! *
-                                                    0.8,
-                                              ),
-                                              Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      widget.vitalGroupIDP ==
-                                                              "2"
-                                                          ? "Pulse"
-                                                          : (widget.vitalGroupIDP ==
-                                                                  "1"
-                                                              ? "BP Systolic"
-                                                              : title1),
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      " -  ${listVital[index].value} (${widget.unit})",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF636F7B),
-                                                        fontSize: SizeConfig
-                                                                .blockSizeVertical! *
-                                                            2.1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text("---"),
-                                              ),
-                                              Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                    listVital[index].byWhom!),
-                                              ),
-                                            ],
-                                          ),
-                                          Expanded(
-                                            child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  deleteTheVitalFromTheList(
-                                                      listVital[index]);
-                                                },
-                                                child: Icon(
-                                                  Icons.delete,
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )))));
-                  })
-              : widget.emptyMessageWidget!,
-      listVital2.length > 0
-          ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital2.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          ?
+      ListView.builder(
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: widget.listVitals.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
+                                children: <Widget>[
+                                  // Container(
+                                  //   margin: EdgeInsets.all(5.0),
+                                  //   padding: EdgeInsets.all(5.0),
+                                  //   decoration: BoxDecoration(
+                                  //       shape: BoxShape.circle,
+                                  //       gradient: LinearGradient(
+                                  //           begin: Alignment.topLeft,
+                                  //           end: Alignment.bottomRight,
+                                  //           colors: [
+                                  //             Colors.white,
+                                  //             Color(0xFF636F7B),
+                                  //             Colors.black,
+                                  //           ]),
+                                  //       color: Color(0xFF636F7B)),
+                                  //   child: Text(
+                                  //     "${index + 1}",
+                                  //     style: TextStyle(
+                                  //         color: Colors.white,
+                                  //         fontSize: SizeConfig
+                                  //             .blockSizeVertical *
+                                  //             2.3),
+                                  //   ),
+                                  // ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.all(5.0),
-                                        padding: EdgeInsets.all(5.0),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            gradient: LinearGradient(
-                                                begin: Alignment.topLeft,
-                                                end: Alignment.bottomRight,
-                                                colors: [
-                                                  Colors.white,
-                                                  Color(0xFF636F7B),
-                                                  Colors.black,
-                                                ]),
-                                            color: Color(0xFF636F7B)),
-                                        child: Text(
-                                          "${index + 1}",
-                                          style: TextStyle(
-                                              color: Colors.white,
+                                      Row(
+                                        children: <Widget>[
+                                          Text(
+                                            "${widget.listVitals[index].vitalEntryDate}",
+                                            style: TextStyle(
+                                              color: Colors.green,
                                               fontSize: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  2.3),
-                                        ),
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
+                                          ),
+                                          Text(
+                                            ' (${widget.listVitals[index].vitalEntryTime})',
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       SizedBox(
-                                        width: 10,
+                                        height: SizeConfig
+                                            .blockSizeVertical !*
+                                            0.8,
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital2[index].date} - ",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital2[index].time}",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
                                           Align(
                                             alignment: Alignment.topLeft,
-                                            child: Row(
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
-                                                  widget.vitalGroupIDP == "2"
-                                                      ? "Temperature"
+                                                  widget.vitalGroupIDP ==
+                                                      "2"
+                                                      ? "Pulse"
                                                       : (widget.vitalGroupIDP ==
-                                                              "1"
-                                                          ? "BP Diastolic"
-                                                          : (widget.vitalGroupIDP ==
-                                                                  "5"
-                                                              ? title2
-                                                              : title)),
+                                                      "1"
+                                                      ? "Systolic"
+                                                      : title1),
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
-                                                    color: Color(0xFF636F7B),
-                                                    fontWeight: FontWeight.w500,
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontWeight:
+                                                    FontWeight.w500,
                                                     fontSize: SizeConfig
-                                                            .blockSizeVertical! *
-                                                        2.1,
+                                                        .blockSizeVertical !*
+                                                        2.2,
                                                   ),
                                                 ),
                                                 Text(
-                                                  " -  ${listVital2[index].value} (${widget.unit2})",
+                                                  // "${listVital[index].value} (${widget.unit})",
+                                                  "${listVital[index].value}",
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
-                                                    color: Color(0xFF636F7B),
+                                                    color:
+                                                    Color(0xFF636F7B),
                                                     fontSize: SizeConfig
-                                                            .blockSizeVertical! *
+                                                        .blockSizeVertical !*
+                                                        2.2,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(width: 20,height: 20,),
+                                          Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  widget.vitalGroupIDP ==
+                                                      "1"
+                                                      ? "Diastolic"
+                                                      : "$title2 (${widget.unit2}",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.2,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  // "${listVital2[index].value} (${widget.unit2})",
+                                                  "${listVital2[index].value})",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
                                                         2.1,
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           ),
+                                          SizedBox(width: 20,height: 20,),
                                           Align(
                                             alignment: Alignment.topLeft,
-                                            child: Text("---"),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child:
-                                                Text(listVital2[index].byWhom!),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text("Entry By",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.2,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  // "${listVital2[index].value} (${widget.unit2})",
+                                                  "${listVital2[index].byWhom}",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    color:
+                                                    Color(0xFF636F7B),
+                                                    fontSize: SizeConfig
+                                                        .blockSizeVertical !*
+                                                        2.1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital2[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheListForBP1(
+                                              listVital[index],
+                                              listVital2[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
+          : widget.emptyMessageWidget!
+          : widget.listVitals.length > 0
+          ? ListView.builder(
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
+                                        color: Colors.primaries[Random()
+                                            .nextInt(Colors.primaries.length)],
+                                        borderRadius: BorderRadius.circular(35),
+                                      ),*/
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.all(5.0),
+                                    padding: EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              Colors.white,
+                                              Color(0xFF636F7B),
+                                              Colors.black,
+                                            ]),
+                                        color: Color(0xFF636F7B)),
+                                    child: Text(
+                                      "${index + 1}",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: SizeConfig
+                                              .blockSizeVertical !*
+                                              2.3),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Text(
+                                            "${listVital[index].date} - ",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
+                                          Text(
+                                            "${listVital[index].time}",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: SizeConfig
+                                            .blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Text(
+                                              widget.vitalGroupIDP ==
+                                                  "2"
+                                                  ? "Pulse"
+                                                  : (widget.vitalGroupIDP ==
+                                                  "1"
+                                                  ? "BP Systolic"
+                                                  : title1),
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color:
+                                                Color(0xFF636F7B),
+                                                fontWeight:
+                                                FontWeight.w500,
+                                                fontSize: SizeConfig
+                                                    .blockSizeVertical !*
+                                                    2.1,
+                                              ),
+                                            ),
+                                            Text(
+                                              " -  ${listVital[index].value} (${widget.unit})",
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color:
+                                                Color(0xFF636F7B),
+                                                fontSize: SizeConfig
+                                                    .blockSizeVertical !*
+                                                    2.1,
+                                              ),
+                                            ),
+                                          ],
                                         ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text("---"),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                            listVital[index].byWhom!),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
+          : widget.emptyMessageWidget!,
+      listVital2.length > 0
+          ? ListView.builder(
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital2.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
+                                        color: Colors.primaries[Random()
+                                            .nextInt(Colors.primaries.length)],
+                                        borderRadius: BorderRadius.circular(35),
+                                      ),*/
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.all(5.0),
+                                    padding: EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              Colors.white,
+                                              Color(0xFF636F7B),
+                                              Colors.black,
+                                            ]),
+                                        color: Color(0xFF636F7B)),
+                                    child: Text(
+                                      "${index + 1}",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize:
+                                          SizeConfig.blockSizeVertical !*
+                                              2.3),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Text(
+                                            "${listVital2[index].date} - ",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
+                                          ),
+                                          Text(
+                                            "${listVital2[index].time}",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Text(
+                                              widget.vitalGroupIDP == "2"
+                                                  ? "Temperature"
+                                                  : (widget.vitalGroupIDP ==
+                                                  "1"
+                                                  ? "BP Diastolic"
+                                                  : (widget.vitalGroupIDP ==
+                                                  "5"
+                                                  ? title2
+                                                  : title)),
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color: Color(0xFF636F7B),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: SizeConfig
+                                                    .blockSizeVertical !*
+                                                    2.1,
+                                              ),
+                                            ),
+                                            Text(
+                                              " -  ${listVital2[index].value} (${widget.unit2})",
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color: Color(0xFF636F7B),
+                                                fontSize: SizeConfig
+                                                    .blockSizeVertical !*
+                                                    2.1,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text("---"),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Text(listVital2[index].byWhom!),
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital2[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
     ];
 
     listVitalsTabsWidgets = [
       listVital.length > 0
-          ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          ?
+      ListView.builder(
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.all(5.0),
+                                    padding: EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              Colors.white,
+                                              Color(0xFF636F7B),
+                                              Colors.black,
+                                            ]),
+                                        color: Color(0xFF636F7B)),
+                                    child: Text(
+                                      "${index + 1}",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize:
+                                          SizeConfig.blockSizeVertical !*
+                                              2.3),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.all(5.0),
-                                        padding: EdgeInsets.all(5.0),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            gradient: LinearGradient(
-                                                begin: Alignment.topLeft,
-                                                end: Alignment.bottomRight,
-                                                colors: [
-                                                  Colors.white,
-                                                  Color(0xFF636F7B),
-                                                  Colors.black,
-                                                ]),
-                                            color: Color(0xFF636F7B)),
-                                        child: Text(
-                                          "${index + 1}",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  2.3),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital[index].date} - ",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital[index].time}",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text(
-                                                  widget.vitalGroupIDP == "2"
-                                                      ? "Pulse"
-                                                      : widget.vitalGroupIDP ==
-                                                              "3"
-                                                          ? "FBS"
-                                                          : (widget.vitalGroupIDP ==
-                                                                  "1"
-                                                              ? "BP Systolic"
-                                                              : title1),
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    color: Color(0xFF636F7B),
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: SizeConfig
-                                                            .blockSizeVertical! *
-                                                        2.1,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  " -  ${listVital[index].value} (${widget.unit})",
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    color: Color(0xFF636F7B),
-                                                    fontSize: SizeConfig
-                                                            .blockSizeVertical! *
-                                                        2.1,
-                                                  ),
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital[index].date} - ",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Text("---"),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child:
-                                                Text(listVital[index].byWhom!),
+                                          Text(
+                                            "${listVital[index].time}",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Text(
+                                              widget.vitalGroupIDP == "2"
+                                                  ? "Pulse"
+                                                  : widget.vitalGroupIDP ==
+                                                  "3"
+                                                  ? "FBS"
+                                                  : (widget.vitalGroupIDP ==
+                                                  "1"
+                                                  ? "BP Systolic"
+                                                  : title1),
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color: Color(0xFF636F7B),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: SizeConfig
+                                                    .blockSizeVertical !*
+                                                    2.1,
+                                              ),
                                             ),
-                                          ),
+                                            Text(
+                                              " -  ${listVital[index].value} (${widget.unit})",
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color: Color(0xFF636F7B),
+                                                fontSize: SizeConfig
+                                                    .blockSizeVertical !*
+                                                    2.1,
+                                              ),
+                                            ),
+                                          ],
                                         ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text("---"),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Text(listVital[index].byWhom!),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!,
       listVital2.length > 0
           ? ListView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kFloatingActionButtonMargin + 60),
-              itemCount: listVital2.length,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 90,
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                              left: 5,
-                              right: 5,
+          padding: const EdgeInsets.only(
+              bottom: kFloatingActionButtonMargin + 60),
+          itemCount: listVital2.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {},
+                child: Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0, color: Color(0xFF636F7B)),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: const Offset(0.0, 10.0),
                             ),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.rectangle,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.0, color: Color(0xFF636F7B)),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: const Offset(0.0, 10.0),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Container(
-                                  /*decoration: BoxDecoration(
+                          ],
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Container(
+                              /*decoration: BoxDecoration(
                                         color: Colors.primaries[Random()
                                             .nextInt(Colors.primaries.length)],
                                         borderRadius: BorderRadius.circular(35),
                                       ),*/
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.all(5.0),
+                                    padding: EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              Colors.white,
+                                              Color(0xFF636F7B),
+                                              Colors.black,
+                                            ]),
+                                        color: Color(0xFF636F7B)),
+                                    child: Text(
+                                      "${index + 1}",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize:
+                                          SizeConfig.blockSizeVertical !*
+                                              2.3),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.all(5.0),
-                                        padding: EdgeInsets.all(5.0),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            gradient: LinearGradient(
-                                                begin: Alignment.topLeft,
-                                                end: Alignment.bottomRight,
-                                                colors: [
-                                                  Colors.white,
-                                                  Color(0xFF636F7B),
-                                                  Colors.black,
-                                                ]),
-                                            color: Color(0xFF636F7B)),
-                                        child: Text(
-                                          "${index + 1}",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: SizeConfig
-                                                      .blockSizeVertical! *
-                                                  2.3),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "${listVital2[index].date} - ",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                              Text(
-                                                "${listVital2[index].time}",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical! *
-                                                      2.3,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.blockSizeVertical! *
-                                                    0.8,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text(
-                                                  "BP Diastolic",
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    color: Color(0xFF636F7B),
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: SizeConfig
-                                                            .blockSizeVertical! *
-                                                        2.1,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  " -  ${listVital2[index].value} (${widget.unit2})",
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    color: Color(0xFF636F7B),
-                                                    fontSize: SizeConfig
-                                                            .blockSizeVertical! *
-                                                        2.1,
-                                                  ),
-                                                ),
-                                              ],
+                                          Text(
+                                            "${listVital2[index].date} - ",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
                                             ),
                                           ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Text("---"),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child:
-                                                Text(listVital2[index].byWhom!),
+                                          Text(
+                                            "${listVital2[index].time}",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                  .blockSizeVertical !*
+                                                  2.3,
+                                            ),
                                           ),
                                         ],
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              deleteTheVitalFromTheList(
-                                                  listVital2[index]);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
+                                      SizedBox(
+                                        height:
+                                        SizeConfig.blockSizeVertical !*
+                                            0.8,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Text(
+                                              "BP Diastolic",
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color: Color(0xFF636F7B),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: SizeConfig
+                                                    .blockSizeVertical !*
+                                                    2.1,
+                                              ),
                                             ),
-                                          ),
+                                            Text(
+                                              " -  ${listVital2[index].value} (${widget.unit2})",
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color: Color(0xFF636F7B),
+                                                fontSize: SizeConfig
+                                                    .blockSizeVertical !*
+                                                    2.1,
+                                              ),
+                                            ),
+                                          ],
                                         ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text("---"),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child:
+                                        Text(listVital2[index].byWhom!),
                                       ),
                                     ],
                                   ),
-                                )))));
-              })
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          deleteTheVitalFromTheList(
+                                              listVital2[index]);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )))));
+          })
           : widget.emptyMessageWidget!
     ];
   }
@@ -1177,14 +1157,14 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
     title = "Blood Pressure";
     title1 = "Blood Pressure";
     widget.emptyMessage =
-        "${widget.emptyTextBP1}\n\n${widget.emptyTextBP2}\n\n${widget.emptyTextBP3}\n\n${widget.emptyTextBP4}";
+    "${widget.emptyTextBP1}\n\n${widget.emptyTextBP2}\n\n${widget.emptyTextBP3}\n\n${widget.emptyTextBP4}";
     widget.unit = "mm of hg";
     widget.unit2 = "mm of hg";
 
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical! * 80,
+      height: SizeConfig.blockSizeVertical !* 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -1216,7 +1196,10 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
     widget.toDate = DateTime.now();
     widget.fromDateString = formatter.format(widget.fromDate!);
     widget.toDateString = formatter.format(widget.toDate!);
-    dateRange = DateTimeRange(start: widget.fromDate!, end: widget.toDate!);
+    dateRange = DateTimeRange(
+        start: widget.fromDate!,
+        end: widget.toDate!
+    );
     listChartType = [];
     listChartType.add("BP Systolic");
     listChartType.add("BP Diastolic");
@@ -1247,7 +1230,9 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
     Future.delayed(const Duration(milliseconds: 2000), () {
       debugPrint("reload called");
       isDraw = true;
-      setState(() {});
+      setState(() {
+
+      });
     });
   }
 
@@ -1261,61 +1246,65 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
         appBar: AppBar(
           title: Text(title, style: TextStyle(color: Colorsblack)),
           centerTitle: true,
-          bottom: (widget.vitalGroupIDP == "4" && widget.mainType == "list"
+          bottom:
+          (widget.vitalGroupIDP == "4" && widget.mainType == "list"
               ? TabBar(
-                  tabs: <Widget>[
-                    Tab(
-                      child: Text("Weight"),
-                    ),
-                    Tab(
-                      child: Text("Height"),
-                    ),
-                    Tab(
-                      child: Text("BMI"),
-                    ),
-                  ],
-                )
-              : (widget.vitalGroupIDP == "5" && widget.mainType == "list"
-                  ? TabBar(
-                      tabs: <Widget>[
-                        Tab(
-                          child: Text("Exercise"),
-                        ),
-                        Tab(
-                          child: Text("Walking"),
-                        ),
-                        Tab(
-                          child: Text("Waist"),
-                        ),
-                        Tab(
-                          child: Text("Hip"),
-                        ),
-                      ],
-                    )
-                  : (widget.vitalGroupIDP == "6" && widget.mainType == "list"
-                      ? TabBar(
-                          tabs: <Widget>[
-                            Tab(
-                              child: Text("TSH"),
-                            ),
-                            Tab(
-                              child: Text("T3"),
-                            ),
-                            Tab(
-                              child: Text("T4"),
-                            ),
-                            Tab(
-                              child: Text("FreeT3"),
-                            ),
-                            Tab(
-                              child: Text("FreeT4"),
-                            ),
-                          ],
-                        )
-                      : PreferredSize(
-                          child: Container(),
-                          preferredSize: Size(SizeConfig.screenWidth!, 0),
-                        )))) /*)*/,
+            tabs: <Widget>[
+              Tab(
+                child: Text("Weight"),
+              ),
+              Tab(
+                child: Text("Height"),
+              ),
+              Tab(
+                child: Text("BMI"),
+              ),
+            ],
+          )
+              : (widget.vitalGroupIDP == "5" &&
+              widget.mainType == "list"
+              ? TabBar(
+            tabs: <Widget>[
+              Tab(
+                child: Text("Exercise"),
+              ),
+              Tab(
+                child: Text("Walking"),
+              ),
+              Tab(
+                child: Text("Waist"),
+              ),
+              Tab(
+                child: Text("Hip"),
+              ),
+            ],
+          )
+              : (widget.vitalGroupIDP == "6" &&
+              widget.mainType == "list"
+              ? TabBar(
+            tabs: <Widget>[
+              Tab(
+                child: Text("TSH"),
+              ),
+              Tab(
+                child: Text("T3"),
+              ),
+              Tab(
+                child: Text("T4"),
+              ),
+              Tab(
+                child: Text("FreeT3"),
+              ),
+              Tab(
+                child: Text("FreeT4"),
+              ),
+            ],
+          )
+              : PreferredSize(
+            child: Container(),
+            preferredSize:
+            Size(SizeConfig.screenWidth!, 0),
+          )))) /*)*/,
           backgroundColor: Color(0xFFFFFFFF),
           actions: <Widget>[
             InkWell(
@@ -1352,19 +1341,15 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
           )*/
           ],
           iconTheme: IconThemeData(
-              color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
-          toolbarTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
-              .bodyMedium,
-          titleTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
-              .titleLarge,
+              color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5), toolbarTextStyle: TextTheme(
+              titleMedium: TextStyle(
+                  color: Colorsblack,
+                  fontFamily: "Ubuntu",
+                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+              titleMedium: TextStyle(
+                  color: Colorsblack,
+                  fontFamily: "Ubuntu",
+                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
         ),
         floatingActionButton: Visibility(
           visible: isFABVisible,
@@ -1372,20 +1357,19 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
             onPressed: () {
               if (widget.vitalGroupIDP == "7") {
                 Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                WaterIntakeScreen(widget.patientIDP!)))
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            WaterIntakeScreen(widget.patientIDP!)))
                     .then((value) {
                   getVitalsList();
                 });
               } else {
                 Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddVitalsScreen(
-                                widget.patientIDP!, widget.vitalIDP!)))
-                    .then((value) {
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddVitalsScreen(
+                            widget.patientIDP!, widget.vitalIDP!))).then((value) {
                   getVitalsList();
                 });
               }
@@ -1395,7 +1379,8 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
           ),
         ),
         body: RefreshIndicator(
-          child: ListView(
+          child:
+          ListView(
             shrinkWrap: true,
             controller: hideFABController,
             children: <Widget>[
@@ -1405,7 +1390,7 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
                 height: 5.0,
               ),
               Container(
-                height: SizeConfig.blockSizeVertical! * 8,
+                height: SizeConfig.blockSizeVertical !* 8,
                 child: Padding(
                   padding: EdgeInsets.only(left: 5.0, right: 5.0),
                   child: Container(
@@ -1421,16 +1406,16 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeVertical! * 2.6,
+                                    SizeConfig.blockSizeVertical !* 2.6,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.black),
                               ),
                             ),
                             Container(
-                              width: SizeConfig.blockSizeHorizontal! * 15,
+                              width: SizeConfig.blockSizeHorizontal !* 15,
                               child: Icon(
                                 Icons.arrow_drop_down,
-                                size: SizeConfig.blockSizeHorizontal! * 8,
+                                size: SizeConfig.blockSizeHorizontal !* 8,
                               ),
                             ),
                           ],
@@ -1451,63 +1436,63 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
               ),
               showCategoryTabs() && listCategories.length > 0
                   ? Container(
-                      height: SizeConfig.blockSizeVertical! * 10,
-                      width: SizeConfig.blockSizeHorizontal! * 100,
-                      color: Color(0xFFF0F0F0),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal! * 2,
-                            right: SizeConfig.blockSizeHorizontal! * 2),
-                        child: Center(
-                          child: ListView.separated(
-                            itemCount: listCategories.length,
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            physics: ClampingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    selectedCategoryIDP =
-                                        listCategories[index].idp;
-                                    selectedCategory =
-                                        listCategories[index].value;
-                                  });
-                                },
-                                child: Chip(
-                                  padding: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal! * 3),
-                                  label: Text(
-                                    listCategories[index].value.trim(),
-                                    style: TextStyle(
-                                      color: listCategories[index].idp ==
-                                              selectedCategoryIDP
-                                          ? Colors.white
-                                          : Colors.black,
-                                    ),
-                                  ),
-                                  backgroundColor: listCategories[index].idp ==
-                                          selectedCategoryIDP
-                                      ? Color(0xFF06A759)
-                                      : Colors.grey,
+                  height: SizeConfig.blockSizeVertical !* 10,
+                  width: SizeConfig.blockSizeHorizontal !* 100,
+                  color: Color(0xFFF0F0F0),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.blockSizeHorizontal !* 2,
+                        right: SizeConfig.blockSizeHorizontal !* 2),
+                    child: Center(
+                      child: ListView.separated(
+                        itemCount: listCategories.length,
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                selectedCategoryIDP =
+                                    listCategories[index].idp;
+                                selectedCategory =
+                                    listCategories[index].value;
+                              });
+                            },
+                            child: Chip(
+                              padding: EdgeInsets.all(
+                                  SizeConfig.blockSizeHorizontal !* 3),
+                              label: Text(
+                                listCategories[index].value.trim(),
+                                style: TextStyle(
+                                  color: listCategories[index].idp ==
+                                      selectedCategoryIDP
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return SizedBox(
-                                width: SizeConfig.blockSizeHorizontal! * 5,
-                              );
-                            },
-                          ),
-                        ),
-                      ))
+                              ),
+                              backgroundColor: listCategories[index].idp ==
+                                  selectedCategoryIDP
+                                  ? Color(0xFF06A759)
+                                  : Colors.grey,
+                            ),
+                          );
+                        },
+                        separatorBuilder:
+                            (BuildContext context, int index) {
+                          return SizedBox(
+                            width: SizeConfig.blockSizeHorizontal !* 5,
+                          );
+                        },
+                      ),
+                    ),
+                  ))
                   : Container(),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 2,
+                height: SizeConfig.blockSizeVertical !* 2,
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical! * 0.5,
+                height: SizeConfig.blockSizeVertical !* 0.5,
               ),
               (isDraw == true) ? getMainWidget() : Container(),
             ],
@@ -1527,7 +1512,7 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
       firstDate: DateTime(1900),
       lastDate: DateTime(2100),
     );
-    if (newDateRange == null) return;
+    if(newDateRange == null) return;
 
     setState(() {
       dateRange = newDateRange;
@@ -1596,7 +1581,7 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
 
   getVitalsList() async {
     switch (widget.vitalGroupIDP) {
-      /*case "1":
+    /*case "1":
         widget.shouldShowEmptyMessageWidget = true;
         getVitalsListForBP();
         break;*/
@@ -1608,8 +1593,7 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
           widget.pr!.show();
         });
         listCategories = [];
-        debugPrint(
-            "calling api with Vital idp - ${listVitalIDPs[0]} ${listVitalIDPs[1]}");
+        debugPrint("calling api with Vital idp - ${listVitalIDPs[0]} ${listVitalIDPs[1]}");
         getVitalsListWithVitalIDP(listVitalIDPs[0], 0 + 1);
         getVitalsListWithVitalIDP(listVitalIDPs[1], 1 + 1);
         debugPrint(
@@ -1786,6 +1770,7 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
     }
   }
 
+
   // void getImageAndShare() async {
   //   RenderRepaintBoundary? boundary =
   //   globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
@@ -1930,8 +1915,7 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
           jo['VitalIDP'],
           byWhom: byWhom,
         ));
-        getVitalOnlyStringList(vitalSerialNo)
-            .add(double.parse(jo['VitalValue']));
+        getVitalOnlyStringList(vitalSerialNo).add(double.parse(jo['VitalValue']));
         getVitalByWhomList(vitalSerialNo).add(byWhom);
         var date = model.vitalEntryDate;
         var time = model.vitalEntryTime;
@@ -2284,29 +2268,31 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
   Widget getBPCharts() {
     return !widget.shouldShowEmptyMessageWidget
         ? Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              InkWell(
-                onTap: () {
-                  shareImage(globalKey);
-                },
-                child: Icon(
-                  Icons.share,
-                  color: Colors.lightGreen,
-                ),
-              ),
-              RepaintBoundary(
-                key: globalKey,
-                child: MyEChart(
-                    key: keyForChart!,
-                    chartTypeID: "1",
-                    titleOfChart: "BP",
-                    value: bpSystolicValue.toDouble(),
-                    value2: bpDiastolicValue.toDouble()),
-              )
-            ],
-          )
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        InkWell(
+          onTap: ()
+          {
+            shareImage(globalKey);
+          },
+          child: Icon(
+            Icons.share,
+            color: Colors.lightGreen,
+          ),
+        ),
+        RepaintBoundary(
+         key: globalKey,
+         child: MyEChart(
+             key: keyForChart!,
+             chartTypeID: "1",
+             titleOfChart: "BP",
+             value: bpSystolicValue.toDouble(),
+             value2: bpDiastolicValue.toDouble()
+         ),
+        )
+      ],
+    )
         : Container();
   }
 
@@ -2386,8 +2372,8 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
 
   int getVitalTabsLength() {
     if ((widget.vitalGroupIDP == "2" ||
-            widget.vitalGroupIDP == "3" ||
-            widget.vitalGroupIDP == "5") &&
+        widget.vitalGroupIDP == "3" ||
+        widget.vitalGroupIDP == "5") &&
         widget.mainType == "list") {
       return 4;
     } else if (widget.vitalGroupIDP == "6" && widget.mainType == "list") {
@@ -2413,29 +2399,29 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
     return widget.mainType == "chart"
         ? //DateTimeComboLinePointChart.withSampleData()
         Container(
-            width: SizeConfig.screenWidth,
-            color: Colors.white,
-            child: Padding(
-                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 2),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    // Visibility(
-                    //                   visible: widget.mainType == "chart" &&
-                    //                       listVital != null &&
-                    //                       listVital.length > 0,
-                    //                   child: Column(
-                    //                     children: <Widget>[],
-                    //                   )),
-                    //               SizedBox(
-                    //                 height: SizeConfig.blockSizeVertical !* 1,
-                    //               ),
-                    widget.shouldShowEmptyMessageWidget
-                        ? widget.emptyMessageWidget!
-                        : Container(),
-                    getChartsWidgets(),
-                    /*!widget.shouldShowEmptyMessageWidget
+          width: SizeConfig.screenWidth,
+          color: Colors.white,
+          child: Padding(
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  // Visibility(
+                  //                   visible: widget.mainType == "chart" &&
+                  //                       listVital != null &&
+                  //                       listVital.length > 0,
+                  //                   child: Column(
+                  //                     children: <Widget>[],
+                  //                   )),
+                  //               SizedBox(
+                  //                 height: SizeConfig.blockSizeVertical !* 1,
+                  //               ),
+                  widget.shouldShowEmptyMessageWidget
+                      ? widget.emptyMessageWidget!
+                      : Container(),
+                  getChartsWidgets(),
+                  /*!widget.shouldShowEmptyMessageWidget
                                       ? (widget.vitalIDP == "1"
                                           ? MyEChart(
                                               key: keyForChart,
@@ -2552,15 +2538,15 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
                                             )
                                           : Container())
                                       : Container(),*/
-                  ],
-                )))
+                ],
+              )))
         : (widget.listVitals.length > 0
-            ? SizedBox(
-                height: double.maxFinite,
-                child: TabBarView(
-                  children: widgetListForTabs(),
-                ))
-            : widget.emptyMessageWidget!);
+        ? SizedBox(
+        height: double.maxFinite,
+        child: TabBarView(
+          children: widgetListForTabs(),
+        ))
+        : widget.emptyMessageWidget!);
   }
 
   List<Widget> widgetListForTabs() {
@@ -2583,9 +2569,9 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
 
   bool showCategoryTabs() {
     if ((widget.vitalIDP == "2" ||
-            widget.vitalIDP == "4" ||
-            widget.vitalIDP == "5" ||
-            widget.vitalIDP == "6") &&
+        widget.vitalIDP == "4" ||
+        widget.vitalIDP == "5" ||
+        widget.vitalIDP == "6") &&
         widget.mainType == "chart") return true;
     return false;
   }
@@ -2632,10 +2618,10 @@ class VitalsCombineListScreenState extends State<VitalsCombineListScreen> {
 
 class MyEChart extends StatefulWidget {
   String? chartTypeID, titleOfChart;
-  double? value, value2;
+  double? value,value2;
 
-  MyEChart(
-      {Key? key, this.chartTypeID, this.titleOfChart, this.value, this.value2})
+
+  MyEChart({Key? key, this.chartTypeID, this.titleOfChart, this.value, this.value2})
       : super(key: key);
 
   @override
@@ -2643,7 +2629,6 @@ class MyEChart extends StatefulWidget {
     return MyEChartState();
   }
 }
-
 class _ChartData {
   _ChartData(this.x, this.y);
 
@@ -2656,8 +2641,8 @@ class MyEChartState extends State<MyEChart> {
   List<String> xAxisDatesData = [];
   List<double> yAxisData2 = [];
 
-  var color, color2;
-  var colorRGB, colorRGB2;
+  var color,color2;
+  var colorRGB,colorRGB2;
   var series;
 
 //  var listOnlyString, listOnlyDate, listOnlyByWhom;
@@ -2680,10 +2665,10 @@ class MyEChartState extends State<MyEChart> {
     color2 = "'rgb(0, 145, 234)'";
     colorRGB2 = Color.fromRGBO(0, 0, 255, 1);
 
-    series =
-        "[{data: $yAxisData,type: 'line',symbol: 'circle',symbolSize: 8,symbol: 'circle',symbolSize: 8,smooth: true,itemStyle: {color: $color},},]";
+    series = "[{data: $yAxisData,type: 'line',symbol: 'circle',symbolSize: 8,symbol: 'circle',symbolSize: 8,smooth: true,itemStyle: {color: $color},},]";
 
-    if (widget.chartTypeID == "1") {
+    if (widget.chartTypeID == "1")
+    {
       yAxisData = listVitalOnlyString;
       yAxisData2 = listVitalOnlyString2;
       xAxisDatesData = listVitalOnlyStringDate;
@@ -2778,11 +2763,13 @@ class MyEChartState extends State<MyEChart> {
     // debugPrint(yAxisData.toString());
     // debugPrint(yAxisData2.toString());
     // print("ChartData ${data[0].x} ${data[0].y}");
-    for (int i = 0; i < yAxisData.length; i++) {
-      data.add(new _ChartData(xAxisDatesData[i], yAxisData[i]));
-    }
-    for (int i = 0; i < yAxisData.length; i++) {
-      data2.add(new _ChartData(xAxisDatesData[i], yAxisData2[i]));
+    for(int i=0;i<yAxisData.length;i++)
+      {
+        data.add(new _ChartData(xAxisDatesData[i],yAxisData[i]));
+      }
+    for(int i=0;i<yAxisData.length;i++)
+    {
+      data2.add(new _ChartData(xAxisDatesData[i],yAxisData2[i]));
     }
     print("Values");
     print("ChartData ${data.toString()}");
@@ -2801,8 +2788,9 @@ class MyEChartState extends State<MyEChart> {
     //setState(() {});
     super.initState();
     _zoomPanBehavior = ZoomPanBehavior(
-        // Enables pinch zooming
-        enablePinching: true);
+      // Enables pinch zooming
+        enablePinching: true
+    );
     _tooltipBehaviour = TooltipBehavior(enable: true);
     // _tooltipBehaviour = TooltipBehavior(
     //     enable: true,
@@ -2813,39 +2801,43 @@ class MyEChartState extends State<MyEChart> {
 
   @override
   Widget build(BuildContext context) {
-    //  minValueStr = widget.value.toString();
+  //  minValueStr = widget.value.toString();
     return /*Column(
       children: [
         Text("Share button here"),
         SizedBox(height: 10,),*/
-        (yAxisData.length) > 0
-            ? Container(
-                color: Colors.white,
-                width: SizeConfig.screenWidth,
-                height: SizeConfig.blockSizeVertical! * 60,
-                child: SfCartesianChart(
-                    zoomPanBehavior: _zoomPanBehavior,
-                    primaryXAxis: CategoryAxis(),
-                    legend: Legend(isVisible: true),
-                    tooltipBehavior: _tooltipBehaviour,
-                    series: <ChartSeries>[
-                      LineSeries<_ChartData, String>(
-                          name: 'BP Systolic',
-                          dataSource: data,
-                          enableTooltip: true,
-                          xValueMapper: (_ChartData data, _) => data.x,
-                          yValueMapper: (_ChartData data, _) => data.y,
-                          dataLabelSettings:
-                              DataLabelSettings(isVisible: true)),
-                      LineSeries<_ChartData, String>(
-                          name: 'BP Diastolic',
-                          dataSource: data2,
-                          enableTooltip: true,
-                          xValueMapper: (_ChartData data2, _) => data2.x,
-                          yValueMapper: (_ChartData data2, _) => data2.y,
-                          dataLabelSettings:
-                              DataLabelSettings(isVisible: true)),
-                    ]))
-            : Container();
+      (yAxisData.length) > 0 ?
+      Container(
+        color: Colors.white,
+      width: SizeConfig.screenWidth,
+      height: SizeConfig.blockSizeVertical !* 60,
+      child:
+      SfCartesianChart(
+          zoomPanBehavior: _zoomPanBehavior,
+          primaryXAxis: CategoryAxis(),
+          legend: Legend(isVisible:true),
+          tooltipBehavior: _tooltipBehaviour,
+          series: <ChartSeries>[
+            LineSeries<_ChartData, String>(
+                name: 'BP Systolic',
+                dataSource: data,
+                enableTooltip: true,
+                xValueMapper: (_ChartData data, _) => data.x,
+                yValueMapper: (_ChartData data, _) => data.y,
+                dataLabelSettings: DataLabelSettings(isVisible:true)
+            ),
+            LineSeries<_ChartData, String>(
+                name: 'BP Diastolic',
+                dataSource: data2,
+                enableTooltip: true,
+                xValueMapper: (_ChartData data2, _) => data2.x,
+                yValueMapper: (_ChartData data2, _) => data2.y,
+                dataLabelSettings: DataLabelSettings(isVisible:true)
+            ),
+          ]
+      )
+    )
+        : Container()
+    ;
   }
 }

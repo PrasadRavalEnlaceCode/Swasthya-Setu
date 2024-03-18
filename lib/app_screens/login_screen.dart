@@ -1,17 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:silvertouch/api/api_helper.dart';
-import 'package:silvertouch/app_screens/verify_otp_screen.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
-import 'package:silvertouch/utils/string_resource.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
+import 'package:swasthyasetu/app_screens/verify_otp_screen.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/color.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:swasthyasetu/utils/string_resource.dart';
 
 class LoginScreen extends StatefulWidget {
   String doctorIDP;
@@ -90,106 +87,109 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    //   mobileNoController.text = '8000083323';
+ //   mobileNoController.text = '8000083323';
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("images/v-2-login-mobile-1.png"),
-          fit: BoxFit.fill,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/v-2-login-mobile-1.png"),
+            fit: BoxFit.fill,
+          ),
         ),
-      ),
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 0,
-          backgroundColor: blueThemeColor,
-        ),
+        child: Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 0,
+            backgroundColor: blueThemeColor,
+          ),
         body: ListView(
           children: <Widget>[
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(0),
-                height: MediaQuery.of(context).size.height / 2,
+                height: MediaQuery.of(context).size.height/2,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("images/v-2-login-mobile-1.png"),
                     fit: BoxFit.fill,
                   ),
                 ),
-                child: const Text('')),
+                child: const Text('')
+            ),
             Container(
               color: blueThemeColor,
-              height: MediaQuery.of(context).size.height / 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Text(
-                          str_login,
-                          style: TextStyle(fontSize: 26, color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                        child: TextField(
-                          controller: mobileNoController,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            hintText: str_mobile_number,
-                            hintStyle: TextStyle(fontSize: 16),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide(
-                                width: 0,
-                                style: BorderStyle.none,
-                              ),
-                            ),
-                            filled: true,
-                            contentPadding: EdgeInsets.all(16),
-                            fillColor: Colors.white,
+              height: MediaQuery.of(context).size.height/2,
+              child:
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center
+                        (
+                          child: Text(
+                            str_login,
+                            style: TextStyle(fontSize: 26, color: Colors.white),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                        child: SizedBox(
-                          width: SizeConfig.screenWidth,
-                          child: TextButton(
-                              child: Text(str_login.toUpperCase(),
-                                  style: TextStyle(fontSize: 18)),
-                              style: ButtonStyle(
-                                  padding: MaterialStateProperty.all<EdgeInsets>(
-                                      EdgeInsets.all(15)),
-                                  foregroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          colorWhite),
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          colorBlueDark),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30.0)))),
-                              onPressed: () => doLogin(context)),
+                        SizedBox(
+                          height: 30,
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: TextField(
+                            controller: mobileNoController,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              hintText: str_mobile_number,
+                              hintStyle: TextStyle(fontSize: 16),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
+                              ),
+                              filled: true,
+                              contentPadding: EdgeInsets.all(16),
+                              fillColor: Colors.white,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: SizedBox(
+                            width: SizeConfig.screenWidth,
+                            child: TextButton(
+                                child: Text(str_login.toUpperCase(),
+                                    style: TextStyle(fontSize: 18)),
+                                style: ButtonStyle(
+                                    padding: MaterialStateProperty.all<EdgeInsets>(
+                                        EdgeInsets.all(15)),
+                                    foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        colorWhite),
+                                    backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        colorBlueDark),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(30.0)))),
+                                onPressed: () => doLogin(context)),
+                          ),
+                        ),
+                      ],
+                ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
                     color: blueThemeColor,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -212,8 +212,7 @@ class LoginScreenState extends State<LoginScreen> {
                                 ),
                                 Text(
                                   str_back,
-                                  style: TextStyle(
-                                      color: colorWhite, fontSize: 20),
+                                  style: TextStyle(color: colorWhite, fontSize: 20),
                                 ),
                               ],
                             ),
@@ -228,16 +227,19 @@ class LoginScreenState extends State<LoginScreen> {
           ],
         ),
       ),
-    );
+      );
   }
 
-  String encodeBase64(String text) {
+  String encodeBase64(String text)
+  {
     var bytes = utf8.encode(text);
     return base64.encode(bytes);
   }
 
-  String decodeBase64(String text) {
+  String decodeBase64(String text)
+  {
     var bytes = base64.decode(text);
     return String.fromCharCodes(bytes);
   }
 }
+

@@ -1,13 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -19,7 +15,7 @@ class AddEditOPDServiceScreen extends StatefulWidget {
   String? idp, action, serviceName, serviceAmount;
 
   AddEditOPDServiceScreen(this.idp, this.action,
-      {this.serviceName, this.serviceAmount});
+      {this.serviceName,this.serviceAmount});
 
   @override
   State<StatefulWidget> createState() {
@@ -49,25 +45,23 @@ class AddEditOPDServiceScreenState extends State<AddEditOPDServiceScreen> {
       appBar: AppBar(
         title: Text("${widget.action} Service"),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack),
-        toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
-        )).bodyMedium,
-        titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+        )).bodyMedium, titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
         )).titleLarge,
       ),
       body: Builder(builder: (context) {
         return Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
               child: TextField(
                 controller: serviceNameController,
                 style: TextStyle(color: Colors.green),
@@ -82,7 +76,7 @@ class AddEditOPDServiceScreenState extends State<AddEditOPDServiceScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
               child: TextField(
                 controller: serviceAmountController,
                 style: TextStyle(color: Colors.green),
@@ -101,11 +95,11 @@ class AddEditOPDServiceScreenState extends State<AddEditOPDServiceScreen> {
                 alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: EdgeInsets.only(
-                      right: SizeConfig.blockSizeHorizontal! * 3,
-                      bottom: SizeConfig.blockSizeHorizontal! * 3),
+                      right: SizeConfig.blockSizeHorizontal !* 3,
+                      bottom: SizeConfig.blockSizeHorizontal !* 3),
                   child: Container(
-                    width: SizeConfig.blockSizeHorizontal! * 12,
-                    height: SizeConfig.blockSizeHorizontal! * 12,
+                    width: SizeConfig.blockSizeHorizontal !* 12,
+                    height: SizeConfig.blockSizeHorizontal !* 12,
                     child: RawMaterialButton(
                       onPressed: () {
                         submitAddEditOPDService(context);
@@ -119,8 +113,8 @@ class AddEditOPDServiceScreenState extends State<AddEditOPDServiceScreen> {
                       elevation: 2.0,
                       fillColor: Color(0xFF06A759),
                       child: Image(
-                        width: SizeConfig.blockSizeHorizontal! * 5.5,
-                        height: SizeConfig.blockSizeHorizontal! * 5.5,
+                        width: SizeConfig.blockSizeHorizontal !* 5.5,
+                        height: SizeConfig.blockSizeHorizontal !* 5.5,
                         //height: 80,
                         image:
                             AssetImage("images/ic_right_arrow_triangular.png"),

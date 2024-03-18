@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:silvertouch/controllers/add_reminder_controller.dart';
-import 'package:silvertouch/controllers/reminder_list_controller.dart';
-import 'package:silvertouch/database/tb_notifications.dart';
-import 'package:silvertouch/database/tb_reminder.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/NotificationManager.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/controllers/add_reminder_controller.dart';
+import 'package:swasthyasetu/controllers/reminder_list_controller.dart';
+import 'package:swasthyasetu/database/tb_notifications.dart';
+import 'package:swasthyasetu/database/tb_reminder.dart';
+import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/utils/NotificationManager.dart';
+
 
 final TextEditingController reminderDetailsController = TextEditingController();
 
@@ -73,7 +69,8 @@ class AddReminderScreen extends StatelessWidget {
 
     void insertQuery() async {
       int reminderID =
-          await reminderListController.insertReminder(TbReminderTable(
+          await reminderListController.insertReminder(
+              TbReminderTable(
         notificationID: 0,
         category: reminder.category,
         desc: reminderDetailsController.text,
@@ -158,7 +155,7 @@ class AddReminderScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: SizeConfig.blockSizeVertical! * 15,
+          toolbarHeight: SizeConfig.blockSizeVertical !* 15,
           backgroundColor: Colors.white,
           elevation: 0,
           iconTheme: IconThemeData(
@@ -175,7 +172,7 @@ class AddReminderScreen extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ).paddingOnly(
-                  bottom: SizeConfig.blockSizeVertical! * 1.0,
+                  bottom: SizeConfig.blockSizeVertical !* 1.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -188,7 +185,7 @@ class AddReminderScreen extends StatelessWidget {
                             addReminderController.reminderOnOff.value = isOn;
                           }),
                     ).paddingOnly(
-                      right: SizeConfig.blockSizeHorizontal! * 3.0,
+                      right: SizeConfig.blockSizeHorizontal !* 3.0,
                     ),
                     MaterialButton(
                       //minWidth: SizeConfig.screenWidth,
@@ -239,17 +236,16 @@ class AddReminderScreen extends StatelessWidget {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal! * 6.0,
+                          fontSize: SizeConfig.blockSizeHorizontal !* 6.0,
                           fontWeight: FontWeight.w500,
                         ),
                       )
                           .paddingOnly(
-                            bottom: SizeConfig.blockSizeVertical! * 1.5,
-                            top: SizeConfig.blockSizeVertical! * 1.0,
+                            bottom: SizeConfig.blockSizeVertical !* 1.5,
+                            top: SizeConfig.blockSizeVertical !* 1.0,
                           )
                           .paddingSymmetric(
-                              horizontal:
-                                  SizeConfig.blockSizeHorizontal! * 5.0),
+                              horizontal: SizeConfig.blockSizeHorizontal !* 5.0),
                       Expanded(
                           child: Obx(() => ListView(
                                 shrinkWrap: true,
@@ -257,25 +253,25 @@ class AddReminderScreen extends StatelessWidget {
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal:
-                                            SizeConfig.blockSizeHorizontal! *
+                                            SizeConfig.blockSizeHorizontal !*
                                                 5.0),
                                     child: TextField(
                                       controller: reminderDetailsController,
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical! *
+                                              SizeConfig.blockSizeVertical !*
                                                   2.3),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.green,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.3),
                                         labelStyle: TextStyle(
                                             color: Colors.green,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical! *
+                                                SizeConfig.blockSizeVertical !*
                                                     2.3),
                                         labelText: "Reminder Details",
                                         hintText: "",
@@ -283,7 +279,7 @@ class AddReminderScreen extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: SizeConfig.blockSizeVertical! * 2.0,
+                                    height: SizeConfig.blockSizeVertical !* 2.0,
                                   ),
                                   RadioListTile(
                                     value: 0,
@@ -296,7 +292,7 @@ class AddReminderScreen extends StatelessWidget {
                                             style: TextStyle(
                                                 color: titleColorForFromTo(),
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     4)),
                                         InkWell(
                                           onTap: () async {
@@ -310,21 +306,21 @@ class AddReminderScreen extends StatelessWidget {
                                             style: TextStyle(
                                               color: timeColorForFromTo(),
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   4.5,
                                             ),
                                           ),
                                         ),
                                         SizedBox(
                                           width:
-                                              SizeConfig.blockSizeHorizontal! *
+                                              SizeConfig.blockSizeHorizontal !*
                                                   1.0,
                                         ),
                                         Text("  To   ",
                                             style: TextStyle(
                                                 color: titleColorForFromTo(),
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     4)),
                                         InkWell(
                                           onTap: () async {
@@ -338,7 +334,7 @@ class AddReminderScreen extends StatelessWidget {
                                             style: TextStyle(
                                               color: timeColorForFromTo(),
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   4.5,
                                             ),
                                           ),
@@ -351,7 +347,7 @@ class AddReminderScreen extends StatelessWidget {
                                           children: [
                                             SizedBox(
                                               width: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   18.0,
                                             ),
                                             Text("Remind every  ",
@@ -359,7 +355,7 @@ class AddReminderScreen extends StatelessWidget {
                                                     color:
                                                         titleColorForFromTo(),
                                                     fontSize: SizeConfig
-                                                            .blockSizeHorizontal! *
+                                                            .blockSizeHorizontal !*
                                                         4)),
                                             InkWell(
                                                 onTap: () {
@@ -376,7 +372,7 @@ class AddReminderScreen extends StatelessWidget {
                                                         color:
                                                             timeColorForFromTo(),
                                                         fontSize: SizeConfig
-                                                                .blockSizeHorizontal! *
+                                                                .blockSizeHorizontal !*
                                                             4.5,
                                                       ),
                                                     ),
@@ -395,7 +391,7 @@ class AddReminderScreen extends StatelessWidget {
                                       ),*/
                                                     SizedBox(
                                                       width: SizeConfig
-                                                              .blockSizeHorizontal! *
+                                                              .blockSizeHorizontal !*
                                                           1.0,
                                                     ),
                                                   ],
@@ -415,7 +411,7 @@ class AddReminderScreen extends StatelessWidget {
                                                 color:
                                                     titleColorForRemindOnce(),
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal! *
+                                                        .blockSizeHorizontal !*
                                                     4)),
                                         InkWell(
                                           onTap: () {
@@ -429,7 +425,7 @@ class AddReminderScreen extends StatelessWidget {
                                             style: TextStyle(
                                               color: timeColorForRemindOnce(),
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
+                                                      .blockSizeHorizontal !*
                                                   4.5,
                                             ),
                                           ),
@@ -468,7 +464,7 @@ class AddReminderScreen extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Container(
-                  height: SizeConfig.blockSizeVertical! * 8,
+                  height: SizeConfig.blockSizeVertical !* 8,
                   child: Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Row(
@@ -478,24 +474,24 @@ class AddReminderScreen extends StatelessWidget {
                           child: Icon(
                             Icons.arrow_back,
                             color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal! * 6.2,
+                            size: SizeConfig.blockSizeHorizontal !* 6.2,
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal! * 6,
+                          width: SizeConfig.blockSizeHorizontal !* 6,
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal! * 50,
-                          height: SizeConfig.blockSizeVertical! * 8,
+                          width: SizeConfig.blockSizeHorizontal !* 50,
+                          height: SizeConfig.blockSizeVertical !* 8,
                           child: Center(
                             child: Text(
                               "Hours",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green,
                                 decoration: TextDecoration.none,
@@ -525,7 +521,7 @@ class AddReminderScreen extends StatelessWidget {
                                   padding: EdgeInsets.all(0.0),
                                   child: Container(
                                       width:
-                                          SizeConfig.blockSizeHorizontal! * 90,
+                                          SizeConfig.blockSizeHorizontal !* 90,
                                       padding: EdgeInsets.only(
                                         top: 5,
                                         bottom: 5,
@@ -639,8 +635,8 @@ class AddReminderScreen extends StatelessWidget {
         scheduleNewNotificationEveryHours(reminderID, notificationManager,
             addReminderController, reminderListController);
     } else {
-      List<TbNotificationTable> listNotifications = await reminderListController
-          .getNotificationsWithReminderID(reminderID);
+      List<TbNotificationTable> listNotifications =
+          await reminderListController.getNotificationsWithReminderID(reminderID);
       for (int i = 0; i < listNotifications.length; i++) {
         removeReminder(
             notificationManager, listNotifications[i].notificationID!);
@@ -669,33 +665,33 @@ class AddReminderScreen extends StatelessWidget {
   }
 
   toTime(AddReminderController addReminderController) {
-    addReminderController.reminderRadioValue.value == 0
-        ? dateTimeFromTimeOfDay(addReminderController.pickedToTime.value)
-        : null;
+   addReminderController.reminderRadioValue.value == 0
+    ? dateTimeFromTimeOfDay(addReminderController.pickedToTime.value)
+    : null;
   }
 
   isOnceOrFrequent(AddReminderController addReminderController) {
     addReminderController.reminderRadioValue.value == 1
         ? true
         : addReminderController.reminderRadioValue.value == 0
-            ? false
-            : null;
+        ? false
+        : null;
   }
 
   onceTime(AddReminderController addReminderController) {
     addReminderController.reminderRadioValue.value == 1
-        ? dateTimeFromTimeOfDay(addReminderController.pickedOnceTime.value)
+    ? dateTimeFromTimeOfDay(addReminderController.pickedOnceTime.value)
         : null;
   }
 
   fromTime(AddReminderController addReminderController) {
     addReminderController.reminderRadioValue.value == 0
-        ? dateTimeFromTimeOfDay(addReminderController.pickedFromTime.value)
+    ? dateTimeFromTimeOfDay(addReminderController.pickedFromTime.value)
         : null;
   }
 }
 
 /*class AddReminderScreenState extends State<AddReminderScreen> {
   @override
-
+  
 }*/

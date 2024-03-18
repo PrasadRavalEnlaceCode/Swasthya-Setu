@@ -4,26 +4,28 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:silvertouch/app_screens/PDFViewerCachedFromUrl.dart';
-import 'package:silvertouch/global/SizeConfig.dart';
-import 'package:silvertouch/global/utils.dart';
-import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
-import 'package:silvertouch/podo/model_myinvoices.dart';
-import 'package:silvertouch/podo/response_main_model.dart';
-import 'package:silvertouch/utils/color.dart';
-import 'package:silvertouch/utils/multipart_request_with_progress.dart';
-import 'package:silvertouch/utils/progress_dialog.dart';
-import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
+import 'package:swasthyasetu/app_screens/PDFViewerCachedFromUrl.dart';
+import 'package:swasthyasetu/app_screens/pdfadvanceviewer.dart';
+import 'package:swasthyasetu/global/utils.dart';
+import 'package:swasthyasetu/podo/model_investigation_list_doctor.dart';
+import 'package:swasthyasetu/podo/model_myinvoices.dart';
+import 'package:swasthyasetu/podo/response_main_model.dart';
+
 import '../global/SizeConfig.dart';
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
 
+
 class MyInvoiceListScreen extends StatefulWidget {
+
   @override
   State<MyInvoiceListScreen> createState() => _MyInvoiceListScreenState();
 }
 
-class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
+class _MyInvoiceListScreenState extends
+State<MyInvoiceListScreen> {
+
   var fromDate = DateTime.now().subtract(Duration(days: 30));
   var toDate = DateTime.now();
 
@@ -35,22 +37,20 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
 
   late String selectedOrganizationIDF;
   List<DoctorInvoice> allInvoices = [];
-  int serialNumber =1;
-
   String baseInvoiceURL = "https://swasthyasetu.com/ws/images/myinvoice/";
-  String baseInvoiceVoucherURL =
-      "https://swasthyasetu.com/ws/images/myinvoicevoucher/";
+  String baseInvoiceVoucherURL = "https://swasthyasetu.com/ws/images/myinvoicevoucher/";
+
+
 
   // List<String> DataFormat = ["Type","Date","Patient","Doctor","OPD/IPD","Investigation","Lab Status","Created By","Action"];
 
-  final sizeBox = SizedBox(
-    width: 30,
-    height: 20,
-  );
+  final sizeBox = SizedBox(width:30,height: 20,);
 
   @override
   void initState() {
-    dateRange = DateTimeRange(start: fromDate, end: toDate);
+    dateRange = DateTimeRange(
+        start: fromDate,
+        end: toDate);
     super.initState();
   }
 
@@ -69,19 +69,15 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
         title: Text("My Invoices"),
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.2),
-        toolbarTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .bodyMedium,
-        titleTextStyle: TextTheme(
-                titleMedium: TextStyle(
-                    color: Colorsblack,
-                    fontFamily: "Ubuntu",
-                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
-            .titleLarge,
+            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
+          titleMedium: TextStyle(
+              color: Colorsblack,
+              fontFamily: "Ubuntu",
+              fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+          titleMedium: TextStyle(
+              color: Colorsblack,
+              fontFamily: "Ubuntu",
+              fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
       ),
       body: Builder(
         builder: (context) {
@@ -91,10 +87,10 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
               child: Column(
                 children: [
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical! * 2,
+                    height: SizeConfig.blockSizeVertical !* 2,
                   ),
                   Container(
-                    height: SizeConfig.blockSizeVertical! * 8,
+                    height: SizeConfig.blockSizeVertical !* 8,
                     child: Padding(
                       padding: EdgeInsets.only(left: 5.0, right: 5.0),
                       child: Container(
@@ -126,19 +122,17 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
                                 // ),
                                 Expanded(
                                     child: ElevatedButton(
-                                  child: Text(
-                                      '${start.day}-${start.month}-${start.year}'),
-                                  onPressed: pickDateRange,
-                                )),
-                                const SizedBox(
-                                  width: 10,
+                                      child: Text('${start.day}-${start.month}-${start.year}'),
+                                      onPressed: pickDateRange,
+                                    )
                                 ),
+                                const SizedBox(width: 10,),
                                 Expanded(
                                     child: ElevatedButton(
-                                  child: Text(
-                                      '${end.day}-${end.month}-${end.year}'),
-                                  onPressed: pickDateRange,
-                                )),
+                                      child: Text('${end.day}-${end.month}-${end.year}'),
+                                      onPressed: pickDateRange,
+                                    )
+                                ),
                               ],
                             )),
                         padding: EdgeInsets.all(5.0),
@@ -153,7 +147,7 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical! * 2,
+                    height: SizeConfig.blockSizeVertical !* 2,
                   ),
                   MaterialButton(
                     onPressed: () {
@@ -164,7 +158,8 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         return;
-                      } else {
+                      }
+                      else{
                         getMyInvoiceList();
                       }
                     },
@@ -173,7 +168,7 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
                       "Submit",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                        fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -192,94 +187,66 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
                       child: DataTable(
                         columnSpacing: 25.0,
                         columns: [
-                          DataColumn(
-                              label: Text(
-                            'Sr No.',
+                          DataColumn(label: Text('Sr No.',
+                            style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: "Ubuntu",
+                            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                          ),)),
+                          DataColumn(label: Text('Invoice Date',
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: "Ubuntu",
                               fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                            ),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            'Invoice Date',
+                            ),)),
+                          DataColumn(label: Text('Invoice Number',
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: "Ubuntu",
                               fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                            ),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            'Invoice Number',
+                            ),)),
+                          DataColumn(label: Text('Remarks',
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: "Ubuntu",
                               fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                            ),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            'Remarks',
+                            ),)),
+                          DataColumn(label: Text('Type',
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: "Ubuntu",
                               fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                            ),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            'Type',
+                            ),)),
+                          DataColumn(label: Text('Amount',
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: "Ubuntu",
                               fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                            ),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            'Amount',
+                            ),)),
+                          DataColumn(label: Text('Status',
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: "Ubuntu",
                               fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                            ),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            'Status',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Ubuntu",
-                              fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                            ),
-                          )),
+                            ),)),
                           // DataColumn(label: Text('Created By',
                           //   style: TextStyle(
                           //     color: Colors.black,
                           //     fontFamily: "Ubuntu",
                           //     fontSize: SizeConfig.blockSizeVertical! * 2.5,
                           //   ),)),
-                          DataColumn(
-                              label: Text(
-                            'Action',
+                          DataColumn(label: Text('Action',
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: "Ubuntu",
                               fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                            ),
-                          )),
+                            ),)),
                           // Add more DataColumn widgets based on your requirements
                         ],
                         rows: allInvoices.map((item) {
                           return DataRow(
                             cells: [
-                              DataCell(
-                                Text(
-                                  (serialNumber++).toString(),
-                                ),
-                              ),
+                              DataCell(Text(item.type ?? '')),
                               DataCell(Text(item.invoiceDate ?? '')),
                               DataCell(Text(item.invoiceNumber ?? '')),
                               DataCell(Text(item.categoryName ?? '')),
@@ -294,15 +261,8 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
                                       child: Center(
                                           child: Icon(Icons.remove_red_eye)),
                                       onTap: () {
-                                        getMyInvoice(
-                                            item.doctorPayoutInvoiceIDP,
-                                            item.doctorIDF,
-                                            item.type == "IPD"
-                                                ? "ipd"
-                                                : item.type == "OPD"
-                                                ? "opd"
-                                                : "",
-                                        ) ;
+
+                                        getMyInvoice(item.doctorPayoutInvoiceIDP,item.doctorIDF,item.type);
                                         // String downloadPdfUrl = baseInvoiceURL
                                         //     // + {item.id ?? ""}
                                         // ;
@@ -330,14 +290,8 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
                                         child: Center(
                                             child: Icon(Icons.remove_red_eye)),
                                         onTap: () {
-                                          getMyInvoiceVoucher(
-                                              item.doctorPayoutInvoiceIDP,
-                                              item.doctorIDF,
-                                            item.type == "IPD"
-                                                ? "ipd"
-                                                : item.type == "OPD"
-                                                ? "opd"
-                                                : "",);
+
+                                          getMyInvoiceVoucher(item.doctorPayoutInvoiceIDP,item.doctorIDF,item.type);
                                           // String downloadPdfUrl = baseInvoiceVoucherURL
                                           // // + {item.id ?? ""}
                                           //     ;
@@ -386,7 +340,7 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
       lastDate: DateTime(2100),
     );
 
-    if (newDateRange == null) return;
+    if(newDateRange == null) return;
 
     setState(() {
       dateRange = newDateRange;
@@ -401,7 +355,7 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
   void getMyInvoiceList() async {
     print('getDoctorInvoiceList');
 
-    try {
+    try{
       if (fromDateString.isEmpty && toDateString.isEmpty) {
         fromDate = DateTime.now().subtract(Duration(days: 30));
         toDate = DateTime.now();
@@ -421,6 +375,7 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
       debugPrint(patientUniqueKey);
       debugPrint(userType);
 
+
       String jsonStr = "{" +
           "\"" +
           "DoctorIDP" +
@@ -434,9 +389,9 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
           "\"" +
           ":" +
           "\"" +
-          fromDateString +
+          fromDateString  +
           "\"" +
-          ",\"" +
+          ",\""+
           "todate" +
           "\"" +
           ":" +
@@ -450,6 +405,7 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
       String encodedJSONStr = encodeBase64(jsonStr);
       var response = await apiHelper.callApiWithHeadersAndBody(
         url: loginUrl,
+
         headers: {
           "u": patientUniqueKey,
           "type": userType,
@@ -472,7 +428,7 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
         // Replace '}' with '},'
         strData = strData.replaceAllMapped(
           RegExp('}{"DoctorPayoutInvoiceIDP":"'),
-          (match) => '},{"DoctorPayoutInvoiceIDP":"',
+              (match) => '},{"DoctorPayoutInvoiceIDP":"',
         );
 
         debugPrint("Decoded Invoice Data List : " + strData);
@@ -482,12 +438,10 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
         for (var i = 0; i < jsonData.length; i++) {
           final invoiceList = jsonData[i];
 
-          if (invoiceList.containsKey("Pending Invoice") ||
-              invoiceList.containsKey("Paid Invoice")) {
+          if (invoiceList.containsKey("Pending Invoice") || invoiceList.containsKey("Paid Invoice")) {
             final invoiceType = invoiceList.keys.first;
             final doctorInvoice = (invoiceList[invoiceType] as List<dynamic>?)
-                ?.map(
-                    (item) => DoctorInvoice.fromJson(item, source: invoiceType))
+                ?.map((item) => DoctorInvoice.fromJson(item, source: invoiceType))
                 .toList();
             if (doctorInvoice != null) {
               allInvoices.addAll(doctorInvoice);
@@ -522,10 +476,10 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
     return String.fromCharCodes(bytes);
   }
 
-  void getMyInvoice(String? DoctorPayoutInvoiceIDP, DoctorIDP, type) async {
+  void getMyInvoice(String? DoctorPayoutInvoiceIDP,DoctorIDP,type) async {
     print('getDoctorInvoiceList');
 
-    try {
+    try{
       String loginUrl = "${baseURL}my_invoice_pdf.php";
       ProgressDialog pr = ProgressDialog(context);
       Future.delayed(Duration.zero, () {
@@ -552,7 +506,7 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
           "\"" +
           DoctorIDP! +
           "\"" +
-          ",\"" +
+          ",\""+
           "type" +
           "\"" +
           ":" +
@@ -564,9 +518,11 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
       debugPrint(jsonStr);
       // {"DoctorPayoutInvoiceIDP":"959","DoctorIDP":"740","type":"ipd"}
 
+
       String encodedJSONStr = encodeBase64(jsonStr);
       var response = await apiHelper.callApiWithHeadersAndBody(
         url: loginUrl,
+
         headers: {
           "u": patientUniqueKey,
           "type": userType,
@@ -589,8 +545,7 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
         debugPrint("Decoded Invoice Data : " + strData);
 
         // Parse the JSON string
-        List<Map<String, dynamic>> fileList =
-            List<Map<String, dynamic>>.from(json.decode(strData));
+        List<Map<String, dynamic>> fileList = List<Map<String, dynamic>>.from(json.decode(strData));
 
         // Check if the list is not empty
         if (fileList.isNotEmpty) {
@@ -605,7 +560,6 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
           //     builder: (context) => PdfViewerScreen(url: "https://swasthyasetu.com/ws/images/myinvoice/959.pdf"),
           //   ),
           // );
-          debugPrint(downloadPdfUrl);
 
           Navigator.push(
               context,
@@ -641,11 +595,10 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
     }
   }
 
-  void getMyInvoiceVoucher(
-      String? DoctorPayoutInvoiceIDP, DoctorIDP, type) async {
+  void getMyInvoiceVoucher(String? DoctorPayoutInvoiceIDP,DoctorIDP,type) async {
     print('getDoctorInvoiceList');
 
-    try {
+    try{
       String loginUrl = "${baseURL}my_invoice_pdf.php";
       ProgressDialog pr = ProgressDialog(context);
       Future.delayed(Duration.zero, () {
@@ -672,7 +625,7 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
           "\"" +
           DoctorIDP! +
           "\"" +
-          ",\"" +
+          ",\""+
           "type" +
           "\"" +
           ":" +
@@ -684,9 +637,11 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
       debugPrint(jsonStr);
       // {"DoctorPayoutInvoiceIDP":"959","DoctorIDP":"740","type":"ipd"}
 
+
       String encodedJSONStr = encodeBase64(jsonStr);
       var response = await apiHelper.callApiWithHeadersAndBody(
         url: loginUrl,
+
         headers: {
           "u": patientUniqueKey,
           "type": userType,
@@ -709,8 +664,7 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
         debugPrint("Decoded Invoice Data : " + strData);
 
         // Parse the JSON string
-        List<Map<String, dynamic>> file1List =
-            List<Map<String, dynamic>>.from(json.decode(strData));
+        List<Map<String, dynamic>> file1List = List<Map<String, dynamic>>.from(json.decode(strData));
 
         // Check if the list is not empty
         if (file1List.isNotEmpty) {
@@ -719,14 +673,13 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
           String downloadPdfUrl = baseInvoiceVoucherURL + fileName;
 
           // Show PDF from the fileName using the flutter_pdfview package
-
-          debugPrint(downloadPdfUrl);
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => PDFViewerCachedFromUrl(url: downloadPdfUrl),
             ),
           );
+
         }
         setState(() {});
       }
@@ -734,4 +687,6 @@ class _MyInvoiceListScreenState extends State<MyInvoiceListScreen> {
       print('Error decoding JSON: $e');
     }
   }
+
+
 }
