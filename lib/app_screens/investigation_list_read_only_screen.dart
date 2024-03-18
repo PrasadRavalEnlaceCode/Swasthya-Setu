@@ -2,11 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_investigation_master_list.dart';
-import 'package:swasthyasetu/podo/model_investigation_master_list_with_date_time.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/model_investigation_master_list.dart';
+import 'package:silvertouch/podo/model_investigation_master_list_with_date_time.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -24,7 +29,8 @@ class InvestigationListReadOnlyScreen extends StatefulWidget {
 
   String? emptyTextInvestigation1 =
       "You can enter your Investigation reports values by selecting Investigation from the list.";
-  String? emptyTextInvestigation2 = "Share the details to your doctor any time.";
+  String? emptyTextInvestigation2 =
+      "Share the details to your doctor any time.";
 
   String? emptyMessage = "";
 
@@ -71,9 +77,9 @@ class InvestigationListReadOnlyScreenState
         TextEditingController(text: modelInvestigationMasterWithDateTime!.time);
 
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical !* 80,
+      height: SizeConfig.blockSizeVertical! * 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -106,16 +112,18 @@ class InvestigationListReadOnlyScreenState
         appBar: AppBar(
           title: Text("Investigation List"),
           backgroundColor: Color(0xFFFFFFFF),
-          iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+          iconTheme: IconThemeData(color: Colorsblack),
+          toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
-          )).bodyMedium, titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          )).bodyMedium,
+          titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
           )).titleLarge,
         ),
         body: Builder(
@@ -170,16 +178,16 @@ class InvestigationListReadOnlyScreenState
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.1),
+                                        SizeConfig.blockSizeVertical! * 2.1),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelText: "Entry Date",
                                   hintText: "",
                                 ),
@@ -204,16 +212,16 @@ class InvestigationListReadOnlyScreenState
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.1),
+                                        SizeConfig.blockSizeVertical! * 2.1),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelText: "Entry Time",
                                   hintText: "",
                                 ),
@@ -239,7 +247,8 @@ class InvestigationListReadOnlyScreenState
                                 listInvestigationMaster[index]);
                           },
                         ),
-                      ): widget.emptyMessageWidget!
+                      )
+                    : widget.emptyMessageWidget!
                 /*(apiCalled
                         ? Expanded(
                             child: Align(
@@ -281,8 +290,8 @@ class InvestigationListReadOnlyScreenState
                               top: 10.0,
                             ),
                             child: Container(
-                              width: SizeConfig.blockSizeHorizontal !* 12,
-                              height: SizeConfig.blockSizeHorizontal !* 12,
+                              width: SizeConfig.blockSizeHorizontal! * 12,
+                              height: SizeConfig.blockSizeHorizontal! * 12,
                               child: RawMaterialButton(
                                 onPressed: () {
                                   validateAndSubmitInvestigations(context);
@@ -290,8 +299,8 @@ class InvestigationListReadOnlyScreenState
                                 elevation: 2.0,
                                 fillColor: Color(0xFF06A759),
                                 child: Image(
-                                  width: SizeConfig.blockSizeHorizontal !* 5.5,
-                                  height: SizeConfig.blockSizeHorizontal !* 5.5,
+                                  width: SizeConfig.blockSizeHorizontal! * 5.5,
+                                  height: SizeConfig.blockSizeHorizontal! * 5.5,
                                   //height: 80,
                                   image: AssetImage(
                                       "images/ic_right_arrow_triangular.png"),
@@ -319,9 +328,9 @@ class InvestigationListReadOnlyScreenState
             },
           ),
           */
-      /*Expanded(
+        /*Expanded(
             child: */
-      /*Align(
+        /*Align(
                 alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -386,8 +395,8 @@ class InvestigationListReadOnlyScreenState
         builder: (BuildContext? context, Widget? child) {
           return MediaQuery(
               child: child!,
-              data:
-                  MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: true));
+              data: MediaQuery.of(context!)
+                  .copyWith(alwaysUse24HourFormat: true));
         });
 
     if (time != null) {
@@ -676,25 +685,25 @@ class DynamicTextFieldState extends State<DynamicTextField> {
       color: mycolor,
       child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[*/
         Container(
-      height: SizeConfig.blockSizeVertical !* 8,
+      height: SizeConfig.blockSizeVertical! * 8,
       padding: EdgeInsets.only(
-        left: SizeConfig.blockSizeVertical !* 2,
-        right: SizeConfig.blockSizeVertical !* 2,
+        left: SizeConfig.blockSizeVertical! * 2,
+        right: SizeConfig.blockSizeVertical! * 2,
       ),
       child: /*IgnorePointer(
         child:*/
           TextField(
         //controller: mobileNoController,
         style: TextStyle(
-            color: Colors.green, fontSize: SizeConfig.blockSizeVertical !* 2.1),
+            color: Colors.green, fontSize: SizeConfig.blockSizeVertical! * 2.1),
         controller: investigationController,
         decoration: InputDecoration(
           hintStyle: TextStyle(
               color: Colors.black,
-              fontSize: SizeConfig.blockSizeVertical !* 2.1),
+              fontSize: SizeConfig.blockSizeVertical! * 2.1),
           labelStyle: TextStyle(
               color: Colors.black,
-              fontSize: SizeConfig.blockSizeVertical !* 2.1),
+              fontSize: SizeConfig.blockSizeVertical! * 2.1),
           labelText: widget.modelInvestigationMaster.investigationType,
           hintText: "",
         ),

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/podo/model_health_doc.dart';
+import 'package:silvertouch/podo/model_health_doc.dart';
 
 import '../app_screens/add_patient_screen.dart';
 import '../global/utils.dart';
@@ -237,8 +237,6 @@ class CertificateController extends GetxController {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-
-
   Future submitHealthVideo(
       patientIDP, ModelHealthDoc certId, BuildContext context) async {
     String loginUrl = "${baseURL}doctorSentSingleVideoNotification.php";
@@ -295,7 +293,7 @@ class CertificateController extends GetxController {
     String encodedJSONStr = encodeBase64(jsonStr);
 
     var response =
-    await apiHelper.callApiWithHeadersAndBody(url: loginUrl, headers: {
+        await apiHelper.callApiWithHeadersAndBody(url: loginUrl, headers: {
       "u": patientUniqueKey,
       "type": userType,
     }, body: {

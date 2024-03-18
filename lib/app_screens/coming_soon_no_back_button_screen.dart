@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
 
 class ComingSoonNoBackButtonScreen extends StatelessWidget {
   @override

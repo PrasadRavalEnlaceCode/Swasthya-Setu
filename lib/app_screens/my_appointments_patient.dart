@@ -14,19 +14,21 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:swasthyasetu/app_screens/add_patient_screen.dart';
-import 'package:swasthyasetu/app_screens/chat_screen.dart';
-import 'package:swasthyasetu/controllers/pdf_type_controller.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_opd_reg.dart';
-import 'package:swasthyasetu/podo/pdf_type.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/color.dart';
-import 'package:swasthyasetu/utils/common_methods.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
-import 'package:swasthyasetu/widgets/blinking_text.dart';
-import 'package:swasthyasetu/widgets/extensions.dart';
+import 'package:silvertouch/app_screens/add_patient_screen.dart';
+import 'package:silvertouch/app_screens/chat_screen.dart';
+import 'package:silvertouch/controllers/pdf_type_controller.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/model_opd_reg.dart';
+import 'package:silvertouch/podo/pdf_type.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:silvertouch/widgets/blinking_text.dart';
+import 'package:silvertouch/widgets/extensions.dart';
 
 import 'PDFViewerCachedFromUrl.dart';
 
@@ -62,7 +64,7 @@ class MyAppointmentsPatientScreenState
     emptyMessage = emptyTextOPDRegistration1;
     emptyMessageWidget = Center(
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -178,16 +180,18 @@ class MyAppointmentsPatientScreenState
         title: titleWidget,
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5), toolbarTextStyle: TextTheme(
+            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
+        toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colors.white,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
-        )).bodyMedium, titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+        )).bodyMedium,
+        titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colors.white,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
         )).titleLarge,
       ),
       body: Container(
@@ -229,16 +233,15 @@ class MyAppointmentsPatientScreenState
               ),
             ),*/
             Expanded(
-              child:
-              listOPDRegistration.length > 0
+              child: listOPDRegistration.length > 0
                   ? ListView.builder(
                       itemCount: listOPDRegistration.length,
                       itemBuilder: (context, index) {
                         return Padding(
                             padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal !* 2,
-                                right: SizeConfig.blockSizeHorizontal !* 2,
-                                top: SizeConfig.blockSizeHorizontal !* 2),
+                                left: SizeConfig.blockSizeHorizontal! * 2,
+                                right: SizeConfig.blockSizeHorizontal! * 2,
+                                top: SizeConfig.blockSizeHorizontal! * 2),
                             child: InkWell(
                               onTap: () {
                                 if (listOPDRegistration[index]
@@ -298,20 +301,20 @@ class MyAppointmentsPatientScreenState
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     4,
                                                 fontWeight: FontWeight.w500),
                                           ),
                                         ),
                                         SizedBox(
                                           width:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   3,
                                         ),
                                         Padding(
-                                            padding: EdgeInsets.all(
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    0),
+                                            padding: EdgeInsets.all(SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                0),
                                             child: Row(
                                               children: [
                                                 listOPDRegistration[index]
@@ -346,7 +349,7 @@ class MyAppointmentsPatientScreenState
                                                         child: Container(
                                                           padding: EdgeInsets
                                                               .all(SizeConfig
-                                                                      .blockSizeHorizontal !*
+                                                                      .blockSizeHorizontal! *
                                                                   2.0),
                                                           decoration:
                                                               BoxDecoration(
@@ -356,7 +359,7 @@ class MyAppointmentsPatientScreenState
                                                           ),
                                                           child: Image(
                                                             width: SizeConfig
-                                                                    .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 5,
                                                             color: Colors.white,
                                                             //height: 80,
@@ -367,7 +370,7 @@ class MyAppointmentsPatientScreenState
                                                     : Container(),
                                                 SizedBox(
                                                   width: SizeConfig
-                                                          .blockSizeHorizontal !*
+                                                          .blockSizeHorizontal! *
                                                       3.0,
                                                 ),
                                                 InkWell(
@@ -387,7 +390,7 @@ class MyAppointmentsPatientScreenState
                                                     child: Container(
                                                       padding: EdgeInsets.all(
                                                           SizeConfig
-                                                                  .blockSizeHorizontal !*
+                                                                  .blockSizeHorizontal! *
                                                               2.0),
                                                       decoration: BoxDecoration(
                                                         color: Colors.blue,
@@ -395,7 +398,7 @@ class MyAppointmentsPatientScreenState
                                                       ),
                                                       child: Image(
                                                         width: SizeConfig
-                                                                .blockSizeHorizontal !*
+                                                                .blockSizeHorizontal! *
                                                             5,
                                                         color: Colors.white,
                                                         //height: 80,
@@ -517,12 +520,12 @@ class MyAppointmentsPatientScreenState
                                               style: TextStyle(
                                                   color: Colors.green,
                                                   fontSize: SizeConfig
-                                                          .blockSizeHorizontal !*
+                                                          .blockSizeHorizontal! *
                                                       3.5,
                                                   fontWeight: FontWeight.w500),
                                             ).paddingOnly(
                                               right: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   5.0,
                                             ),
                                             /*),*/
@@ -538,7 +541,7 @@ class MyAppointmentsPatientScreenState
                                                       textStyle: TextStyle(
                                                         color: Colors.red,
                                                         fontSize: SizeConfig
-                                                                .blockSizeHorizontal !*
+                                                                .blockSizeHorizontal! *
                                                             3.6,
                                                       ),
                                                     ))
@@ -547,7 +550,7 @@ class MyAppointmentsPatientScreenState
                                         )),
                                   ],
                                 ).paddingAll(
-                                  SizeConfig.blockSizeHorizontal !* 3,
+                                  SizeConfig.blockSizeHorizontal! * 3,
                                 ),
                               ),
                             ));
@@ -633,7 +636,7 @@ class MyAppointmentsPatientScreenState
       loginUrl = "${baseURL}receiptpdfdoc.php";
     else if (pdfTypeController.pdfType.value == "invoice")
       loginUrl = "${baseURL}invoicepdfdoc.php";
-  //  debugPrint("pdf url -  $loginUrl");
+    //  debugPrint("pdf url -  $loginUrl");
 
     pr = ProgressDialog(context);
     pr!.show();
@@ -684,26 +687,23 @@ class MyAppointmentsPatientScreenState
       print('fileName $fileName');
       String downloadPdfUrl = "";
       if (pdfTypeController.pdfType.value == "prescription")
-        downloadPdfUrl = "${baseURL}images/consultationDoc/$fileName";
+        downloadPdfUrl = "${baseImagePath}images/consultationDoc/$fileName";
       else if (pdfTypeController.pdfType.value == "receipt")
-        downloadPdfUrl = "${baseURL}images/receiptDoc/$fileName";
+        downloadPdfUrl = "${baseImagePath}images/receiptDoc/$fileName";
       else if (pdfTypeController.pdfType.value == "invoice")
-        downloadPdfUrl = "${baseURL}images/invoiceDoc/$fileName";
+        downloadPdfUrl = "${baseImagePath}images/invoiceDoc/$fileName";
       // downloadAndOpenTheFile(downloadPdfUrl, fileName);
-      if(downloadPdfUrl!=null)
-        {
-          Navigator.push(
-              context,
-              MaterialPageRoute<dynamic>(
-                builder: (_) => PDFViewerCachedFromUrl(
-                  url: downloadPdfUrl,
-                ),
-              ));
-        }
-      else
-        {
-          print('No URL found');
-        }
+      if (downloadPdfUrl != null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute<dynamic>(
+              builder: (_) => PDFViewerCachedFromUrl(
+                url: downloadPdfUrl,
+              ),
+            ));
+      } else {
+        print('No URL found');
+      }
     } else {
       final snackBar = SnackBar(
         backgroundColor: Colors.red,
@@ -746,7 +746,7 @@ class MyAppointmentsPatientScreenState
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  height: SizeConfig.blockSizeVertical !* 8,
+                  height: SizeConfig.blockSizeVertical! * 8,
                   child: Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Row(
@@ -756,24 +756,24 @@ class MyAppointmentsPatientScreenState
                           child: Icon(
                             Icons.arrow_back,
                             color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal !* 6.2,
+                            size: SizeConfig.blockSizeHorizontal! * 6.2,
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 6,
+                          width: SizeConfig.blockSizeHorizontal! * 6,
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal !* 50,
-                          height: SizeConfig.blockSizeVertical !* 8,
+                          width: SizeConfig.blockSizeHorizontal! * 50,
+                          height: SizeConfig.blockSizeVertical! * 8,
                           child: Center(
                             child: Text(
                               "Select Pdf to download",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                                 color: Colors.blue,
                                 decoration: TextDecoration.none,
                               ),
@@ -803,7 +803,7 @@ class MyAppointmentsPatientScreenState
                           child: Padding(
                               padding: EdgeInsets.all(0.0),
                               child: Container(
-                                  width: SizeConfig.blockSizeHorizontal !* 90,
+                                  width: SizeConfig.blockSizeHorizontal! * 90,
                                   padding: EdgeInsets.only(
                                     top: 5,
                                     bottom: 5,
@@ -831,22 +831,22 @@ class MyAppointmentsPatientScreenState
                                         children: [
                                           FaIcon(
                                             list[index].iconData,
-                                            size:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    5,
+                                            size: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                5,
                                             color: Colors.green,
                                           ),
                                           SizedBox(
-                                            width:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    6.0,
+                                            width: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                6.0,
                                           ),
                                           Text(
                                             list[index].typeName,
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   4.3,
                                               color: Colors.black,
                                               fontWeight: FontWeight.w500,
@@ -925,15 +925,15 @@ class MyAppointmentsPatientScreenState
     Get.bottomSheet(
       Material(
         child: Container(
-          height: SizeConfig.blockSizeVertical !* 38,
+          height: SizeConfig.blockSizeVertical! * 38,
           padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.blockSizeHorizontal !* 5.0,
+            horizontal: SizeConfig.blockSizeHorizontal! * 5.0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: SizeConfig.blockSizeVertical !* 1.5,
+                height: SizeConfig.blockSizeVertical! * 1.5,
               ),
               Card(
                 color: doctorData.checkOutStatus == "1"
@@ -957,14 +957,14 @@ class MyAppointmentsPatientScreenState
                             doctorData.name!,
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeHorizontal !* 4,
+                                fontSize: SizeConfig.blockSizeHorizontal! * 4,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 0.5,
+                      height: SizeConfig.blockSizeVertical! * 0.5,
                     ),
                     Align(
                         alignment: Alignment.centerLeft,
@@ -978,19 +978,19 @@ class MyAppointmentsPatientScreenState
                               style: TextStyle(
                                   color: Colors.green,
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 3.5,
+                                      SizeConfig.blockSizeHorizontal! * 3.5,
                                   fontWeight: FontWeight.w500),
                             ).paddingOnly(
-                              right: SizeConfig.blockSizeHorizontal !* 5.0,
+                              right: SizeConfig.blockSizeHorizontal! * 5.0,
                             ),
                           ],
                         )),
                   ],
                 ).paddingAll(
-                  SizeConfig.blockSizeHorizontal !* 4,
+                  SizeConfig.blockSizeHorizontal! * 4,
                 ),
               ).paddingOnly(
-                bottom: SizeConfig.blockSizeVertical !* 1.0,
+                bottom: SizeConfig.blockSizeVertical! * 1.0,
               ),
               Align(
                 alignment: Alignment.bottomLeft,
@@ -1002,33 +1002,33 @@ class MyAppointmentsPatientScreenState
                       children: [
                         Image.asset(
                           "images/ic_payment_due.png",
-                          width: SizeConfig.blockSizeHorizontal !* 12.0,
+                          width: SizeConfig.blockSizeHorizontal! * 12.0,
                           fit: BoxFit.fill,
                         ).paddingOnly(
-                          right: SizeConfig.blockSizeHorizontal !* 5.0,
+                          right: SizeConfig.blockSizeHorizontal! * 5.0,
                         ),
                         Text(
                           "Payment Due",
                           style: TextStyle(
                             color: Colors.grey[500],
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.5,
+                            fontSize: SizeConfig.blockSizeHorizontal! * 4.5,
                             letterSpacing: 1.4,
                           ),
                         ),
                       ],
                     ).pO(
-                      bottom: SizeConfig.blockSizeVertical !* 1.0,
+                      bottom: SizeConfig.blockSizeVertical! * 1.0,
                     ),
                     Text(
                       "\u20B9$dueAmount",
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal !* 6.5,
+                        fontSize: SizeConfig.blockSizeHorizontal! * 6.5,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.8,
                       ),
                     ).pO(
-                      bottom: SizeConfig.blockSizeVertical !* 1.5,
+                      bottom: SizeConfig.blockSizeVertical! * 1.5,
                     ),
                     MaterialButton(
                       onPressed: () {
@@ -1040,11 +1040,11 @@ class MyAppointmentsPatientScreenState
                         style: TextStyle(
                           color: Colors.white,
                           letterSpacing: 1.3,
-                          fontSize: SizeConfig.blockSizeHorizontal !* 4.2,
+                          fontSize: SizeConfig.blockSizeHorizontal! * 4.2,
                         ),
                       ),
                     ).pO(
-                      bottom: SizeConfig.blockSizeVertical !* 1.5,
+                      bottom: SizeConfig.blockSizeVertical! * 1.5,
                     ),
                   ],
                 ),
@@ -1060,7 +1060,7 @@ class MyAppointmentsPatientScreenState
       int type, ModelOPDRegistration doctorData, String dueAmount) async {
     String patientIDP = await getPatientOrDoctorIDP();
     goToWebview(context, "",
-        "${baseURL}paymentgatewayPayDuetoDoctor.php?appointid=${doctorData.idp}&amount=$dueAmount&idp=${doctorData.patientIDP}&idppt=$patientIDP");
+        "${baseImagePath}paymentgatewayPayDuetoDoctor.php?appointid=${doctorData.idp}&amount=$dueAmount&idp=${doctorData.patientIDP}&idppt=$patientIDP");
   }
 
   goToWebview(BuildContext context, String iconName, String webView) {
@@ -1165,8 +1165,7 @@ class MyAppointmentsPatientScreenState
 
   bool isDownloaded = false;
 
-  void downloadAndOpenTheFile(String downloadPdfUrl, String fileName) async
-  {
+  void downloadAndOpenTheFile(String downloadPdfUrl, String fileName) async {
     print('downloadAndOpenTheFile $downloadPdfUrl $fileName');
     //Url url = Uri.parse(downloadPdfUrl);
 

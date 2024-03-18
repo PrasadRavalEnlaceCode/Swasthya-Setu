@@ -1,10 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_masters.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_masters.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -63,15 +67,19 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
         title: Text("Add Medicine"),
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.3), toolbarTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colorsblack,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colorsblack,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.3),
+        toolbarTextStyle: TextTheme(
+                titleMedium: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .bodyMedium,
+        titleTextStyle: TextTheme(
+                titleMedium: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .titleLarge,
       ),
       body: Builder(
         builder: (context) {
@@ -86,21 +94,21 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: medicineNameController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Medicine Name",
                             hintText: "",
                           ),
@@ -108,7 +116,7 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 1,
+                      height: SizeConfig.blockSizeVertical! * 1,
                     ),
                     InkWell(
                       onTap: () {
@@ -118,9 +126,9 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                       child: Align(
                         alignment: Alignment.center,
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: medicineTypeController,
@@ -137,7 +145,7 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 1,
+                      height: SizeConfig.blockSizeVertical! * 1,
                     ),
                     InkWell(
                       onTap: () {
@@ -147,9 +155,9 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                       child: Align(
                         alignment: Alignment.center,
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: medicineScheduleController,
@@ -166,7 +174,7 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 1,
+                      height: SizeConfig.blockSizeVertical! * 1,
                     ),
                     InkWell(
                       onTap: () {
@@ -176,9 +184,9 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                       child: Align(
                         alignment: Alignment.center,
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: medicineAdviceController,
@@ -195,27 +203,27 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 1,
+                      height: SizeConfig.blockSizeVertical! * 1,
                     ),
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: medicineDaysController,
                           keyboardType: TextInputType.number,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Medicine Days",
                             hintText: "",
                           ),
@@ -223,27 +231,27 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 1,
+                      height: SizeConfig.blockSizeVertical! * 1,
                     ),
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: medicineQuantityController,
                           keyboardType: TextInputType.number,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Medicine Quantity",
                             hintText: "",
                           ),
@@ -251,26 +259,26 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 1,
+                      height: SizeConfig.blockSizeVertical! * 1,
                     ),
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: medicineCompanyController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Medicine Company",
                             hintText: "",
                           ),
@@ -284,12 +292,12 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                 alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: EdgeInsets.only(
-                      right: SizeConfig.blockSizeHorizontal !* 3,
-                      top: SizeConfig.blockSizeHorizontal !* 3,
-                      bottom: SizeConfig.blockSizeHorizontal !* 3),
+                      right: SizeConfig.blockSizeHorizontal! * 3,
+                      top: SizeConfig.blockSizeHorizontal! * 3,
+                      bottom: SizeConfig.blockSizeHorizontal! * 3),
                   child: Container(
-                    width: SizeConfig.blockSizeHorizontal !* 12,
-                    height: SizeConfig.blockSizeHorizontal !* 12,
+                    width: SizeConfig.blockSizeHorizontal! * 12,
+                    height: SizeConfig.blockSizeHorizontal! * 12,
                     child: RawMaterialButton(
                       onPressed: () {
                         submitNewMedicine(context);
@@ -297,8 +305,8 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                       elevation: 2.0,
                       fillColor: Color(0xFF06A759),
                       child: Image(
-                        width: SizeConfig.blockSizeHorizontal !* 5.5,
-                        height: SizeConfig.blockSizeHorizontal !* 5.5,
+                        width: SizeConfig.blockSizeHorizontal! * 5.5,
+                        height: SizeConfig.blockSizeHorizontal! * 5.5,
                         //height: 80,
                         image:
                             AssetImage("images/ic_right_arrow_triangular.png"),
@@ -447,7 +455,7 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  height: SizeConfig.blockSizeVertical !* 8,
+                  height: SizeConfig.blockSizeVertical! * 8,
                   child: Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Row(
@@ -457,7 +465,7 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                           child: Icon(
                             Icons.arrow_back,
                             color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal !* 6.2,
+                            size: SizeConfig.blockSizeHorizontal! * 6.2,
                           ),
                           onTap: () {
                             /*setState(() {
@@ -467,17 +475,17 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                           },
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 6,
+                          width: SizeConfig.blockSizeHorizontal! * 6,
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal !* 50,
-                          height: SizeConfig.blockSizeVertical !* 8,
+                          width: SizeConfig.blockSizeHorizontal! * 50,
+                          height: SizeConfig.blockSizeVertical! * 8,
                           child: Center(
                             child: Text(
                               "Select ${getMasterNameFromID(id)}",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal !* 4,
+                                fontSize: SizeConfig.blockSizeHorizontal! * 4,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green,
                                 decoration: TextDecoration.none,
@@ -519,7 +527,7 @@ class AddMedicineMasterState extends State<AddMedicineMaster> {
                                   padding: EdgeInsets.all(0.0),
                                   child: Container(
                                       width:
-                                          SizeConfig.blockSizeHorizontal !* 90,
+                                          SizeConfig.blockSizeHorizontal! * 90,
                                       padding: EdgeInsets.only(
                                         top: 5,
                                         bottom: 5,

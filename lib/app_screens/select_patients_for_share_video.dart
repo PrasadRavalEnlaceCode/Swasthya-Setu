@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_opd_reg.dart';
-import 'package:swasthyasetu/podo/model_templates_advice_investigations.dart';
-import 'package:swasthyasetu/podo/response_login_icons_model.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_opd_reg.dart';
+import 'package:silvertouch/podo/model_templates_advice_investigations.dart';
+import 'package:silvertouch/podo/response_login_icons_model.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
 
 import '../utils/color.dart';
 import '../utils/multipart_request_with_progress.dart';
@@ -132,66 +132,66 @@ class SelectPatientsForShareVideoState
           _radioValueSendType == 1
               ?
           IconButton(
-                  onPressed: () {
-                    setState(() {
-                      if (icon.icon == Icons.search) {
-                        searchController = TextEditingController(text: "");
-                        focusNode.requestFocus();
-                        icon = Icon(
-                          Icons.cancel,
-                          color:Colors.black,
-                        );
-                        titleWidget = TextField(
-                          controller: searchController,
-                          focusNode: focusNode,
-                          cursorColor: Colors.black,
-                          onChanged: (text) {
-                            setState(() {
-                              if (_radioValueSendType == 1)
-                                listPatientsSearchResults = listPatients
-                                    .where((model) =>
-                                        model.name
-                                        !.toLowerCase()
-                                            .contains(text.toLowerCase()) ||
-                                        model.amount
-                                        !.toLowerCase()
-                                            .contains(text.toLowerCase()))
-                                    .toList();
-                            });
-                          },
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: "Search Patients",
-                          ),
-                        );
-                      } else {
-                        icon = Icon(
-                          Icons.search,
-                          color: Colors.black,
-                        );
-                        titleWidget = Text("Search Patients",style: TextStyle(
-                          color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
-                        ));
-                        listPatientsSearchResults = listPatients;
-                      }
-                    });
-                  },
-                  icon: icon,
-                )
+            onPressed: () {
+              setState(() {
+                if (icon.icon == Icons.search) {
+                  searchController = TextEditingController(text: "");
+                  focusNode.requestFocus();
+                  icon = Icon(
+                    Icons.cancel,
+                    color:Colors.black,
+                  );
+                  titleWidget = TextField(
+                    controller: searchController,
+                    focusNode: focusNode,
+                    cursorColor: Colors.black,
+                    onChanged: (text) {
+                      setState(() {
+                        if (_radioValueSendType == 1)
+                          listPatientsSearchResults = listPatients
+                              .where((model) =>
+                          model.name
+                          !.toLowerCase()
+                              .contains(text.toLowerCase()) ||
+                              model.amount
+                              !.toLowerCase()
+                                  .contains(text.toLowerCase()))
+                              .toList();
+                      });
+                    },
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: "Search Patients",
+                    ),
+                  );
+                } else {
+                  icon = Icon(
+                    Icons.search,
+                    color: Colors.black,
+                  );
+                  titleWidget = Text("Search Patients",style: TextStyle(
+                    color: Colors.black,
+                    fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                  ));
+                  listPatientsSearchResults = listPatients;
+                }
+              });
+            },
+            icon: icon,
+          )
               : Container(),
         ], toolbarTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colors.black,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colors.black,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+          titleMedium: TextStyle(
+              color: Colors.black,
+              fontFamily: "Ubuntu",
+              fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+          titleMedium: TextStyle(
+              color: Colors.black,
+              fontFamily: "Ubuntu",
+              fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
       ),
       body: Stack(
         children: [
@@ -203,132 +203,132 @@ class SelectPatientsForShareVideoState
                 ),
                 widget.videoModel == null
                     ? Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            SizeConfig.blockSizeVertical !* 1.5,
-                            0,
-                            SizeConfig.blockSizeVertical !* 1,
-                            0),
-                        child: Form(
-                            key: _formKey,
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  controller: title,
-                                  style: TextStyle(color: Colors.green),
-                                  decoration: InputDecoration(
-                                    hintStyle: TextStyle(color: Colors.black),
-                                    labelStyle: TextStyle(color: Colors.black),
-                                    labelText: "Notification Title",
-                                    hintText: "",
-                                    counterText: "",
-                                  ),
-                                  validator: (value) {
-                                    if (value!.length == 0)
-                                      return 'Please enter title';
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: 2,
-                                  minLines: 1,
-                                  maxLength: 500,
+                  padding: EdgeInsets.fromLTRB(
+                      SizeConfig.blockSizeVertical !* 1.5,
+                      0,
+                      SizeConfig.blockSizeVertical !* 1,
+                      0),
+                  child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: title,
+                            style: TextStyle(color: Colors.green),
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black),
+                              labelStyle: TextStyle(color: Colors.black),
+                              labelText: "Notification Title",
+                              hintText: "",
+                              counterText: "",
+                            ),
+                            validator: (value) {
+                              if (value!.length == 0)
+                                return 'Please enter title';
+                              return null;
+                            },
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 2,
+                            minLines: 1,
+                            maxLength: 500,
+                          ),
+                          TextFormField(
+                            controller: description,
+                            style: TextStyle(color: Colors.green),
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black),
+                              labelStyle: TextStyle(color: Colors.black),
+                              labelText: "Description",
+                              hintText: "",
+                              counterText: "",
+                            ),
+                            validator: (value) {
+                              if (value!.length == 0)
+                                return 'Please enter Description';
+                              return null;
+                            },
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 3,
+                            minLines: 1,
+                            maxLength: 500,
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 1.0,
+                          ),
+                          Row(
+                            children: [
+                              MaterialButton(
+                                onPressed: () {
+                                  getImageFromGallery();
+                                },
+                                child: Image(
+                                  width: 70,
+                                  height: 70,
+                                  //height: 80,
+                                  image:
+                                  AssetImage("images/ic_gallery.png"),
                                 ),
-                                TextFormField(
-                                  controller: description,
-                                  style: TextStyle(color: Colors.green),
-                                  decoration: InputDecoration(
-                                    hintStyle: TextStyle(color: Colors.black),
-                                    labelStyle: TextStyle(color: Colors.black),
-                                    labelText: "Description",
-                                    hintText: "",
-                                    counterText: "",
-                                  ),
-                                  validator: (value) {
-                                    if (value!.length == 0)
-                                      return 'Please enter Description';
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: 3,
-                                  minLines: 1,
-                                  maxLength: 500,
+                              ),
+                              Text(
+                                selectedFile == null
+                                    ? ''
+                                    : selectedFile!.path.split('/').last,
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 1.0,
+                          ),
+                          Row(
+                            children: [
+                              MaterialButton(
+                                onPressed: () {
+                                  openDocumentPicker();
+                                },
+                                child: Image(
+                                  width: 70,
+                                  height: 70,
+                                  //height: 80,
+                                  image:
+                                  AssetImage("images/ic_doc.png"),
                                 ),
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 1.0,
-                                ),
-                                Row(
-                                  children: [
-                                    MaterialButton(
-                                      onPressed: () {
-                                        getImageFromGallery();
-                                      },
-                                      child: Image(
-                                        width: 70,
-                                        height: 70,
-                                        //height: 80,
-                                        image:
-                                            AssetImage("images/ic_gallery.png"),
-                                      ),
-                                    ),
-                                    Text(
-                                      selectedFile == null
-                                          ? ''
-                                          : selectedFile!.path.split('/').last,
-                                      overflow: TextOverflow.ellipsis,
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 1.0,
-                                ),
-                                Row(
-                                  children: [
-                                    MaterialButton(
-                                      onPressed: () {
-                                        openDocumentPicker();
-                                      },
-                                      child: Image(
-                                        width: 70,
-                                        height: 70,
-                                        //height: 80,
-                                        image:
-                                        AssetImage("images/ic_doc.png"),
-                                      ),
-                                    ),
-                                    Text(
-                                      selectedFile1 == null
-                                          ? ''
-                                          : selectedFile1!.path.split('/').last,
-                                      overflow: TextOverflow.ellipsis,
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 1.0,
-                                ),
-                                TextFormField(
-                                  controller: description,
-                                  style: TextStyle(color: Colors.green),
-                                  decoration: InputDecoration(
-                                    hintStyle: TextStyle(color: Colors.black),
-                                    labelStyle: TextStyle(color: Colors.black),
-                                    labelText: "Enter link",
-                                    hintText: "",
-                                    counterText: "",
-                                  ),
-                                  validator: (value) {
-                                    if (value!.length == 0)
-                                      return 'Please enter Link';
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: 3,
-                                  minLines: 1,
-                                  maxLength: 500,
-                                ),
-                              ],
-                            )
-                        ),
+                              ),
+                              Text(
+                                selectedFile1 == null
+                                    ? ''
+                                    : selectedFile1!.path.split('/').last,
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 1.0,
+                          ),
+                          TextFormField(
+                            controller: link,
+                            style: TextStyle(color: Colors.green),
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black),
+                              labelStyle: TextStyle(color: Colors.black),
+                              labelText: "Enter link",
+                              hintText: "",
+                              counterText: "",
+                            ),
+                            // validator: (value) {
+                            //   if (value!.length == 0)
+                            //     return 'Please enter Link';
+                            //   return null;
+                            // },
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 3,
+                            minLines: 1,
+                            maxLength: 500,
+                          ),
+                        ],
                       )
+                  ),
+                )
                     : Container(),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical !* 1.0,
@@ -352,7 +352,7 @@ class SelectPatientsForShareVideoState
                               'Categories',
                               style: TextStyle(
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 4.0),
+                                  SizeConfig.blockSizeHorizontal !* 4.0),
                             ),
                           ],
                         ),
@@ -374,7 +374,7 @@ class SelectPatientsForShareVideoState
                               'Patients',
                               style: TextStyle(
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 4.0),
+                                  SizeConfig.blockSizeHorizontal !* 4.0),
                             ),
                           ],
                         ),
@@ -384,116 +384,116 @@ class SelectPatientsForShareVideoState
                 ),
                 _radioValueSendType == 1
                     ? Row(
-                        children: [
-                          Spacer(),
-                          InkWell(
-                            customBorder: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                SizeConfig.blockSizeHorizontal !* 10.0,
-                              ),
+                  children: [
+                    Spacer(),
+                    InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          SizeConfig.blockSizeHorizontal !* 10.0,
+                        ),
+                      ),
+                      onTap: () {
+                        listPatientsSearchResults.every((element) {
+                          element.isChecked = true;
+                          return true;
+                        });
+                        setState(() {
+                          allSelected = true;
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(
+                          SizeConfig.blockSizeHorizontal !* 3.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 0.8,
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          //color: allSelected ? Colors.green : Colors.transparent,
+                        ),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              "images/ic_check_all.png",
+                              width: SizeConfig.blockSizeHorizontal !* 5.0,
+                              color: Colors.blueGrey,
                             ),
-                            onTap: () {
-                              listPatientsSearchResults.every((element) {
-                                element.isChecked = true;
-                                return true;
-                              });
-                              setState(() {
-                                allSelected = true;
-                              });
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(
+                            SizedBox(
+                              width: SizeConfig.blockSizeHorizontal !* 3.0,
+                            ),
+                            Text(
+                              "Select All",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: Colors.blueGrey[600],
+                                fontSize:
+                                SizeConfig.blockSizeHorizontal !* 4.0,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal !* 3.0,
+                    ),
+                    InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          SizeConfig.blockSizeHorizontal !* 10.0,
+                        ),
+                      ),
+                      onTap: () {
+                        listPatientsSearchResults.every((element) {
+                          element.isChecked = false;
+                          return true;
+                        });
+                        setState(() {
+                          allSelected = false;
+                        });
+                      },
+                      child: Container(
+                          padding: EdgeInsets.all(
+                            SizeConfig.blockSizeHorizontal !* 3.0,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 0.8,
+                            ),
+                            borderRadius: BorderRadius.circular(5.0),
+                            //color: !allSelected ? Colors.green : Colors.transparent,
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "images/ic_uncheck_all.png",
+                                width:
+                                SizeConfig.blockSizeHorizontal !* 5.0,
+                                color: Colors.blueGrey,
+                              ),
+                              SizedBox(
+                                width:
                                 SizeConfig.blockSizeHorizontal !* 3.0,
                               ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 0.8,
+                              Text(
+                                "De-Select All",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Colors.blueGrey[600],
+                                  fontSize:
+                                  SizeConfig.blockSizeHorizontal !*
+                                      4.0,
                                 ),
-                                borderRadius: BorderRadius.circular(5.0),
-                                //color: allSelected ? Colors.green : Colors.transparent,
                               ),
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    "images/ic_check_all.png",
-                                    width: SizeConfig.blockSizeHorizontal !* 5.0,
-                                    color: Colors.blueGrey,
-                                  ),
-                                  SizedBox(
-                                    width: SizeConfig.blockSizeHorizontal !* 3.0,
-                                  ),
-                                  Text(
-                                    "Select All",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Colors.blueGrey[600],
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 4.0,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 3.0,
-                          ),
-                          InkWell(
-                            customBorder: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                SizeConfig.blockSizeHorizontal !* 10.0,
-                              ),
-                            ),
-                            onTap: () {
-                              listPatientsSearchResults.every((element) {
-                                element.isChecked = false;
-                                return true;
-                              });
-                              setState(() {
-                                allSelected = false;
-                              });
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(
-                                  SizeConfig.blockSizeHorizontal !* 3.0,
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 0.8,
-                                  ),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  //color: !allSelected ? Colors.green : Colors.transparent,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "images/ic_uncheck_all.png",
-                                      width:
-                                          SizeConfig.blockSizeHorizontal !* 5.0,
-                                      color: Colors.blueGrey,
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal !* 3.0,
-                                    ),
-                                    Text(
-                                      "De-Select All",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Colors.blueGrey[600],
-                                        fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
-                                                4.0,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                          ),
-                          Spacer(),
-                        ],
-                      )
+                            ],
+                          )),
+                    ),
+                    Spacer(),
+                  ],
+                )
                     : Container(),
                 buildWidget(),
               ],
@@ -573,10 +573,10 @@ class SelectPatientsForShareVideoState
         listPatients.add(ModelOPDRegistration(
           jo['PatientIDP'].toString(),
           (jo['FName'].toString().trim() +
-                  " " +
-                  jo['MiddleName'].toString().trim() +
-                  " " +
-                  jo['LName'].toString().trim())
+              " " +
+              jo['MiddleName'].toString().trim() +
+              " " +
+              jo['LName'].toString().trim())
               .toString()
               .trim(),
           "",
@@ -690,7 +690,7 @@ class SelectPatientsForShareVideoState
                   child: InkWell(
                     onTap: () {
                       listCategoriesSearchResults[index].isChecked =
-                          !listCategoriesSearchResults[index].isChecked!;
+                      !listCategoriesSearchResults[index].isChecked!;
                       if (!listCategoriesSearchResults[index].isChecked!) {
                         allSelected = false;
                       }
@@ -701,49 +701,49 @@ class SelectPatientsForShareVideoState
                         Expanded(
                           child: Card(
                               child: Padding(
-                            padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 2,
-                            ),
-                            child: Row(
-                              children: [
-                                Checkbox(
-                                  value: listCategoriesSearchResults[index]
-                                      .isChecked,
-                                  onChanged: (bool? value) {
-                                    listCategoriesSearchResults[index]
-                                        .isChecked = value!;
-                                    setState(() {});
-                                  },
+                                padding: EdgeInsets.all(
+                                  SizeConfig.blockSizeHorizontal !* 2,
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
+                                child: Row(
+                                  children: [
+                                    Checkbox(
+                                      value: listCategoriesSearchResults[index]
+                                          .isChecked,
+                                      onChanged: (bool? value) {
+                                        listCategoriesSearchResults[index]
+                                            .isChecked = value!;
+                                        setState(() {});
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          listCategoriesSearchResults[index]
-                                              .name!,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: SizeConfig
+                                        children: <Widget>[
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              listCategoriesSearchResults[index]
+                                                  .name!,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: SizeConfig
                                                       .blockSizeHorizontal !*
-                                                  4,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height:
+                                                      4,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height:
                                             SizeConfig.blockSizeHorizontal !* 1,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )),
+                              )),
                         ),
                       ],
                     ),
@@ -764,7 +764,7 @@ class SelectPatientsForShareVideoState
                   child: InkWell(
                     onTap: () {
                       listPatientsSearchResults[index].isChecked =
-                          !listPatientsSearchResults[index].isChecked!;
+                      !listPatientsSearchResults[index].isChecked!;
                       if (!listPatientsSearchResults[index].isChecked!) {
                         allSelected = false;
                       }
@@ -775,48 +775,48 @@ class SelectPatientsForShareVideoState
                         Expanded(
                           child: Card(
                               child: Padding(
-                            padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 2,
-                            ),
-                            child: Row(
-                              children: [
-                                Checkbox(
-                                  value: listPatientsSearchResults[index]
-                                      .isChecked,
-                                  onChanged: (bool? value) {
-                                    listPatientsSearchResults[index].isChecked =
+                                padding: EdgeInsets.all(
+                                  SizeConfig.blockSizeHorizontal !* 2,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Checkbox(
+                                      value: listPatientsSearchResults[index]
+                                          .isChecked,
+                                      onChanged: (bool? value) {
+                                        listPatientsSearchResults[index].isChecked =
                                         value!;
-                                    setState(() {});
-                                  },
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
+                                        setState(() {});
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          listPatientsSearchResults[index].name!,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: SizeConfig
+                                        children: <Widget>[
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              listPatientsSearchResults[index].name!,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: SizeConfig
                                                       .blockSizeHorizontal !*
-                                                  4,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height:
+                                                      4,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height:
                                             SizeConfig.blockSizeHorizontal !* 1,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )),
+                              )),
                         ),
                       ],
                     ),
@@ -837,7 +837,7 @@ class SelectPatientsForShareVideoState
     for (var i = 0; i < listPatients.length; i++) {
       if (listPatients[i].isChecked!) {
         jArrayPatientsData =
-            "$jArrayPatientsData{\"${getParamName()}\":\"${listPatients[i].idp}\"},";
+        "$jArrayPatientsData{\"${getParamName()}\":\"${listPatients[i].idp}\"},";
       }
     }
     jArrayPatientsData = jArrayPatientsData + "]";
@@ -893,7 +893,7 @@ class SelectPatientsForShareVideoState
         Duration(
           seconds: 2,
         ),
-        () {
+            () {
           Navigator.of(context).pop();
         },
       );
@@ -932,7 +932,7 @@ class SelectPatientsForShareVideoState
     for (var i = 0; i < listPatients.length; i++) {
       if (listPatients[i].isChecked!) {
         jArrayPatientsData =
-            "$jArrayPatientsData{\"${getParamName()}\":\"${listPatients[i].idp}\"},";
+        "$jArrayPatientsData{\"${getParamName()}\":\"${listPatients[i].idp}\"},";
       }
     }
     jArrayPatientsData = jArrayPatientsData + "]";
@@ -943,6 +943,7 @@ class SelectPatientsForShareVideoState
       pr = ProgressDialog(context);
       pr.show();
     });*/
+
     String doctorIDP = await getPatientOrDoctorIDP();
     String patientUniqueKey = await getPatientUniqueKey();
     String userType = await getUserType();
@@ -1040,7 +1041,7 @@ class SelectPatientsForShareVideoState
     /*ViewProfileDetailsState.image =
         await ImagePicker.pickImage(source: ImageSource.gallery);*/
     File imgSelected =
-        await chooseImageWithExIfRotate(picker, ImageSource.gallery);
+    await chooseImageWithExIfRotate(picker, ImageSource.gallery);
     selectedFile = await ImageCropper().cropImage(
         sourcePath: imgSelected.path,
         uiSettings: [

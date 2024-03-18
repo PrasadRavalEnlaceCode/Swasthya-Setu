@@ -2,11 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:swasthyasetu/app_screens/patient_dashboard_screen.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/app_screens/add_patient_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/color.dart';
@@ -32,16 +36,18 @@ class HelpScreenState extends State<HelpScreen> {
         appBar: AppBar(
           title: Text("Help ?"),
           backgroundColor: Color(0xFFFFFFFF),
-          iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+          iconTheme: IconThemeData(color: Colorsblack),
+          toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
-          )).bodyMedium, titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          )).bodyMedium,
+          titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
           )).titleLarge,
         ),
         body: Builder(
@@ -56,12 +62,12 @@ class HelpScreenState extends State<HelpScreen> {
                       shrinkWrap: true,
                       children: <Widget>[
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 2,
+                          height: SizeConfig.blockSizeVertical! * 2,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal !* 3,
-                              right: SizeConfig.blockSizeHorizontal !* 3),
+                              left: SizeConfig.blockSizeHorizontal! * 3,
+                              right: SizeConfig.blockSizeHorizontal! * 3),
                           child: Align(
                             alignment: Alignment.topLeft,
                             child: Text(
@@ -75,7 +81,7 @@ class HelpScreenState extends State<HelpScreen> {
                         //Text("We will get back to you soon."),
                         Padding(
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 3),
+                              SizeConfig.blockSizeHorizontal! * 3),
                           child: TextField(
                             controller: queryController,
                             textAlign: TextAlign.left,
@@ -97,7 +103,7 @@ class HelpScreenState extends State<HelpScreen> {
                         Align(
                           alignment: Alignment.center,
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal !* 35,
+                            width: SizeConfig.blockSizeHorizontal! * 35,
                             child: MaterialButton(
                               onPressed: () {
                                 submitQuery(patientIDP!, context);
@@ -113,12 +119,12 @@ class HelpScreenState extends State<HelpScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 3,
+                          height: SizeConfig.blockSizeVertical! * 3,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal !* 3,
-                              right: SizeConfig.blockSizeHorizontal !* 3),
+                              left: SizeConfig.blockSizeHorizontal! * 3,
+                              right: SizeConfig.blockSizeHorizontal! * 3),
                           child: Align(
                             alignment: Alignment.topLeft,
                             child: Text(
@@ -130,12 +136,12 @@ class HelpScreenState extends State<HelpScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1,
+                          height: SizeConfig.blockSizeVertical! * 1,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal !* 3,
-                              right: SizeConfig.blockSizeHorizontal !* 3),
+                              left: SizeConfig.blockSizeHorizontal! * 3,
+                              right: SizeConfig.blockSizeHorizontal! * 3),
                           child: InkWell(
                             child: Container(
                               width: SizeConfig.screenWidth,
@@ -143,12 +149,12 @@ class HelpScreenState extends State<HelpScreen> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   Image(
-                                    width: SizeConfig.blockSizeHorizontal !* 6,
+                                    width: SizeConfig.blockSizeHorizontal! * 6,
                                     image: AssetImage("images/ic_call.png"),
                                     color: Colors.green,
                                   ),
                                   SizedBox(
-                                    width: SizeConfig.blockSizeHorizontal !* 4,
+                                    width: SizeConfig.blockSizeHorizontal! * 4,
                                   ),
                                   Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -160,17 +166,17 @@ class HelpScreenState extends State<HelpScreen> {
                                       Text(
                                         "+917575033323",
                                         style: TextStyle(
-                                            fontSize:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    4),
+                                            fontSize: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                4),
                                       ),
                                       SizedBox(
                                         height:
-                                            SizeConfig.blockSizeVertical !* 1,
+                                            SizeConfig.blockSizeVertical! * 1,
                                       ),
                                       Container(
-                                        width:
-                                            SizeConfig.blockSizeHorizontal !* 80,
+                                        width: SizeConfig.blockSizeHorizontal! *
+                                            80,
                                         height: 1.0,
                                         color: Colors.grey,
                                       ),
@@ -191,12 +197,12 @@ class HelpScreenState extends State<HelpScreen> {
                         ),
 
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 2,
+                          height: SizeConfig.blockSizeVertical! * 2,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal !* 3,
-                              right: SizeConfig.blockSizeHorizontal !* 3),
+                              left: SizeConfig.blockSizeHorizontal! * 3,
+                              right: SizeConfig.blockSizeHorizontal! * 3),
                           child: InkWell(
                             onTap: () {
                               launchURL(
@@ -208,12 +214,12 @@ class HelpScreenState extends State<HelpScreen> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   Image(
-                                    width: SizeConfig.blockSizeHorizontal !* 6,
+                                    width: SizeConfig.blockSizeHorizontal! * 6,
                                     image: AssetImage("images/ic_mail.png"),
                                     color: Colors.green,
                                   ),
                                   SizedBox(
-                                    width: SizeConfig.blockSizeHorizontal !* 4,
+                                    width: SizeConfig.blockSizeHorizontal! * 4,
                                   ),
                                   Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -225,17 +231,17 @@ class HelpScreenState extends State<HelpScreen> {
                                       Text(
                                         "info@swasthyasetu.com",
                                         style: TextStyle(
-                                            fontSize:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    4),
+                                            fontSize: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                4),
                                       ),
                                       SizedBox(
                                         height:
-                                            SizeConfig.blockSizeVertical !* 1,
+                                            SizeConfig.blockSizeVertical! * 1,
                                       ),
                                       Container(
-                                        width:
-                                            SizeConfig.blockSizeHorizontal !* 80,
+                                        width: SizeConfig.blockSizeHorizontal! *
+                                            80,
                                         height: 1.0,
                                         color: Colors.grey,
                                       ),
@@ -256,12 +262,12 @@ class HelpScreenState extends State<HelpScreen> {
                         ),
 
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 2,
+                          height: SizeConfig.blockSizeVertical! * 2,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal !* 3,
-                              right: SizeConfig.blockSizeHorizontal !* 3),
+                              left: SizeConfig.blockSizeHorizontal! * 3,
+                              right: SizeConfig.blockSizeHorizontal! * 3),
                           child: InkWell(
                             onTap: () {
                               launchURL("http://swasthyasetu.com/");
@@ -272,12 +278,12 @@ class HelpScreenState extends State<HelpScreen> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   Image(
-                                    width: SizeConfig.blockSizeHorizontal !* 6,
+                                    width: SizeConfig.blockSizeHorizontal! * 6,
                                     image: AssetImage("images/ic_website.png"),
                                     color: Colors.green,
                                   ),
                                   SizedBox(
-                                    width: SizeConfig.blockSizeHorizontal !* 4,
+                                    width: SizeConfig.blockSizeHorizontal! * 4,
                                   ),
                                   Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -289,17 +295,17 @@ class HelpScreenState extends State<HelpScreen> {
                                       Text(
                                         "www.swasthyasetu.com",
                                         style: TextStyle(
-                                            fontSize:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    4),
+                                            fontSize: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                4),
                                       ),
                                       SizedBox(
                                         height:
-                                            SizeConfig.blockSizeVertical !* 1,
+                                            SizeConfig.blockSizeVertical! * 1,
                                       ),
                                       Container(
-                                        width:
-                                            SizeConfig.blockSizeHorizontal !* 80,
+                                        width: SizeConfig.blockSizeHorizontal! *
+                                            80,
                                         height: 1.0,
                                         color: Colors.grey,
                                       ),
@@ -320,14 +326,14 @@ class HelpScreenState extends State<HelpScreen> {
                         ),
 
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 2,
+                          height: SizeConfig.blockSizeVertical! * 2,
                         ),
                       ],
                     ),
                   ),
                 ),
                 Container(
-                  height: SizeConfig.blockSizeVertical !* 12,
+                  height: SizeConfig.blockSizeVertical! * 12,
                   child: Row(
                     children: <Widget>[
                       Expanded(
@@ -341,12 +347,12 @@ class HelpScreenState extends State<HelpScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Image(
-                                  width: SizeConfig.blockSizeHorizontal !* 4,
+                                  width: SizeConfig.blockSizeHorizontal! * 4,
                                   image: AssetImage("images/ic_call.png"),
                                   color: Colors.white,
                                 ),
                                 SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal !* 2,
+                                  width: SizeConfig.blockSizeHorizontal! * 2,
                                 ),
                                 Text(
                                   "Call Us",
@@ -358,7 +364,7 @@ class HelpScreenState extends State<HelpScreen> {
                             )),
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal !* 2,
+                        width: SizeConfig.blockSizeHorizontal! * 2,
                       ),
                       Expanded(
                         child: MaterialButton(
@@ -384,12 +390,12 @@ class HelpScreenState extends State<HelpScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Image(
-                                  width: SizeConfig.blockSizeHorizontal !* 4,
+                                  width: SizeConfig.blockSizeHorizontal! * 4,
                                   image: AssetImage("images/ic_whatsapp.png"),
                                   color: Colors.white,
                                 ),
                                 SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal !* 2,
+                                  width: SizeConfig.blockSizeHorizontal! * 2,
                                 ),
                                 Text(
                                   "Whatsapp Us",

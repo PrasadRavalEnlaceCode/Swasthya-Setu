@@ -8,11 +8,15 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:swasthyasetu/app_screens/PDFViewerCachedFromUrl.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/app_screens/PDFViewerCachedFromUrl.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 import '../utils/common_methods.dart';
@@ -35,13 +39,9 @@ class Form3CScreenState extends State<Form3CScreen> {
   late DateTimeRange dateRange;
 
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
-    dateRange = DateTimeRange(
-        start: fromDate,
-        end: toDate
-    );
+    dateRange = DateTimeRange(start: fromDate, end: toDate);
     // _bindBackgroundIsolate();
     // FlutterDownloader.registerCallback(downloadCallback);
   }
@@ -61,17 +61,19 @@ class Form3CScreenState extends State<Form3CScreen> {
       appBar: AppBar(
         title: Text("Form 3C"),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack),
+        toolbarTextStyle: TextTheme(
           titleLarge: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
           ),
-        ).bodyMedium, titleTextStyle: TextTheme(
+        ).bodyMedium,
+        titleTextStyle: TextTheme(
           titleLarge: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
           ),
         ).titleLarge,
       ),
@@ -80,10 +82,10 @@ class Form3CScreenState extends State<Form3CScreen> {
           return Column(
             children: [
               SizedBox(
-                height: SizeConfig.blockSizeVertical !* 2,
+                height: SizeConfig.blockSizeVertical! * 2,
               ),
               Container(
-                height: SizeConfig.blockSizeVertical !* 8,
+                height: SizeConfig.blockSizeVertical! * 8,
                 child: Padding(
                   padding: EdgeInsets.only(left: 5.0, right: 5.0),
                   child: Container(
@@ -115,17 +117,19 @@ class Form3CScreenState extends State<Form3CScreen> {
                             // ),
                             Expanded(
                                 child: ElevatedButton(
-                                  child: Text('${start.day}-${start.month}-${start.year}'),
-                                  onPressed: pickDateRange,
-                                )
+                              child: Text(
+                                  '${start.day}-${start.month}-${start.year}'),
+                              onPressed: pickDateRange,
+                            )),
+                            const SizedBox(
+                              width: 10,
                             ),
-                            const SizedBox(width: 10,),
                             Expanded(
                                 child: ElevatedButton(
-                                  child: Text('${end.day}-${end.month}-${end.year}'),
-                                  onPressed: pickDateRange,
-                                )
-                            ),
+                              child:
+                                  Text('${end.day}-${end.month}-${end.year}'),
+                              onPressed: pickDateRange,
+                            )),
                           ],
                         )),
                     padding: EdgeInsets.all(5.0),
@@ -140,7 +144,7 @@ class Form3CScreenState extends State<Form3CScreen> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical !* 2,
+                height: SizeConfig.blockSizeVertical! * 2,
               ),
               MaterialButton(
                 onPressed: () {
@@ -159,7 +163,7 @@ class Form3CScreenState extends State<Form3CScreen> {
                   "Submit",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                    fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -220,7 +224,6 @@ class Form3CScreenState extends State<Form3CScreen> {
   //   // );
   // }
 
-
   Future pickDateRange() async {
     DateTimeRange? newDateRange = await showDateRangePicker(
       context: context,
@@ -229,7 +232,7 @@ class Form3CScreenState extends State<Form3CScreen> {
       lastDate: DateTime(2100),
     );
 
-    if(newDateRange == null) return;
+    if (newDateRange == null) return;
 
     setState(() {
       dateRange = newDateRange;
@@ -284,7 +287,6 @@ class Form3CScreenState extends State<Form3CScreen> {
   // }
 
   void getPdfDownloadPath(BuildContext context) async {
-
     if (fromDateString.isEmpty && toDateString.isEmpty) {
       fromDate = DateTime.now().subtract(Duration(days: 7));
       toDate = DateTime.now();

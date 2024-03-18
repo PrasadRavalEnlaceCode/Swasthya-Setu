@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/dropdown_item.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/dropdown_item.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 import 'appointment_doctors_list.dart';
 
 class CountryDialog extends StatefulWidget {
@@ -30,14 +34,14 @@ class CountryDialogState extends State<CountryDialog> {
     icon = Icon(
       Icons.search,
       color: Colors.blue,
-      size: SizeConfig.blockSizeHorizontal !* 6.2,
+      size: SizeConfig.blockSizeHorizontal! * 6.2,
     );
 
     titleWidget = Text(
       "Select ${widget.type}",
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+        fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
         fontWeight: FontWeight.bold,
         color: Colors.green,
         decoration: TextDecoration.none,
@@ -119,7 +123,7 @@ class CountryDialogState extends State<CountryDialog> {
         child: Column(
           children: <Widget>[
             Container(
-              height: SizeConfig.blockSizeVertical !* 8,
+              height: SizeConfig.blockSizeVertical! * 8,
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: Row(
@@ -129,7 +133,7 @@ class CountryDialogState extends State<CountryDialog> {
                       child: Icon(
                         Icons.arrow_back,
                         color: Colors.red,
-                        size: SizeConfig.blockSizeHorizontal !* 6.2,
+                        size: SizeConfig.blockSizeHorizontal! * 6.2,
                       ),
                       onTap: () {
                         /*setState(() {
@@ -139,11 +143,11 @@ class CountryDialogState extends State<CountryDialog> {
                       },
                     ),
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal !* 6,
+                      width: SizeConfig.blockSizeHorizontal! * 6,
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal !* 50,
-                      height: SizeConfig.blockSizeVertical !* 8,
+                      width: SizeConfig.blockSizeHorizontal! * 50,
+                      height: SizeConfig.blockSizeVertical! * 8,
                       child: Center(
                         child: titleWidget,
                       ),
@@ -153,7 +157,7 @@ class CountryDialogState extends State<CountryDialog> {
                           alignment: Alignment.centerRight,
                           child: Padding(
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
+                                SizeConfig.blockSizeHorizontal! * 1),
                             child: InkWell(
                               child: icon,
                               onTap: () {
@@ -166,7 +170,7 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.cancel,
                                       color: Colors.red,
                                       size:
-                                      SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = TextField(
                                       controller: searchController,
@@ -178,30 +182,30 @@ class CountryDialogState extends State<CountryDialog> {
                                             widget.list =
                                                 listCitiesSearchResults
                                                     .where((dropDownObj) =>
-                                                    dropDownObj.value
-                                                        .toLowerCase()
-                                                        .contains(text
-                                                        .toLowerCase()))
+                                                        dropDownObj.value
+                                                            .toLowerCase()
+                                                            .contains(text
+                                                                .toLowerCase()))
                                                     .toList();
                                         });
                                       },
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                        SizeConfig.blockSizeHorizontal !*
-                                            4.0,
+                                            SizeConfig.blockSizeHorizontal! *
+                                                4.0,
                                       ),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                            SizeConfig.blockSizeVertical !*
-                                                2.1),
+                                                SizeConfig.blockSizeVertical! *
+                                                    2.1),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                            SizeConfig.blockSizeVertical !*
-                                                2.1),
+                                                SizeConfig.blockSizeVertical! *
+                                                    2.1),
                                         //hintStyle: TextStyle(color: Colors.grey),
                                         hintText: "Search ${widget.type}",
                                       ),
@@ -211,15 +215,15 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.search,
                                       color: Colors.blue,
                                       size:
-                                      SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = Text(
                                       "Select ${widget.type}",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize:
-                                        SizeConfig.blockSizeHorizontal !*
-                                            4.8,
+                                            SizeConfig.blockSizeHorizontal! *
+                                                4.8,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.green,
                                         decoration: TextDecoration.none,
@@ -258,7 +262,7 @@ class CountryDialogState extends State<CountryDialog> {
                         child: Padding(
                             padding: EdgeInsets.all(0.0),
                             child: Container(
-                                width: SizeConfig.blockSizeHorizontal !* 90,
+                                width: SizeConfig.blockSizeHorizontal! * 90,
                                 padding: EdgeInsets.only(
                                   top: 5,
                                   bottom: 5,

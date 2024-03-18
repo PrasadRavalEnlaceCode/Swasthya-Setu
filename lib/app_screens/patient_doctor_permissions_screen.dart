@@ -2,16 +2,22 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/controllers/patient_doctor_permissions_controller.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/controllers/patient_doctor_permissions_controller.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 
 class PatientDoctorPermissionScreen extends StatelessWidget {
-  final String? doctorIDP, healthRecordsDisplayStatus, consultationDisplayStatus;
+  final String? doctorIDP,
+      healthRecordsDisplayStatus,
+      consultationDisplayStatus;
 
   String? defaultHealthRecordsDisplayStatus, defaultConsultationDisplayStatus;
 
@@ -46,15 +52,20 @@ class PatientDoctorPermissionScreen extends StatelessWidget {
               title: Text("Permissions"),
               backgroundColor: Color(0xFFFFFFFF),
               iconTheme: IconThemeData(
-                  color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+                  color: Colorsblack,
+                  size: SizeConfig.blockSizeVertical! * 2.2),
+              toolbarTextStyle: TextTheme(
+                      titleMedium: TextStyle(
+                          color: Colorsblack,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5))
+                  .bodyMedium,
+              titleTextStyle: TextTheme(
+                      titleMedium: TextStyle(
+                          color: Colorsblack,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5))
+                  .titleLarge,
               /*actions: [
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -79,8 +90,8 @@ class PatientDoctorPermissionScreen extends StatelessWidget {
             ),
             body: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
-                vertical: SizeConfig.blockSizeHorizontal !* 1.0,
+                horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
+                vertical: SizeConfig.blockSizeHorizontal! * 1.0,
               ),
               child: Obx(() => ListView(
                     children: [
@@ -91,7 +102,7 @@ class PatientDoctorPermissionScreen extends StatelessWidget {
                             "Share My Records",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                              fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                             ),
                           ),
                           Expanded(
@@ -109,7 +120,7 @@ class PatientDoctorPermissionScreen extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 0.5,
+                        height: SizeConfig.blockSizeVertical! * 0.5,
                       ),
                       Row(
                         mainAxisSize: MainAxisSize.max,
@@ -118,7 +129,7 @@ class PatientDoctorPermissionScreen extends StatelessWidget {
                             "Share My Consultation History",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                              fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                             ),
                           ),
                           Expanded(
@@ -146,7 +157,7 @@ class PatientDoctorPermissionScreen extends StatelessWidget {
                           ? Padding(
                               padding: EdgeInsets.symmetric(
                                 horizontal:
-                                    SizeConfig.blockSizeHorizontal !* 3.0,
+                                    SizeConfig.blockSizeHorizontal! * 3.0,
                               ),
                               child: MaterialButton(
                                 onPressed: () {

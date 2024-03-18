@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:swasthyasetu/app_screens/add_edit_diagnosis_masters.dart';
-import 'package:swasthyasetu/app_screens/add_edit_opd_service_screen.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_opd_reg.dart';
-import 'package:swasthyasetu/podo/model_templates_complaint.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/app_screens/add_edit_diagnosis_masters.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 import 'add_consultation_screen.dart';
@@ -77,17 +77,19 @@ class DiagnosisMasterListScreenState extends State<DiagnosisMasterListScreen> {
       appBar: AppBar(
         title: Text("Diagnosis Masters"),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
-          titleMedium: TextStyle(
-            color: Colorsblack,
-            fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
-          )).bodyMedium, titleTextStyle: TextTheme(
-          titleMedium: TextStyle(
-            color: Colorsblack,
-            fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
-          )).titleLarge,
+        iconTheme: IconThemeData(color: Colorsblack),
+        toolbarTextStyle: TextTheme(
+            titleMedium: TextStyle(
+          color: Colorsblack,
+          fontFamily: "Ubuntu",
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+        )).bodyMedium,
+        titleTextStyle: TextTheme(
+            titleMedium: TextStyle(
+          color: Colorsblack,
+          fontFamily: "Ubuntu",
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+        )).titleLarge,
       ),
       floatingActionButton: Visibility(
         visible: isFABVisible,
@@ -108,7 +110,7 @@ class DiagnosisMasterListScreenState extends State<DiagnosisMasterListScreen> {
         ),
       ),
       body: Container(
-        height: SizeConfig.blockSizeVertical !* 100,
+        height: SizeConfig.blockSizeVertical! * 100,
         color: Color(0xFFDCDCDC),
         child: ListView(
           shrinkWrap: true,
@@ -121,32 +123,33 @@ class DiagnosisMasterListScreenState extends State<DiagnosisMasterListScreen> {
                   fit: FlexFit.loose,
                   child: listDiagnosisDetails.length > 0
                       ? ListView.builder(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      itemCount: listDiagnosisDetails.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                            padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal !* 2,
-                                right: SizeConfig.blockSizeHorizontal !* 2,
-                                top: SizeConfig.blockSizeHorizontal !* 2),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Card(
-                                      child: Padding(
+                          shrinkWrap: true,
+                          physics: ScrollPhysics(),
+                          itemCount: listDiagnosisDetails.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                                padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal! * 2,
+                                    right: SizeConfig.blockSizeHorizontal! * 2,
+                                    top: SizeConfig.blockSizeHorizontal! * 2),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Card(
+                                          child: Padding(
                                         padding: EdgeInsets.all(
-                                            SizeConfig.blockSizeHorizontal !* 3),
+                                            SizeConfig.blockSizeHorizontal! *
+                                                3),
                                         child: Row(
                                           children: <Widget>[
                                             Image(
                                               image: AssetImage(
                                                   "images/ic_opd_services_dashboard.png"),
                                               width: SizeConfig
-                                                  .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   4.5,
                                               height: SizeConfig
-                                                  .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   4.5,
                                             ),
                                             /*Icon(
@@ -158,117 +161,127 @@ class DiagnosisMasterListScreenState extends State<DiagnosisMasterListScreen> {
                                             ),*/
                                             SizedBox(
                                               width: SizeConfig
-                                                  .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   2,
                                             ),
                                             Expanded(
                                               flex: 3,
                                               child: Text(
-                                                listDiagnosisDetails[index]["DiagnosisName"],
+                                                listDiagnosisDetails[index]
+                                                    ["DiagnosisName"],
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                            .blockSizeHorizontal! *
                                                         4,
                                                     fontWeight:
-                                                    FontWeight.w500),
+                                                        FontWeight.w500),
                                               ),
                                             ),
                                           ],
                                         ),
                                       )),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal !* 2,
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(
-                                            builder: (context) {
-                                              return AddEditDiagnosisMastersScreen(
-                                                listDiagnosisDetails[index]["DiagnosisMasterIDP"],
-                                                "Edit",
-                                                serviceName:
-                                                listDiagnosisDetails[index]['DiagnosisName'],
-                                              );
-                                            })).then((value) {
-                                      //Navigator.of(context).pop();
-                                      getDiagnosisList(context);
-                                    });
-                                    /*editTheProcedure(
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 2,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return AddEditDiagnosisMastersScreen(
+                                            listDiagnosisDetails[index]
+                                                ["DiagnosisMasterIDP"],
+                                            "Edit",
+                                            serviceName:
+                                                listDiagnosisDetails[index]
+                                                    ['DiagnosisName'],
+                                          );
+                                        })).then((value) {
+                                          //Navigator.of(context).pop();
+                                          getDiagnosisList(context);
+                                        });
+                                        /*editTheProcedure(
                                         listOPDRegistration[index].idp,
                                         context);*/
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white,
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                        ),
+                                        padding: EdgeInsets.all(
+                                            SizeConfig.blockSizeHorizontal! *
+                                                1),
+                                        child: Icon(
+                                          Icons.edit,
+                                          color: Colors.blue,
+                                          size:
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  6,
+                                        ),
+                                      ),
                                     ),
-                                    padding: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal !* 1),
-                                    child: Icon(
-                                      Icons.edit,
-                                      color: Colors.blue,
-                                      size: SizeConfig.blockSizeHorizontal !*
-                                          6,
+                                    SizedBox(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 2,
                                     ),
-                                  ),
+                                    InkWell(
+                                      onTap: () {
+                                        showConfirmationDialogForDeleteDiagnosisMaster(
+                                            listDiagnosisDetails[index]
+                                                ["DiagnosisMasterIDP"],
+                                            context);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.redAccent,
+                                        ),
+                                        padding: EdgeInsets.all(
+                                            SizeConfig.blockSizeHorizontal! *
+                                                1),
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.white,
+                                          size:
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  6,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ));
+                          })
+                      : SizedBox(
+                          height: SizeConfig.blockSizeVertical! * 80,
+                          width: SizeConfig.blockSizeHorizontal! * 100,
+                          child: Container(
+                            padding: EdgeInsets.all(
+                                SizeConfig.blockSizeHorizontal! * 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Image(
+                                  image: AssetImage("images/ic_idea_new.png"),
+                                  width: 100,
+                                  height: 100,
                                 ),
                                 SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal !* 2,
+                                  height: 30.0,
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    showConfirmationDialogForDeleteDiagnosisMaster(
-                                        listDiagnosisDetails[index]["DiagnosisMasterIDP"],
-                                        context);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.redAccent,
-                                    ),
-                                    padding: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal !* 1),
-                                    child: Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                      size: SizeConfig.blockSizeHorizontal !*
-                                          6,
-                                    ),
-                                  ),
-                                )
+                                Text(
+                                  "No Diagnosis Masters Found.",
+                                  style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ],
-                            ));
-                      })
-                      : SizedBox(
-                    height: SizeConfig.blockSizeVertical !* 80,
-                    width: SizeConfig.blockSizeHorizontal !* 100,
-                    child: Container(
-                      padding: EdgeInsets.all(
-                          SizeConfig.blockSizeHorizontal !* 5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Image(
-                            image: AssetImage("images/ic_idea_new.png"),
-                            width: 100,
-                            height: 100,
+                            ),
                           ),
-                          SizedBox(
-                            height: 30.0,
-                          ),
-                          Text(
-                            "No Diagnosis Masters Found.",
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
                 ),
               ],
             ),
@@ -278,7 +291,8 @@ class DiagnosisMasterListScreenState extends State<DiagnosisMasterListScreen> {
     );
   }
 
-  showConfirmationDialogForDeleteDiagnosisMaster(String idp, BuildContext contextMain) {
+  showConfirmationDialogForDeleteDiagnosisMaster(
+      String idp, BuildContext contextMain) {
     var title = "Are you sure to delete this OPD Service?";
     showDialog(
         context: context,
@@ -319,7 +333,7 @@ class DiagnosisMasterListScreenState extends State<DiagnosisMasterListScreen> {
     //= Base64Encoder().convert()
   }
 
-  void getDiagnosisList(BuildContext context) async{
+  void getDiagnosisList(BuildContext context) async {
     listDiagnosisDetails = [];
     String loginUrl = "${baseURL}doctor_diagnosis_list.php";
     String patientUniqueKey = await getPatientUniqueKey();
@@ -329,15 +343,8 @@ class DiagnosisMasterListScreenState extends State<DiagnosisMasterListScreen> {
     debugPrint("Key and type");
     debugPrint(patientUniqueKey);
     debugPrint(userType);
-    String jsonStr = "{" +
-        "\"" +
-        "DoctorIDP" +
-        "\"" +
-        ":" +
-        "\"" +
-        patientIDP +
-        "\"" +
-        "}";
+    String jsonStr =
+        "{" + "\"" + "DoctorIDP" + "\"" + ":" + "\"" + patientIDP + "\"" + "}";
 
     debugPrint(jsonStr);
     debugPrint("#####################---------------");
@@ -357,14 +364,13 @@ class DiagnosisMasterListScreenState extends State<DiagnosisMasterListScreen> {
     ResponseModel model = ResponseModel.fromJSON(jsonResponse);
     pr?.hide();
     if (response.statusCode == 200)
-      try{
+      try {
         if (model.status == "OK") {
           var data = jsonResponse['Data'];
           var strData = decodeBase64(data);
           debugPrint("Decoded Diagnosis List: " + strData);
           final jsonData = json.decode(strData);
-          for (var i = 0; i < jsonData.length; i++)
-          {
+          for (var i = 0; i < jsonData.length; i++) {
             final jo = jsonData[i];
             String diagnosisName = jo['DiagnosisName'].toString();
             String diagnosisMasterIDP = jo['DiagnosisMasterIDP'].toString();
@@ -380,14 +386,16 @@ class DiagnosisMasterListScreenState extends State<DiagnosisMasterListScreen> {
           }
           setState(() {});
         }
-      }catch(e){
+      } catch (e) {
         print("Error decoding JSON: $e");
-      }else {
+      }
+    else {
       print("HTTP error: ${response.statusCode}");
     }
   }
 
-  void deleteDiagnosisMaster(BuildContext context, String diagnosisMasterIDP) async {
+  void deleteDiagnosisMaster(
+      BuildContext context, String diagnosisMasterIDP) async {
     String loginUrl = "${baseURL}doctor_diagnosis_submit.php";
     ProgressDialog? pr;
     Future.delayed(Duration.zero, () {

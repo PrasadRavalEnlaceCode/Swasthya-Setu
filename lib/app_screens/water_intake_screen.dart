@@ -2,10 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 
@@ -74,16 +78,18 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
         appBar: AppBar(
           title: Text("Water Intake"),
           backgroundColor: Color(0xFFFFFFFF),
-          iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+          iconTheme: IconThemeData(color: Colorsblack),
+          toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
-          )).bodyMedium, titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          )).bodyMedium,
+          titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
           )).titleLarge,
         ),
         body: Builder(
@@ -110,18 +116,18 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                                       style: TextStyle(
                                           color: Colors.green,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical !*
+                                              SizeConfig.blockSizeVertical! *
                                                   2.1),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         labelText: "Entry Date",
                                         hintText: "",
@@ -147,18 +153,18 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                                       style: TextStyle(
                                           color: Colors.green,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical !*
+                                              SizeConfig.blockSizeVertical! *
                                                   2.1),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         labelText: "Entry Time",
                                         hintText: "",
@@ -172,7 +178,7 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 5,
+                        height: SizeConfig.blockSizeVertical! * 5,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -194,12 +200,12 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                             "${waterTaken.toString()} ml",
                             style: TextStyle(
                                 color: Color(0xFF5FC4F8),
-                                fontSize: SizeConfig.blockSizeHorizontal !* 8),
+                                fontSize: SizeConfig.blockSizeHorizontal! * 8),
                           ),
                         ],
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 3,
+                        height: SizeConfig.blockSizeVertical! * 3,
                       ),
                       Row(
                         children: <Widget>[
@@ -207,30 +213,30 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                               child: Align(
                             alignment: Alignment.bottomCenter,
                             child: Image(
-                              width: SizeConfig.blockSizeHorizontal !* 12,
-                              height: SizeConfig.blockSizeHorizontal !* 12,
+                              width: SizeConfig.blockSizeHorizontal! * 12,
+                              height: SizeConfig.blockSizeHorizontal! * 12,
                               //height: 80,
                               image: AssetImage("images/ic_water_glass.png"),
                             ),
                           )),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 3,
+                            width: SizeConfig.blockSizeHorizontal! * 3,
                           ),
                           Expanded(
                             child: Image(
-                              width: SizeConfig.blockSizeHorizontal !* 20,
-                              height: SizeConfig.blockSizeHorizontal !* 20,
+                              width: SizeConfig.blockSizeHorizontal! * 20,
+                              height: SizeConfig.blockSizeHorizontal! * 20,
                               //height: 80,
                               image: AssetImage("images/ic_water_bottle.png"),
                             ),
                           ),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 3,
+                            width: SizeConfig.blockSizeHorizontal! * 3,
                           ),
                           Expanded(
                             child: Image(
-                              width: SizeConfig.blockSizeHorizontal !* 28,
-                              height: SizeConfig.blockSizeHorizontal !* 28,
+                              width: SizeConfig.blockSizeHorizontal! * 28,
+                              height: SizeConfig.blockSizeHorizontal! * 28,
                               //height: 80,
                               image: AssetImage("images/ic_water_bottle.png"),
                             ),
@@ -238,7 +244,7 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 2,
+                        height: SizeConfig.blockSizeVertical! * 2,
                       ),
                       Row(
                         children: <Widget>[
@@ -249,11 +255,12 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                               "Glass",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: SizeConfig.blockSizeHorizontal !* 4),
+                                  fontSize:
+                                      SizeConfig.blockSizeHorizontal! * 4),
                             ),
                           )),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 3,
+                            width: SizeConfig.blockSizeHorizontal! * 3,
                           ),
                           Expanded(
                               child: Align(
@@ -262,11 +269,12 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                               "Small Bottle",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: SizeConfig.blockSizeHorizontal !* 4),
+                                  fontSize:
+                                      SizeConfig.blockSizeHorizontal! * 4),
                             ),
                           )),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 3,
+                            width: SizeConfig.blockSizeHorizontal! * 3,
                           ),
                           Expanded(
                               child: Align(
@@ -275,13 +283,14 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                               "Large Bottle",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: SizeConfig.blockSizeHorizontal !* 4),
+                                  fontSize:
+                                      SizeConfig.blockSizeHorizontal! * 4),
                             ),
                           )),
                         ],
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 0.5,
+                        height: SizeConfig.blockSizeVertical! * 0.5,
                       ),
                       Row(
                         children: <Widget>[
@@ -293,11 +302,11 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                               style: TextStyle(
                                   color: Color(0xFF84879C),
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 3.2),
+                                      SizeConfig.blockSizeHorizontal! * 3.2),
                             ),
                           )),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 3,
+                            width: SizeConfig.blockSizeHorizontal! * 3,
                           ),
                           Expanded(
                               child: Align(
@@ -307,11 +316,11 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                               style: TextStyle(
                                   color: Color(0xFF84879C),
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 3.2),
+                                      SizeConfig.blockSizeHorizontal! * 3.2),
                             ),
                           )),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 3,
+                            width: SizeConfig.blockSizeHorizontal! * 3,
                           ),
                           Expanded(
                               child: Align(
@@ -321,13 +330,13 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                               style: TextStyle(
                                   color: Color(0xFF84879C),
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 3.2),
+                                      SizeConfig.blockSizeHorizontal! * 3.2),
                             ),
                           )),
                         ],
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 1.5,
+                        height: SizeConfig.blockSizeVertical! * 1.5,
                       ),
                       Row(
                         children: <Widget>[
@@ -345,21 +354,21 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                                 child: Icon(
                                   Icons.add_circle_outline,
                                   color: Color(0xFF5FC4F8),
-                                  size: SizeConfig.blockSizeHorizontal !* 10,
+                                  size: SizeConfig.blockSizeHorizontal! * 10,
                                 ),
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 1,
+                                width: SizeConfig.blockSizeHorizontal! * 1,
                               ),
                               Text(
                                 waterUnitGlass.toString(),
                                 style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal !* 5,
+                                        SizeConfig.blockSizeHorizontal! * 5,
                                     fontWeight: FontWeight.w500),
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 1,
+                                width: SizeConfig.blockSizeHorizontal! * 1,
                               ),
                               InkWell(
                                   onTap: () {
@@ -373,13 +382,14 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                                     child: Icon(
                                       Icons.remove_circle_outline,
                                       color: Colors.red,
-                                      size: SizeConfig.blockSizeHorizontal !* 10,
+                                      size:
+                                          SizeConfig.blockSizeHorizontal! * 10,
                                     ),
                                   )),
                             ],
                           )),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 3,
+                            width: SizeConfig.blockSizeHorizontal! * 3,
                           ),
                           Expanded(
                               child: Row(
@@ -396,21 +406,21 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                                 child: Icon(
                                   Icons.add_circle_outline,
                                   color: Color(0xFF5FC4F8),
-                                  size: SizeConfig.blockSizeHorizontal !* 10,
+                                  size: SizeConfig.blockSizeHorizontal! * 10,
                                 ),
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 1,
+                                width: SizeConfig.blockSizeHorizontal! * 1,
                               ),
                               Text(
                                 waterUnitSmallBottle.toString(),
                                 style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal !* 5,
+                                        SizeConfig.blockSizeHorizontal! * 5,
                                     fontWeight: FontWeight.w500),
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 1,
+                                width: SizeConfig.blockSizeHorizontal! * 1,
                               ),
                               InkWell(
                                   onTap: () {
@@ -425,13 +435,14 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                                     child: Icon(
                                       Icons.remove_circle_outline,
                                       color: Colors.red,
-                                      size: SizeConfig.blockSizeHorizontal !* 10,
+                                      size:
+                                          SizeConfig.blockSizeHorizontal! * 10,
                                     ),
                                   )),
                             ],
                           )),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 3,
+                            width: SizeConfig.blockSizeHorizontal! * 3,
                           ),
                           Expanded(
                               child: Row(
@@ -448,21 +459,21 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                                 child: Icon(
                                   Icons.add_circle_outline,
                                   color: Color(0xFF5FC4F8),
-                                  size: SizeConfig.blockSizeHorizontal !* 10,
+                                  size: SizeConfig.blockSizeHorizontal! * 10,
                                 ),
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 1,
+                                width: SizeConfig.blockSizeHorizontal! * 1,
                               ),
                               Text(
                                 waterUnitLargeBottle.toString(),
                                 style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal !* 5,
+                                        SizeConfig.blockSizeHorizontal! * 5,
                                     fontWeight: FontWeight.w500),
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 1,
+                                width: SizeConfig.blockSizeHorizontal! * 1,
                               ),
                               InkWell(
                                   onTap: () {
@@ -477,7 +488,8 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                                     child: Icon(
                                       Icons.remove_circle_outline,
                                       color: Colors.red,
-                                      size: SizeConfig.blockSizeHorizontal !* 10,
+                                      size:
+                                          SizeConfig.blockSizeHorizontal! * 10,
                                     ),
                                   )),
                             ],
@@ -502,8 +514,8 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
                         elevation: 2.0,
                         fillColor: Color(0xFF06A759),
                         child: Image(
-                          width: SizeConfig.blockSizeHorizontal !* 5.5,
-                          height: SizeConfig.blockSizeHorizontal !* 5.5,
+                          width: SizeConfig.blockSizeHorizontal! * 5.5,
+                          height: SizeConfig.blockSizeHorizontal! * 5.5,
                           //height: 80,
                           image: AssetImage(
                               "images/ic_right_arrow_triangular.png"),
@@ -690,8 +702,8 @@ class WaterIntakeScreenState extends State<WaterIntakeScreen> {
         builder: (BuildContext? context, Widget? child) {
           return MediaQuery(
               child: child!,
-              data:
-                  MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: true));
+              data: MediaQuery.of(context!)
+                  .copyWith(alwaysUse24HourFormat: true));
         });
 
     if (time != null) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
 
 class ComingSoonScreen extends StatelessWidget {
   @override
@@ -13,15 +13,19 @@ class ComingSoonScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
-        ), toolbarTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colors.white,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colors.white,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+        ),
+        toolbarTextStyle: TextTheme(
+                titleMedium: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .bodyMedium,
+        titleTextStyle: TextTheme(
+                titleMedium: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .titleLarge,
       ),
       body: Center(
         child: Text(

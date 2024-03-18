@@ -2,12 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:swasthyasetu/app_screens/add_edit_opd_service_screen.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_opd_reg.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/app_screens/add_edit_opd_service_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/model_opd_reg.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 
@@ -74,16 +78,18 @@ class OPDServiceListScreenState extends State<OPDServiceListScreen> {
       appBar: AppBar(
         title: Text("OPD Services"),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack),
+        toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
-        )).bodyMedium, titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+        )).bodyMedium,
+        titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
         )).titleLarge,
       ),
       floatingActionButton: Visibility(
@@ -105,7 +111,7 @@ class OPDServiceListScreenState extends State<OPDServiceListScreen> {
         ),
       ),
       body: Container(
-        height: SizeConfig.blockSizeVertical !* 100,
+        height: SizeConfig.blockSizeVertical! * 100,
         color: Color(0xFFDCDCDC),
         child: ListView(
           shrinkWrap: true,
@@ -124,26 +130,27 @@ class OPDServiceListScreenState extends State<OPDServiceListScreen> {
                           itemBuilder: (context, index) {
                             return Padding(
                                 padding: EdgeInsets.only(
-                                    left: SizeConfig.blockSizeHorizontal !* 2,
-                                    right: SizeConfig.blockSizeHorizontal !* 2,
-                                    top: SizeConfig.blockSizeHorizontal !* 2),
+                                    left: SizeConfig.blockSizeHorizontal! * 2,
+                                    right: SizeConfig.blockSizeHorizontal! * 2,
+                                    top: SizeConfig.blockSizeHorizontal! * 2),
                                 child: Row(
                                   children: <Widget>[
                                     Expanded(
                                       child: Card(
                                           child: Padding(
                                         padding: EdgeInsets.all(
-                                            SizeConfig.blockSizeHorizontal !* 3),
+                                            SizeConfig.blockSizeHorizontal! *
+                                                3),
                                         child: Row(
                                           children: <Widget>[
                                             Image(
                                               image: AssetImage(
                                                   "images/ic_opd_services_dashboard.png"),
                                               width: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   4.5,
                                               height: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   4.5,
                                             ),
                                             /*Icon(
@@ -155,17 +162,18 @@ class OPDServiceListScreenState extends State<OPDServiceListScreen> {
                                             ),*/
                                             SizedBox(
                                               width: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   2,
                                             ),
                                             Expanded(
                                               flex: 3,
                                               child: Text(
-                                                listOPDRegistration[index].name!,
+                                                listOPDRegistration[index]
+                                                    .name!,
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: SizeConfig
-                                                            .blockSizeHorizontal !*
+                                                            .blockSizeHorizontal! *
                                                         4,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -180,7 +188,7 @@ class OPDServiceListScreenState extends State<OPDServiceListScreen> {
                                                     style: TextStyle(
                                                         color: Colors.green,
                                                         fontSize: SizeConfig
-                                                                .blockSizeHorizontal !*
+                                                                .blockSizeHorizontal! *
                                                             3.5,
                                                         fontWeight:
                                                             FontWeight.w500),
@@ -201,7 +209,8 @@ class OPDServiceListScreenState extends State<OPDServiceListScreen> {
                                       )),
                                     ),
                                     SizedBox(
-                                      width: SizeConfig.blockSizeHorizontal !* 2,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 2,
                                     ),
                                     InkWell(
                                       onTap: () {
@@ -231,17 +240,20 @@ class OPDServiceListScreenState extends State<OPDServiceListScreen> {
                                           color: Colors.white,
                                         ),
                                         padding: EdgeInsets.all(
-                                            SizeConfig.blockSizeHorizontal !* 1),
+                                            SizeConfig.blockSizeHorizontal! *
+                                                1),
                                         child: Icon(
                                           Icons.edit,
                                           color: Colors.blue,
-                                          size: SizeConfig.blockSizeHorizontal !*
-                                              6,
+                                          size:
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  6,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: SizeConfig.blockSizeHorizontal !* 2,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 2,
                                     ),
                                     InkWell(
                                       onTap: () {
@@ -255,12 +267,14 @@ class OPDServiceListScreenState extends State<OPDServiceListScreen> {
                                           color: Colors.redAccent,
                                         ),
                                         padding: EdgeInsets.all(
-                                            SizeConfig.blockSizeHorizontal !* 1),
+                                            SizeConfig.blockSizeHorizontal! *
+                                                1),
                                         child: Icon(
                                           Icons.delete,
                                           color: Colors.white,
-                                          size: SizeConfig.blockSizeHorizontal !*
-                                              6,
+                                          size:
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  6,
                                         ),
                                       ),
                                     )
@@ -268,11 +282,11 @@ class OPDServiceListScreenState extends State<OPDServiceListScreen> {
                                 ));
                           })
                       : SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 80,
-                          width: SizeConfig.blockSizeHorizontal !* 100,
+                          height: SizeConfig.blockSizeVertical! * 80,
+                          width: SizeConfig.blockSizeHorizontal! * 100,
                           child: Container(
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 5),
+                                SizeConfig.blockSizeHorizontal! * 5),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[

@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/app_screens/chat_screen.dart';
-import 'package:swasthyasetu/app_screens/doctor_full_details_screen.dart';
-import 'package:swasthyasetu/app_screens/provider_detail.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:silvertouch/app_screens/provider_detail.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_profile_patient.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+
 import '../podo/dropdown_item.dart';
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -16,16 +18,13 @@ import 'not_connected_doctors_list.dart';
 
 class ProviderFavouriteDoctorScreen extends StatefulWidget {
   String? patientIDP = "";
-  final String urlFetchPatientProfileDetails =
-      "${baseURL}doctor_wishlist.php";
+  final String urlFetchPatientProfileDetails = "${baseURL}doctor_wishlist.php";
 
-  String emptyTextMyDoctors1 =
-      "Please wait";
+  String emptyTextMyDoctors1 = "Please wait";
 
   String emptyMessage = "";
 
   Widget? emptyMessageWidget;
-
 
   ProviderFavouriteDoctorScreen(String patientIDP) {
     this.patientIDP = patientIDP;
@@ -37,7 +36,8 @@ class ProviderFavouriteDoctorScreen extends StatefulWidget {
   }
 }
 
-class ProviderFavouriteDoctorScreenState extends State<ProviderFavouriteDoctorScreen> {
+class ProviderFavouriteDoctorScreenState
+    extends State<ProviderFavouriteDoctorScreen> {
   List<Map<String, String>> listDoctorsSearchResults = [];
   String firstName = "";
   String lastName = "";
@@ -60,9 +60,9 @@ class ProviderFavouriteDoctorScreenState extends State<ProviderFavouriteDoctorSc
     cityName = "";
     widget.emptyMessage = "${widget.emptyTextMyDoctors1}";
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical !* 80,
+      height: SizeConfig.blockSizeVertical! * 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,170 +120,187 @@ class ProviderFavouriteDoctorScreenState extends State<ProviderFavouriteDoctorSc
         title: titleWidget,
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
         toolbarTextStyle: TextTheme(
-          titleLarge: TextStyle(
-              color: Colorsblack,
-              fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium,
+                titleLarge: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .bodyMedium,
         titleTextStyle: TextTheme(
-            titleLarge: TextStyle(
-                color: Colorsblack,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+                titleLarge: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .titleLarge,
       ),
       body: Builder(
         builder: (context) {
           return RefreshIndicator(
-            child:
-            listDoctorsSearchResults.length > 0
-                ?
-            Column(
-              children: <Widget>[
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: listDoctorsSearchResults.length,
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Get.to(() => ProviderDetailsScreen(
-                              listDoctorsSearchResults[index],
-                              widget.patientIDP,
-                            ))!.then((value) {
-                              if (value != null && value == 1)
-                                getPatientProfileDetails();
-                            });
-                          },
-                          child:
-                          Container(
-                              child: Padding(
-                                  padding: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal ! * 2),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .start,
-                                          children: <Widget>[
-                                            (listDoctorsSearchResults[index]['ProviderLogo'].toString().length)>0
-                                                ?
-                                            InkWell(
-                                              child: CachedNetworkImage(
-                                                fadeInDuration: Duration.zero,
-                                                placeholder: (context, url) => Image(
-                                                  image: AssetImage('images/shimmer_effect.png'),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                imageUrl: listDoctorsSearchResults[index]['ProviderLogo'].toString(),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            )  :
-                                            InkWell(
-                                              onTap: () {},
-                                              child: CircleAvatar(
-                                                radius: 20,
-                                                child: Icon(
-                                                  Icons.storefront_sharp,
-                                                  size: 20,),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: SizeConfig
-                                                  .blockSizeHorizontal ! *
-                                                  5,
-                                            ),
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .start,
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .start,
-                                              children: <Widget>[
-                                                Container(
-                                                  width: SizeConfig
-                                                      .blockSizeHorizontal !*
-                                                      70,
-                                                  child: Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child:
-                                                        Text(
-                                                          (listDoctorsSearchResults[index]["ProviderCompanyName"]
-                                                          !.trim())
-                                                              .trim(),
-                                                          textAlign:
-                                                          TextAlign
-                                                              .left,
-                                                          style:
-                                                          TextStyle(
-                                                            fontSize:
-                                                            SizeConfig
-                                                                .blockSizeHorizontal !*
-                                                                4.2,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black,
-                                                            letterSpacing:
-                                                            1.3,
+            child: listDoctorsSearchResults.length > 0
+                ? Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: listDoctorsSearchResults.length,
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(() => ProviderDetailsScreen(
+                                            listDoctorsSearchResults[index],
+                                            widget.patientIDP,
+                                          ))!
+                                      .then((value) {
+                                    if (value != null && value == 1)
+                                      getPatientProfileDetails();
+                                  });
+                                },
+                                child: Container(
+                                    child: Padding(
+                                        padding: EdgeInsets.all(
+                                            SizeConfig.blockSizeHorizontal! *
+                                                2),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  (listDoctorsSearchResults[
+                                                                      index][
+                                                                  'ProviderLogo']
+                                                              .toString()
+                                                              .length) >
+                                                          0
+                                                      ? InkWell(
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            fadeInDuration:
+                                                                Duration.zero,
+                                                            placeholder:
+                                                                (context,
+                                                                        url) =>
+                                                                    Image(
+                                                              image: AssetImage(
+                                                                  'images/shimmer_effect.png'),
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                            imageUrl: listDoctorsSearchResults[
+                                                                        index][
+                                                                    'ProviderLogo']
+                                                                .toString(),
+                                                            fit: BoxFit.cover,
                                                           ),
+                                                        )
+                                                      : InkWell(
+                                                          onTap: () {},
+                                                          child: CircleAvatar(
+                                                            radius: 20,
+                                                            child: Icon(
+                                                              Icons
+                                                                  .storefront_sharp,
+                                                              size: 20,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                  SizedBox(
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal! *
+                                                        5,
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Container(
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal! *
+                                                            70,
+                                                        child: Row(
+                                                          children: [
+                                                            Expanded(
+                                                              child: Text(
+                                                                (listDoctorsSearchResults[index]
+                                                                            [
+                                                                            "ProviderCompanyName"]!
+                                                                        .trim())
+                                                                    .trim(),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      SizeConfig
+                                                                              .blockSizeHorizontal! *
+                                                                          4.2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  letterSpacing:
+                                                                      1.3,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: SizeConfig
+                                                                .blockSizeVertical! *
+                                                            0.5,
+                                                      ),
+                                                      Text(
+                                                        'Area - ' +
+                                                            listDoctorsSearchResults[
+                                                                    index][
+                                                                "ProviderArea"]!,
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                          fontSize: SizeConfig
+                                                                  .blockSizeHorizontal! *
+                                                              3.3,
+                                                          color: Colors.grey,
+                                                          letterSpacing: 1.3,
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  height: SizeConfig
-                                                      .blockSizeVertical !*
-                                                      0.5,
-                                                ),
-                                                Text(
-                                                  'Area - ' + listDoctorsSearchResults[
-                                                  index]
-                                                  ["ProviderArea"]!
-                                                  ,
-                                                  textAlign:
-                                                  TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontSize: SizeConfig
-                                                        .blockSizeHorizontal !*
-                                                        3.3,
-                                                    color: Colors.grey,
-                                                    letterSpacing: 1.3,
-                                                  ),
-                                                ),
-                                              ],
+                                                ]),
+                                            SizedBox(
+                                              height: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  0.5,
                                             ),
-                                          ]
-                                      ),
-                                      SizedBox(
-                                        height:
-                                        SizeConfig.blockSizeVertical ! *
-                                            0.5,
-                                      ),
-                                      Container(
-                                        color: Colors.grey,
-                                        height: 0.5,
-                                      )
-                                          .paddingSymmetric(
-                                          horizontal: SizeConfig
-                                              .blockSizeHorizontal ! *
-                                              2)
-                                          .paddingOnly(
-                                        top: SizeConfig
-                                            .blockSizeVertical ! *
-                                            1.8,
-                                      )
-                                    ],
-                                  ))),
-                        );
-                      }),
-                ),
-              ],
-            )
+                                            Container(
+                                              color: Colors.grey,
+                                              height: 0.5,
+                                            )
+                                                .paddingSymmetric(
+                                                    horizontal: SizeConfig
+                                                            .blockSizeHorizontal! *
+                                                        2)
+                                                .paddingOnly(
+                                                  top: SizeConfig
+                                                          .blockSizeVertical! *
+                                                      1.8,
+                                                )
+                                          ],
+                                        ))),
+                              );
+                            }),
+                      ),
+                    ],
+                  )
                 : widget.emptyMessageWidget!,
             onRefresh: () {
               return getPatientProfileDetails();
@@ -381,7 +398,6 @@ class ProviderFavouriteDoctorScreenState extends State<ProviderFavouriteDoctorSc
       }
     } catch (exception) {
       if (!doctorApiCalled) {
-
       } else {
         pr.hide();
       }

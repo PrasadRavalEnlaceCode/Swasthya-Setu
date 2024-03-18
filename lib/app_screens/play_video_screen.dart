@@ -1,7 +1,7 @@
 //import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
 
 //import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -52,15 +52,19 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             [DeviceOrientation.portraitUp])
                         .then((value) => Navigator.of(context).pop());
                   },
-                ), toolbarTextStyle: TextTheme(
-                    titleMedium: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "Ubuntu",
-                        fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-                    titleMedium: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "Ubuntu",
-                        fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+                ),
+                toolbarTextStyle: TextTheme(
+                        titleMedium: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Ubuntu",
+                            fontSize: SizeConfig.blockSizeVertical! * 2.5))
+                    .bodyMedium,
+                titleTextStyle: TextTheme(
+                        titleMedium: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Ubuntu",
+                            fontSize: SizeConfig.blockSizeVertical! * 2.5))
+                    .titleLarge,
               )
             : PreferredSize(
                 child: Container(),
@@ -98,7 +102,7 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           return player;
                         },
                         player: YoutubePlayer(
-                          aspectRatio: showAppBar ? 2 : 16/9,
+                          aspectRatio: showAppBar ? 2 : 16 / 9,
                           controller: _controller!,
                           showVideoProgressIndicator: true,
                           progressIndicatorColor: Colors.amber,
@@ -112,7 +116,7 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   ),
                   showAppBar
                       ? SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1,
+                          height: SizeConfig.blockSizeVertical! * 1,
                         )
                       : Container(),
                   showAppBar
@@ -120,14 +124,14 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           alignment: Alignment.topLeft,
                           child: Padding(
                             padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal !* 2,
-                                right: SizeConfig.blockSizeHorizontal !* 2),
+                                left: SizeConfig.blockSizeHorizontal! * 2,
+                                right: SizeConfig.blockSizeHorizontal! * 2),
                             child: Text(
                               widget.vidTitle,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeHorizontal !* 4.2,
+                                fontSize: SizeConfig.blockSizeHorizontal! * 4.2,
                               ),
                             ),
                           ))

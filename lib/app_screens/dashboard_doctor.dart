@@ -4,14 +4,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:swasthyasetu/api/api_helper.dart';
-import 'package:swasthyasetu/app_screens/dashboard_doctor_view.dart';
-import 'package:swasthyasetu/app_screens/doctor_dashboard_screen.dart';
-import 'package:swasthyasetu/app_screens/investigation_view_report_screen.dart';
-import 'package:swasthyasetu/app_screens/opd_registration_screen.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_investigation_list_doctor.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:silvertouch/api/api_helper.dart';
+import 'package:silvertouch/app_screens/dashboard_doctor_view.dart';
+import 'package:silvertouch/app_screens/doctor_dashboard_screen.dart';
+import 'package:silvertouch/app_screens/investigation_view_report_screen.dart';
+import 'package:silvertouch/app_screens/opd_registration_screen.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../global/SizeConfig.dart';
@@ -57,7 +57,7 @@ State<DashboardDoctorScreen> {
 
   @override
   void initState() {
-    selectedOrganizationIDF = widget.selectedOrganizationIDF ?? "1";
+    selectedOrganizationIDF = widget.selectedOrganizationIDF ?? "5";
     dateRange = DateTimeRange(
         start: fromDate,
         end: toDate);
@@ -74,251 +74,290 @@ State<DashboardDoctorScreen> {
     final start = dateRange.start;
     final end = dateRange.end;
     SizeConfig().init(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Doctor Dashboard"),
-        backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
-          titleMedium: TextStyle(
-              color: Colorsblack,
-              fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-          titleMedium: TextStyle(
-              color: Colorsblack,
-              fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
-      ),
-      body: Builder(
-        builder: (context) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Doctor Dashboard"),
+          bottom: TabBar( // Add a TabBar for the tabs
+            tabs: [
+              Tab(text: "OPD"),
+              Tab(text: "IPD"),
+            ],
+          ),
+          backgroundColor: Color(0xFFFFFFFF),
+          iconTheme: IconThemeData(
+              color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
+            titleMedium: TextStyle(
+                color: Colorsblack,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+            titleMedium: TextStyle(
+                color: Colorsblack,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+        ),
+        body: Builder(
+          builder: (context) {
+            return
+              TabBarView(
                 children: [
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical !* 2,
-                  ),
-                  Container(
-                    height: SizeConfig.blockSizeVertical !* 8,
+                  SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                      child: Container(
-                        child: InkWell(
-                            onTap: () {
-                              // showDateRangePickerDialog();
-                            },
-                            child: Row(
-                              children: <Widget>[
-                                // Expanded(
-                                //   child: Text(
-                                //     fromDateString == ""
-                                //         ? "Select Date Range"
-                                //         : "$fromDateString  to  $toDateString",
-                                //     textAlign: TextAlign.center,
-                                //     style: TextStyle(
-                                //         fontSize:
-                                //             SizeConfig.blockSizeVertical !* 2.6,
-                                //         fontWeight: FontWeight.w500,
-                                //         color: Colors.black),
-                                //   ),
-                                // ),
-                                // Container(
-                                //   width: SizeConfig.blockSizeHorizontal !* 15,
-                                //   child: Icon(
-                                //     Icons.arrow_drop_down,
-                                //     size: SizeConfig.blockSizeHorizontal !* 8,
-                                //   ),
-                                // ),
-                                Expanded(
-                                    child: ElevatedButton(
-                                      child: Text('${start.day}-${start.month}-${start.year}'),
-                                      onPressed: pickDateRange,
-                                    )
-                                ),
-                                const SizedBox(width: 10,),
-                                Expanded(
-                                    child: ElevatedButton(
-                                      child: Text('${end.day}-${end.month}-${end.year}'),
-                                      onPressed: pickDateRange,
-                                    )
-                                ),
-                              ],
-                            )),
-                        padding: EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 1.0,
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 2,
                           ),
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical !* 8,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                              child: Container(
+                                child: InkWell(
+                                    onTap: () {
+                                      // showDateRangePickerDialog();
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        // Expanded(
+                                        //   child: Text(
+                                        //     fromDateString == ""
+                                        //         ? "Select Date Range"
+                                        //         : "$fromDateString  to  $toDateString",
+                                        //     textAlign: TextAlign.center,
+                                        //     style: TextStyle(
+                                        //         fontSize:
+                                        //             SizeConfig.blockSizeVertical !* 2.6,
+                                        //         fontWeight: FontWeight.w500,
+                                        //         color: Colors.black),
+                                        //   ),
+                                        // ),
+                                        // Container(
+                                        //   width: SizeConfig.blockSizeHorizontal !* 15,
+                                        //   child: Icon(
+                                        //     Icons.arrow_drop_down,
+                                        //     size: SizeConfig.blockSizeHorizontal !* 8,
+                                        //   ),
+                                        // ),
+                                        Expanded(
+                                            child: ElevatedButton(
+                                              child: Text('${start.day}-${start.month}-${start.year}'),
+                                              onPressed: pickDateRange,
+                                            )
+                                        ),
+                                        const SizedBox(width: 10,),
+                                        Expanded(
+                                            child: ElevatedButton(
+                                              child: Text('${end.day}-${end.month}-${end.year}'),
+                                              onPressed: pickDateRange,
+                                            )
+                                        ),
+                                      ],
+                                    )),
+                                padding: EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 2,
+                          ),
+                          MaterialButton(
+                            onPressed: () async {
+                              if (fromDate == "") {
+                                final snackBar = SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Text("Please select Date Range"),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                return;
+                              }
+                              else{
+                                String patientIDP = await getPatientOrDoctorIDP();
+
+                                //  void updatepatientIDP(String organizationIDF) {
+                                //   patientIDP = organizationIDF;
+                                // }https://swasthyasetu.com/ws/doctor_opd_dashboard.php?
+                                // DoctorIDP=1&OrganizationIDF=5&formDate=2023-12-19&toDate=2024-01-18
+                                // String updatedAppId = ApiHelper.updateDefaultHeaders("your_organization_id_here");
+
+                                String defaultFromDate = '${start.year}-${start.month.toString().padLeft(2, '0')}-${start.day.toString().padLeft(2, '0')}';
+                                String defaultToDate = '${end.year}-${end.month.toString().padLeft(2, '0')}-${end.day.toString().padLeft(2, '0')}';
+                                // "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-"
+                                //     "${selectedDate.day.toString().padLeft(2, '0')}"
+                                String dynamicURL = 'https://swasthyasetu.com/ws/doctor_opd_dashboard.php?'
+                                    'DoctorIDP=${patientIDP}&'
+                                    'OrganizationIDF=${selectedOrganizationIDF}&'
+                                    'formDate=${fromDateString.isNotEmpty ? fromDateString : defaultFromDate}&'
+                                    'toDate=${toDateString.isNotEmpty ? toDateString : defaultToDate}';
+
+                                // Now you can use 'dynamicURL' for your purposes (e.g., navigation, API requests)
+                                print(dynamicURL);
+                                try {
+
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => DashBoardDoctorWebView(url: dynamicURL)));
+
+                                } catch (e) {
+                                  print('Error launching URL: $e');
+                                }
+                              }
+                            },
+                            color: Colors.blue,
+                            child: Text(
+                              "Submit",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          sizeBox,
+                          SizedBox(height: 16.0),
+
+                        ],
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical !* 2,
-                  ),
-                  MaterialButton(
-                    onPressed: () async {
-                      if (fromDate == "") {
-                        final snackBar = SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text("Please select Date Range"),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        return;
-                      }
-                      else{
-                        String patientIDP = await getPatientOrDoctorIDP();
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 2,
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical !* 8,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                              child: Container(
+                                child: InkWell(
+                                    onTap: () {
+                                      // showDateRangePickerDialog();
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        // Expanded(
+                                        //   child: Text(
+                                        //     fromDateString == ""
+                                        //         ? "Select Date Range"
+                                        //         : "$fromDateString  to  $toDateString",
+                                        //     textAlign: TextAlign.center,
+                                        //     style: TextStyle(
+                                        //         fontSize:
+                                        //             SizeConfig.blockSizeVertical !* 2.6,
+                                        //         fontWeight: FontWeight.w500,
+                                        //         color: Colors.black),
+                                        //   ),
+                                        // ),
+                                        // Container(
+                                        //   width: SizeConfig.blockSizeHorizontal !* 15,
+                                        //   child: Icon(
+                                        //     Icons.arrow_drop_down,
+                                        //     size: SizeConfig.blockSizeHorizontal !* 8,
+                                        //   ),
+                                        // ),
+                                        Expanded(
+                                            child: ElevatedButton(
+                                              child: Text('${start.day}-${start.month}-${start.year}'),
+                                              onPressed: pickDateRange,
+                                            )
+                                        ),
+                                        const SizedBox(width: 10,),
+                                        Expanded(
+                                            child: ElevatedButton(
+                                              child: Text('${end.day}-${end.month}-${end.year}'),
+                                              onPressed: pickDateRange,
+                                            )
+                                        ),
+                                      ],
+                                    )),
+                                padding: EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 2,
+                          ),
+                          MaterialButton(
+                            onPressed: () async {
+                              if (fromDate == "") {
+                                final snackBar = SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Text("Please select Date Range"),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                return;
+                              }
+                              else{
+                                String patientIDP = await getPatientOrDoctorIDP();
 
-                        //  void updatepatientIDP(String organizationIDF) {
-                        //   patientIDP = organizationIDF;
-                        // }https://swasthyasetu.com/ws/doctor_opd_dashboard.php?
-                        // DoctorIDP=1&OrganizationIDF=5&formDate=2023-12-19&toDate=2024-01-18
-                        // String updatedAppId = ApiHelper.updateDefaultHeaders("your_organization_id_here");
-                        String dynamicURL = 'https://swasthyasetu.com/ws/doctor_opd_dashboard.php?'
-                            'DoctorIDP=${patientIDP}&'
-                            'OrganizationIDF=${selectedOrganizationIDF}&'
-                            'formDate=$fromDateString&'
-                            'toDate=$toDateString';
+                                //  void updatepatientIDP(String organizationIDF) {
+                                //   patientIDP = organizationIDF;
+                                // }https://swasthyasetu.com/ws/doctor_opd_dashboard.php?
+                                // DoctorIDP=1&OrganizationIDF=5&formDate=2023-12-19&toDate=2024-01-18
+                                // String updatedAppId = ApiHelper.updateDefaultHeaders("your_organization_id_here");
 
-                        // Now you can use 'dynamicURL' for your purposes (e.g., navigation, API requests)
-                        print(dynamicURL);
-                        try {
+                                String defaultFromDate = '${start.year}-${start.month.toString().padLeft(2, '0')}-${start.day.toString().padLeft(2, '0')}';
+                                String defaultToDate = '${end.year}-${end.month.toString().padLeft(2, '0')}-${end.day.toString().padLeft(2, '0')}';
+                                // "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-"
+                                //     "${selectedDate.day.toString().padLeft(2, '0')}"
+                                String dynamicURL = 'https://swasthyasetu.com/ws/doctor_ipd_dashboard.php?'
+                                    'DoctorIDP=${patientIDP}&'
+                                    'OrganizationIDF=${selectedOrganizationIDF}&'
+                                    'formDate=${fromDateString.isNotEmpty ? fromDateString : defaultFromDate}&'
+                                    'toDate=${toDateString.isNotEmpty ? toDateString : defaultToDate}';
 
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => DashBoardDoctorWebView(url: dynamicURL)));
+                                // Now you can use 'dynamicURL' for your purposes (e.g., navigation, API requests)
+                                print(dynamicURL);
+                                try {
 
-                        } catch (e) {
-                          print('Error launching URL: $e');
-                        }
-                      }
-                    },
-                    color: Colors.blue,
-                    child: Text(
-                      "Submit",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
-                        fontWeight: FontWeight.w500,
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => DashBoardDoctorWebView(url: dynamicURL)));
+
+                                } catch (e) {
+                                  print('Error launching URL: $e');
+                                }
+                              }
+                            },
+                            color: Colors.blue,
+                            child: Text(
+                              "Submit",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          sizeBox,
+                          SizedBox(height: 16.0),
+
+                        ],
                       ),
                     ),
                   ),
-                  sizeBox,
-                  SizedBox(height: 16.0),
-                  // SingleChildScrollView(
-                  //   scrollDirection: Axis.horizontal,
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //       border: Border(
-                  //         bottom: BorderSide(width: 1.0, color: Colors.black),
-                  //         top: BorderSide(width: 1.0, color: Colors.black),
-                  //       ),
-                  //     ),
-                  //     child: DataTable(
-                  //       columnSpacing: 25.0,
-                  //       columns: [
-                  //         DataColumn(label: Text('Type',style: TextStyle(
-                  //           color: Colors.black,
-                  //           fontFamily: "Ubuntu",
-                  //           fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                  //         ),)),
-                  //         DataColumn(label: Text('Date',
-                  //           style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontFamily: "Ubuntu",
-                  //             fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                  //           ),)),
-                  //         DataColumn(label: Text('Patient',
-                  //           style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontFamily: "Ubuntu",
-                  //             fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                  //           ),)),
-                  //         DataColumn(label: Text('Doctor',
-                  //           style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontFamily: "Ubuntu",
-                  //             fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                  //           ),)),
-                  //         DataColumn(label: Text('Investigation List',
-                  //           style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontFamily: "Ubuntu",
-                  //             fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                  //           ),)),
-                  //         DataColumn(label: Text('OPD Service',
-                  //           style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontFamily: "Ubuntu",
-                  //             fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                  //           ),)),
-                  //         DataColumn(label: Text('Lab Status',
-                  //           style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontFamily: "Ubuntu",
-                  //             fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                  //           ),)),
-                  //         DataColumn(label: Text('Created By',
-                  //           style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontFamily: "Ubuntu",
-                  //             fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                  //           ),)),
-                  //         DataColumn(label: Text('Action',
-                  //           style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontFamily: "Ubuntu",
-                  //             fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                  //           ),)),
-                  //         // Add more DataColumn widgets based on your requirements
-                  //       ],
-                  //       rows: allInvestigations.map((item) {
-                  //         return DataRow(
-                  //           cells: [
-                  //             DataCell(Text(item.type ?? '')),
-                  //             DataCell(Text(item.sDate ?? '')),
-                  //             DataCell(Text(item.patient ?? '')),
-                  //             DataCell(Text(item.doctor ?? '')),
-                  //             DataCell(Text(item.source ?? '')),
-                  //             DataCell(Text(item.opdService ?? '')),
-                  //             DataCell(Text(item.labStatus ?? '')),
-                  //             DataCell(Text(item.createdBy ?? '')),
-                  //             DataCell(
-                  //               InkWell(
-                  //                 child: Center(
-                  //                     child: Icon(Icons.remove_red_eye)),
-                  //                 onTap: () {
-                  //                   Navigator.push(
-                  //                     context,
-                  //                     MaterialPageRoute(
-                  //                       builder: (context) => InvestigationViewReportScreen(
-                  //                           id: item.id,
-                  //                           INID: item.INID,
-                  //                           PATID: item.patID,
-                  //                           OPD:'OPD',
-                  //                           ipd: 'ipd',
-                  //                           pathology: item.type,
-                  //                           HospitalConsultationIDP: item.hospitalConsultationIDP
-                  //                       ),
-                  //                     ),
-                  //                   );
-                  //                 },
-                  //               ),
-                  //             ),
-                  //             // Add more DataCell widgets based on your requirements
-                  //           ],
-                  //         );
-                  //       }).toList(),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
-              ),
-            ),
-          );
-        },
+              );
+          },
+        ),
       ),
     );
   }
@@ -342,104 +381,6 @@ State<DashboardDoctorScreen> {
       toDateString = formatter.format(toDate);
     });
   }
-
-  // void getDoctorDashboard() async {
-  //   print('getDoctorInvestigationList');
-  //
-  //   try{
-  //     String loginUrl = "${baseURL}doctor_investigation_list.php";
-  //     ProgressDialog pr = ProgressDialog(context);
-  //     Future.delayed(Duration.zero, () {
-  //       pr.show();
-  //     });
-  //     String patientUniqueKey = await getPatientUniqueKey();
-  //     String userType = await getUserType();
-  //     String patientIDP = await getPatientOrDoctorIDP();
-  //     debugPrint("Key and type");
-  //     debugPrint(patientUniqueKey);
-  //     debugPrint(userType);
-  //
-  //     String jsonStr = "{" +
-  //         "\"" +
-  //         "DoctorIDP" +
-  //         "\"" +
-  //         ":" +
-  //         "\"" +
-  //         patientIDP +
-  //         "\"," +
-  //         "\"" +
-  //         "fromdate" +
-  //         "\"" +
-  //         ":" +
-  //         "\"" +
-  //         fromDateString +
-  //         "\"" +
-  //         ",\""+
-  //         "todate" +
-  //         "\"" +
-  //         ":" +
-  //         "\"" +
-  //         toDateString +
-  //         "\"" +
-  //         "}";
-  //
-  //     debugPrint(jsonStr);
-  //
-  //     String encodedJSONStr = encodeBase64(jsonStr);
-  //     var response = await apiHelper.callApiWithHeadersAndBody(
-  //       url: loginUrl,
-  //
-  //       headers: {
-  //         "u": patientUniqueKey,
-  //         "type": userType,
-  //       },
-  //       body: {"getjson": encodedJSONStr},
-  //     );
-  //     //var resBody = json.decode(response.body);
-  //
-  //     debugPrint(response.body.toString());
-  //     final jsonResponse = json.decode(response.body.toString());
-  //
-  //     ResponseModel model = ResponseModel.fromJSON(jsonResponse);
-  //
-  //     pr.hide();
-  //
-  //     if (model.status == "OK") {
-  //       var data = jsonResponse['Data'];
-  //       var strData = decodeBase64(data);
-  //
-  //       // Replace '}' with '},'
-  //       strData = strData.replaceAllMapped(
-  //         RegExp('}{"TYPE":"'),
-  //             (match) => '},{"TYPE":"',
-  //       );
-  //
-  //
-  //       debugPrint("Decoded Data List : " + strData);
-  //
-  //       final jsonData = json.decode(strData);
-  //
-  //       for (var i = 0; i < jsonData.length; i++) {
-  //         final investigationList = jsonData[i];
-  //
-  //         if (investigationList.containsKey("OPD Investigation List") || investigationList.containsKey("IPD Investigation List")) {
-  //           final investigationType = investigationList.keys.first;
-  //           final investigationItems = (investigationList[investigationType] as List<dynamic>?)
-  //               ?.map((item) => InvestigationItem.fromJson(item, investigationType))
-  //               .toList();
-  //           if (investigationItems != null) {
-  //             allInvestigations.addAll(investigationItems);
-  //           }
-  //         }
-  //
-  //         debugPrint("----------------------");
-  //       }
-  //       setState(() {});
-  //     }
-  //   }catch (e) {
-  //     print('Error decoding JSON: $e');
-  //   }
-  // }
 
   String encodeBase64(String text) {
     var bytes = utf8.encode(text);

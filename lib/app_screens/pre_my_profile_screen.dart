@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:swasthyasetu/app_screens/view_profile_details_patient.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:silvertouch/app_screens/view_profile_details_patient.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
 
 import 'landing_screen.dart';
 
@@ -23,15 +23,19 @@ class PreMyProfileScreenState extends State<PreMyProfileScreen> {
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(
               color: Color(0xFF06A759),
-              size: SizeConfig.blockSizeVertical !* 2.5), toolbarTextStyle: TextTheme(
-              titleMedium: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "Ubuntu",
-                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-              titleMedium: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "Ubuntu",
-                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+              size: SizeConfig.blockSizeVertical! * 2.5),
+          toolbarTextStyle: TextTheme(
+                  titleMedium: TextStyle(
+                      color: Colors.white,
+                      fontFamily: "Ubuntu",
+                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
+              .bodyMedium,
+          titleTextStyle: TextTheme(
+                  titleMedium: TextStyle(
+                      color: Colors.white,
+                      fontFamily: "Ubuntu",
+                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
+              .titleLarge,
         ),
         bottomNavigationBar: BottomNavigationBar(
           elevation: 0,
@@ -48,13 +52,13 @@ class PreMyProfileScreenState extends State<PreMyProfileScreen> {
                   "images/ic_home_footer.png",
                 ),
                 color: Color(0xFF06A759),
-                width: SizeConfig.blockSizeHorizontal !* 6,
+                width: SizeConfig.blockSizeHorizontal! * 6,
               ),
               icon: Image(
                 image: AssetImage(
                   "images/ic_home_footer.png",
                 ),
-                width: SizeConfig.blockSizeHorizontal !* 6,
+                width: SizeConfig.blockSizeHorizontal! * 6,
               ),
               label: "Home",
             ),
@@ -63,7 +67,7 @@ class PreMyProfileScreenState extends State<PreMyProfileScreen> {
                   image: AssetImage(
                     "images/ic_scan_and_pay_footer.png",
                   ),
-                  width: SizeConfig.blockSizeHorizontal !* 6,
+                  width: SizeConfig.blockSizeHorizontal! * 6,
                 ),
                 label: "Scan & Pay"),
             BottomNavigationBarItem(
@@ -71,7 +75,7 @@ class PreMyProfileScreenState extends State<PreMyProfileScreen> {
                   image: AssetImage(
                     "images/ic_document_footer.png",
                   ),
-                  width: SizeConfig.blockSizeHorizontal !* 6,
+                  width: SizeConfig.blockSizeHorizontal! * 6,
                 ),
                 label: "Documents"),
             BottomNavigationBarItem(
@@ -79,13 +83,13 @@ class PreMyProfileScreenState extends State<PreMyProfileScreen> {
                   image: AssetImage(
                     "images/ic_my_profile_footer.png",
                   ),
-                  width: SizeConfig.blockSizeHorizontal !* 6,
+                  width: SizeConfig.blockSizeHorizontal! * 6,
                 ),
                 icon: Image(
                   image: AssetImage(
                     "images/ic_my_profile_footer.png",
                   ),
-                  width: SizeConfig.blockSizeHorizontal !* 6,
+                  width: SizeConfig.blockSizeHorizontal! * 6,
                 ),
                 label: "My Profile"),
           ],
@@ -110,23 +114,23 @@ class PreMyProfileScreenState extends State<PreMyProfileScreen> {
                     },
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal !* 5,
-                          top: SizeConfig.blockSizeVertical !* 2,
-                          bottom: SizeConfig.blockSizeVertical !* 2),
+                          left: SizeConfig.blockSizeHorizontal! * 5,
+                          top: SizeConfig.blockSizeVertical! * 2,
+                          bottom: SizeConfig.blockSizeVertical! * 2),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
                           Image(
-                              width: SizeConfig.blockSizeHorizontal !* 10,
+                              width: SizeConfig.blockSizeHorizontal! * 10,
                               image: AssetImage(
                                   'images/ic_hospital_dashboard.png')),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 6,
+                            width: SizeConfig.blockSizeHorizontal! * 6,
                           ),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 38,
+                            width: SizeConfig.blockSizeHorizontal! * 38,
                             child: Text("View Profile",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -134,11 +138,11 @@ class PreMyProfileScreenState extends State<PreMyProfileScreen> {
                                 )),
                           ),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 8,
+                            width: SizeConfig.blockSizeHorizontal! * 8,
                           ),
                           Image(
                             color: Colors.greenAccent,
-                            width: SizeConfig.blockSizeHorizontal !* 6,
+                            width: SizeConfig.blockSizeHorizontal! * 6,
                             //height: 80,
                             image: AssetImage("images/ic_right_arrow.png"),
                           ),
@@ -152,7 +156,7 @@ class PreMyProfileScreenState extends State<PreMyProfileScreen> {
               ],
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical !* 5,
+              height: SizeConfig.blockSizeVertical! * 5,
             ),
             Row(
               mainAxisSize: MainAxisSize.max,
@@ -162,23 +166,23 @@ class PreMyProfileScreenState extends State<PreMyProfileScreen> {
                   onPressed: () {},
                   child: Padding(
                     padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal !* 5,
-                        top: SizeConfig.blockSizeVertical !* 2,
-                        bottom: SizeConfig.blockSizeVertical !* 2),
+                        left: SizeConfig.blockSizeHorizontal! * 5,
+                        top: SizeConfig.blockSizeVertical! * 2,
+                        bottom: SizeConfig.blockSizeVertical! * 2),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Image(
-                            width: SizeConfig.blockSizeHorizontal !* 10,
+                            width: SizeConfig.blockSizeHorizontal! * 10,
                             image: AssetImage(
                                 'images/ic_education_dashboard.png')),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 6,
+                          width: SizeConfig.blockSizeHorizontal! * 6,
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 38,
+                          width: SizeConfig.blockSizeHorizontal! * 38,
                           child: Text("Log Out",
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -186,11 +190,11 @@ class PreMyProfileScreenState extends State<PreMyProfileScreen> {
                               )),
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 8,
+                          width: SizeConfig.blockSizeHorizontal! * 8,
                         ),
                         Image(
                           color: Colors.greenAccent,
-                          width: SizeConfig.blockSizeHorizontal !* 6,
+                          width: SizeConfig.blockSizeHorizontal! * 6,
                           //height: 80,
                           image: AssetImage("images/ic_right_arrow.png"),
                         ),

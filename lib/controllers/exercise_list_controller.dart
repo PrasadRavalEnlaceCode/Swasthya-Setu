@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:swasthyasetu/podo/exercise_model.dart';
+import 'package:silvertouch/podo/exercise_model.dart';
 
 class ExerciseListController extends GetxController {
   RxList<ExerciseModel> listExercises = (null as List<ExerciseModel>).obs;

@@ -11,16 +11,17 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:swasthyasetu/utils/common_methods.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
-import 'package:swasthyasetu/app_screens/add_patient_report.dart';
-import 'package:swasthyasetu/app_screens/fullscreen_image.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_report.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
-    as DateRagePicker;
+import 'package:silvertouch/app_screens/add_patient_report.dart';
+import 'package:silvertouch/app_screens/fullscreen_image.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_profile_patient.dart';
+import 'package:silvertouch/podo/model_report.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/common_methods.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+
 //import 'package:bidirectional_scroll_view/bidirectional_scroll_view.dart';
 
 class ReportListForDoctorsPatientScreen extends StatefulWidget {
@@ -77,11 +78,8 @@ class ReportListForDoctorsPatientScreenState
   void initState() {
     super.initState();
     _bindBackgroundIsolate();
-  //  FlutterDownloader.registerCallback(downloadCallback);
-    dateRange = DateTimeRange(
-        start: fromDate,
-        end: toDate
-    );
+    //  FlutterDownloader.registerCallback(downloadCallback);
+    dateRange = DateTimeRange(start: fromDate, end: toDate);
     widget.emptyMessage =
         "${widget.emptyTextReport1}"; //\n\n${widget.emptyTextReport2}\n\n${widget.emptyTextReport3}
     var formatter = DateFormat('dd-MM-yyyy');
@@ -119,9 +117,9 @@ class ReportListForDoctorsPatientScreenState
       }
     });
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical !* 80,
+      height: SizeConfig.blockSizeVertical! * 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -170,19 +168,19 @@ class ReportListForDoctorsPatientScreenState
             shrinkWrap: true,
             children: <Widget>[
               Container(
-                height: SizeConfig.blockSizeVertical !* 100,
+                height: SizeConfig.blockSizeVertical! * 100,
                 child: Column(
                   children: <Widget>[
                     Container(
-                      height: SizeConfig.blockSizeVertical !* 10,
-                      width: SizeConfig.blockSizeHorizontal !* 100,
+                      height: SizeConfig.blockSizeVertical! * 10,
+                      width: SizeConfig.blockSizeHorizontal! * 100,
                       color: Color(0xFFF0F0F0),
                       child: Padding(
                         padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal !* 2,
-                            right: SizeConfig.blockSizeHorizontal !* 2),
+                            left: SizeConfig.blockSizeHorizontal! * 2,
+                            right: SizeConfig.blockSizeHorizontal! * 2),
                         child: Container(
-                          height: SizeConfig.blockSizeVertical !* 10,
+                          height: SizeConfig.blockSizeVertical! * 10,
                           child: ListView.separated(
                             itemCount: listCategories.length,
                             scrollDirection: Axis.horizontal,
@@ -201,7 +199,7 @@ class ReportListForDoctorsPatientScreenState
                                 },
                                 child: Chip(
                                   padding: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal !* 3),
+                                      SizeConfig.blockSizeHorizontal! * 3),
                                   label: Text(
                                     listCategories[index]["categoryName"]!,
                                     style: TextStyle(
@@ -226,7 +224,7 @@ class ReportListForDoctorsPatientScreenState
                             separatorBuilder:
                                 (BuildContext context, int index) {
                               return SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 5,
+                                width: SizeConfig.blockSizeHorizontal! * 5,
                               );
                             },
                           ),
@@ -236,7 +234,7 @@ class ReportListForDoctorsPatientScreenState
                     Align(
                       alignment: Alignment.topLeft,
                       child: Container(
-                        height: SizeConfig.blockSizeVertical !* 8,
+                        height: SizeConfig.blockSizeVertical! * 8,
                         color: Color(0xFFF0F0F0),
                         child: Padding(
                           padding: EdgeInsets.only(left: 5.0, right: 5.0),
@@ -270,17 +268,19 @@ class ReportListForDoctorsPatientScreenState
                                     // ),
                                     Expanded(
                                         child: ElevatedButton(
-                                          child: Text('${start.day}/${start.month}/${start.year}'),
-                                          onPressed: pickDateRange,
-                                        )
+                                      child: Text(
+                                          '${start.day}/${start.month}/${start.year}'),
+                                      onPressed: pickDateRange,
+                                    )),
+                                    const SizedBox(
+                                      width: 10,
                                     ),
-                                    const SizedBox(width: 10,),
                                     Expanded(
                                         child: ElevatedButton(
-                                          child: Text('${end.day}/${end.month}/${end.year}'),
-                                          onPressed: pickDateRange,
-                                        )
-                                    ),
+                                      child: Text(
+                                          '${end.day}/${end.month}/${end.year}'),
+                                      onPressed: pickDateRange,
+                                    )),
                                   ],
                                 )),
                             padding: EdgeInsets.all(5.0),
@@ -307,13 +307,13 @@ class ReportListForDoctorsPatientScreenState
                                   onTap: () {
                                     if (isADocument(index)) {
                                       downloadAndOpenTheFile(
-                                          "${baseURL}images/patientreport/${listPatientReport[index].reportImage}",
+                                          "${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}",
                                           listPatientReport[index].reportImage);
                                     } else {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(builder: (context) {
                                         return FullScreenImage(
-                                          "${baseURL}images/patientreport/${listPatientReport[index].reportImage}",
+                                          "${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}",
                                         );
                                       }));
                                     }
@@ -322,7 +322,8 @@ class ReportListForDoctorsPatientScreenState
                                       color: Colors.white,
                                       child: Padding(
                                         padding: EdgeInsets.all(
-                                            SizeConfig.blockSizeHorizontal !* 2),
+                                            SizeConfig.blockSizeHorizontal! *
+                                                2),
                                         child: Row(
                                           children: <Widget>[
                                             Expanded(
@@ -335,12 +336,12 @@ class ReportListForDoctorsPatientScreenState
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         fontSize: SizeConfig
-                                                                .blockSizeHorizontal !*
+                                                                .blockSizeHorizontal! *
                                                             4.5),
                                                   ),
                                                   SizedBox(
                                                     height: SizeConfig
-                                                            .blockSizeVertical !*
+                                                            .blockSizeVertical! *
                                                         2,
                                                   ),
                                                   Text(
@@ -348,12 +349,12 @@ class ReportListForDoctorsPatientScreenState
                                                         .categoryName,
                                                     style: TextStyle(
                                                         fontSize: SizeConfig
-                                                                .blockSizeHorizontal !*
+                                                                .blockSizeHorizontal! *
                                                             3.5),
                                                   ),
                                                   SizedBox(
                                                     height: SizeConfig
-                                                            .blockSizeVertical !*
+                                                            .blockSizeVertical! *
                                                         1,
                                                   ),
                                                   Text(
@@ -361,7 +362,7 @@ class ReportListForDoctorsPatientScreenState
                                                     style: TextStyle(
                                                         color: Colors.grey,
                                                         fontSize: SizeConfig
-                                                                .blockSizeHorizontal !*
+                                                                .blockSizeHorizontal! *
                                                             3.0),
                                                   ),
                                                 ],
@@ -369,10 +370,10 @@ class ReportListForDoctorsPatientScreenState
                                             ),
                                             Container(
                                                 width: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     26,
                                                 height: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     33,
                                                 child: isADocument(index)
                                                     ? InkWell(
@@ -380,10 +381,10 @@ class ReportListForDoctorsPatientScreenState
                                                           debugPrint(
                                                               "download file location");
                                                           debugPrint(
-                                                            "${baseURL}images/patientreport/${listPatientReport[index].reportImage}",
+                                                            "${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}",
                                                           );
                                                           downloadAndOpenTheFile(
-                                                              "${baseURL}images/patientreport/${listPatientReport[index].reportImage}",
+                                                              "${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}",
                                                               listPatientReport[
                                                                       index]
                                                                   .reportImage);
@@ -394,10 +395,10 @@ class ReportListForDoctorsPatientScreenState
                                                                 "images/ic_doc.png"),
                                                             fit: BoxFit.fill,
                                                             width: SizeConfig
-                                                                    .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 26,
                                                             height: SizeConfig
-                                                                    .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 33,
                                                           ),
                                                         ),
@@ -414,7 +415,7 @@ class ReportListForDoctorsPatientScreenState
                                                                   builder:
                                                                       (context) {
                                                             return FullScreenImage(
-                                                                "${baseURL}images/patientreport/${listPatientReport[index].reportImage}");
+                                                                "${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}");
                                                           }));
                                                         },
                                                         child: Container(
@@ -432,23 +433,23 @@ class ReportListForDoctorsPatientScreenState
                                                                               url) =>
                                                                           Image(
                                                                             width:
-                                                                                SizeConfig.blockSizeHorizontal !* 35,
+                                                                                SizeConfig.blockSizeHorizontal! * 35,
                                                                             height:
-                                                                                SizeConfig.blockSizeHorizontal !* 35,
+                                                                                SizeConfig.blockSizeHorizontal! * 35,
                                                                             image:
                                                                                 AssetImage('images/shimmer_effect.png'),
                                                                             fit:
                                                                                 BoxFit.fitWidth,
                                                                           ),
                                                                   imageUrl:
-                                                                      "${baseURL}images/patientreport/${listPatientReport[index].reportImage}",
+                                                                      "${baseImagePath}images/patientreport/${listPatientReport[index].reportImage}",
                                                                   fit: BoxFit
                                                                       .fitWidth,
                                                                   width: SizeConfig
-                                                                          .blockSizeHorizontal !*
+                                                                          .blockSizeHorizontal! *
                                                                       35,
                                                                   height: SizeConfig
-                                                                          .blockSizeHorizontal !*
+                                                                          .blockSizeHorizontal! *
                                                                       35),
                                                         ),
                                                       )),
@@ -479,10 +480,10 @@ class ReportListForDoctorsPatientScreenState
                                 );
                               })
                           : SizedBox(
-                              height: SizeConfig.blockSizeVertical !* 80,
+                              height: SizeConfig.blockSizeVertical! * 80,
                               child: Container(
                                 padding: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal !* 5),
+                                    SizeConfig.blockSizeHorizontal! * 5),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
@@ -515,7 +516,7 @@ class ReportListForDoctorsPatientScreenState
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: EdgeInsets.all(
-                  SizeConfig.blockSizeHorizontal !* 3,
+                  SizeConfig.blockSizeHorizontal! * 3,
                 ),
                 child: FloatingActionButton(
                   onPressed: () {
@@ -559,7 +560,7 @@ class ReportListForDoctorsPatientScreenState
     //   setState(() {
     //     getPatientReport(context);
     //   });
-      //print(picked);
+    //print(picked);
     // }
   }
 
@@ -770,7 +771,7 @@ class ReportListForDoctorsPatientScreenState
       lastDate: DateTime(2100),
     );
 
-    if(newDateRange == null) return;
+    if (newDateRange == null) return;
 
     setState(() {
       dateRange = newDateRange;
@@ -858,7 +859,7 @@ class ReportListForDoctorsPatientScreenState
       DownloadTaskStatus status = data[1];
       int progress = data[2];
       if (/*status == DownloadTaskStatus.complete*/ status.toString() ==
-          "DownloadTaskStatus(3)" &&
+              "DownloadTaskStatus(3)" &&
           progress == 100) {
         debugPrint("Successfully downloaded");
         pr!.hide();

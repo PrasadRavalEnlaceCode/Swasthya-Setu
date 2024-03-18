@@ -14,26 +14,26 @@ import 'package:get_it/get_it.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:page_indicator/page_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:swasthyasetu/api/api_helper.dart';
-import 'package:swasthyasetu/app_screens/add_patient_screen.dart';
-import 'package:swasthyasetu/app_screens/doctor_health_videos.dart';
-import 'package:swasthyasetu/app_screens/drugs_list_screen.dart';
-import 'package:swasthyasetu/app_screens/form_3c_screen.dart';
-import 'package:swasthyasetu/app_screens/invite_patient_screen.dart';
-import 'package:swasthyasetu/app_screens/login_screen_doctor.dart';
-import 'package:swasthyasetu/app_screens/login_screen_doctor_.dart';
-import 'package:swasthyasetu/app_screens/masters_list_screen.dart';
-import 'package:swasthyasetu/app_screens/my_patients_screen.dart';
-import 'package:swasthyasetu/app_screens/opd_registration_screen.dart';
-import 'package:swasthyasetu/app_screens/opd_services_list_screen.dart';
-import 'package:swasthyasetu/app_screens/popup_dialog_image.dart';
-import 'package:swasthyasetu/app_screens/view_profile_details_patient.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_investigation_master_list.dart';
-import 'package:swasthyasetu/podo/response_login_icons_model.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/services/navigation_service.dart';
+import 'package:silvertouch/api/api_helper.dart';
+import 'package:silvertouch/app_screens/add_patient_screen.dart';
+import 'package:silvertouch/app_screens/doctor_health_videos.dart';
+import 'package:silvertouch/app_screens/drugs_list_screen.dart';
+import 'package:silvertouch/app_screens/form_3c_screen.dart';
+import 'package:silvertouch/app_screens/invite_patient_screen.dart';
+import 'package:silvertouch/app_screens/login_screen_doctor.dart';
+import 'package:silvertouch/app_screens/login_screen_doctor_.dart';
+import 'package:silvertouch/app_screens/masters_list_screen.dart';
+import 'package:silvertouch/app_screens/my_patients_screen.dart';
+import 'package:silvertouch/app_screens/opd_registration_screen.dart';
+import 'package:silvertouch/app_screens/opd_services_list_screen.dart';
+import 'package:silvertouch/app_screens/popup_dialog_image.dart';
+import 'package:silvertouch/app_screens/view_profile_details_patient.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_master_list.dart';
+import 'package:silvertouch/podo/response_login_icons_model.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/services/navigation_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'camp_screen.dart';
@@ -201,7 +201,7 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
       builder: (BuildContext context) => CustomDialog(
         title: "Please Update",
         description:
-            "An updated version of this app is available. would you like to update?",
+        "An updated version of this app is available. would you like to update?",
         buttonText: "Update",
         image: Image(
           width: 80,
@@ -314,7 +314,8 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
       var title = "";
       if (exitOrLogout == "exit") {
         title = "Do you really want to exit?";
-      } else if (exitOrLogout == "logout") {
+      }
+      else if (exitOrLogout == "logout") {
         title = "Do you really want to Logout?";
       }
       showDialog(
@@ -342,7 +343,7 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                           context,
                           MaterialPageRoute(
                               builder: (context) => LoginScreenDoctor()),
-                          (Route<dynamic> route) => false,
+                              (Route<dynamic> route) => false,
                         );
                       }
                     },
@@ -558,7 +559,7 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
       setState(() {
         notificationCount = jsonData['NotificationCount'];
         messageCount =
-            jsonData['ChatCount'] != null ? jsonData['ChatCount'] : "0";
+        jsonData['ChatCount'] != null ? jsonData['ChatCount'] : "0";
       });
       /*var patientIDP = jsonData[0]['PatientIDP'];
       var patientUniqueKey = decodeBase64(jsonData[0]['PatientUniqueKey']);
@@ -592,130 +593,130 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
         context: context,
         barrierDismissible: false,
         builder: (context) => Dialog(
-              /*shape: RoundedRectangleBorder(
+          /*shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),*/
-              backgroundColor: Colors.white,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal !* 3,
+          backgroundColor: Colors.white,
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(
+                  SizeConfig.blockSizeHorizontal !* 3,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    InkWell(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.red,
+                        size: SizeConfig.blockSizeHorizontal !* 6.2,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    child: Row(
-                      children: <Widget>[
-                        InkWell(
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal !* 6.2,
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal !* 6,
+                    ),
+                    Text(
+                      "Choose Action",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    launchURL("tel:$emergencyNumber");
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal !* 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
                           ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 6,
-                        ),
-                        Text(
-                          "Choose Action",
-                          textAlign: TextAlign.center,
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Call",
+                          textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            fontSize: 15,
+                            color: Colors.black,
                             decoration: TextDecoration.none,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        launchURL("tel:$emergencyNumber");
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
+                      ))),
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _sendSMS(
+                        "Hi, this is $name, I am in emergency! Need your help.",
+                        ["$emergencyNumber"]);
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal !* 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
                           ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Sms",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            decoration: TextDecoration.none,
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Call",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        _sendSMS(
-                            "Hi, this is $name, I am in emergency! Need your help.",
-                            ["$emergencyNumber"]);
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
-                          ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Sms",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                ],
-              ),
-            ));
+                        ),
+                      ))),
+            ],
+          ),
+        ));
   }
 
   Future<void> scanTheQRCodeNow(BuildContext context) async {
@@ -863,9 +864,9 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                       Align(
                           alignment: Alignment.topLeft,
                           child:
-                              /*Row(
+                          /*Row(
                             children: <Widget>[*/
-                              /*Expanded(
+                          /*Expanded(
                                 child: Text("Unique ID - $patientID",
                                     style: TextStyle(
                                       color: Colors.white,
@@ -873,16 +874,16 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                                           SizeConfig.blockSizeHorizontal * 3.6,
                                     )),
                               ),*/
-                              Align(
+                          Align(
                             alignment: Alignment.topRight,
                             child: Container(
                               child: Row(
                                 children: <Widget>[
-                                  Text("SWASTHYA SETU",
+                                  Text("SILVER TOUCH",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !* 5,
+                                        SizeConfig.blockSizeHorizontal !* 5,
                                         fontWeight: FontWeight.w500,
                                       )),
                                   Expanded(
@@ -890,7 +891,7 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                                         alignment: Alignment.centerRight,
                                         child: Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          MainAxisAlignment.end,
                                           children: [
                                             InkWell(
                                               onTap: () {
@@ -910,9 +911,9 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                               ),
                             ),
                           )
-                          /*],
+                        /*],
                           )*/
-                          ),
+                      ),
                       SizedBox(
                         height: SizeConfig.blockSizeVertical !* 0.5,
                       ),
@@ -920,40 +921,40 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                   ))),
           listPhotos.length > 0
               ? Container(
-                  height: SizeConfig.blockSizeVertical !* 25,
-                  child: AutomaticPageView2(
-                      listPhotos,
-                      listSliderImagesWebViewOuter,
-                      listSliderImagesWebViewTitleOuter),
-                )
+            height: SizeConfig.blockSizeVertical !* 25,
+            child: AutomaticPageView2(
+                listPhotos,
+                listSliderImagesWebViewOuter,
+                listSliderImagesWebViewTitleOuter),
+          )
               : Container(
-                  width: SizeConfig.blockSizeVertical !* 25,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('images/shimmer_effect.png'),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
+            width: SizeConfig.blockSizeVertical !* 25,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('images/shimmer_effect.png'),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
           Container(
               child: Center(
-            child: GridView.builder(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                itemCount: listIconName.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 1.3, crossAxisCount: 3),
-                itemBuilder: (context, index) {
-                  return /*Center(
+                child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    itemCount: listIconName.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 1.3, crossAxisCount: 3),
+                    itemBuilder: (context, index) {
+                      return /*Center(
                       child: */
-                      IconCard(
-                    IconModel(listIconName[index], listImage[index], ""),
-                    getDashboardData,
-                  );
-                  //: Container(),
-                  /*);*/
-                }),
-          )),
+                        IconCard(
+                          IconModel(listIconName[index], listImage[index], ""),
+                          getDashboardData,
+                        );
+                      //: Container(),
+                      /*);*/
+                    }),
+              )),
           SizedBox(
             height: SizeConfig.blockSizeVertical !* 1,
           ),
@@ -967,7 +968,9 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                     child: MaterialButton(
                         height: SizeConfig.blockSizeVertical * 8,
                         shape: Border.all(width: 0.5, color: Color(0xFF06A759)),
-                        */ /*color: Color(0xFFD3D3D3),*/ /*
+                        */
+          /*color: Color(0xFFD3D3D3),*/
+          /*
                         onPressed: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
@@ -1003,7 +1006,9 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                     child: MaterialButton(
                         height: SizeConfig.blockSizeVertical * 8,
                         shape: Border.all(width: 0.5, color: Color(0xFF06A759)),
-                        */ /*color: Color(0xFFD3D3D3),*/ /*
+                        */
+          /*color: Color(0xFFD3D3D3),*/
+          /*
                         onPressed: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: ((context) {
@@ -1085,7 +1090,8 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                               width: SizeConfig.blockSizeHorizontal * 95,
                               height: SizeConfig.blockSizeVertical * 33,
                             ),
-                            */ /*Image(
+                            */
+          /*Image(
                                         width:
                                             SizeConfig.blockSizeHorizontal * 90,
                                         height:
@@ -1093,7 +1099,8 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                                         fit: BoxFit.fill,
                                         image: NetworkImage(
                                             listHealthVideos[index].image),
-                                      ),*/ /*
+                                      ),*/
+          /*
                             Align(
                               alignment: Alignment.center,
                               child: Icon(
@@ -1124,7 +1131,8 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                                 ),
                               ),
                             )),
-                        */ /*SizedBox(
+                        */
+          /*SizedBox(
                                                 height: SizeConfig
                                                         .blockSizeVertical *
                                                     1,
@@ -1150,7 +1158,8 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                                                             3.5,
                                                       ),
                                                     ),
-                                                  )),*/ /*
+                                                  )),*/
+          /*
                         SizedBox(
                           height: SizeConfig.blockSizeVertical * 3,
                         ),
@@ -1250,20 +1259,20 @@ class AutomaticPageViewState extends State<AutomaticPageView> {
     super.initState();
     if (subSliderTimeGlobal != "") {
       Timer.periodic(Duration(seconds: int.parse(subSliderTimeGlobal)),
-          (Timer timer) {
-        if (_currentPage < widget.listViewPagerImages.length - 1) {
-          _currentPage++;
-        } else {
-          _currentPage = 0;
-        }
+              (Timer timer) {
+            if (_currentPage < widget.listViewPagerImages.length - 1) {
+              _currentPage++;
+            } else {
+              _currentPage = 0;
+            }
 
-        if (mounted)
-          _pageController.animateToPage(
-            _currentPage,
-            duration: Duration(milliseconds: 350),
-            curve: Curves.easeIn,
-          );
-      });
+            if (mounted)
+              _pageController.animateToPage(
+                _currentPage,
+                duration: Duration(milliseconds: 350),
+                curve: Curves.easeIn,
+              );
+          });
     }
   }
 
@@ -1322,20 +1331,20 @@ class AutomaticPageViewState2 extends State<AutomaticPageView2> {
     subSliderTimeGlobal = '3';
     if (subSliderTimeGlobal != "") {
       Timer.periodic(Duration(seconds: int.parse(subSliderTimeGlobal)),
-          (Timer timer) {
-        if (_currentPage < widget.listViewPagerImages.length - 1) {
-          _currentPage++;
-        } else {
-          _currentPage = 0;
-        }
+              (Timer timer) {
+            if (_currentPage < widget.listViewPagerImages.length - 1) {
+              _currentPage++;
+            } else {
+              _currentPage = 0;
+            }
 
-        if (mounted)
-          _pageController.animateToPage(
-            _currentPage,
-            duration: Duration(milliseconds: 350),
-            curve: Curves.easeIn,
-          );
-      });
+            if (mounted)
+              _pageController.animateToPage(
+                _currentPage,
+                duration: Duration(milliseconds: 350),
+                curve: Curves.easeIn,
+              );
+          });
     }
   }
 
@@ -1536,7 +1545,7 @@ class IconCard extends StatelessWidget {
           child: Center(
             child: Container(
               child: Column(
-                  /*mainAxisSize: MainAxisSize.values[200],*/
+                /*mainAxisSize: MainAxisSize.values[200],*/
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -1702,140 +1711,140 @@ class IconCard extends StatelessWidget {
         context: context,
         barrierDismissible: false,
         builder: (context) => Dialog(
-              /*shape: RoundedRectangleBorder(
+          /*shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),*/
-              backgroundColor: Colors.white,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal !* 3,
+          backgroundColor: Colors.white,
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(
+                  SizeConfig.blockSizeHorizontal !* 3,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    InkWell(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.red,
+                        size: SizeConfig.blockSizeHorizontal !* 6.2,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    child: Row(
-                      children: <Widget>[
-                        InkWell(
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal !* 6.2,
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal !* 6,
+                    ),
+                    Text(
+                      "Choose Language",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                        builder: (context) => CoronaQuestionnaireScreen(
+                            patientIDP, "eng")))
+                        .then((value) {
+                      getDashBoardData!();
+                    });
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal !* 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
                           ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 6,
-                        ),
-                        Text(
-                          "Choose Language",
-                          textAlign: TextAlign.center,
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "English",
+                          textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            fontSize: 15,
+                            color: Colors.black,
                             decoration: TextDecoration.none,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (context) => CoronaQuestionnaireScreen(
-                                    patientIDP, "eng")))
-                            .then((value) {
-                          getDashBoardData!();
-                        });
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
+                      ))),
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                        builder: (context) => CoronaQuestionnaireScreen(
+                            patientIDP, "guj")))
+                        .then((value) {
+                      getDashBoardData!();
+                    });
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal !* 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
                           ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Gujarati",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            decoration: TextDecoration.none,
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "English",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (context) => CoronaQuestionnaireScreen(
-                                    patientIDP, "guj")))
-                            .then((value) {
-                          getDashBoardData!();
-                        });
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
-                          ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Gujarati",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                ],
-              ),
-            ));
+                        ),
+                      ))),
+            ],
+          ),
+        ));
   }
 }
 

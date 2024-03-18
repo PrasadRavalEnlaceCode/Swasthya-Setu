@@ -3,17 +3,19 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:swasthyasetu/app_screens/play_video_screen.dart';
-import 'package:swasthyasetu/app_screens/select_patients_for_share_video.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_login_icons_model.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-
+import 'package:silvertouch/app_screens/play_video_screen.dart';
+import 'package:silvertouch/app_screens/select_patients_for_share_video.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/response_login_icons_model.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 import '../utils/color.dart';
 
 class DoctorHealthVideos extends StatefulWidget {
-
   final String sourceScreen;
 
   DoctorHealthVideos({required this.sourceScreen});
@@ -41,326 +43,316 @@ class DoctorHealthVideosState extends State<DoctorHealthVideos> {
     SizeConfig().init(context);
     return !isLoading && listHealthVideos.length > 0
         ? ListView.builder(
-        shrinkWrap: true,
-        itemCount: listHealthVideos.length,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              debugPrint("vid play");
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => VideoPlayerScreen(
-                      listHealthVideos[index].webView!,
-                      listHealthVideos[index].iconName!,
-                      listHealthVideos[index].description!)));
-            },
-            child: Padding(
-              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2),
-              child: Column(
-                children: <Widget>[
-                  Stack(
-                    alignment: Alignment.center,
+            shrinkWrap: true,
+            itemCount: listHealthVideos.length,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  debugPrint("vid play");
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => VideoPlayerScreen(
+                          listHealthVideos[index].webView!,
+                          listHealthVideos[index].iconName!,
+                          listHealthVideos[index].description!)));
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 2),
+                  child: Column(
                     children: <Widget>[
-                      CachedNetworkImage(
-                        placeholder: (context, url) => Image(
-                          width: SizeConfig.blockSizeHorizontal !* 92,
-                          height: SizeConfig.blockSizeVertical !* 32,
-                          image: AssetImage('images/shimmer_effect.png'),
-                          fit: BoxFit.contain,
-                        ),
-                        imageUrl:
-                        "https://img.youtube.com/vi/${listHealthVideos[index].image}/hqdefault.jpg",
-                        fit: BoxFit.fitWidth,
-                        width: SizeConfig.blockSizeHorizontal !* 95,
-                        height: SizeConfig.blockSizeVertical !* 33,
+                      Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          CachedNetworkImage(
+                            placeholder: (context, url) => Image(
+                              width: SizeConfig.blockSizeHorizontal! * 92,
+                              height: SizeConfig.blockSizeVertical! * 32,
+                              image: AssetImage('images/shimmer_effect.png'),
+                              fit: BoxFit.contain,
+                            ),
+                            imageUrl:
+                                "https://img.youtube.com/vi/${listHealthVideos[index].image}/hqdefault.jpg",
+                            fit: BoxFit.fitWidth,
+                            width: SizeConfig.blockSizeHorizontal! * 95,
+                            height: SizeConfig.blockSizeVertical! * 33,
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.play_arrow,
+                              color: Colors.green,
+                              size: SizeConfig.blockSizeHorizontal! * 30,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical! * 1,
                       ),
                       Align(
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.play_arrow,
-                          color: Colors.green,
-                          size: SizeConfig.blockSizeHorizontal !* 30,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical !* 1,
-                  ),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal !* 2,
-                            right: SizeConfig.blockSizeHorizontal !* 2),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              listHealthVideos[index].iconName!,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize:
-                                SizeConfig.blockSizeHorizontal !* 4.2,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical !* 1.5,
-                            ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   crossAxisAlignment: CrossAxisAlignment.center,
-                            //   children: [
-                            //     Expanded(
-                            //       child: Align(
-                            //         alignment: Alignment.center,
-                            //         child: InkWell(
-                            //           customBorder:
-                            //           RoundedRectangleBorder(
-                            //             borderRadius:
-                            //             BorderRadius.circular(
-                            //               SizeConfig.blockSizeHorizontal !*
-                            //                   10.0,
-                            //             ),
-                            //           ),
-                            //           onTap: () {
-                            //             Share.share(
-                            //                 '$userName has referred you one Educational Video to watch, that may be useful to you.\nClick below link to view\n\n${listHealthVideos[index].webView}');
-                            //           },
-                            //           child: Container(
-                            //             padding: EdgeInsets.all(
-                            //               SizeConfig.blockSizeHorizontal !*
-                            //                   2.0,
-                            //             ),
-                            //             decoration: BoxDecoration(
-                            //               borderRadius:
-                            //               BorderRadius.circular(
-                            //                 SizeConfig
-                            //                     .blockSizeHorizontal !*
-                            //                     10.0,
-                            //               ),
-                            //               border: Border.all(
-                            //                 color: Colors.black,
-                            //                 width: 0.8,
-                            //               ),
-                            //             ),
-                            //             child:
-                            //             Row(
-                            //               mainAxisSize: MainAxisSize.min,
-                            //               children: [
-                            //                 Image.asset(
-                            //                   "images/ic_share_externally.png",
-                            //                   width: SizeConfig
-                            //                       .blockSizeHorizontal !*
-                            //                       6.0,
-                            //                   height: SizeConfig
-                            //                       .blockSizeHorizontal !*
-                            //                       5.0,
-                            //                   color: Colors.blueGrey[600],
-                            //                 ),
-                            //                 SizedBox(
-                            //                   width: SizeConfig
-                            //                       .blockSizeHorizontal !*
-                            //                       2.0,
-                            //                 ),
-                            //                 Text(
-                            //                   "Share Externally",
-                            //                   textAlign: TextAlign.left,
-                            //                   style: TextStyle(
-                            //                     color:
-                            //                     Colors.blueGrey[600],
-                            //                     fontSize: SizeConfig
-                            //                         .blockSizeHorizontal !*
-                            //                         4.0,
-                            //                   ),
-                            //                 ),
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal! * 2,
+                                right: SizeConfig.blockSizeHorizontal! * 2),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: InkWell(
-                                    onTap: () {
-                                      onPressedFunction(index);
-                                    },
-                                    customBorder:
-                                    RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(
-                                        SizeConfig.blockSizeHorizontal !*
-                                            10.0,
-                                      ),
-                                    ),
-                                    child: Container(
-                                      padding: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal !*
-                                            2.0,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                          SizeConfig
-                                              .blockSizeHorizontal !*
-                                              10.0,
-                                        ),
-                                        border: Border.all(
-                                            color: Colors.black,
-                                            width: 0.8),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Image.asset(
-                                            "images/ic_notify_on_app.png",
-                                            width: SizeConfig
-                                                .blockSizeHorizontal !*
-                                                6.0,
-                                            height: SizeConfig
-                                                .blockSizeHorizontal !*
-                                                6.0,
-                                            color: Colors.blueGrey[600],
-                                          ),
-                                          SizedBox(
-                                            width: SizeConfig
-                                                .blockSizeHorizontal !*
-                                                1.0,
-                                          ),
-                                           Text(
-                                            "Notify on App",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color:
-                                              Colors.blueGrey[600],
-                                              fontSize: SizeConfig
-                                                  .blockSizeHorizontal !*
-                                                  3.0,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                Text(
+                                  listHealthVideos[index].iconName!,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal! * 4.2,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: InkWell(
-                                    customBorder:
-                                    RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(
-                                        SizeConfig.blockSizeHorizontal !*
-                                            10.0,
+                                SizedBox(
+                                  height: SizeConfig.blockSizeVertical! * 1.5,
+                                ),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   crossAxisAlignment: CrossAxisAlignment.center,
+                                //   children: [
+                                //     Expanded(
+                                //       child: Align(
+                                //         alignment: Alignment.center,
+                                //         child: InkWell(
+                                //           customBorder:
+                                //           RoundedRectangleBorder(
+                                //             borderRadius:
+                                //             BorderRadius.circular(
+                                //               SizeConfig.blockSizeHorizontal !*
+                                //                   10.0,
+                                //             ),
+                                //           ),
+                                //           onTap: () {
+                                //             Share.share(
+                                //                 '$userName has referred you one Educational Video to watch, that may be useful to you.\nClick below link to view\n\n${listHealthVideos[index].webView}');
+                                //           },
+                                //           child: Container(
+                                //             padding: EdgeInsets.all(
+                                //               SizeConfig.blockSizeHorizontal !*
+                                //                   2.0,
+                                //             ),
+                                //             decoration: BoxDecoration(
+                                //               borderRadius:
+                                //               BorderRadius.circular(
+                                //                 SizeConfig
+                                //                     .blockSizeHorizontal !*
+                                //                     10.0,
+                                //               ),
+                                //               border: Border.all(
+                                //                 color: Colors.black,
+                                //                 width: 0.8,
+                                //               ),
+                                //             ),
+                                //             child:
+                                //             Row(
+                                //               mainAxisSize: MainAxisSize.min,
+                                //               children: [
+                                //                 Image.asset(
+                                //                   "images/ic_share_externally.png",
+                                //                   width: SizeConfig
+                                //                       .blockSizeHorizontal !*
+                                //                       6.0,
+                                //                   height: SizeConfig
+                                //                       .blockSizeHorizontal !*
+                                //                       5.0,
+                                //                   color: Colors.blueGrey[600],
+                                //                 ),
+                                //                 SizedBox(
+                                //                   width: SizeConfig
+                                //                       .blockSizeHorizontal !*
+                                //                       2.0,
+                                //                 ),
+                                //                 Text(
+                                //                   "Share Externally",
+                                //                   textAlign: TextAlign.left,
+                                //                   style: TextStyle(
+                                //                     color:
+                                //                     Colors.blueGrey[600],
+                                //                     fontSize: SizeConfig
+                                //                         .blockSizeHorizontal !*
+                                //                         4.0,
+                                //                   ),
+                                //                 ),
+                                //               ],
+                                //             ),
+                                //           ),
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: InkWell(
+                                        onTap: () {
+                                          onPressedFunction(index);
+                                        },
+                                        customBorder: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            SizeConfig.blockSizeHorizontal! *
+                                                10.0,
+                                          ),
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.all(
+                                            SizeConfig.blockSizeHorizontal! *
+                                                2.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  10.0,
+                                            ),
+                                            border: Border.all(
+                                                color: Colors.black,
+                                                width: 0.8),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Image.asset(
+                                                "images/ic_notify_on_app.png",
+                                                width: SizeConfig
+                                                        .blockSizeHorizontal! *
+                                                    6.0,
+                                                height: SizeConfig
+                                                        .blockSizeHorizontal! *
+                                                    6.0,
+                                                color: Colors.blueGrey[600],
+                                              ),
+                                              SizedBox(
+                                                width: SizeConfig
+                                                        .blockSizeHorizontal! *
+                                                    1.0,
+                                              ),
+                                              Text(
+                                                "Notify on App",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  color: Colors.blueGrey[600],
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal! *
+                                                      3.0,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    onTap: () {
-                                      Share.share(
-                                          '$userName has referred you one Educational Video to watch, that may be useful to you.\nClick below link to view\n\n${listHealthVideos[index].webView}');
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal !*
-                                            2.0,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                          SizeConfig
-                                              .blockSizeHorizontal !*
-                                              10.0,
-                                        ),
-                                        border: Border.all(
-                                          color: Colors.black,
-                                          width: 0.8,
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Image.asset(
-                                            "images/ic_share_externally.png",
-                                            width: SizeConfig
-                                                .blockSizeHorizontal !*
-                                                6.0,
-                                            height: SizeConfig
-                                                .blockSizeHorizontal !*
-                                                5.0,
-                                            color: Colors.blueGrey[600],
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: InkWell(
+                                        customBorder: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            SizeConfig.blockSizeHorizontal! *
+                                                10.0,
                                           ),
-                                          SizedBox(
-                                            width: SizeConfig
-                                                .blockSizeHorizontal !*
-                                                1.0,
+                                        ),
+                                        onTap: () {
+                                          Share.share(
+                                              '$userName has referred you one Educational Video to watch, that may be useful to you.\nClick below link to view\n\n${listHealthVideos[index].webView}');
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(
+                                            SizeConfig.blockSizeHorizontal! *
+                                                2.0,
                                           ),
-                                          Text(
-                                            "Share Externally",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color:
-                                              Colors.blueGrey[600],
-                                              fontSize: SizeConfig
-                                                  .blockSizeHorizontal !*
-                                                  3.0,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  10.0,
+                                            ),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 0.8,
                                             ),
                                           ),
-                                        ],
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Image.asset(
+                                                "images/ic_share_externally.png",
+                                                width: SizeConfig
+                                                        .blockSizeHorizontal! *
+                                                    6.0,
+                                                height: SizeConfig
+                                                        .blockSizeHorizontal! *
+                                                    5.0,
+                                                color: Colors.blueGrey[600],
+                                              ),
+                                              SizedBox(
+                                                width: SizeConfig
+                                                        .blockSizeHorizontal! *
+                                                    1.0,
+                                              ),
+                                              Text(
+                                                "Share Externally",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  color: Colors.blueGrey[600],
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal! *
+                                                      3.0,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      )),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical !* 3,
+                          )),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical! * 3,
+                      ),
+                    ],
                   ),
-                ],
+                ),
+              );
+            })
+        : Center(
+            child: Container(
+              width: SizeConfig.blockSizeHorizontal! * 30,
+              child: SizedBox(
+                height: SizeConfig.blockSizeVertical! * 80,
+                width: SizeConfig.blockSizeHorizontal! * 100,
+                child: Container(
+                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Image(
+                        image: AssetImage("images/ic_idea_new.png"),
+                        width: 200,
+                        height: 100,
+                      ),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      Text(
+                        "No Patient Resources Found.",
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           );
-        })
-        : Center(  child: Container(
-           width: SizeConfig.blockSizeHorizontal !* 30,
-           child: SizedBox(
-             height: SizeConfig.blockSizeVertical !* 80,
-             width: SizeConfig.blockSizeHorizontal !* 100,
-             child: Container(
-               padding: EdgeInsets.all(
-                   SizeConfig.blockSizeHorizontal !* 5),
-               child: Column(
-                 crossAxisAlignment: CrossAxisAlignment.center,
-                 children: <Widget>[
-                   Image(
-                     image: AssetImage("images/ic_idea_new.png"),
-                     width: 200,
-                     height: 100,
-                   ),
-                   SizedBox(
-                     height: 30.0,
-                   ),
-                   Text(
-                     "No Patient Resources Found.",
-                     style: TextStyle(
-                         fontSize: 16.0,
-                         fontWeight: FontWeight.w500),
-                   ),
-                 ],
-               ),
-             ),
-           ),
-        ),
-    );
   }
 
   void onPressedFunction(int index) {
@@ -369,10 +361,7 @@ class DoctorHealthVideosState extends State<DoctorHealthVideos> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                SelectPatientsForShareVideo(
-                    listHealthVideos[
-                    index],
-                    userName)),
+                SelectPatientsForShareVideo(listHealthVideos[index], userName)),
       );
       print('Button pressed from DoctorDashboardScreen');
     } else if (widget.sourceScreen == 'PatientResourcesFromProfileScreen') {
@@ -492,6 +481,4 @@ class DoctorHealthVideosState extends State<DoctorHealthVideos> {
     var bytes = base64.decode(text);
     return String.fromCharCodes(bytes);
   }
-
-
 }

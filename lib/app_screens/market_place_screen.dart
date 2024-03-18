@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
 
 import '../controllers/add_camp_controller.dart';
 import '../utils/color.dart';
@@ -21,18 +21,18 @@ class MarketPlaceScreen extends StatelessWidget {
           title: Text(str_add_camp),
           backgroundColor: Color(0xFFFFFFFF),
           iconTheme: IconThemeData(
-              color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2),
+              color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.2),
           toolbarTextStyle: TextTheme(
                   titleMedium: TextStyle(
                       color: Colorsblack,
                       fontFamily: FONT_NAME,
-                      fontSize: SizeConfig.blockSizeVertical !* 2.5))
+                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
               .bodyMedium,
           titleTextStyle: TextTheme(
                   titleMedium: TextStyle(
                       color: Colorsblack,
                       fontFamily: FONT_NAME,
-                      fontSize: SizeConfig.blockSizeVertical !* 2.5))
+                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
               .titleLarge,
         ),
         body: Container(
@@ -48,21 +48,21 @@ class MarketPlaceScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 85,
+                        width: SizeConfig.blockSizeHorizontal! * 85,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: controller.campNameController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: str_camp_name,
                             hintText: "",
                           ),
@@ -72,21 +72,21 @@ class MarketPlaceScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 85,
+                        width: SizeConfig.blockSizeHorizontal! * 85,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: controller.campDetailController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: str_camp_details,
                             hintText: "",
                           ),
@@ -106,15 +106,16 @@ class MarketPlaceScreen extends StatelessWidget {
                               str_effect_fromDate);
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: controller.campDateController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 suffixIcon: IconButton(
                                   icon: Icon(Icons.calendar_today),
@@ -123,11 +124,11 @@ class MarketPlaceScreen extends StatelessWidget {
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: str_camp_date,
                                 hintText: "",
                               ),
@@ -144,15 +145,16 @@ class MarketPlaceScreen extends StatelessWidget {
                               context, controller.campTimeController!.text);
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: controller.campTimeController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 suffixIcon: IconButton(
                                   icon: Icon(Icons.access_time),
@@ -161,11 +163,11 @@ class MarketPlaceScreen extends StatelessWidget {
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: str_camp_time,
                                 hintText: "",
                               ),
@@ -179,7 +181,7 @@ class MarketPlaceScreen extends StatelessWidget {
                       alignment: Alignment.topRight,
                       child: Container(
                         padding: EdgeInsets.all(
-                            SizeConfig.blockSizeHorizontal !* 2.5),
+                            SizeConfig.blockSizeHorizontal! * 2.5),
                         decoration: BoxDecoration(
                           color: Color(0xFF06A759),
                           shape: BoxShape.circle,
@@ -189,8 +191,8 @@ class MarketPlaceScreen extends StatelessWidget {
                             controller.webcallSubmitAddCamp(context);
                           },
                           child: Image(
-                            width: SizeConfig.blockSizeHorizontal !* 5.5,
-                            height: SizeConfig.blockSizeHorizontal !* 5.5,
+                            width: SizeConfig.blockSizeHorizontal! * 5.5,
+                            height: SizeConfig.blockSizeHorizontal! * 5.5,
                             //height: 80,
                             image: AssetImage(
                                 "images/ic_right_arrow_triangular.png"),

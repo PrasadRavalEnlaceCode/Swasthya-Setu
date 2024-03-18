@@ -1,12 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/api/api_helper.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_investigation_master_list.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/api/api_helper.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/model_investigation_master_list.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 
@@ -46,16 +50,18 @@ class InvestigationMasterListScreenState
         appBar: AppBar(
           title: Text("Investigation Masters"),
           backgroundColor: Color(0xFFFFFFFF),
-          iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+          iconTheme: IconThemeData(color: Colorsblack),
+          toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
-          )).bodyMedium, titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          )).bodyMedium,
+          titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
           )).titleLarge,
         ),
         body: Builder(
@@ -125,8 +131,8 @@ class InvestigationMasterListScreenState
                               elevation: 2.0,
                               fillColor: Color(0xFF06A759),
                               child: Image(
-                                width: SizeConfig.blockSizeHorizontal !* 5.5,
-                                height: SizeConfig.blockSizeHorizontal !* 5.5,
+                                width: SizeConfig.blockSizeHorizontal! * 5.5,
+                                height: SizeConfig.blockSizeHorizontal! * 5.5,
                                 //height: 80,
                                 image: AssetImage(
                                     "images/ic_right_arrow_triangular.png"),
@@ -400,7 +406,8 @@ class InvestigationMasterListScreenState
   }
 
   void goToInvestigationSubmitScreen(BuildContext context) {
-    List<ModelInvestigationMaster> listInvestigationMasterOnlySelectedOnes = null as List<ModelInvestigationMaster>;
+    List<ModelInvestigationMaster> listInvestigationMasterOnlySelectedOnes =
+        null as List<ModelInvestigationMaster>;
     for (var i = 0; i < listInvestigationMaster.length; i++) {
       if (listInvestigationMaster[i].isChecked) {
         listInvestigationMasterOnlySelectedOnes.add(listInvestigationMaster[i]);
@@ -461,15 +468,15 @@ class MultiCardState extends State<MultiCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  widget.modelInvestigationMaster.groupName
-                  !.replaceAll("\n", "")
+                  widget.modelInvestigationMaster.groupName!
+                          .replaceAll("\n", "")
                           .replaceAll("\r", "") +
                       " -> " +
                       widget.modelInvestigationMaster.investigationType!,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: SizeConfig.blockSizeVertical !* 2.3,
+                    fontSize: SizeConfig.blockSizeVertical! * 2.3,
                   ),
                 ),
                 SizedBox(
@@ -480,7 +487,7 @@ class MultiCardState extends State<MultiCard> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: SizeConfig.blockSizeVertical !* 2.1,
+                    fontSize: SizeConfig.blockSizeVertical! * 2.1,
                   ),
                 ),
               ],

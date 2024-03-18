@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/app_screens/exercise_screen.dart';
-import 'package:swasthyasetu/controllers/exercise_list_controller.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/podo/exercise_model.dart';
+import 'package:silvertouch/app_screens/exercise_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/exercise_model.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:silvertouch/controllers/exercise_list_controller.dart';
 
 class ExerciseListScreen extends StatelessWidget {
   @override
@@ -23,7 +30,7 @@ class ExerciseListScreen extends StatelessWidget {
             "Exercises",
             style: TextStyle(
               color: Colors.black,
-              fontSize: SizeConfig.blockSizeHorizontal !* 5.5,
+              fontSize: SizeConfig.blockSizeHorizontal! * 5.5,
               fontStyle: FontStyle.italic,
               letterSpacing: 1.0,
             ),
@@ -33,15 +40,15 @@ class ExerciseListScreen extends StatelessWidget {
           color: Colors.white,
           child: Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
-                vertical: SizeConfig.blockSizeVertical !* 1.0),
+                horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
+                vertical: SizeConfig.blockSizeVertical! * 1.0),
             child: ListView(
               children: [
                 Text(
                   "We all want to exercise. But we may be confused by the variety of available options out there. Images of exercises lack details. Videos of exercises are overwhelming. GIF animations are easier to follow. So we included them here for you. We have selected exercises that are suitable for most people, and require no equipments. And you can do your modifications.",
                   style: TextStyle(
                     color: Colors.grey[600],
-                    fontSize: SizeConfig.blockSizeHorizontal !* 3.8,
+                    fontSize: SizeConfig.blockSizeHorizontal! * 3.8,
                     fontStyle: FontStyle.italic,
                     letterSpacing: 1.0,
                     wordSpacing: 1.2,
@@ -49,7 +56,7 @@ class ExerciseListScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical !* 2.0,
+                  height: SizeConfig.blockSizeVertical! * 2.0,
                 ),
                 Container(
                   child: ListView.builder(
@@ -79,15 +86,15 @@ class ExerciseListScreen extends StatelessWidget {
                                     )),
                                 margin: EdgeInsets.symmetric(
                                   horizontal:
-                                      SizeConfig.blockSizeHorizontal !* 2.0,
+                                      SizeConfig.blockSizeHorizontal! * 2.0,
                                   vertical:
-                                      SizeConfig.blockSizeHorizontal !* 2.0,
+                                      SizeConfig.blockSizeHorizontal! * 2.0,
                                 ),
                                 padding: EdgeInsets.symmetric(
                                   horizontal:
-                                      SizeConfig.blockSizeHorizontal !* 3.0,
+                                      SizeConfig.blockSizeHorizontal! * 3.0,
                                   vertical:
-                                      SizeConfig.blockSizeHorizontal !* 3.0,
+                                      SizeConfig.blockSizeHorizontal! * 3.0,
                                 ),
                                 child: Row(
                                   children: [
@@ -95,22 +102,22 @@ class ExerciseListScreen extends StatelessWidget {
                                       image: AssetImage(
                                           "images/ic_exercise_placeholder.png"),
                                       width:
-                                          SizeConfig.blockSizeHorizontal !* 10,
+                                          SizeConfig.blockSizeHorizontal! * 10,
                                       height:
-                                          SizeConfig.blockSizeHorizontal !* 10,
+                                          SizeConfig.blockSizeHorizontal! * 10,
                                       color: Colors.green,
                                       fit: BoxFit.cover,
                                     ),
                                     SizedBox(
                                       width:
-                                          SizeConfig.blockSizeHorizontal !* 5.0,
+                                          SizeConfig.blockSizeHorizontal! * 5.0,
                                     ),
                                     Text(
                                       exercise.exerciseName!,
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.5,
                                         fontWeight: FontWeight.w500,
                                       ),

@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/app_screens/add_consultation_screen.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_masters.dart';
-import 'package:swasthyasetu/podo/model_prescription.dart';
-import 'package:swasthyasetu/podo/model_templates_prescription.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:silvertouch/app_screens/add_consultation_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_masters.dart';
+import 'package:silvertouch/podo/model_prescription.dart';
+import 'package:silvertouch/podo/model_templates_prescription.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -1007,20 +1007,8 @@ class AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                             notesController = TextEditingController();
                           }
                           setState(() {});
-                        } /*: null*/),
-                    /*InkWell(
-                        onTap: () {},
-                        child: Container(
-                            color: Colors.green,
-                            child: Padding(
-                              padding: EdgeInsets.all(
-                                  SizeConfig.blockSizeHorizontal * 5),
-                              child: Text(
-                                "Add",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            )),
-                      ),*/
+                        }
+                    ),
                   ],
                 ),
               ],
@@ -1276,7 +1264,9 @@ class AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
             .masterIDP
             : "";
         jArrayPrescription =
-        "$jArrayPrescription{\"HospitalMedicineIDF\":\"$drugIDP\",\"DrugDoseScheduleIDF\":\"$drugDosageIDP\",\"DosageAdviceIDF\":\"$drugAdviceIDP\",\"Days\":\"${model.duration}\",\"Notes\":\"${model.notes}\"},";
+        "$jArrayPrescription{\"HospitalMedicineIDF\":\"$drugIDP\","
+            "\"DrugDoseScheduleIDF\":\"$drugDosageIDP\",\"DosageAdviceIDF\":\"$drugAdviceIDP\","
+            "\"Days\":\"${model.duration}\",\"Notes\":\"${model.notes}\"},";
       }
     }
     jArrayPrescription = jArrayPrescription + "]";
@@ -1660,7 +1650,6 @@ class SelectMasterDialogState extends State<SelectMasterDialog> {
         decoration: TextDecoration.none,
       ),
     );*/
-
     /*icon = Icon(
       Icons.search,
       color: Colors.blue,

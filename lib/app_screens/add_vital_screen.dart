@@ -5,13 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:swasthyasetu/controllers/slider_controller.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/dropdown_item.dart';
-import 'package:swasthyasetu/podo/model_profile_patient.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/ultimate_slider.dart';
+import 'package:silvertouch/controllers/slider_controller.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/dropdown_item.dart';
+import 'package:silvertouch/podo/model_profile_patient.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:silvertouch/utils/ultimate_slider.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -313,7 +317,7 @@ class AddVitalsScreenState extends State<AddVitalsScreen> {
 
     final now = new DateTime.now();
     var dateOfTime =
-    DateTime(now.year, now.month, now.day, now.hour, now.minute);
+        DateTime(now.year, now.month, now.day, now.hour, now.minute);
 
     pickedTime = TimeOfDay.now();
 
@@ -814,25 +818,26 @@ class AddVitalsScreenState extends State<AddVitalsScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      /*key: navigatorKey,*/
+        /*key: navigatorKey,*/
         appBar: AppBar(
           title: Text("Add $title"),
           backgroundColor: Color(0xFFFFFFFF),
           iconTheme: IconThemeData(
-              color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5), toolbarTextStyle: TextTheme(
-            subtitle1: TextStyle(
-              color: Colorsblack,
-              fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.5,
-            )).bodyText2, titleTextStyle: TextTheme(
-            subtitle1: TextStyle(
-              color: Colorsblack,
-              fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.5,
-            )).headline6,
+              color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
+          toolbarTextStyle: TextTheme(
+              subtitle1: TextStyle(
+            color: Colorsblack,
+            fontFamily: "Ubuntu",
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          )).bodyText2,
+          titleTextStyle: TextTheme(
+              subtitle1: TextStyle(
+            color: Colorsblack,
+            fontFamily: "Ubuntu",
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          )).headline6,
         ),
-        body:
-        Builder(
+        body: Builder(
           builder: (context) => Center(
             child: Builder(
               builder: (context) {
@@ -845,92 +850,92 @@ class AddVitalsScreenState extends State<AddVitalsScreen> {
                       ),
                       Expanded(
                           child: ListView(
-                            shrinkWrap: true,
+                        shrinkWrap: true,
+                        children: <Widget>[
+                          Row(
                             children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    flex: 1,
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: MaterialButton(
-                                        onPressed: () {
-                                          showDateSelectionDialog();
-                                        },
-                                        child: Container(
-                                          child: IgnorePointer(
-                                            child: TextField(
-                                              controller: entryDateController,
-                                              style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize:
-                                                  SizeConfig.blockSizeVertical !*
-                                                      2.1),
-                                              decoration: InputDecoration(
-                                                hintStyle: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: SizeConfig
-                                                        .blockSizeVertical !*
-                                                        2.1),
-                                                labelStyle: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: SizeConfig
-                                                        .blockSizeVertical !*
-                                                        2.1),
-                                                labelText: "Entry Date",
-                                                hintText: "",
-                                              ),
-                                            ),
+                              Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: MaterialButton(
+                                    onPressed: () {
+                                      showDateSelectionDialog();
+                                    },
+                                    child: Container(
+                                      child: IgnorePointer(
+                                        child: TextField(
+                                          controller: entryDateController,
+                                          style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  2.1),
+                                          decoration: InputDecoration(
+                                            hintStyle: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: SizeConfig
+                                                        .blockSizeVertical! *
+                                                    2.1),
+                                            labelStyle: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: SizeConfig
+                                                        .blockSizeVertical! *
+                                                    2.1),
+                                            labelText: "Entry Date",
+                                            hintText: "",
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: widget.vitalGroupIDP != "8"
-                                          ? MaterialButton(
-                                        onPressed: () {
-                                          showTimeSelectionDialog();
-                                        },
-                                        child: Container(
-                                          child: IgnorePointer(
-                                            child: TextField(
-                                              controller: entryTimeController,
-                                              style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: SizeConfig
-                                                      .blockSizeVertical !*
-                                                      2.1),
-                                              decoration: InputDecoration(
-                                                hintStyle: TextStyle(
-                                                    color: Colors.black,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: widget.vitalGroupIDP != "8"
+                                      ? MaterialButton(
+                                          onPressed: () {
+                                            showTimeSelectionDialog();
+                                          },
+                                          child: Container(
+                                            child: IgnorePointer(
+                                              child: TextField(
+                                                controller: entryTimeController,
+                                                style: TextStyle(
+                                                    color: Colors.green,
                                                     fontSize: SizeConfig
-                                                        .blockSizeVertical !*
+                                                            .blockSizeVertical! *
                                                         2.1),
-                                                labelStyle: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: SizeConfig
-                                                        .blockSizeVertical !*
-                                                        2.1),
-                                                labelText: "Entry Time",
-                                                hintText: "",
+                                                decoration: InputDecoration(
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: SizeConfig
+                                                              .blockSizeVertical! *
+                                                          2.1),
+                                                  labelStyle: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: SizeConfig
+                                                              .blockSizeVertical! *
+                                                          2.1),
+                                                  labelText: "Entry Time",
+                                                  hintText: "",
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                          : Container(),
-                                    ),
-                                  ),
-                                ],
+                                        )
+                                      : Container(),
+                                ),
                               ),
-                              SizedBox(
-                                height: 18.0,
-                              ),
-                              /*Visibility(
+                            ],
+                          ),
+                          SizedBox(
+                            height: 18.0,
+                          ),
+                          /*Visibility(
                           visible: widget.vitalGroupIDP == "2",
                           child: SliderWidgetDecimal(
                             min: 94,
@@ -941,277 +946,277 @@ class AddVitalsScreenState extends State<AddVitalsScreen> {
                             isChecked: isCheckedTemp,
                           ),
                         ),*/
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "1",
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal !* 5,
-                                      bottom: SizeConfig.blockSizeHorizontal !* 5),
-                                  child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(
-                                      "Blood Pressure",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize:
-                                        SizeConfig.blockSizeHorizontal !* 4,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.black,
-                                      ),
-                                    ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "1",
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal! * 5,
+                                  bottom: SizeConfig.blockSizeHorizontal! * 5),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  "Blood Pressure",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal! * 4,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
                                   ),
                                 ),
                               ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "1",
-                                child: SliderWidget(
-                                  min: 30,
-                                  max: 300,
-                                  value: bpSystolicValue.toDouble(),
-                                  title: "Systolic",
-                                  unit: "mm of hg",
-                                  isChecked: isCheckedBpSystolic,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "1",
-                                child: SliderWidget(
-                                  min: 10,
-                                  max: 200,
-                                  value: bpDiastolicValue.toDouble(),
-                                  title: "Diastolic",
-                                  unit: "mm of hg",
-                                  isChecked: isCheckedBpDiastolic,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "2",
-                                child: SliderWidget(
-                                  min: 94,
-                                  max: 105,
-                                  value: tempValue,
-                                  title: "Temperature",
-                                  unit: "\u2109",
-                                  isDecimal: true,
-                                  isChecked: isCheckedTemp,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "2",
-                                child: SliderWidget(
-                                  min: 20,
-                                  max: 250,
-                                  value: pulseValue.toDouble(),
-                                  title: "Pulse",
-                                  unit: "per min.",
-                                  isChecked: isCheckedPulse,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "2",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 100,
-                                  value: spo2Value.toDouble(),
-                                  title: "SPO2",
-                                  unit: "%",
-                                  isChecked: isCheckedSpo2,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "2",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 70,
-                                  value: rrValue.toDouble(),
-                                  title: "Respiratory Rate",
-                                  unit: "per min.",
-                                  isChecked: isCheckedRr,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "3",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 500,
-                                  value: fbsValue.toDouble(),
-                                  title: "FBS",
-                                  unit: "mg/dl",
-                                  isChecked: isCheckedFbs,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "3",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 500,
-                                  value: ppbsValue.toDouble(),
-                                  title: "PPBS",
-                                  unit: "mg/dl",
-                                  isChecked: isCheckedPpbs,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "3",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 500,
-                                  value: rbsValue.toDouble(),
-                                  title: "RBS",
-                                  unit: "mg/dl",
-                                  isChecked: isCheckedRbs,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "3",
-                                child: SliderWidget(
-                                  min: 2,
-                                  max: 12,
-                                  value: hba1cValue.toDouble(),
-                                  title: "HbA1C",
-                                  unit: "mg/dl",
-                                  isChecked: isCheckedHba1c,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "4",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 200,
-                                  value: heightValue.toDouble(),
-                                  title: "Height",
-                                  unit: "Centimeter",
-                                  callbackFromBMI: callbackFromBMI,
-                                  isChecked: isCheckedHeight,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "4",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 120,
-                                  value: weightValue.toDouble(),
-                                  title: "Weight",
-                                  unit: "Kg",
-                                  callbackFromBMI: callbackFromBMI,
-                                  isChecked: isCheckedWeight,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "5",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 300,
-                                  value: exerciseValue.toDouble(),
-                                  title: "Exercise",
-                                  unit: "Minutes",
-                                  callbackFromBMI: callbackFromBMI,
-                                  isChecked: isCheckedExercise,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "5",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 180,
-                                  value: walkingValue.toDouble(),
-                                  title: "Walking",
-                                  unit: "Minutes",
-                                  callbackFromBMI: callbackFromBMI,
-                                  isChecked: isCheckedWalking,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "5",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 200,
-                                  value: waistValue.toDouble(),
-                                  title: "Waist",
-                                  unit: "cm",
-                                  callbackFromBMI: callbackFromBMI,
-                                  isChecked: isCheckedWaist,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "5",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 200,
-                                  value: hipValue.toDouble(),
-                                  title: "Hip",
-                                  unit: "cm",
-                                  callbackFromBMI: callbackFromBMI,
-                                  isChecked: isCheckedHip,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "6",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 100,
-                                  value: tshValue,
-                                  title: "TSH",
-                                  unit: "uIU/mL",
-                                  isChecked: isCheckedTSH,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "6",
-                                child: SliderWidget(
-                                  min: 20,
-                                  max: 500,
-                                  value: t3Value,
-                                  title: "T3",
-                                  unit: "ng/dL",
-                                  isChecked: isCheckedT3,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "6",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 25,
-                                  value: t4Value,
-                                  title: "T4",
-                                  unit: "ug/dL",
-                                  isChecked: isCheckedT4,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "6",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 25,
-                                  value: freeT3Value,
-                                  title: "Free T3",
-                                  unit: "pg/mL",
-                                  isChecked: isCheckedFreeT3,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "6",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 25,
-                                  value: freeT4Value,
-                                  title: "Free T4",
-                                  unit: "ng/dL",
-                                  isChecked: isCheckedFreeT4,
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "8",
-                                child: SliderWidget(
-                                  min: 0,
-                                  max: 12,
-                                  value: sleepValue.toDouble(),
-                                  title: "Sleep",
-                                  unit: "Hours",
-                                  isChecked: isCheckedSleep,
-                                ),
-                              ),
-                              /*Visibility(
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "1",
+                            child: SliderWidget(
+                              min: 30,
+                              max: 300,
+                              value: bpSystolicValue.toDouble(),
+                              title: "Systolic",
+                              unit: "mm of hg",
+                              isChecked: isCheckedBpSystolic,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "1",
+                            child: SliderWidget(
+                              min: 10,
+                              max: 200,
+                              value: bpDiastolicValue.toDouble(),
+                              title: "Diastolic",
+                              unit: "mm of hg",
+                              isChecked: isCheckedBpDiastolic,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "2",
+                            child: SliderWidget(
+                              min: 94,
+                              max: 105,
+                              value: tempValue,
+                              title: "Temperature",
+                              unit: "\u2109",
+                              isDecimal: true,
+                              isChecked: isCheckedTemp,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "2",
+                            child: SliderWidget(
+                              min: 20,
+                              max: 250,
+                              value: pulseValue.toDouble(),
+                              title: "Pulse",
+                              unit: "per min.",
+                              isChecked: isCheckedPulse,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "2",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 100,
+                              value: spo2Value.toDouble(),
+                              title: "SPO2",
+                              unit: "%",
+                              isChecked: isCheckedSpo2,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "2",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 70,
+                              value: rrValue.toDouble(),
+                              title: "Respiratory Rate",
+                              unit: "per min.",
+                              isChecked: isCheckedRr,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "3",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 500,
+                              value: fbsValue.toDouble(),
+                              title: "FBS",
+                              unit: "mg/dl",
+                              isChecked: isCheckedFbs,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "3",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 500,
+                              value: ppbsValue.toDouble(),
+                              title: "PPBS",
+                              unit: "mg/dl",
+                              isChecked: isCheckedPpbs,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "3",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 500,
+                              value: rbsValue.toDouble(),
+                              title: "RBS",
+                              unit: "mg/dl",
+                              isChecked: isCheckedRbs,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "3",
+                            child: SliderWidget(
+                              min: 2,
+                              max: 12,
+                              value: hba1cValue.toDouble(),
+                              title: "HbA1C",
+                              unit: "mg/dl",
+                              isChecked: isCheckedHba1c,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "4",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 200,
+                              value: heightValue.toDouble(),
+                              title: "Height",
+                              unit: "Centimeter",
+                              callbackFromBMI: callbackFromBMI,
+                              isChecked: isCheckedHeight,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "4",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 120,
+                              value: weightValue.toDouble(),
+                              title: "Weight",
+                              unit: "Kg",
+                              callbackFromBMI: callbackFromBMI,
+                              isChecked: isCheckedWeight,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "5",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 300,
+                              value: exerciseValue.toDouble(),
+                              title: "Exercise",
+                              unit: "Minutes",
+                              callbackFromBMI: callbackFromBMI,
+                              isChecked: isCheckedExercise,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "5",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 180,
+                              value: walkingValue.toDouble(),
+                              title: "Walking",
+                              unit: "Minutes",
+                              callbackFromBMI: callbackFromBMI,
+                              isChecked: isCheckedWalking,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "5",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 200,
+                              value: waistValue.toDouble(),
+                              title: "Waist",
+                              unit: "cm",
+                              callbackFromBMI: callbackFromBMI,
+                              isChecked: isCheckedWaist,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "5",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 200,
+                              value: hipValue.toDouble(),
+                              title: "Hip",
+                              unit: "cm",
+                              callbackFromBMI: callbackFromBMI,
+                              isChecked: isCheckedHip,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "6",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 100,
+                              value: tshValue,
+                              title: "TSH",
+                              unit: "uIU/mL",
+                              isChecked: isCheckedTSH,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "6",
+                            child: SliderWidget(
+                              min: 20,
+                              max: 500,
+                              value: t3Value,
+                              title: "T3",
+                              unit: "ng/dL",
+                              isChecked: isCheckedT3,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "6",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 25,
+                              value: t4Value,
+                              title: "T4",
+                              unit: "ug/dL",
+                              isChecked: isCheckedT4,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "6",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 25,
+                              value: freeT3Value,
+                              title: "Free T3",
+                              unit: "pg/mL",
+                              isChecked: isCheckedFreeT3,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "6",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 25,
+                              value: freeT4Value,
+                              title: "Free T4",
+                              unit: "ng/dL",
+                              isChecked: isCheckedFreeT4,
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "8",
+                            child: SliderWidget(
+                              min: 0,
+                              max: 12,
+                              value: sleepValue.toDouble(),
+                              title: "Sleep",
+                              unit: "Hours",
+                              isChecked: isCheckedSleep,
+                            ),
+                          ),
+                          /*Visibility(
                           visible: widget.vitalIDP == "3",
                           child: Align(
                             alignment: Alignment.center,
@@ -1243,38 +1248,197 @@ class AddVitalsScreenState extends State<AddVitalsScreen> {
                             ),
                           ),
                         ),*/
-                              Visibility(
-                                visible: false /*widget.vitalGroupIDP == "6"*/,
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal !* 40,
+                          Visibility(
+                            visible: false /*widget.vitalGroupIDP == "6"*/,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal! * 40,
+                                  padding: EdgeInsets.all(
+                                      SizeConfig.blockSizeHorizontal! * 3),
+                                  child: TextField(
+                                    controller: tshController,
+                                    onChanged: (text) {
+                                      if (text.length >= 3 &&
+                                          (double.parse(text) < 0 ||
+                                              double.parse(text) > 100)) {
+                                        final snackBar = SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text(
+                                              "TSH must be between 0 to 100"),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                        setState(() {
+                                          tshController = TextEditingController(
+                                              text: previousTextTSH);
+                                          tshController.selection =
+                                              TextSelection.fromPosition(
+                                                  TextPosition(
+                                                      offset: tshController
+                                                          .text.length));
+                                        });
+                                      } else {
+                                        previousTextTSH = text;
+                                      }
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    maxLength: 6,
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize:
+                                            SizeConfig.blockSizeVertical! *
+                                                2.3),
+                                    decoration: InputDecoration(
+                                      counterText: "",
+                                      hintStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              SizeConfig.blockSizeVertical! *
+                                                  2.3),
+                                      labelStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              SizeConfig.blockSizeVertical! *
+                                                  2.3),
+                                      labelText: "TSH",
+                                      hintText: "",
+                                    ),
+                                  ),
+                                ),
+                                /*SizedBox(
+                                width: SizeConfig.blockSizeHorizontal * 0.5,
+                              ),*/
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Text(
+                                    "uIU/mL",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize:
+                                            SizeConfig.blockSizeHorizontal! *
+                                                3.8,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          /*SizedBox(
+                          height: 5.0,
+                        ),*/
+                          Visibility(
+                              visible: false /*widget.vitalGroupIDP == "6"*/,
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Container(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 40,
                                       padding: EdgeInsets.all(
-                                          SizeConfig.blockSizeHorizontal !* 3),
+                                          SizeConfig.blockSizeHorizontal! * 3),
                                       child: TextField(
-                                        controller: tshController,
                                         onChanged: (text) {
                                           if (text.length >= 3 &&
-                                              (double.parse(text) < 0 ||
-                                                  double.parse(text) > 100)) {
+                                              (double.parse(text) < 20 ||
+                                                  double.parse(text) > 500)) {
                                             final snackBar = SnackBar(
                                               backgroundColor: Colors.red,
                                               content: Text(
-                                                  "TSH must be between 0 to 100"),
+                                                  "T3 must be between 20 to 500"),
                                             );
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(snackBar);
                                             setState(() {
-                                              tshController = TextEditingController(
-                                                  text: previousTextTSH);
-                                              tshController.selection =
+                                              t3Controller =
+                                                  TextEditingController(
+                                                      text: previousTextT3);
+                                              t3Controller.selection =
                                                   TextSelection.fromPosition(
                                                       TextPosition(
-                                                          offset: tshController
+                                                          offset: t3Controller
                                                               .text.length));
                                             });
                                           } else {
-                                            previousTextTSH = text;
+                                            previousTextT3 = text;
+                                          }
+                                        },
+                                        controller: t3Controller,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
+                                        ],
+                                        maxLength: 6,
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize:
+                                                SizeConfig.blockSizeVertical! *
+                                                    2.3),
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                          hintStyle: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  2.3),
+                                          labelStyle: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  2.3),
+                                          labelText: "T3",
+                                          hintText: "",
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      "ng/dL",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  3.8,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal! * 3,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 40,
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.blockSizeHorizontal! * 3),
+                                      child: TextField(
+                                        controller: t4Controller,
+                                        onChanged: (text) {
+                                          if (text.length >= 2 &&
+                                              (double.parse(text) < 0 ||
+                                                  double.parse(text) > 25)) {
+                                            final snackBar = SnackBar(
+                                              backgroundColor: Colors.red,
+                                              content: Text(
+                                                  "T4 must be between 0 to 25"),
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                            setState(() {
+                                              t4Controller =
+                                                  TextEditingController(
+                                                      text: previousTextT4);
+                                              t4Controller.selection =
+                                                  TextSelection.fromPosition(
+                                                      TextPosition(
+                                                          offset: t4Controller
+                                                              .text.length));
+                                            });
+                                          } else {
+                                            previousTextT4 = text;
                                           }
                                         },
                                         keyboardType: TextInputType.number,
@@ -1282,361 +1446,203 @@ class AddVitalsScreenState extends State<AddVitalsScreen> {
                                         style: TextStyle(
                                             color: Colors.green,
                                             fontSize:
-                                            SizeConfig.blockSizeVertical !* 2.3),
+                                                SizeConfig.blockSizeVertical! *
+                                                    2.3),
                                         decoration: InputDecoration(
                                           counterText: "",
                                           hintStyle: TextStyle(
                                               color: Colors.black,
-                                              fontSize:
-                                              SizeConfig.blockSizeVertical !*
+                                              fontSize: SizeConfig
+                                                      .blockSizeVertical! *
                                                   2.3),
                                           labelStyle: TextStyle(
                                               color: Colors.black,
-                                              fontSize:
-                                              SizeConfig.blockSizeVertical !*
+                                              fontSize: SizeConfig
+                                                      .blockSizeVertical! *
                                                   2.3),
-                                          labelText: "TSH",
+                                          labelText: "T4",
                                           hintText: "",
                                         ),
                                       ),
                                     ),
-                                    /*SizedBox(
-                                width: SizeConfig.blockSizeHorizontal * 0.5,
-                              ),*/
-                                    Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: Text(
-                                        "uIU/mL",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
-                                                3.8,
-                                            fontWeight: FontWeight.w500),
-                                      ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      "ug/dL",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  3.8,
+                                          fontWeight: FontWeight.w500),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              /*SizedBox(
-                          height: 5.0,
-                        ),*/
-                              Visibility(
-                                  visible: false /*widget.vitalGroupIDP == "6"*/,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Container(
-                                          width:
-                                          SizeConfig.blockSizeHorizontal !* 40,
-                                          padding: EdgeInsets.all(
-                                              SizeConfig.blockSizeHorizontal !* 3),
-                                          child: TextField(
-                                            onChanged: (text) {
-                                              if (text.length >= 3 &&
-                                                  (double.parse(text) < 20 ||
-                                                      double.parse(text) > 500)) {
-                                                final snackBar = SnackBar(
-                                                  backgroundColor: Colors.red,
-                                                  content: Text(
-                                                      "T3 must be between 20 to 500"),
-                                                );
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(snackBar);
-                                                setState(() {
-                                                  t3Controller =
-                                                      TextEditingController(
-                                                          text: previousTextT3);
-                                                  t3Controller.selection =
-                                                      TextSelection.fromPosition(
-                                                          TextPosition(
-                                                              offset: t3Controller
-                                                                  .text.length));
-                                                });
-                                              } else {
-                                                previousTextT3 = text;
-                                              }
-                                            },
-                                            controller: t3Controller,
-                                            keyboardType: TextInputType.number,
-                                            inputFormatters: <TextInputFormatter>[
-                                              FilteringTextInputFormatter
-                                                  .digitsOnly,
-                                            ],
-                                            maxLength: 6,
-                                            style: TextStyle(
-                                                color: Colors.green,
-                                                fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.3),
-                                            decoration: InputDecoration(
-                                              counterText: "",
-                                              hintStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize:
-                                                  SizeConfig.blockSizeVertical !*
-                                                      2.3),
-                                              labelStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize:
-                                                  SizeConfig.blockSizeVertical !*
-                                                      2.3),
-                                              labelText: "T3",
-                                              hintText: "",
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: Text(
-                                          "ng/dL",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
-                                                  3.8,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: SizeConfig.blockSizeHorizontal !* 3,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          width:
-                                          SizeConfig.blockSizeHorizontal !* 40,
-                                          padding: EdgeInsets.all(
-                                              SizeConfig.blockSizeHorizontal !* 3),
-                                          child: TextField(
-                                            controller: t4Controller,
-                                            onChanged: (text) {
-                                              if (text.length >= 2 &&
-                                                  (double.parse(text) < 0 ||
-                                                      double.parse(text) > 25)) {
-                                                final snackBar = SnackBar(
-                                                  backgroundColor: Colors.red,
-                                                  content: Text(
-                                                      "T4 must be between 0 to 25"),
-                                                );
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(snackBar);
-                                                setState(() {
-                                                  t4Controller =
-                                                      TextEditingController(
-                                                          text: previousTextT4);
-                                                  t4Controller.selection =
-                                                      TextSelection.fromPosition(
-                                                          TextPosition(
-                                                              offset: t4Controller
-                                                                  .text.length));
-                                                });
-                                              } else {
-                                                previousTextT4 = text;
-                                              }
-                                            },
-                                            keyboardType: TextInputType.number,
-                                            maxLength: 6,
-                                            style: TextStyle(
-                                                color: Colors.green,
-                                                fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.3),
-                                            decoration: InputDecoration(
-                                              counterText: "",
-                                              hintStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize:
-                                                  SizeConfig.blockSizeVertical !*
-                                                      2.3),
-                                              labelStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize:
-                                                  SizeConfig.blockSizeVertical !*
-                                                      2.3),
-                                              labelText: "T4",
-                                              hintText: "",
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: Text(
-                                          "ug/dL",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
-                                                  3.8,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: SizeConfig.blockSizeHorizontal !* 2,
-                                      ),
-                                    ],
-                                  )),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Visibility(
-                                  visible: false /*widget.vitalGroupIDP == "6"*/,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Container(
-                                          width:
-                                          SizeConfig.blockSizeHorizontal !* 40,
-                                          padding: EdgeInsets.all(
-                                              SizeConfig.blockSizeHorizontal !* 3),
-                                          child: TextField(
-                                            controller: freeT3Controller,
-                                            onChanged: (text) {
-                                              if (text.length >= 2 &&
-                                                  (double.parse(text) < 0 ||
-                                                      double.parse(text) > 25)) {
-                                                final snackBar = SnackBar(
-                                                  backgroundColor: Colors.red,
-                                                  content: Text(
-                                                      "Free T3 must be between 0 to 25"),
-                                                );
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(snackBar);
-                                                setState(() {
-                                                  freeT3Controller =
-                                                      TextEditingController(
-                                                          text: previousTextFreeT3);
-                                                  freeT3Controller.selection =
-                                                      TextSelection.fromPosition(
-                                                          TextPosition(
-                                                              offset:
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal! * 2,
+                                  ),
+                                ],
+                              )),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Visibility(
+                              visible: false /*widget.vitalGroupIDP == "6"*/,
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Container(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 40,
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.blockSizeHorizontal! * 3),
+                                      child: TextField(
+                                        controller: freeT3Controller,
+                                        onChanged: (text) {
+                                          if (text.length >= 2 &&
+                                              (double.parse(text) < 0 ||
+                                                  double.parse(text) > 25)) {
+                                            final snackBar = SnackBar(
+                                              backgroundColor: Colors.red,
+                                              content: Text(
+                                                  "Free T3 must be between 0 to 25"),
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                            setState(() {
+                                              freeT3Controller =
+                                                  TextEditingController(
+                                                      text: previousTextFreeT3);
+                                              freeT3Controller.selection =
+                                                  TextSelection.fromPosition(
+                                                      TextPosition(
+                                                          offset:
                                                               freeT3Controller
                                                                   .text
                                                                   .length));
-                                                });
-                                              } else {
-                                                previousTextFreeT3 = text;
-                                              }
-                                            },
-                                            keyboardType: TextInputType.number,
-                                            maxLength: 6,
-                                            style: TextStyle(
-                                                color: Colors.green,
-                                                fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                            });
+                                          } else {
+                                            previousTextFreeT3 = text;
+                                          }
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        maxLength: 6,
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize:
+                                                SizeConfig.blockSizeVertical! *
                                                     2.3),
-                                            decoration: InputDecoration(
-                                              counterText: "",
-                                              hintStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize:
-                                                  SizeConfig.blockSizeVertical !*
-                                                      2.3),
-                                              labelStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize:
-                                                  SizeConfig.blockSizeVertical !*
-                                                      2.3),
-                                              labelText: "FreeT3",
-                                              hintText: "",
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: Text(
-                                          "pg/mL",
-                                          style: TextStyle(
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                          hintStyle: TextStyle(
                                               color: Colors.black,
-                                              fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
-                                                  3.8,
-                                              fontWeight: FontWeight.w500),
+                                              fontSize: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  2.3),
+                                          labelStyle: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  2.3),
+                                          labelText: "FreeT3",
+                                          hintText: "",
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: SizeConfig.blockSizeHorizontal !* 3,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          width:
-                                          SizeConfig.blockSizeHorizontal !* 40,
-                                          padding: EdgeInsets.all(
-                                              SizeConfig.blockSizeHorizontal !* 3),
-                                          child: TextField(
-                                            controller: freeT4Controller,
-                                            onChanged: (text) {
-                                              if (text.length >= 2 &&
-                                                  (double.parse(text) < 0 ||
-                                                      double.parse(text) > 25)) {
-                                                final snackBar = SnackBar(
-                                                  backgroundColor: Colors.red,
-                                                  content: Text(
-                                                      "Free T4 must be between 0 to 25"),
-                                                );
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(snackBar);
-                                                setState(() {
-                                                  freeT4Controller =
-                                                      TextEditingController(
-                                                          text: previousTextFreeT4);
-                                                  freeT4Controller.selection =
-                                                      TextSelection.fromPosition(
-                                                          TextPosition(
-                                                              offset:
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      "pg/mL",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  3.8,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal! * 3,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 40,
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.blockSizeHorizontal! * 3),
+                                      child: TextField(
+                                        controller: freeT4Controller,
+                                        onChanged: (text) {
+                                          if (text.length >= 2 &&
+                                              (double.parse(text) < 0 ||
+                                                  double.parse(text) > 25)) {
+                                            final snackBar = SnackBar(
+                                              backgroundColor: Colors.red,
+                                              content: Text(
+                                                  "Free T4 must be between 0 to 25"),
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                            setState(() {
+                                              freeT4Controller =
+                                                  TextEditingController(
+                                                      text: previousTextFreeT4);
+                                              freeT4Controller.selection =
+                                                  TextSelection.fromPosition(
+                                                      TextPosition(
+                                                          offset:
                                                               freeT4Controller
                                                                   .text
                                                                   .length));
-                                                });
-                                              } else {
-                                                previousTextFreeT4 = text;
-                                              }
-                                            },
-                                            keyboardType: TextInputType.number,
-                                            maxLength: 6,
-                                            style: TextStyle(
-                                                color: Colors.green,
-                                                fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                            });
+                                          } else {
+                                            previousTextFreeT4 = text;
+                                          }
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        maxLength: 6,
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize:
+                                                SizeConfig.blockSizeVertical! *
                                                     2.3),
-                                            decoration: InputDecoration(
-                                              counterText: "",
-                                              hintStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize:
-                                                  SizeConfig.blockSizeVertical !*
-                                                      2.3),
-                                              labelStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize:
-                                                  SizeConfig.blockSizeVertical !*
-                                                      2.3),
-                                              labelText: "FreeT4",
-                                              hintText: "",
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: Text(
-                                          "ng/dL",
-                                          style: TextStyle(
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                          hintStyle: TextStyle(
                                               color: Colors.black,
-                                              fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
-                                                  3.8,
-                                              fontWeight: FontWeight.w500),
+                                              fontSize: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  2.3),
+                                          labelStyle: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  2.3),
+                                          labelText: "FreeT4",
+                                          hintText: "",
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: SizeConfig.blockSizeHorizontal !* 2,
-                                      ),
-                                    ],
-                                  )),
-                              /*Visibility(
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      "ng/dL",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  3.8,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: SizeConfig.blockSizeHorizontal! * 2,
+                                  ),
+                                ],
+                              )),
+                          /*Visibility(
                           visible: widget.vitalIDP == "3",
                           child: SliderWidget(
                             min: 80,
@@ -1646,136 +1652,136 @@ class AddVitalsScreenState extends State<AddVitalsScreen> {
                             unit: "\u2109",
                           ),
                         ),*/
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical !* 2,
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "4",
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'BMI - ',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize:
-                                        SizeConfig.blockSizeHorizontal !* 4.3,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    Text(
-                                      ' ${bmi.toStringAsFixed(2)} ',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize:
-                                        SizeConfig.blockSizeHorizontal !* 7,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    Text(
-                                      ' Kg/m\u00B2',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize:
-                                        SizeConfig.blockSizeHorizontal !* 4.3,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical! * 2,
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "4",
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'BMI - ',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal! * 4.3,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical !* 1,
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "4",
-                                child: Container(
-                                  width: SizeConfig.blockSizeHorizontal !* 40,
-                                  height: SizeConfig.blockSizeVertical !* 0.3,
-                                  color: Colors.white,
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                    width: SizeConfig.blockSizeHorizontal !* 40,
-                                    height: SizeConfig.blockSizeVertical !* 0.3,
+                                Text(
+                                  ' ${bmi.toStringAsFixed(2)} ',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal! * 7,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  ' Kg/m\u00B2',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal! * 4.3,
+                                    fontWeight: FontWeight.w500,
                                     color: Colors.grey,
                                   ),
                                 ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical! * 1,
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "4",
+                            child: Container(
+                              width: SizeConfig.blockSizeHorizontal! * 40,
+                              height: SizeConfig.blockSizeVertical! * 0.3,
+                              color: Colors.white,
+                              alignment: Alignment.center,
+                              child: Container(
+                                width: SizeConfig.blockSizeHorizontal! * 40,
+                                height: SizeConfig.blockSizeVertical! * 0.3,
+                                color: Colors.grey,
                               ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical !* 1,
-                              ),
-                              Visibility(
-                                  visible: widget.vitalGroupIDP == "4",
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        "You're   ",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical! * 1,
+                          ),
+                          Visibility(
+                              visible: widget.vitalGroupIDP == "4",
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    "You're   ",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize:
+                                            SizeConfig.blockSizeHorizontal! *
                                                 6.5,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey),
-                                      ),
-                                      Text(
-                                        bmi < 18.5
-                                            ? "Under-weight"
-                                            : (bmi < 25
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey),
+                                  ),
+                                  Text(
+                                    bmi < 18.5
+                                        ? "Under-weight"
+                                        : (bmi < 25
                                             ? "Normal"
                                             : (bmi < 30
-                                            ? "Over-weight"
-                                            : "Obese")),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 8,
-                                          fontWeight: FontWeight.w500,
-                                          color: bmi < 18.5
-                                              ? Colors.orange
-                                              : (bmi < 25
+                                                ? "Over-weight"
+                                                : "Obese")),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal! * 8,
+                                      fontWeight: FontWeight.w500,
+                                      color: bmi < 18.5
+                                          ? Colors.orange
+                                          : (bmi < 25
                                               ? Colors.green
                                               : (bmi < 30
-                                              ? Colors.orange
-                                              : Colors.red)),
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical !* 1,
-                              ),
-                              Visibility(
-                                visible: widget.vitalGroupIDP == "4",
-                                child: Image(
-                                  image: bmi < 18.5
-                                      ? AssetImage("images/ic_shocked.png")
-                                      : (bmi < 25
+                                                  ? Colors.orange
+                                                  : Colors.red)),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical! * 1,
+                          ),
+                          Visibility(
+                            visible: widget.vitalGroupIDP == "4",
+                            child: Image(
+                              image: bmi < 18.5
+                                  ? AssetImage("images/ic_shocked.png")
+                                  : (bmi < 25
                                       ? AssetImage("images/ic_happy.png")
                                       : (bmi < 30
-                                      ? AssetImage(
-                                      "images/ic_little_sad.png")
-                                      : AssetImage("images/ic_sad.png"))),
-                                  width: SizeConfig.blockSizeHorizontal !* 20,
-                                  height: SizeConfig.blockSizeHorizontal !* 20,
-                                ),
-                              ),
-                            ],
-                          )),
+                                          ? AssetImage(
+                                              "images/ic_little_sad.png")
+                                          : AssetImage("images/ic_sad.png"))),
+                              width: SizeConfig.blockSizeHorizontal! * 20,
+                              height: SizeConfig.blockSizeHorizontal! * 20,
+                            ),
+                          ),
+                        ],
+                      )),
                       Container(
-                        height: SizeConfig.blockSizeVertical !* 12,
+                        height: SizeConfig.blockSizeVertical! * 12,
                         padding: EdgeInsets.only(
-                            right: SizeConfig.blockSizeHorizontal !* 1.5,
-                            top: SizeConfig.blockSizeVertical !* 3.5),
+                            right: SizeConfig.blockSizeHorizontal! * 1.5,
+                            top: SizeConfig.blockSizeVertical! * 3.5),
                         child: Align(
                           alignment: Alignment.topRight,
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal !* 12,
-                            height: SizeConfig.blockSizeHorizontal !* 12,
+                            width: SizeConfig.blockSizeHorizontal! * 12,
+                            height: SizeConfig.blockSizeHorizontal! * 12,
                             child: RawMaterialButton(
                               onPressed: () {
                                 if (widget.vitalGroupIDP == "3" ||
@@ -1786,16 +1792,16 @@ class AddVitalsScreenState extends State<AddVitalsScreen> {
                                   pr?.show();
                                   int noOfCheckedVitalsInGroup = 0;
                                   for (int i = 0;
-                                  i < listVitalIDPs.length;
-                                  i++) {
+                                      i < listVitalIDPs.length;
+                                      i++) {
                                     if (getVitalIsChecked(listVitalIDPs[i]))
                                       noOfCheckedVitalsInGroup++;
                                   }
                                   debugPrint(
                                       "no of checked thyroid - $noOfCheckedVitalsInGroup");
                                   for (int i = 0;
-                                  i < listVitalIDPs.length;
-                                  i++) {
+                                      i < listVitalIDPs.length;
+                                      i++) {
                                     if (getVitalIsChecked(listVitalIDPs[i]))
                                       submitVitalDetails(
                                           context,
@@ -1808,8 +1814,8 @@ class AddVitalsScreenState extends State<AddVitalsScreen> {
                               elevation: 2.0,
                               fillColor: Color(0xFF06A759),
                               child: Image(
-                                width: SizeConfig.blockSizeHorizontal !* 5.5,
-                                height: SizeConfig.blockSizeHorizontal !* 5.5,
+                                width: SizeConfig.blockSizeHorizontal! * 5.5,
+                                height: SizeConfig.blockSizeHorizontal! * 5.5,
                                 //height: 80,
                                 image: AssetImage(
                                     "images/ic_right_arrow_triangular.png"),
@@ -1856,53 +1862,53 @@ class AddVitalsScreenState extends State<AddVitalsScreen> {
       String fbsParams = "";
       if (isCheckedFbs) {
         fbsParams =
-        "{\"PreInvestTypeIDP\":\"92\",\"InvestigationValue\":\"$fbsValue\"},";
+            "{\"PreInvestTypeIDP\":\"92\",\"InvestigationValue\":\"$fbsValue\"},";
       }
       String ppbsParams = "";
       if (isCheckedPpbs) {
         ppbsParams =
-        "{\"PreInvestTypeIDP\":\"91\",\"InvestigationValue\":\"$ppbsValue\"},";
+            "{\"PreInvestTypeIDP\":\"91\",\"InvestigationValue\":\"$ppbsValue\"},";
       }
       String rbsParams = "";
       if (isCheckedRbs) {
         rbsParams =
-        "{\"PreInvestTypeIDP\":\"93\",\"InvestigationValue\":\"$rbsValue\"},";
+            "{\"PreInvestTypeIDP\":\"93\",\"InvestigationValue\":\"$rbsValue\"},";
       }
       String hba1cParams = "";
       if (isCheckedHba1c) {
         hba1cParams =
-        "{\"PreInvestTypeIDP\":\"94\",\"InvestigationValue\":\"$hba1cValue\"}";
+            "{\"PreInvestTypeIDP\":\"94\",\"InvestigationValue\":\"$hba1cValue\"}";
       }
       jArrayInvestigationMaster =
-      "[$fbsParams$ppbsParams$rbsParams$hba1cParams]";
+          "[$fbsParams$ppbsParams$rbsParams$hba1cParams]";
     } else if (widget.vitalGroupIDP == "6") {
       String tshParams = "";
       if (isCheckedTSH) {
         tshParams =
-        "{\"PreInvestTypeIDP\":\"146\",\"InvestigationValue\":\"$tshValue\"},";
+            "{\"PreInvestTypeIDP\":\"146\",\"InvestigationValue\":\"$tshValue\"},";
       }
       String t3Params = "";
       if (isCheckedT3) {
         t3Params =
-        "{\"PreInvestTypeIDP\":\"147\",\"InvestigationValue\":\"$t3Value\"},";
+            "{\"PreInvestTypeIDP\":\"147\",\"InvestigationValue\":\"$t3Value\"},";
       }
       String t4Params = "";
       if (isCheckedT4) {
         t4Params =
-        "{\"PreInvestTypeIDP\":\"148\",\"InvestigationValue\":\"$t4Value\"},";
+            "{\"PreInvestTypeIDP\":\"148\",\"InvestigationValue\":\"$t4Value\"},";
       }
       String freeT3Params = "";
       if (isCheckedFreeT3) {
         freeT3Params =
-        "{\"PreInvestTypeIDP\":\"149\",\"InvestigationValue\":\"$freeT3Value\"}";
+            "{\"PreInvestTypeIDP\":\"149\",\"InvestigationValue\":\"$freeT3Value\"}";
       }
       String freeT4Params = "";
       if (isCheckedFreeT4) {
         freeT4Params =
-        "{\"PreInvestTypeIDP\":\"150\",\"InvestigationValue\":\"$freeT4Value\"}";
+            "{\"PreInvestTypeIDP\":\"150\",\"InvestigationValue\":\"$freeT4Value\"}";
       }
       jArrayInvestigationMaster =
-      "[$tshParams$t3Params$t4Params$freeT3Params$freeT4Params]";
+          "[$tshParams$t3Params$t4Params$freeT3Params$freeT4Params]";
     }
 
     debugPrint("Final Array");
@@ -2054,8 +2060,8 @@ class AddVitalsScreenState extends State<AddVitalsScreen> {
         builder: (BuildContext? context, Widget? child) {
           return MediaQuery(
               child: child!,
-              data:
-              MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: true));
+              data: MediaQuery.of(context!)
+                  .copyWith(alwaysUse24HourFormat: true));
         });
 
     if (time != null) {
@@ -2297,9 +2303,8 @@ class _SliderWidgetState extends State<SliderWidget> {
 
     if (this.widget.fullWidth) paddingFactor = .3;
 
-    return
-      Container(
-      /*padding: widget.title == "Systolic" || widget.title == "Diastolic"
+    return Container(
+        /*padding: widget.title == "Systolic" || widget.title == "Diastolic"
           ? EdgeInsets.only(
               left: SizeConfig.blockSizeHorizontal * 8,
               right: SizeConfig.blockSizeHorizontal * 3,
@@ -2319,7 +2324,7 @@ class _SliderWidgetState extends State<SliderWidget> {
       ),*/
         color: Colors.white,
         padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.blockSizeHorizontal !* 6),
+            horizontal: SizeConfig.blockSizeHorizontal! * 6),
         child: Column(
           children: [
             Visibility(
@@ -2328,7 +2333,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                 '$heightInFeet',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: SizeConfig.blockSizeHorizontal !* 3.8,
+                  fontSize: SizeConfig.blockSizeHorizontal! * 3.8,
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
@@ -2340,7 +2345,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                 '$walkingStepsValue steps',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
+                  fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
@@ -2357,85 +2362,73 @@ class _SliderWidgetState extends State<SliderWidget> {
                     onChanged: (isChecked) {
                       widget.isChecked = isChecked;
                       if (widget.title == "Pulse") {
-                        if(isChecked!=null)
-                          isCheckedPulse = isChecked;
+                        if (isChecked != null) isCheckedPulse = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //pulseValue = widget.min.round();
                         // }
                       } else if (widget.title == "Systolic") {
-                        if(isChecked!=null)
-                          isCheckedBpSystolic = isChecked;
+                        if (isChecked != null) isCheckedBpSystolic = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //bpSystolicValue = widget.min;
                         // }
                       } else if (widget.title == "Diastolic") {
-                        if(isChecked!=null)
-                          isCheckedBpDiastolic = isChecked;
+                        if (isChecked != null) isCheckedBpDiastolic = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //bpDiastolicValue = widget.min;
                         // }
                       } else if (widget.title == "Temperature") {
-                        if(isChecked!=null)
-                          isCheckedTemp = isChecked;
+                        if (isChecked != null) isCheckedTemp = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //tempValue = widget.min.toDouble();
                         // }
                       } else if (widget.title == "SPO2") {
-                        if(isChecked!=null)
-                          isCheckedSpo2 = isChecked;
+                        if (isChecked != null) isCheckedSpo2 = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //spo2Value = widget.min;
                         // }
                       } else if (widget.title == "FBS") {
-                        if(isChecked!=null)
-                          isCheckedFbs = isChecked;
+                        if (isChecked != null) isCheckedFbs = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //fbsValue = widget.min;
                         // }
                       } else if (widget.title == "PPBS") {
-                        if(isChecked!=null)
-                          isCheckedPpbs = isChecked;
+                        if (isChecked != null) isCheckedPpbs = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //ppbsValue = widget.min;
                         // }
                       } else if (widget.title == "RBS") {
-                        if(isChecked!=null)
-                          isCheckedRbs = isChecked;
+                        if (isChecked != null) isCheckedRbs = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //rbsValue = widget.min;
                         // }
                       } else if (widget.title == "HbA1C") {
-                        if(isChecked!=null)
-                          isCheckedHba1c = isChecked;
+                        if (isChecked != null) isCheckedHba1c = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //hba1cValue = widget.min;
                         // }
                       } else if (widget.title == "Respiratory Rate") {
-                        if(isChecked!=null)
-                          isCheckedRr = isChecked;
+                        if (isChecked != null) isCheckedRr = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //rrValue = widget.min;
                         // }
                       } else if (widget.title == "Sleep") {
-                        if(isChecked!=null)
-                          isCheckedSleep = isChecked;
+                        if (isChecked != null) isCheckedSleep = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //sleepValue = widget.min;
                         // }
                       } else if (widget.title == "Weight") {
-                        if(isChecked!=null)
-                          isCheckedWeight = isChecked;
+                        if (isChecked != null) isCheckedWeight = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         /*weightValue = widget.min;
@@ -2443,8 +2436,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                             widget.callbackFromBMI();*/
                         // }
                       } else if (widget.title == "Height") {
-                        if(isChecked!=null)
-                          isCheckedHeight = isChecked;
+                        if (isChecked != null) isCheckedHeight = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         /*heightValue = widget.min;
@@ -2453,15 +2445,13 @@ class _SliderWidgetState extends State<SliderWidget> {
                             widget.callbackFromBMI();*/
                         // }
                       } else if (widget.title == "Exercise") {
-                        if(isChecked!=null)
-                          isCheckedExercise = isChecked;
+                        if (isChecked != null) isCheckedExercise = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         //exerciseValue = widget.min;
                         // }
                       } else if (widget.title == "Walking") {
-                        if(isChecked!=null)
-                          isCheckedWalking = isChecked;
+                        if (isChecked != null) isCheckedWalking = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         /*walkingValue = widget.min;
@@ -2469,59 +2459,51 @@ class _SliderWidgetState extends State<SliderWidget> {
                             widget.callbackFromBMI();*/
                         // }
                       } else if (widget.title == "Waist") {
-                        if(isChecked!=null)
-                          isCheckedWaist = isChecked;
+                        if (isChecked != null) isCheckedWaist = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         /*waistValue = widget.min;
                             widget.callbackFromBMI();*/
                         // }
                       } else if (widget.title == "Hip") {
-                        if(isChecked!=null)
-                          isCheckedHip = isChecked;
+                        if (isChecked != null) isCheckedHip = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min.toDouble();
                         /*hipValue = widget.min;
                             widget.callbackFromBMI();*/
                         // }
                       } else if (widget.title == "Temperature") {
-                        if(isChecked!=null)
-                          isCheckedPulse = isChecked;
+                        if (isChecked != null) isCheckedPulse = isChecked;
                         // if (!isChecked) {
                         //widget.value = widget.min;
                         //tempValue = widget.min;
                         // }
                       } else if (widget.title == "TSH") {
-                        if(isChecked!=null)
-                          isCheckedTSH = isChecked;
+                        if (isChecked != null) isCheckedTSH = isChecked;
                         // if (!isChecked) {
                         /*widget.value = widget.min;
                             tshValue = widget.min;*/
                         // }
                       } else if (widget.title == "T3") {
-                        if(isChecked!=null)
-                          isCheckedT3 = isChecked;
+                        if (isChecked != null) isCheckedT3 = isChecked;
                         // if (!isChecked) {
                         /* widget.value = widget.min;
                             t3Value = widget.min;*/
                         // }
                       } else if (widget.title == "T4") {
-                        if(isChecked!=null)
-                          isCheckedT4 = isChecked;
+                        if (isChecked != null) isCheckedT4 = isChecked;
                         // if (!isChecked) {
                         /* widget.value = widget.min;
                             t4Value = widget.min;*/
                         // }
                       } else if (widget.title == "Free T3") {
-                        if(isChecked!=null)
-                          isCheckedFreeT3 = isChecked;
+                        if (isChecked != null) isCheckedFreeT3 = isChecked;
                         // if (!isChecked) {
                         /*widget.value = widget.min;
                             freeT3Value = widget.min;*/
                         // }
                       } else if (widget.title == "Free T4") {
-                        if(isChecked!=null)
-                          isCheckedFreeT4 = isChecked;
+                        if (isChecked != null) isCheckedFreeT4 = isChecked;
                         // if (!isChecked) {
                         /*widget.value = widget.min;
                             freeT4Value = widget.min;*/
@@ -2532,8 +2514,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                   ),
                 ),
                 Expanded(
-                  child:
-                  UltimateSlider(
+                  child: UltimateSlider(
                     minValue: widget.min,
                     maxValue: widget.max,
                     value: widget.value,
@@ -2609,29 +2590,32 @@ class _SliderWidgetState extends State<SliderWidget> {
                         hipValue = value;
                         widget.callbackFromBMI!();
                       } else if (widget.title == "Temperature") {
-                        if(widget.value!=null)
-                          tempValue = double.parse(widget.value!.toStringAsFixed(2));
+                        if (widget.value != null)
+                          tempValue =
+                              double.parse(widget.value!.toStringAsFixed(2));
                         isCheckedTemp = true;
                       } else if (widget.title == "TSH") {
-                        if(widget.value!=null)
+                        if (widget.value != null)
                           tshValue =
                               double.parse(widget.value!.toStringAsFixed(2));
                         isCheckedTSH = true;
                       } else if (widget.title == "T3") {
-                        if(widget.value!=null)
-                          t3Value = double.parse(widget.value!.toStringAsFixed(2));
+                        if (widget.value != null)
+                          t3Value =
+                              double.parse(widget.value!.toStringAsFixed(2));
                         isCheckedT3 = true;
                       } else if (widget.title == "T4") {
-                        if(widget.value!=null)
-                          t4Value = double.parse(widget.value!.toStringAsFixed(2));
+                        if (widget.value != null)
+                          t4Value =
+                              double.parse(widget.value!.toStringAsFixed(2));
                         isCheckedT4 = true;
                       } else if (widget.title == "Free T3") {
-                        if(widget.value!=null)
+                        if (widget.value != null)
                           freeT3Value =
                               double.parse(widget.value!.toStringAsFixed(2));
                         isCheckedFreeT3 = true;
                       } else if (widget.title == "Free T4") {
-                        if(widget.value!=null)
+                        if (widget.value != null)
                           freeT4Value =
                               double.parse(widget.value!.toStringAsFixed(2));
                         isCheckedFreeT4 = true;
@@ -2643,7 +2627,7 @@ class _SliderWidgetState extends State<SliderWidget> {
               ],
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical !* 5.0,
+              height: SizeConfig.blockSizeVertical! * 5.0,
             ),
             /*Text(
                       '${this.widget.title} - ',
@@ -2698,10 +2682,10 @@ class _SliderWidgetState extends State<SliderWidget> {
                     )*/
           ],
         )
-      /*],
+        /*],
           )*/
 
-    );
+        );
   }
 
   void cmToFeet() {

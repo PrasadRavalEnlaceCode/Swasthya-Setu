@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/app_screens/edit_my_profile_doctor.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_profile_patient.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/app_screens/edit_my_profile_doctor.dart';
+import 'package:silvertouch/app_screens/edit_my_profile_medical_patient.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_profile_patient.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
 
 import '../utils/color.dart';
 
@@ -166,15 +167,20 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
               ],
               backgroundColor: Color(0xFFFFFFFF),
               iconTheme: IconThemeData(
-                  color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+                  color: Colorsblack,
+                  size: SizeConfig.blockSizeVertical! * 2.2),
+              toolbarTextStyle: TextTheme(
+                      titleMedium: TextStyle(
+                          color: Colorsblack,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5))
+                  .bodyMedium,
+              titleTextStyle: TextTheme(
+                      titleMedium: TextStyle(
+                          color: Colorsblack,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5))
+                  .titleLarge,
             ),
             body: ListView(
               children: <Widget>[
@@ -188,8 +194,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                       onTap: () {
                         //showImageTypeSelectionDialog(context);
                       },
-                      child: (imgUrl != "" &&
-                              imgUrl != "null")
+                      child: (imgUrl != "" && imgUrl != "null")
                           ? CircleAvatar(
                               radius: 60.0,
                               backgroundImage:
@@ -229,7 +234,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                             "Personal Details",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.6,
+                              fontSize: SizeConfig.blockSizeVertical! * 2.6,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -253,7 +258,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Registration Number",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -263,7 +268,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         registrationNumber,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -288,7 +293,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Name",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -298,7 +303,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         userName,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -323,7 +328,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Mobile No.",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -333,7 +338,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         mobNo,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -358,7 +363,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Whatsapp Number",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -368,7 +373,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         whatsAppNo,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -393,7 +398,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Appointment Number",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -403,7 +408,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         appointmentNo,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -428,7 +433,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Gender",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -440,7 +445,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                             : (gender == "F" ? "Female" : "-"),
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -465,7 +470,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Degree",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -475,7 +480,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         degree,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -500,7 +505,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Speciality",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -510,7 +515,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         speciality,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -535,7 +540,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Practising Since (Years)",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -545,7 +550,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         practisingSince,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -570,7 +575,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Email",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -580,7 +585,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         emailId,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -628,7 +633,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Date of birth",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -638,7 +643,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         dob,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -838,7 +843,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "City",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -848,7 +853,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         city,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -873,7 +878,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "State",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -883,7 +888,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         state,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -908,7 +913,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Country",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -918,7 +923,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         country,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -950,7 +955,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                             "Residence Details",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.6,
+                              fontSize: SizeConfig.blockSizeVertical! * 2.6,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -974,7 +979,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Residence Address",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -984,7 +989,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         address,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1009,7 +1014,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Residence Mobile Number",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -1019,7 +1024,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         residenceMobileNo,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1086,7 +1091,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                             "Hosp./Clinic Details",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.6,
+                              fontSize: SizeConfig.blockSizeVertical! * 2.6,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -1110,7 +1115,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Hosp./Clinic Address",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -1120,7 +1125,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         businessAddress,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1145,7 +1150,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Hosp./Clinic Mobile Number",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -1155,7 +1160,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         businessMobileNo,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1215,7 +1220,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Hosp./Clinic City",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -1225,7 +1230,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         businessCity,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1250,7 +1255,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Hosp./Clinic State",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -1260,7 +1265,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         businessState,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1285,7 +1290,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Hosp./Clinic Country",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -1295,7 +1300,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         businessCountry,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1320,7 +1325,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Latitude",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -1330,7 +1335,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         latitude,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1355,7 +1360,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         "Longitude",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.2),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.2),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -1365,7 +1370,7 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         longitude,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.2,
+                          fontSize: SizeConfig.blockSizeVertical! * 2.2,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1381,34 +1386,36 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                 Row(
                   children: [
                     Expanded(
-                      child: imgUrlLogo != "null" &&
-                              imgUrlLogo != ""
+                      child: imgUrlLogo != "null" && imgUrlLogo != ""
                           ? Column(
                               children: [
                                 Image(
                                   image:
                                       NetworkImage("$doctorLogoUrl$imgUrlLogo"),
-                                  width: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  height: SizeConfig.blockSizeHorizontal !* 35.0,
+                                  width: SizeConfig.blockSizeHorizontal! * 35.0,
+                                  height:
+                                      SizeConfig.blockSizeHorizontal! * 35.0,
                                   fit: BoxFit.fill,
                                 ),
                                 SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 0.5,
+                                  height: SizeConfig.blockSizeVertical! * 0.5,
                                 ),
                                 Text(
                                   "Logo",
                                   style: TextStyle(
                                       color: Colors.grey,
                                       fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 3.5),
+                                          SizeConfig.blockSizeHorizontal! *
+                                              3.5),
                                 ),
                               ],
                             )
                           : Column(
                               children: [
                                 Container(
-                                  width: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  height: SizeConfig.blockSizeHorizontal !* 35.0,
+                                  width: SizeConfig.blockSizeHorizontal! * 35.0,
+                                  height:
+                                      SizeConfig.blockSizeHorizontal! * 35.0,
                                   color: Colors.grey,
                                   child: Center(
                                     child: Text(
@@ -1417,53 +1424,56 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   3.5),
                                     ),
                                   ),
                                 ),
                                 SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 0.5,
+                                  height: SizeConfig.blockSizeVertical! * 0.5,
                                 ),
                                 Text(
                                   "",
                                   style: TextStyle(
                                       color: Colors.grey,
                                       fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 3.5),
+                                          SizeConfig.blockSizeHorizontal! *
+                                              3.5),
                                 ),
                               ],
                             ),
                     ),
                     Expanded(
-                      child: imgUrlSignature != "null" &&
-                              imgUrlSignature != ""
+                      child: imgUrlSignature != "null" && imgUrlSignature != ""
                           ? Column(
                               children: [
                                 Image(
                                   image: NetworkImage(
                                       "$doctorSignatureUrl$imgUrlSignature"),
-                                  width: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  height: SizeConfig.blockSizeHorizontal !* 35.0,
+                                  width: SizeConfig.blockSizeHorizontal! * 35.0,
+                                  height:
+                                      SizeConfig.blockSizeHorizontal! * 35.0,
                                   fit: BoxFit.fill,
                                 ),
                                 SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 0.5,
+                                  height: SizeConfig.blockSizeVertical! * 0.5,
                                 ),
                                 Text(
                                   "Signature",
                                   style: TextStyle(
                                       color: Colors.grey,
                                       fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 3.5),
+                                          SizeConfig.blockSizeHorizontal! *
+                                              3.5),
                                 ),
                               ],
                             )
                           : Column(
                               children: [
                                 Container(
-                                  width: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  height: SizeConfig.blockSizeHorizontal !* 35.0,
+                                  width: SizeConfig.blockSizeHorizontal! * 35.0,
+                                  height:
+                                      SizeConfig.blockSizeHorizontal! * 35.0,
                                   color: Colors.grey,
                                   child: Center(
                                       child: Text(
@@ -1472,19 +1482,20 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 3.5),
                                   )),
                                 ),
                                 SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 0.5,
+                                  height: SizeConfig.blockSizeVertical! * 0.5,
                                 ),
                                 Text(
                                   "",
                                   style: TextStyle(
                                       color: Colors.grey,
                                       fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 3.5),
+                                          SizeConfig.blockSizeHorizontal! *
+                                              3.5),
                                 ),
                               ],
                             ),

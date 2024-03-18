@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/app_screens/add_medicine_master.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_masters.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_masters.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -82,18 +85,11 @@ class AddDrugScreenState extends State<AddDrugScreen> {
     listMastersMedicineTypeString = [];
     listMastersAdviceTypeString = [];
     listMastersDosageScheduleTypeString = [];
-    if(widget.from=="add")
-      {
-        deleteflag = "0";
-      }
-    else if(widget.from=="update")
-      {
-        deleteflag = "1";
-      }
-    else
-      {
-
-      }
+    if (widget.from == "add") {
+      deleteflag = "0";
+    } else if (widget.from == "update") {
+      deleteflag = "1";
+    } else {}
     getAllTheMasterListsForDrugScreen();
   }
 
@@ -105,16 +101,18 @@ class AddDrugScreenState extends State<AddDrugScreen> {
         title: Text(
             "${widget.from[0].toUpperCase()}${widget.from.substring(1)} Drug"),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack),
+        toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
-        )).bodyMedium, titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+        )).bodyMedium,
+        titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
         )).titleLarge,
       ),
       body: Builder(
@@ -129,21 +127,21 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: itemNameController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Drug Name",
                             hintText: "",
                           ),
@@ -158,24 +156,25 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                               listMastersMedicineTypeString, 0);
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: formulationController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "Formulation",
                                 hintText: "",
                               ),
@@ -187,24 +186,24 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: genericController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           /*minLines: 5,
                           maxLines: 5,
                           maxLength: 500,*/
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Generic",
                             hintText: "",
                             counterText: "",
@@ -220,24 +219,25 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                               listMastersDosageScheduleTypeString, 2);
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: dossageController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "Frequency",
                                 hintText: "",
                               ),
@@ -254,24 +254,25 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                               listMastersAdviceTypeString, 1);
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: timingController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "Timing",
                                 hintText: "",
                               ),
@@ -283,9 +284,9 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: durationInDaysController,
                           keyboardType: TextInputType.number,
@@ -294,14 +295,14 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                           ],
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Duration (in days)",
                             hintText: "",
                           ),
@@ -311,24 +312,24 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: notesController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           minLines: 5,
                           maxLines: 5,
                           maxLength: 500,
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Notes",
                             hintText: "",
                             counterText: "",
@@ -339,21 +340,21 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: itemGroupController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Item Group",
                             hintText: "",
                           ),
@@ -368,24 +369,25 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                               listMastersUnitOfMeasurementString, 3);
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: unitOfMeasurementController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "Unit of Measurement",
                                 hintText: "",
                               ),
@@ -397,21 +399,21 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: manufacturerController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Manufacturer",
                             hintText: "",
                           ),
@@ -421,21 +423,21 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: hsnController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "HSN",
                             hintText: "",
                           ),
@@ -445,21 +447,21 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: marketerController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Marketer",
                             hintText: "",
                           ),
@@ -469,21 +471,21 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: gstPlanController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "GST Plan",
                             hintText: "",
                           ),
@@ -548,10 +550,11 @@ class AddDrugScreenState extends State<AddDrugScreen> {
               Align(
                   alignment: Alignment.bottomRight,
                   child: Padding(
-                    padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2),
+                    padding:
+                        EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 2),
                     child: Container(
-                      width: SizeConfig.blockSizeHorizontal !* 12,
-                      height: SizeConfig.blockSizeHorizontal !* 12,
+                      width: SizeConfig.blockSizeHorizontal! * 12,
+                      height: SizeConfig.blockSizeHorizontal! * 12,
                       child: RawMaterialButton(
                         onPressed: () {
                           addDrugToTheList(context);
@@ -559,8 +562,8 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                         elevation: 2.0,
                         fillColor: Color(0xFF06A759),
                         child: Image(
-                          width: SizeConfig.blockSizeHorizontal !* 5.5,
-                          height: SizeConfig.blockSizeHorizontal !* 5.5,
+                          width: SizeConfig.blockSizeHorizontal! * 5.5,
+                          height: SizeConfig.blockSizeHorizontal! * 5.5,
                           //height: 80,
                           image: AssetImage(
                               "images/ic_right_arrow_triangular.png"),
@@ -619,7 +622,7 @@ class AddDrugScreenState extends State<AddDrugScreen> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  height: SizeConfig.blockSizeVertical !* 8,
+                  height: SizeConfig.blockSizeVertical! * 8,
                   child: Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Row(
@@ -629,7 +632,7 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                           child: Icon(
                             Icons.arrow_back,
                             color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal !* 6.2,
+                            size: SizeConfig.blockSizeHorizontal! * 6.2,
                           ),
                           onTap: () {
                             /*setState(() {
@@ -639,17 +642,17 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                           },
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 6,
+                          width: SizeConfig.blockSizeHorizontal! * 6,
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal !* 50,
-                          height: SizeConfig.blockSizeVertical !* 8,
+                          width: SizeConfig.blockSizeHorizontal! * 50,
+                          height: SizeConfig.blockSizeVertical! * 8,
                           child: Center(
                             child: Text(
                               "Select ${getMasterNameFromID(id)}",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal !* 4,
+                                fontSize: SizeConfig.blockSizeHorizontal! * 4,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green,
                                 decoration: TextDecoration.none,
@@ -701,7 +704,7 @@ class AddDrugScreenState extends State<AddDrugScreen> {
                                   padding: EdgeInsets.all(0.0),
                                   child: Container(
                                       width:
-                                          SizeConfig.blockSizeHorizontal !* 90,
+                                          SizeConfig.blockSizeHorizontal! * 90,
                                       padding: EdgeInsets.only(
                                         top: 5,
                                         bottom: 5,
@@ -1085,7 +1088,7 @@ class AddDrugScreenState extends State<AddDrugScreen> {
         "\"" +
         itemGroupController.text.trim() +
         "\"" +
-         "}";
+        "}";
 
     debugPrint(jsonStr);
 

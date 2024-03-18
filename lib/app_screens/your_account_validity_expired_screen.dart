@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:swasthyasetu/app_screens/apply_couponcode_or_pay_screen.dart';
-import 'package:swasthyasetu/enums/expiry_state.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:silvertouch/app_screens/apply_couponcode_or_pay_screen.dart';
+import 'package:silvertouch/enums/expiry_state.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
 
 class YourAccountValidityExpiredScreen extends StatelessWidget {
   final ExpiryState expiryState;
@@ -29,36 +29,38 @@ class YourAccountValidityExpiredScreen extends StatelessWidget {
             }),
         iconTheme: IconThemeData(
           color: Colors.black,
-          size: SizeConfig.blockSizeVertical !* 3.0,
+          size: SizeConfig.blockSizeVertical! * 3.0,
         ),
-        elevation: 0, toolbarTextStyle: TextTheme(
+        elevation: 0,
+        toolbarTextStyle: TextTheme(
           titleMedium: TextStyle(
               color: Colors.white,
               fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.3),
-        ).bodyMedium, titleTextStyle: TextTheme(
+              fontSize: SizeConfig.blockSizeVertical! * 2.3),
+        ).bodyMedium,
+        titleTextStyle: TextTheme(
           titleMedium: TextStyle(
               color: Colors.white,
               fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+              fontSize: SizeConfig.blockSizeVertical! * 2.3),
         ).titleLarge,
       ),
       body: Container(
         width: double.maxFinite,
         padding: EdgeInsets.all(
-          SizeConfig.blockSizeHorizontal !* 3.0,
+          SizeConfig.blockSizeHorizontal! * 3.0,
         ),
         color: Colors.white,
         child: Column(
           children: [
             Image(
-              width: SizeConfig.blockSizeHorizontal !* 20,
-              height: SizeConfig.blockSizeHorizontal !* 20,
+              width: SizeConfig.blockSizeHorizontal! * 20,
+              height: SizeConfig.blockSizeHorizontal! * 20,
               //height: 80,
-              image: AssetImage("images/swasthya_setu_logo.jpeg"),
+              image: AssetImage("images/logo_silver_touch.jpg"),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical !* 2.0,
+              height: SizeConfig.blockSizeVertical! * 2.0,
             ),
             /*Text(
               expiryState == ExpiryState.Expired
@@ -74,11 +76,11 @@ class YourAccountValidityExpiredScreen extends StatelessWidget {
             ),*/
             Visibility(
               child: Text(
-                "Your Swasthya Setu subscription is expired, kindly proceed for Renewal.",
+                "Your Silver Touch subscription is expired, kindly proceed for Renewal.",
                 softWrap: true,
                 style: TextStyle(
                   color: Colors.red,
-                  fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
+                  fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
                   letterSpacing: 1.0,
                   height: 1.6,
                 ),
@@ -91,7 +93,7 @@ class YourAccountValidityExpiredScreen extends StatelessWidget {
                 softWrap: true,
                 style: TextStyle(
                   color: Colors.red,
-                  fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
+                  fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
                   letterSpacing: 1.0,
                   height: 1.6,
                 ),
@@ -104,7 +106,7 @@ class YourAccountValidityExpiredScreen extends StatelessWidget {
                 softWrap: true,
                 style: TextStyle(
                   color: Colors.red,
-                  fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
+                  fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
                   letterSpacing: 1.0,
                   fontWeight: FontWeight.w500,
                   height: 1.6,
@@ -118,7 +120,7 @@ class YourAccountValidityExpiredScreen extends StatelessWidget {
                 softWrap: true,
                 style: TextStyle(
                   color: Colors.red,
-                  fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
+                  fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
                   letterSpacing: 1.0,
                   height: 1.6,
                 ),
@@ -126,7 +128,7 @@ class YourAccountValidityExpiredScreen extends StatelessWidget {
               visible: expiryState == ExpiryState.NotPaid,
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical !* 2.0,
+              height: SizeConfig.blockSizeVertical! * 2.0,
             ),
             MaterialButton(
               onPressed: () {

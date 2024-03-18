@@ -3,18 +3,19 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_calorie_gain.dart';
-import 'package:swasthyasetu/podo/model_calorie_loss.dart';
-import 'package:swasthyasetu/podo/model_graph_values.dart';
-import 'package:swasthyasetu/podo/model_vitals_list.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/flutter_echarts_custom.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
-import 'package:swasthyasetu/utils/ultimate_slider.dart';
-import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
-    as DateRagePicker;
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_calorie_gain.dart';
+import 'package:silvertouch/podo/model_calorie_loss.dart';
+import 'package:silvertouch/podo/model_graph_values.dart';
+import 'package:silvertouch/podo/model_vitals_list.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/flutter_echarts_custom.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:silvertouch/utils/ultimate_slider.dart';
 
 import '../utils/color.dart';
 
@@ -91,7 +92,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
     listVitalOnlyString = [];
     listVitalOnlyStringDate = [];
     emptyMessageWidget = Container(
-      padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+      padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -669,35 +670,37 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                 image: AssetImage(
                                   "images/ic_calories.png",
                                 ),
-                                width: SizeConfig.blockSizeHorizontal !* 6.0,
-                                height: SizeConfig.blockSizeHorizontal !* 6.0,
+                                width: SizeConfig.blockSizeHorizontal! * 6.0,
+                                height: SizeConfig.blockSizeHorizontal! * 6.0,
                                 color: Colors.white,
                               ),
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 2.0,
+                                width: SizeConfig.blockSizeHorizontal! * 2.0,
                               ),
                               Text(
                                 "Today",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 4.0,
+                                      SizeConfig.blockSizeHorizontal! * 4.0,
                                 ),
                               ),
                             ],
                           )),
                     ),
             )
-          ], toolbarTextStyle: TextTheme(
+          ],
+          toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
-          )).bodyMedium, titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          )).bodyMedium,
+          titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
           )).titleLarge,
         ),
         body: Builder(
@@ -845,12 +848,12 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                           child: Column(
                         children: [
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical !* 2.5,
+                            height: SizeConfig.blockSizeVertical! * 2.5,
                           ),
                           Padding(
                               padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal !* 3,
-                                right: SizeConfig.blockSizeHorizontal !* 3,
+                                left: SizeConfig.blockSizeHorizontal! * 3,
+                                right: SizeConfig.blockSizeHorizontal! * 3,
                               ),
                               child: Row(
                                 children: [
@@ -859,7 +862,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 8,
+                                          SizeConfig.blockSizeHorizontal! * 8,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -887,10 +890,10 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                 child: Padding(
                                                   padding: EdgeInsets.symmetric(
                                                       vertical: SizeConfig
-                                                              .blockSizeHorizontal !*
+                                                              .blockSizeHorizontal! *
                                                           1,
                                                       horizontal: SizeConfig
-                                                              .blockSizeHorizontal !*
+                                                              .blockSizeHorizontal! *
                                                           3.0),
                                                   child: Row(
                                                     mainAxisAlignment:
@@ -904,12 +907,12 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                         color:
                                                             Colors.green[800],
                                                         size: SizeConfig
-                                                                .blockSizeHorizontal !*
+                                                                .blockSizeHorizontal! *
                                                             6,
                                                       ),
                                                       SizedBox(
                                                         width: SizeConfig
-                                                                .blockSizeHorizontal !*
+                                                                .blockSizeHorizontal! *
                                                             1,
                                                       ),
                                                       Text(
@@ -918,7 +921,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                           color:
                                                               Colors.green[800],
                                                           fontSize: SizeConfig
-                                                                  .blockSizeHorizontal !*
+                                                                  .blockSizeHorizontal! *
                                                               4.0,
                                                         ),
                                                       ),
@@ -933,13 +936,13 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                 ],
                               )),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical !* 2.5,
+                            height: SizeConfig.blockSizeVertical! * 2.5,
                           ),
                           Text(
                             "Normal Daily Calorie Range is 1800 - 2600 cal",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: SizeConfig.blockSizeHorizontal !* 3,
+                              fontSize: SizeConfig.blockSizeHorizontal! * 3,
                               color: Colors.grey,
                               fontWeight: FontWeight.w500,
                             ),
@@ -947,7 +950,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                           Row(
                             children: <Widget>[
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 3,
+                                width: SizeConfig.blockSizeHorizontal! * 3,
                               ),
                               Expanded(
                                 child: Text(
@@ -955,7 +958,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal !* 8,
+                                        SizeConfig.blockSizeHorizontal! * 8,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -970,17 +973,17 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                       ? "images/ic_happy.png"
                                       : "images/ic_sad.png",
                                 ),
-                                width: SizeConfig.blockSizeHorizontal !* 10,
-                                height: SizeConfig.blockSizeHorizontal !* 10,
+                                width: SizeConfig.blockSizeHorizontal! * 10,
+                                height: SizeConfig.blockSizeHorizontal! * 10,
                               ),
                               /*),*/
                               SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 3,
+                                width: SizeConfig.blockSizeHorizontal! * 3,
                               ),
                             ],
                           ),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical !* 1,
+                            height: SizeConfig.blockSizeVertical! * 1,
                           ),
                           Row(
                             children: <Widget>[
@@ -991,17 +994,18 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                     Image(
                                       image: AssetImage("images/ic_up.png"),
                                       width:
-                                          SizeConfig.blockSizeHorizontal !* 3.5,
+                                          SizeConfig.blockSizeHorizontal! * 3.5,
                                       color: Colors.green,
                                     ),
                                     SizedBox(
-                                      width: SizeConfig.blockSizeHorizontal !* 2,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 2,
                                     ),
                                     Text(
                                       "${totalCalorieGain.toStringAsFixed(2)} cal",
                                       style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 5.0,
                                         color: Colors.green,
                                         fontWeight: FontWeight.w500,
@@ -1017,17 +1021,18 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                     Image(
                                       image: AssetImage("images/ic_down.png"),
                                       width:
-                                          SizeConfig.blockSizeHorizontal !* 3.5,
+                                          SizeConfig.blockSizeHorizontal! * 3.5,
                                       color: Colors.red,
                                     ),
                                     SizedBox(
-                                      width: SizeConfig.blockSizeHorizontal !* 2,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 2,
                                     ),
                                     Text(
                                       "${totalCalorieLoss.toStringAsFixed(2)} cal",
                                       style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 5.0,
                                         color: Colors.red,
                                         fontWeight: FontWeight.w500,
@@ -1039,13 +1044,13 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                             ],
                           ),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical !* 1,
+                            height: SizeConfig.blockSizeVertical! * 1,
                           ),
                           Divider(
                             color: Colors.blueGrey,
                           ),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical !* 0.5,
+                            height: SizeConfig.blockSizeVertical! * 0.5,
                           ),
                           Visibility(
                               visible: bottomNavBarIndex == 0,
@@ -1053,8 +1058,8 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                   alignment: Alignment.center,
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                        left:
-                                            SizeConfig.blockSizeHorizontal !* 3),
+                                        left: SizeConfig.blockSizeHorizontal! *
+                                            3),
                                     child: Text(
                                       "Add Items you ate today",
                                       textAlign: TextAlign.center,
@@ -1062,7 +1067,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                         decoration: TextDecoration.underline,
                                         decorationThickness: 2.5,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.5,
                                         color: Colors.teal,
                                         fontWeight: FontWeight.w500,
@@ -1070,7 +1075,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                     ),
                                   ))),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical !* 1,
+                            height: SizeConfig.blockSizeVertical! * 1,
                           ),
                           Visibility(
                             visible: bottomNavBarIndex == 0,
@@ -1087,10 +1092,10 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                             child: Padding(
                                               padding: EdgeInsets.only(
                                                   left: SizeConfig
-                                                          .blockSizeHorizontal !*
+                                                          .blockSizeHorizontal! *
                                                       2,
                                                   right: SizeConfig
-                                                          .blockSizeHorizontal !*
+                                                          .blockSizeHorizontal! *
                                                       2),
                                               child: Visibility(
                                                   visible: listModelCalorieGain[
@@ -1132,7 +1137,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                                   : Icons
                                                                       .arrow_right,
                                                               size: SizeConfig
-                                                                      .blockSizeHorizontal !*
+                                                                      .blockSizeHorizontal! *
                                                                   8,
                                                             ),
                                                             Text(
@@ -1144,7 +1149,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                                       .left,
                                                               style: TextStyle(
                                                                 fontSize: SizeConfig
-                                                                        .blockSizeHorizontal !*
+                                                                        .blockSizeHorizontal! *
                                                                     5.3,
                                                                 color:
                                                                     Colors.teal,
@@ -1165,7 +1170,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                   .category),
                                           child: SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     1,
                                           ),
                                         ),
@@ -1185,7 +1190,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                           child: Padding(
                                                             padding: EdgeInsets.only(
                                                                 left: SizeConfig
-                                                                        .blockSizeHorizontal !*
+                                                                        .blockSizeHorizontal! *
                                                                     5),
                                                             child: Text(
                                                               listModelCalorieGain[
@@ -1196,7 +1201,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                                       .left,
                                                               style: TextStyle(
                                                                 fontSize: SizeConfig
-                                                                        .blockSizeHorizontal !*
+                                                                        .blockSizeHorizontal! *
                                                                     4.0,
                                                               ),
                                                             ),
@@ -1207,7 +1212,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                           child: Padding(
                                                             padding: EdgeInsets.only(
                                                                 left: SizeConfig
-                                                                        .blockSizeHorizontal !*
+                                                                        .blockSizeHorizontal! *
                                                                     5),
                                                             child: Text(
                                                               listModelCalorieGain[
@@ -1219,7 +1224,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                               style: TextStyle(
                                                                   fontSize:
                                                                       SizeConfig
-                                                                              .blockSizeHorizontal !*
+                                                                              .blockSizeHorizontal! *
                                                                           3.0,
                                                                   color: Colors
                                                                       .grey),
@@ -1231,7 +1236,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                           child: Padding(
                                                             padding: EdgeInsets.only(
                                                                 left: SizeConfig
-                                                                        .blockSizeHorizontal !*
+                                                                        .blockSizeHorizontal! *
                                                                     5),
                                                             child: Text(
                                                               "${listModelCalorieGain[index].foodCalorie.toString()} cal",
@@ -1241,7 +1246,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                               style: TextStyle(
                                                                   fontSize:
                                                                       SizeConfig
-                                                                              .blockSizeHorizontal !*
+                                                                              .blockSizeHorizontal! *
                                                                           3.0,
                                                                   color: Colors
                                                                       .grey),
@@ -1294,7 +1299,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                             ),
                           ),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical !* 0.5,
+                            height: SizeConfig.blockSizeVertical! * 0.5,
                           ),
                           Visibility(
                               visible: bottomNavBarIndex == 1,
@@ -1302,14 +1307,14 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                   alignment: Alignment.center,
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                        left:
-                                            SizeConfig.blockSizeHorizontal !* 3),
+                                        left: SizeConfig.blockSizeHorizontal! *
+                                            3),
                                     child: Text(
                                       "Add Activities you did today",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.5,
                                         color: Colors.teal,
                                         decorationThickness: 2.5,
@@ -1319,7 +1324,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                     ),
                                   ))),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical !* 0.5,
+                            height: SizeConfig.blockSizeVertical! * 0.5,
                           ),
                           Visibility(
                             visible: bottomNavBarIndex == 1,
@@ -1343,7 +1348,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                       child: Padding(
                                                         padding: EdgeInsets.only(
                                                             left: SizeConfig
-                                                                    .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 5),
                                                         child: Text(
                                                           listModelCalorieLoss[
@@ -1353,7 +1358,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                                               TextAlign.left,
                                                           style: TextStyle(
                                                             fontSize: SizeConfig
-                                                                    .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 4.0,
                                                           ),
                                                         ),
@@ -1388,7 +1393,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal:
-                                    SizeConfig.blockSizeHorizontal !* 1.0),
+                                    SizeConfig.blockSizeHorizontal! * 1.0),
                             child: InkWell(
                               onTap: () {
                                 setState(() {
@@ -1410,16 +1415,17 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                           ? Colors.white
                                           : Colors.white,
                                       width:
-                                          SizeConfig.blockSizeHorizontal !* 3.5,
+                                          SizeConfig.blockSizeHorizontal! * 3.5,
                                     ),
                                     SizedBox(
-                                      width: SizeConfig.blockSizeHorizontal !* 2,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 2,
                                     ),
                                     Text(
                                       "Calories Gained",
                                       style: TextStyle(
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   3.8,
                                           color: bottomNavBarIndex == 0
                                               ? Colors.white
@@ -1433,7 +1439,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal:
-                                    SizeConfig.blockSizeHorizontal !* 1.0),
+                                    SizeConfig.blockSizeHorizontal! * 1.0),
                             child: InkWell(
                               onTap: () {
                                 setState(() {
@@ -1455,16 +1461,17 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                           ? Colors.white
                                           : Colors.white,
                                       width:
-                                          SizeConfig.blockSizeHorizontal !* 3.5,
+                                          SizeConfig.blockSizeHorizontal! * 3.5,
                                     ),
                                     SizedBox(
-                                      width: SizeConfig.blockSizeHorizontal !* 2,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal! * 2,
                                     ),
                                     Text(
                                       "Calories Burned",
                                       style: TextStyle(
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   3.8,
                                           color: bottomNavBarIndex == 1
                                               ? Colors.white
@@ -1483,10 +1490,10 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                     ? Column(
                         children: <Widget>[
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical !* 1,
+                            height: SizeConfig.blockSizeVertical! * 1,
                           ),
                           Container(
-                            height: SizeConfig.blockSizeVertical !* 8,
+                            height: SizeConfig.blockSizeVertical! * 8,
                             child: Padding(
                               padding: EdgeInsets.only(left: 5.0, right: 5.0),
                               child: Container(
@@ -1502,7 +1509,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: SizeConfig
-                                                        .blockSizeVertical !*
+                                                        .blockSizeVertical! *
                                                     2.6,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black),
@@ -1510,13 +1517,13 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                                         ),
                                         Container(
                                           width:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   15,
                                           child: Icon(
                                             Icons.arrow_drop_down,
-                                            size:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    8,
+                                            size: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                8,
                                           ),
                                         ),
                                       ],
@@ -1533,7 +1540,7 @@ class CalaryCounterScreenState extends State<CalaryCounterScreen> {
                             ),
                           ),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical !* 1,
+                            height: SizeConfig.blockSizeVertical! * 1,
                           ),
                           listVitalOnlyString.length == 0
                               ? Align(
@@ -2061,7 +2068,7 @@ class _SliderWidgetState extends State<SliderWidget> {
       ),*/
         color: Colors.white,
         padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.blockSizeHorizontal !* 6),
+            horizontal: SizeConfig.blockSizeHorizontal! * 6),
         child: Column(
           children: [
             Row(
@@ -2091,7 +2098,7 @@ class _SliderWidgetState extends State<SliderWidget> {
               ],
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical !* 5.0,
+              height: SizeConfig.blockSizeVertical! * 5.0,
             )
             /*Text(
                       '${this.widget.title} - ',
@@ -2210,7 +2217,7 @@ class _NumberInputWithIncrementDecrementState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+      padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
       child: Center(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -2336,23 +2343,23 @@ class _NumberInputWithIncrementDecrementState
             ),
           ),
           SizedBox(
-            width: SizeConfig.blockSizeHorizontal !* 2,
+            width: SizeConfig.blockSizeHorizontal! * 2,
           ),
           Container(
-            width: SizeConfig.blockSizeHorizontal !* 25,
+            width: SizeConfig.blockSizeHorizontal! * 25,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Text(
                   "${listModelCalorieGain[widget.index].foodCalorie} cal * ${_controller.text}",
                   style: TextStyle(
-                      fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
+                      fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
                       color: Colors.blueGrey),
                 ),
                 Text(
                   " = ${listModelCalorieGain[widget.index].foodCalorie * int.parse(_controller.text)} cal",
                   style: TextStyle(
-                      fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
+                      fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
                       color: Colors.black),
                 ),
               ],
@@ -2391,7 +2398,7 @@ class NumberInputWithIncrementDecrementForCalorieLossState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+      padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
       child: Center(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -2530,12 +2537,12 @@ class NumberInputWithIncrementDecrementForCalorieLossState
             ),
           ),
           SizedBox(
-            width: SizeConfig.blockSizeHorizontal !* 3,
+            width: SizeConfig.blockSizeHorizontal! * 3,
           ),
           Text(
             "mins.",
             style: TextStyle(
-                fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
+                fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
                 color: Colors.blueGrey),
           ),
           /*Column(
@@ -2563,7 +2570,9 @@ class NumberInputWithIncrementDecrementForCalorieLossState
 class MyEChart extends StatefulWidget {
   String chartTypeID, titleOfChart;
 
-  MyEChart({required Key key,required this.chartTypeID,required this.titleOfChart}) : super(key: key);
+  MyEChart(
+      {required Key key, required this.chartTypeID, required this.titleOfChart})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -2643,10 +2652,11 @@ class MyEChartState extends State<MyEChart> {
     return listOnlyString.length > 0
         ? Container(
             width: SizeConfig.screenWidth,
-            height: SizeConfig.blockSizeVertical !* 60,
+            height: SizeConfig.blockSizeVertical! * 60,
             child: widget.chartTypeID != "5"
                 ? EchartsCustom(
-                    option: '''
+                    option:
+                        '''
                         {
                           tooltip: {
                                 trigger: 'axis',
@@ -2671,7 +2681,8 @@ class MyEChartState extends State<MyEChart> {
                     //,name:'BP'
                   )
                 : EchartsCustom(
-                    option: '''
+                    option:
+                        '''
                   {
                     tooltip: {
                           trigger: 'axis',

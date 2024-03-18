@@ -44,7 +44,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.swasthyasetu.swasthyasetu"
+        applicationId "com.app.silvertouch"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 1059
@@ -69,18 +69,18 @@ android {
             signingConfig signingConfigs.debug
         }*/
 
-        release {
-            minifyEnabled false
-            shrinkResources false
-            if (keystorePropertiesFile.exists()) {
-                signingConfig signingConfigs.release
-                println "Signing with key.properties"
-                shrinkResources false
-            } else {
-                signingConfig signingConfigs.debug
-                println "Signing with debug keys"
-            }
-        }
+//        release {
+//            minifyEnabled false
+//            shrinkResources false
+//            if (keystorePropertiesFile.exists()) {
+//                signingConfig signingConfigs.release
+//                println "Signing with key.properties"
+//                shrinkResources false
+//            } else {
+//                signingConfig signingConfigs.debug
+//                println "Signing with debug keys"
+//            }
+//        }
     }
 }
 

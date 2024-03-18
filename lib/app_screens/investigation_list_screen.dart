@@ -2,13 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:swasthyasetu/api/api_helper.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_investigation_master_list.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
-import 'package:swasthyasetu/widgets/extensions.dart';
+import 'package:silvertouch/api/api_helper.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/model_investigation_master_list.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:silvertouch/widgets/extensions.dart';
 
 import '../utils/color.dart';
 
@@ -29,7 +33,8 @@ class InvestigationListScreen extends StatefulWidget {
 
   String? emptyTextInvestigation1 =
       "You can enter your Investigation reports values by selecting Investigation from the list.";
-  String? emptyTextInvestigation2 = "Share the details to your doctor any time.";
+  String? emptyTextInvestigation2 =
+      "Share the details to your doctor any time.";
 
   String? emptyMessage = "";
 
@@ -88,9 +93,9 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
         DateTime(now.year, now.month, now.day, now.hour, now.minute);
 
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical !* 80,
+      height: SizeConfig.blockSizeVertical! * 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -156,7 +161,7 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
                       },
                       style: TextStyle(
                         color: Colorsblack,
-                        fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                        fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                       ),
                       decoration: InputDecoration(
                         hintText: "Search Investigation",
@@ -191,19 +196,21 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
               icon: Image(
                 image: AssetImage('images/ic_filter.png'),
                 color: Colors.black,
-                width: SizeConfig.blockSizeHorizontal !* 5,
+                width: SizeConfig.blockSizeHorizontal! * 5,
               ),
             )
-          ], toolbarTextStyle: TextTheme(
+          ],
+          toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
-          )).bodyMedium, titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          )).bodyMedium,
+          titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
           )).titleLarge,
         ),
         body: Builder(
@@ -243,16 +250,16 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.1),
+                                        SizeConfig.blockSizeVertical! * 2.1),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelText: "Entry Date",
                                   hintText: "",
                                 ),
@@ -277,16 +284,16 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.1),
+                                        SizeConfig.blockSizeVertical! * 2.1),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelText: "Entry Time",
                                   hintText: "",
                                 ),
@@ -299,7 +306,7 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -307,14 +314,14 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
                         "Investigation Group - ",
                         style: TextStyle(
                           color: Colors.grey,
-                          fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
+                          fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
                         ),
                       ),
                       Text(
                         selectedGroupName,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal !* 4.5,
+                          fontSize: SizeConfig.blockSizeHorizontal! * 4.5,
                         ),
                       ),
                     ],
@@ -399,8 +406,8 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
                               elevation: 2.0,
                               fillColor: Color(0xFF06A759),
                               child: Image(
-                                width: SizeConfig.blockSizeHorizontal !* 5.5,
-                                height: SizeConfig.blockSizeHorizontal !* 5.5,
+                                width: SizeConfig.blockSizeHorizontal! * 5.5,
+                                height: SizeConfig.blockSizeHorizontal! * 5.5,
                                 //height: 80,
                                 image: AssetImage(
                                     "images/ic_right_arrow_triangular.png"),
@@ -493,8 +500,8 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
         builder: (BuildContext? context, Widget? child) {
           return MediaQuery(
               child: child!,
-              data:
-                  MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: true));
+              data: MediaQuery.of(context!)
+                  .copyWith(alwaysUse24HourFormat: true));
         });
 
     if (time != null) {
@@ -718,7 +725,7 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
             child: Column(
               children: <Widget>[
                 Container(
-                  height: SizeConfig.blockSizeVertical !* 8,
+                  height: SizeConfig.blockSizeVertical! * 8,
                   child: Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Row(
@@ -728,7 +735,7 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
                           child: Icon(
                             Icons.arrow_back,
                             color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal !* 6.2,
+                            size: SizeConfig.blockSizeHorizontal! * 6.2,
                           ),
                           onTap: () {
                             /*setState(() {
@@ -738,17 +745,17 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
                           },
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 6,
+                          width: SizeConfig.blockSizeHorizontal! * 6,
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal !* 50,
-                          height: SizeConfig.blockSizeVertical !* 8,
+                          width: SizeConfig.blockSizeHorizontal! * 50,
+                          height: SizeConfig.blockSizeVertical! * 8,
                           child: Center(
                             child: Text(
                               "Select Investigation Group",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+                                fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green,
                                 decoration: TextDecoration.none,
@@ -790,7 +797,7 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
                             child: Padding(
                                 padding: EdgeInsets.all(0.0),
                                 child: Container(
-                                    width: SizeConfig.blockSizeHorizontal !* 90,
+                                    width: SizeConfig.blockSizeHorizontal! * 90,
                                     padding: EdgeInsets.only(
                                       top: 5,
                                       bottom: 5,
@@ -850,14 +857,14 @@ class InvestigationListScreenState extends State<InvestigationListScreen> {
     for (int i = 0; i < listInvestigationsList.length; i++) {
       ModelInvestigationMaster model = listInvestigationsList[i];
       if (selectedGroupName == model.groupName || selectedGroupName == "All") {
-        if (model.groupName
-        !.toLowerCase()
+        if (model.groupName!
+                .toLowerCase()
                 .contains(searchController!.text.toLowerCase()) ||
-            model.investigationType
-            !.toLowerCase()
+            model.investigationType!
+                .toLowerCase()
                 .contains(searchController!.text.toLowerCase()) ||
-            model.groupType
-            !.toLowerCase()
+            model.groupType!
+                .toLowerCase()
                 .contains(searchController!.text.toLowerCase())) {
           model.show = true;
         } else
@@ -959,23 +966,23 @@ class DynamicTextFieldState extends State<DynamicTextField> {
       color: mycolor,
       child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[*/
         Container(
-      height: SizeConfig.blockSizeVertical !* 20,
+      height: SizeConfig.blockSizeVertical! * 20,
       padding: EdgeInsets.only(
-        left: SizeConfig.blockSizeVertical !* 2,
-        right: SizeConfig.blockSizeVertical !* 2,
+        left: SizeConfig.blockSizeVertical! * 2,
+        right: SizeConfig.blockSizeVertical! * 2,
       ),
       child: TextField(
         //controller: mobileNoController,
         style: TextStyle(
-            color: Colors.green, fontSize: SizeConfig.blockSizeVertical !* 2.1),
+            color: Colors.green, fontSize: SizeConfig.blockSizeVertical! * 2.1),
         controller: investigationController,
         decoration: InputDecoration(
           hintStyle: TextStyle(
               color: Colors.black,
-              fontSize: SizeConfig.blockSizeVertical !* 2.1),
+              fontSize: SizeConfig.blockSizeVertical! * 2.1),
           labelStyle: TextStyle(
               color: Colors.black,
-              fontSize: SizeConfig.blockSizeVertical !* 2.1),
+              fontSize: SizeConfig.blockSizeVertical! * 2.1),
           labelText: widget.modelInvestigationMaster.investigationType,
           hintText: "Enter value",
         ),
@@ -1135,26 +1142,26 @@ class MultiCardState extends State<MultiCard> {
                       widget.modelInvestigationMaster.groupName!.trim(),
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
+                        fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
                         fontWeight: FontWeight.w500,
                       ),
                     ).pO(
-                      left: SizeConfig.blockSizeHorizontal !* 3.0,
-                      top: SizeConfig.blockSizeVertical !* 2.5,
-                      bottom: SizeConfig.blockSizeVertical !* 2.5,
+                      left: SizeConfig.blockSizeHorizontal! * 3.0,
+                      top: SizeConfig.blockSizeVertical! * 2.5,
+                      bottom: SizeConfig.blockSizeVertical! * 2.5,
                     )
                   : Container(),
               Card(
                 color: mycolor,
                 margin: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.blockSizeHorizontal !* 5.0,
+                  horizontal: SizeConfig.blockSizeHorizontal! * 5.0,
                 ),
                 child:
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   ListTile(
                     selected: widget.modelInvestigationMaster.isChecked,
                     contentPadding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal !* 1.0,
+                      SizeConfig.blockSizeHorizontal! * 1.0,
                     ),
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -1167,13 +1174,13 @@ class MultiCardState extends State<MultiCard> {
                             children: <Widget>[
                               Text(
                                 widget
-                                    .modelInvestigationMaster.investigationType
-                                !.trim(),
+                                    .modelInvestigationMaster.investigationType!
+                                    .trim(),
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 3.8,
+                                      SizeConfig.blockSizeHorizontal! * 3.8,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -1210,7 +1217,7 @@ class MultiCardState extends State<MultiCard> {
                                       "Enter Value",
                                       style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !* 3,
+                                            SizeConfig.blockSizeHorizontal! * 3,
                                         color: Colors.grey,
                                       ),
                                     ),
@@ -1225,7 +1232,7 @@ class MultiCardState extends State<MultiCard> {
                                       style: TextStyle(
                                           color: Colors.green,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical !*
+                                              SizeConfig.blockSizeVertical! *
                                                   2.1),
                                       controller: investigationController,
                                       focusNode: myFocusNode,
@@ -1275,7 +1282,8 @@ class MultiCardState extends State<MultiCard> {
                                               groupValue: widget
                                                   .modelInvestigationMaster
                                                   .radioValue,
-                                              onChanged: changeRadioPositiveValue,
+                                              onChanged:
+                                                  changeRadioPositiveValue,
                                             ),
                                             Text(
                                               'Negative',

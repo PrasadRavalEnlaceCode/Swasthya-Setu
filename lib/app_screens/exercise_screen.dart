@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:swasthyasetu/controllers/exercise_controller.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/podo/exercise_model.dart';
-import 'package:swasthyasetu/enums/exercise_states.dart';
+import 'package:silvertouch/controllers/exercise_controller.dart';
+import 'package:silvertouch/enums/exercise_states.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/exercise_model.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 class ExerciseScreen extends StatelessWidget {
   final ExerciseModel exerciseModel;
@@ -31,7 +38,7 @@ class ExerciseScreen extends StatelessWidget {
           exerciseModel.exerciseName!,
           style: TextStyle(
             color: Colors.black,
-            fontSize: SizeConfig.blockSizeHorizontal !* 5.5,
+            fontSize: SizeConfig.blockSizeHorizontal! * 5.5,
             fontStyle: FontStyle.italic,
             letterSpacing: 1.0,
           ),
@@ -44,11 +51,11 @@ class ExerciseScreen extends StatelessWidget {
                     ExerciseStates.needUserInput;
               },
               child: Padding(
-                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3.0),
+                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3.0),
                 child: Image(
                   image: AssetImage("images/ic_reps.png"),
-                  width: SizeConfig.blockSizeHorizontal !* 9.0,
-                  height: SizeConfig.blockSizeHorizontal !* 9.0,
+                  width: SizeConfig.blockSizeHorizontal! * 9.0,
+                  height: SizeConfig.blockSizeHorizontal! * 9.0,
                 ),
               )),
         ],
@@ -57,8 +64,8 @@ class ExerciseScreen extends StatelessWidget {
         color: Colors.white,
         child: Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
-                vertical: SizeConfig.blockSizeVertical !* 1.0),
+                horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
+                vertical: SizeConfig.blockSizeVertical! * 1.0),
             child: Obx(
               () => ListView(
                 children: [
@@ -76,8 +83,8 @@ class ExerciseScreen extends StatelessWidget {
                                   ExerciseStates.needUserInput ||
                               exerciseController.exerciseStates.value ==
                                   ExerciseStates.startCounter
-                          ? SizeConfig.blockSizeHorizontal !* 4.0
-                          : SizeConfig.blockSizeHorizontal !* 6.0,
+                          ? SizeConfig.blockSizeHorizontal! * 4.0
+                          : SizeConfig.blockSizeHorizontal! * 6.0,
                       fontStyle: FontStyle.italic,
                       letterSpacing: 1.0,
                       wordSpacing: 1.2,
@@ -210,21 +217,21 @@ class ExerciseScreen extends StatelessWidget {
           },
           style: TextStyle(
               color: Colors.green,
-              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+              fontSize: SizeConfig.blockSizeVertical! * 2.3),
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             hintStyle: TextStyle(
                 color: Colors.black,
-                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                fontSize: SizeConfig.blockSizeVertical! * 2.3),
             labelStyle: TextStyle(
                 color: Colors.black,
-                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                fontSize: SizeConfig.blockSizeVertical! * 2.3),
             labelText: "Exercise Interval (In seconds)",
             hintText: "",
           ),
         ),
         SizedBox(
-          height: SizeConfig.blockSizeVertical !* 0.5,
+          height: SizeConfig.blockSizeVertical! * 0.5,
         ),
         TextField(
           controller: repeatIntervalController,
@@ -233,21 +240,21 @@ class ExerciseScreen extends StatelessWidget {
           },
           style: TextStyle(
               color: Colors.green,
-              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+              fontSize: SizeConfig.blockSizeVertical! * 2.3),
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             hintStyle: TextStyle(
                 color: Colors.black,
-                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                fontSize: SizeConfig.blockSizeVertical! * 2.3),
             labelStyle: TextStyle(
                 color: Colors.black,
-                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                fontSize: SizeConfig.blockSizeVertical! * 2.3),
             labelText: "Repeat Exercise",
             hintText: "",
           ),
         ),
         SizedBox(
-          height: SizeConfig.blockSizeVertical !* 0.5,
+          height: SizeConfig.blockSizeVertical! * 0.5,
         ),
         Align(
           alignment: Alignment.centerLeft,
@@ -260,7 +267,7 @@ class ExerciseScreen extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: SizeConfig.blockSizeVertical !* 1.5,
+          height: SizeConfig.blockSizeVertical! * 1.5,
         ),
         Align(
           alignment: Alignment.centerRight,
@@ -273,7 +280,7 @@ class ExerciseScreen extends StatelessWidget {
               "SET",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: SizeConfig.blockSizeHorizontal !* 4.5,
+                fontSize: SizeConfig.blockSizeHorizontal! * 4.5,
               ),
             ),
           ),
@@ -286,7 +293,7 @@ class ExerciseScreen extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: SizeConfig.blockSizeVertical !* 1.5,
+          height: SizeConfig.blockSizeVertical! * 1.5,
         ),
         Align(
             alignment: Alignment.center,
@@ -300,7 +307,7 @@ class ExerciseScreen extends StatelessWidget {
                 "START",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: SizeConfig.blockSizeHorizontal !* 4.5,
+                  fontSize: SizeConfig.blockSizeHorizontal! * 4.5,
                 ),
               ),
             ))
@@ -321,34 +328,34 @@ class ExerciseScreen extends StatelessWidget {
                   /*!exerciseController.counterStarted.value
                   ? SizeConfig.blockSizeHorizontal * 8.0
                   :*/
-                  SizeConfig.blockSizeHorizontal !* 6.0,
+                  SizeConfig.blockSizeHorizontal! * 6.0,
               color: Colors.green,
             ),
           ),
         ),
         SizedBox(
-          height: SizeConfig.blockSizeVertical !* 1.0,
+          height: SizeConfig.blockSizeVertical! * 1.0,
         ),
         !exerciseController.counterStarted.value
             ? Container(
-                height: SizeConfig.blockSizeVertical !* 4,
+                height: SizeConfig.blockSizeVertical! * 4,
                 child: Text(
                   !exerciseController.counterStarted.value
                       ? "Get Ready to move..."
                       : exerciseController.secondsRemaining.value,
                   style: TextStyle(
-                    fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
+                    fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
                   ),
                 ),
               )
             : Container(
-                height: SizeConfig.blockSizeVertical !* 4,
+                height: SizeConfig.blockSizeVertical! * 4,
               ),
         SizedBox(
-          height: SizeConfig.blockSizeVertical !* 1.5,
+          height: SizeConfig.blockSizeVertical! * 1.5,
         ),
         CircularPercentIndicator(
-          radius: SizeConfig.blockSizeHorizontal !* 20.0,
+          radius: SizeConfig.blockSizeHorizontal! * 20.0,
           lineWidth: 8.0,
           percent: int.parse(exerciseController.secondsRemaining.value) /
               int.parse(exerciseController.startEndSeconds.value),
@@ -356,21 +363,21 @@ class ExerciseScreen extends StatelessWidget {
           center: new Text(
             exerciseController.secondsRemaining.value,
             style: TextStyle(
-              fontSize: SizeConfig.blockSizeHorizontal !* 8.0,
+              fontSize: SizeConfig.blockSizeHorizontal! * 8.0,
             ),
           ),
           progressColor: Colors.green,
         ),
         SizedBox(
-          height: SizeConfig.blockSizeVertical !* 1.5,
+          height: SizeConfig.blockSizeVertical! * 1.5,
         ),
         Image(
           image: AssetImage("images/${exerciseModel.exerciseImage}"),
-          height: SizeConfig.blockSizeVertical !* 40,
+          height: SizeConfig.blockSizeVertical! * 40,
           fit: BoxFit.fitWidth,
         ),
         SizedBox(
-          height: SizeConfig.blockSizeVertical !* 2.0,
+          height: SizeConfig.blockSizeVertical! * 2.0,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -380,7 +387,7 @@ class ExerciseScreen extends StatelessWidget {
             exerciseController.playVisible.value
                 ? Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.blockSizeHorizontal !* 5.0,
+                      horizontal: SizeConfig.blockSizeHorizontal! * 5.0,
                     ),
                     child: FloatingActionButton(
                       onPressed: () {
@@ -390,7 +397,7 @@ class ExerciseScreen extends StatelessWidget {
                       child: Icon(
                         Icons.play_arrow,
                         color: Colors.white,
-                        size: SizeConfig.blockSizeHorizontal !* 12.0,
+                        size: SizeConfig.blockSizeHorizontal! * 12.0,
                       ),
                     ))
                 : Container(),
@@ -420,7 +427,7 @@ class ExerciseScreen extends StatelessWidget {
             exerciseController.stopVisible.value
                 ? Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.blockSizeHorizontal !* 5.0,
+                      horizontal: SizeConfig.blockSizeHorizontal! * 5.0,
                     ),
                     child: FloatingActionButton(
                       onPressed: () {
@@ -430,7 +437,7 @@ class ExerciseScreen extends StatelessWidget {
                       child: Icon(
                         Icons.stop,
                         color: Colors.white,
-                        size: SizeConfig.blockSizeHorizontal !* 12.0,
+                        size: SizeConfig.blockSizeHorizontal! * 12.0,
                       ),
                     ))
                 : Container(),

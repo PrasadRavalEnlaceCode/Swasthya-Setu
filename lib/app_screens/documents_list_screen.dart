@@ -10,16 +10,18 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:swasthyasetu/api/api_helper.dart';
-import 'package:swasthyasetu/app_screens/add_document_screen.dart';
-import 'package:swasthyasetu/app_screens/fullscreen_image.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_report.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/common_methods.dart';
-import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
-    as DateRagePicker;
+import 'package:silvertouch/api/api_helper.dart';
+import 'package:silvertouch/app_screens/add_document_screen.dart';
+import 'package:silvertouch/app_screens/fullscreen_image.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_report.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/common_methods.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -73,9 +75,9 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
     widget.emptyMessage =
         "${widget.emptyTextMyDocuments1}\n\n${widget.emptyTextMyDocuments2}";
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical !* 80,
+      height: SizeConfig.blockSizeVertical! * 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -135,9 +137,9 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
     widget.emptyMessage =
         "${widget.emptyTextMyDocuments1}\n\n${widget.emptyTextMyDocuments2}";
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical !* 80,
+      height: SizeConfig.blockSizeVertical! * 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -167,13 +169,15 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
         child: Scaffold(
       appBar: AppBar(
         title: Text("Health briefcase",
-            style: TextStyle(fontSize: SizeConfig.blockSizeVertical !* 2.5)),
+            style: TextStyle(fontSize: SizeConfig.blockSizeVertical! * 2.5)),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack),
+        toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-        )).bodyMedium, titleTextStyle: TextTheme(
+        )).bodyMedium,
+        titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
@@ -233,7 +237,7 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
           children: <Widget>[
             Container(
                 color: Color(0xFFEFEEF3),
-                height: SizeConfig.blockSizeVertical !* 100,
+                height: SizeConfig.blockSizeVertical! * 100,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -316,7 +320,7 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
                                               color: Colors.white,
                                               child: Padding(
                                                 padding: EdgeInsets.all(SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     2),
                                                 child: Row(
                                                   children: <Widget>[
@@ -332,12 +336,12 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
                                                                     FontWeight
                                                                         .w500,
                                                                 fontSize: SizeConfig
-                                                                        .blockSizeHorizontal !*
+                                                                        .blockSizeHorizontal! *
                                                                     4.5),
                                                           ),
                                                           SizedBox(
                                                             height: SizeConfig
-                                                                    .blockSizeVertical !*
+                                                                    .blockSizeVertical! *
                                                                 1,
                                                           ),
                                                           Text(
@@ -346,7 +350,7 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
                                                                 color:
                                                                     Colors.grey,
                                                                 fontSize: SizeConfig
-                                                                        .blockSizeHorizontal !*
+                                                                        .blockSizeHorizontal! *
                                                                     3.0),
                                                           ),
                                                         ],
@@ -354,10 +358,10 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
                                                     ),
                                                     Container(
                                                         width: SizeConfig
-                                                                .blockSizeHorizontal !*
+                                                                .blockSizeHorizontal! *
                                                             26,
                                                         height: SizeConfig
-                                                                .blockSizeHorizontal !*
+                                                                .blockSizeHorizontal! *
                                                             33,
                                                         child:
                                                             isADocument(index)
@@ -383,10 +387,10 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
                                                                             "images/ic_doc.png"),
                                                                         fit: BoxFit
                                                                             .fill,
-                                                                        width: SizeConfig.blockSizeHorizontal !*
+                                                                        width: SizeConfig.blockSizeHorizontal! *
                                                                             26,
                                                                         height:
-                                                                            SizeConfig.blockSizeHorizontal !*
+                                                                            SizeConfig.blockSizeHorizontal! *
                                                                                 33,
                                                                       ),
                                                                     ),
@@ -413,20 +417,20 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
                                                                       )),
                                                                       child: CachedNetworkImage(
                                                                           placeholder: (context, url) => Image(
-                                                                                width: SizeConfig.blockSizeHorizontal !* 35,
-                                                                                height: SizeConfig.blockSizeHorizontal !* 35,
+                                                                                width: SizeConfig.blockSizeHorizontal! * 35,
+                                                                                height: SizeConfig.blockSizeHorizontal! * 35,
                                                                                 image: AssetImage('images/shimmer_effect.png'),
                                                                                 fit: BoxFit.fitWidth,
                                                                               ),
                                                                           imageUrl: "${baseURL}images/patientdocument/${listPatientReport[index].reportImage}",
                                                                           fit: BoxFit.fitWidth,
-                                                                          width: SizeConfig.blockSizeHorizontal !* 35,
-                                                                          height: SizeConfig.blockSizeHorizontal !* 35),
+                                                                          width: SizeConfig.blockSizeHorizontal! * 35,
+                                                                          height: SizeConfig.blockSizeHorizontal! * 35),
                                                                     ),
                                                                   )),
                                                     Container(
                                                       width: SizeConfig
-                                                              .blockSizeHorizontal !*
+                                                              .blockSizeHorizontal! *
                                                           12,
                                                       child: InkWell(
                                                         onTap: () {
@@ -442,7 +446,7 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
                                                           Icons.delete,
                                                           color: Colors.red,
                                                           size: SizeConfig
-                                                                  .blockSizeHorizontal !*
+                                                                  .blockSizeHorizontal! *
                                                               8,
                                                         ),
                                                       ),
@@ -488,7 +492,7 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
     //   setState(() {
     //     getPatientReport(context);
     //   });
-      //print(picked);
+    //print(picked);
     // }
   }
 
@@ -731,7 +735,7 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
         pr!.hide();
         String query = "SELECT * FROM task WHERE task_id='" + id + "'";
         var tasks = FlutterDownloader.loadTasksWithRawQuery(query: query);
- FlutterDownloader.open(taskId: id);
+        FlutterDownloader.open(taskId: id);
       }
       /*if (_tasks != null && _tasks.isNotEmpty) {
         final task = _tasks.firstWhere((task) => task.taskId == id);
@@ -749,8 +753,7 @@ class DocumentsListScreenState extends State<DocumentsListScreen> {
     IsolateNameServer.removePortNameMapping('downloader_send_port');
   }
 
-  static void downloadCallback(
-      String id, int status, int progress) {
+  static void downloadCallback(String id, int status, int progress) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
     send!.send([id, status, progress]);

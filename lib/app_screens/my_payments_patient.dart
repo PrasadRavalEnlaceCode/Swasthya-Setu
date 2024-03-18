@@ -8,15 +8,17 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:swasthyasetu/api/api_helper.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/patient_payment.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
-import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
-    as DateRagePicker;
-import 'package:swasthyasetu/widgets/extensions.dart';
+import 'package:silvertouch/api/api_helper.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/patient_payment.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:silvertouch/widgets/extensions.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 import '../utils/color.dart';
@@ -103,9 +105,9 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
       }
     });
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical !* 80,
+      height: SizeConfig.blockSizeVertical! * 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -143,13 +145,15 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
           ? AppBar(
               title: Text("My Payments",
                   style:
-                      TextStyle(fontSize: SizeConfig.blockSizeVertical !* 2.5)),
+                      TextStyle(fontSize: SizeConfig.blockSizeVertical! * 2.5)),
               backgroundColor: Color(0xFFFFFFFF),
-              iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+              iconTheme: IconThemeData(color: Colorsblack),
+              toolbarTextStyle: TextTheme(
                   titleMedium: TextStyle(
                 color: Colorsblack,
                 fontFamily: "Ubuntu",
-              )).bodyMedium, titleTextStyle: TextTheme(
+              )).bodyMedium,
+              titleTextStyle: TextTheme(
                   titleMedium: TextStyle(
                 color: Colorsblack,
                 fontFamily: "Ubuntu",
@@ -165,15 +169,15 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
           children: <Widget>[
             Container(
                 color: Colors.grey[100],
-                height: SizeConfig.blockSizeVertical !* 100,
+                height: SizeConfig.blockSizeVertical! * 100,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 1.0,
+                      height: SizeConfig.blockSizeVertical! * 1.0,
                     ),
                     Container(
-                      height: SizeConfig.blockSizeVertical !* 8,
+                      height: SizeConfig.blockSizeVertical! * 8,
                       child: Padding(
                         padding: EdgeInsets.only(left: 5.0, right: 5.0),
                         child: Container(
@@ -192,17 +196,17 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize:
-                                              SizeConfig.blockSizeVertical !*
+                                              SizeConfig.blockSizeVertical! *
                                                   2.6,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                   ),
                                   Container(
-                                    width: SizeConfig.blockSizeHorizontal !* 15,
+                                    width: SizeConfig.blockSizeHorizontal! * 15,
                                     child: Icon(
                                       Icons.arrow_drop_down,
-                                      size: SizeConfig.blockSizeHorizontal !* 8,
+                                      size: SizeConfig.blockSizeHorizontal! * 8,
                                     ),
                                   ),
                                 ],
@@ -220,21 +224,21 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 1.0,
+                      height: SizeConfig.blockSizeVertical! * 1.0,
                     ),
                     Expanded(
                       child: Center(
                         child: Padding(
                           padding: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical !* 2.0),
+                              top: SizeConfig.blockSizeVertical! * 2.0),
                           child: !apiCalled
                               ? Container()
                               : listPatientPayment.length > 0
                                   ? ListView.builder(
                                       itemCount: listPatientPayment.length,
                                       padding: EdgeInsets.only(
-                                        bottom:
-                                            SizeConfig.blockSizeVertical !* 13.0,
+                                        bottom: SizeConfig.blockSizeVertical! *
+                                            13.0,
                                       ),
                                       itemBuilder: (context, index) {
                                         PatientPayment model =
@@ -260,8 +264,8 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
                                               " " +
                                               model.lastName!.trim(),
                                           amount: "\u20B9 ${model.amount}",
-                                          paymentStatus: model.paymentStatus
-                                          !.substring(0, 1)
+                                          paymentStatus: model.paymentStatus!
+                                                  .substring(0, 1)
                                                   .toUpperCase() +
                                               model.paymentStatus!.substring(1,
                                                   model.paymentStatus!.length),
@@ -325,7 +329,8 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
         child: InkWell(
             onTap: () {
               if (paymentStatus == "Success" && userType == "patient") {
-                getPdfDownloadPath(context, model!.patientActivationReceiptIdf!);
+                getPdfDownloadPath(
+                    context, model!.patientActivationReceiptIdf!);
               }
             },
             child: Card(
@@ -339,7 +344,7 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
                         child: Text(
                           doctorName!,
                           style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.2,
+                            fontSize: SizeConfig.blockSizeHorizontal! * 4.2,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.5,
@@ -400,7 +405,7 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
                             child: Text(
                               "View Receipt",
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal !* 3.4,
+                                fontSize: SizeConfig.blockSizeHorizontal! * 3.4,
                                 color: Colors.blueAccent,
                                 fontWeight: FontWeight.normal,
                                 letterSpacing: 1.5,
@@ -411,8 +416,8 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
                       : Container(),
                 ],
               ).pS(
-                vertical: SizeConfig.blockSizeVertical !* 1.5,
-                horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+                vertical: SizeConfig.blockSizeVertical! * 1.5,
+                horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
               ),
             )),
       ),
@@ -610,7 +615,7 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
       String strData = decodeBase64(encodedFileName);
       final jsonData = json.decode(strData);
       String fileName = jsonData[0]['FileName'].toString();
-      String downloadPdfUrl = "${baseURL}images/paymentReceipt/$fileName";
+      String downloadPdfUrl = "${baseImagePath}images/paymentReceipt/$fileName";
       downloadAndOpenTheFile(downloadPdfUrl, fileName);
     } else {
       final snackBar = SnackBar(
@@ -715,7 +720,7 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
         pr!.hide();
         String query = "SELECT * FROM task WHERE task_id='" + id + "'";
         var tasks = FlutterDownloader.loadTasksWithRawQuery(query: query);
- FlutterDownloader.open(taskId: id);
+        FlutterDownloader.open(taskId: id);
       }
       /*if (_tasks != null && _tasks.isNotEmpty) {
         final task = _tasks.firstWhere((task) => task.taskId == id);
@@ -733,8 +738,7 @@ class MyPaymentsPatientState extends State<MyPaymentsPatient> {
     IsolateNameServer.removePortNameMapping('downloader_send_port');
   }
 
-  static void downloadCallback(
-      String id, int status, int progress) {
+  static void downloadCallback(String id, int status, int progress) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
     send!.send([id, status, progress]);

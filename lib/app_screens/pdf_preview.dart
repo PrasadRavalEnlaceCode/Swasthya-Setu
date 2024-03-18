@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
 
 /*import 'callback.dart';
 import 'printing.dart';
@@ -373,19 +373,19 @@ class _PdfPreviewState extends State<PdfPreview> {
                       IconButton(
                         icon: const Icon(Icons.arrow_back),
                         color: Colors.white,
-                        iconSize: SizeConfig.blockSizeHorizontal !* 6.0,
+                        iconSize: SizeConfig.blockSizeHorizontal! * 6.0,
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
                       ),
                       SizedBox(
-                        width: SizeConfig.blockSizeHorizontal !* 3.0,
+                        width: SizeConfig.blockSizeHorizontal! * 3.0,
                       ),
                       Text(
                         "Profile",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: SizeConfig.blockSizeHorizontal !* 4.5,
+                          fontSize: SizeConfig.blockSizeHorizontal! * 4.5,
                         ),
                       ),
                       Expanded(
@@ -395,7 +395,7 @@ class _PdfPreviewState extends State<PdfPreview> {
                           IconButton(
                             icon: const Icon(Icons.print),
                             color: Colors.white,
-                            iconSize: SizeConfig.blockSizeHorizontal !* 6.0,
+                            iconSize: SizeConfig.blockSizeHorizontal! * 6.0,
                             onPressed: _print,
                           ),
                           IconButton(

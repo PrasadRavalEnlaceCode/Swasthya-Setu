@@ -3,13 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/app_screens/ask_for_appointment_screen.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/dropdown_item.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/color.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/app_screens/ask_for_appointment_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/dropdown_item.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import 'doctor_full_details_screen.dart';
 import 'fullscreen_image.dart';
@@ -71,14 +73,14 @@ class AppointmentDoctorsListScreenState
     setState(() {
       listDoctorsSearchResults = listDoctors
           .where((objDoctor) =>
-              objDoctor["FirstName"]
-                  !.toLowerCase()
+              objDoctor["FirstName"]!
+                  .toLowerCase()
                   .contains(text.toLowerCase()) ||
               objDoctor["LastName"]!
                   .toLowerCase()
                   .contains(text.toLowerCase()) ||
-              objDoctor["Specility"]
-                  !.toLowerCase()
+              objDoctor["Specility"]!
+                  .toLowerCase()
                   .contains(text.toLowerCase()) ||
               objDoctor["CityName"]!.toLowerCase().contains(text.toLowerCase()))
           .toList();
@@ -92,7 +94,7 @@ class AppointmentDoctorsListScreenState
       backgroundColor: Color(0xFFf9faff),
       appBar: AppBar(
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
         title: titleWidget,
         backgroundColor: Color(0xFFf9faff),
         elevation: 0,
@@ -141,10 +143,10 @@ class AppointmentDoctorsListScreenState
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(
-                      vertical: SizeConfig.blockSizeHorizontal !* 3.0,
+                      vertical: SizeConfig.blockSizeHorizontal! * 3.0,
                     ),
                     padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal !* 2.0,
+                      SizeConfig.blockSizeHorizontal! * 2.0,
                     ),
                     decoration: BoxDecoration(
                       color: Color(0xFFf0f1f5),
@@ -153,20 +155,20 @@ class AppointmentDoctorsListScreenState
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 3.0,
+                          width: SizeConfig.blockSizeHorizontal! * 3.0,
                         ),
                         Image(
                           image: AssetImage("images/v-2-icn-location.png"),
-                          width: SizeConfig.blockSizeHorizontal !* 6.0,
-                          height: SizeConfig.blockSizeHorizontal !* 6.0,
+                          width: SizeConfig.blockSizeHorizontal! * 6.0,
+                          height: SizeConfig.blockSizeHorizontal! * 6.0,
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 3.0,
+                          width: SizeConfig.blockSizeHorizontal! * 3.0,
                         ),
                         Text(
                           selectedCity.value,
                           style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                            fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -175,12 +177,12 @@ class AppointmentDoctorsListScreenState
                           "Change",
                           style: TextStyle(
                             color: Color(0xFF70a5db),
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                            fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 3.0,
+                          width: SizeConfig.blockSizeHorizontal! * 3.0,
                         ),
                       ],
                     ),
@@ -195,14 +197,15 @@ class AppointmentDoctorsListScreenState
                           return InkWell(
                             onTap: () {
                               Get.to(() => DoctorFullDetailsScreen(
-                                    listDoctorsSearchResults[index],
-                                    widget.patientIDP,
-                                    from: listDoctorsSearchResults[index]
-                                                ['BindStatus'] ==
-                                            "1"
-                                        ? "doctorList"
-                                        : "appointmentList",
-                                  ))!.then((value) {
+                                        listDoctorsSearchResults[index],
+                                        widget.patientIDP,
+                                        from: listDoctorsSearchResults[index]
+                                                    ['BindStatus'] ==
+                                                "1"
+                                            ? "doctorList"
+                                            : "appointmentList",
+                                      ))!
+                                  .then((value) {
                                 if (value != null && value == 1)
                                   getPatientProfileDetails();
                               });
@@ -229,7 +232,7 @@ class AppointmentDoctorsListScreenState
                                 ),
                                 child: Padding(
                                     padding: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal !* 3),
+                                        SizeConfig.blockSizeHorizontal! * 3),
                                     child: Row(
                                       children: [
                                         InkWell(
@@ -252,20 +255,20 @@ class AppointmentDoctorsListScreenState
                                               child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
-                                                  child: isImageNotNullAndBlank(index) ?
-                                                  Image(
-                                                    fit: BoxFit.fitWidth,
-                                                    image: NetworkImage('$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}')
-                                                  ) :
-                                                  Image(
-                                                  fit: BoxFit.fitWidth,
-                                                  image: AssetImage(
-                                                  "images/ic_user_placeholder.png")
-                                                  )),
+                                                  child: isImageNotNullAndBlank(
+                                                          index)
+                                                      ? Image(
+                                                          fit: BoxFit.fitWidth,
+                                                          image: NetworkImage(
+                                                              '$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}'))
+                                                      : Image(
+                                                          fit: BoxFit.fitWidth,
+                                                          image: AssetImage(
+                                                              "images/ic_user_placeholder.png"))),
                                             )),
                                         SizedBox(
                                           width:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   2,
                                         ),
                                         Row(
@@ -277,51 +280,55 @@ class AppointmentDoctorsListScreenState
                                                   MainAxisAlignment.start,
                                               children: [
                                                 SizedBox(
-                                                  width: MediaQuery.of(context).size.width/2,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2,
                                                   child: Text(
                                                     ("Dr. " +
-                                                        listDoctorsSearchResults[
-                                                        index]
-                                                        [
-                                                        "FirstName"]
-                                                        !.trim() +
-                                                        " " +
-                                                        listDoctorsSearchResults[
-                                                        index]
-                                                        ["LastName"]
-                                                        !.trim())
+                                                            listDoctorsSearchResults[
+                                                                        index][
+                                                                    "FirstName"]!
+                                                                .trim() +
+                                                            " " +
+                                                            listDoctorsSearchResults[
+                                                                        index][
+                                                                    "LastName"]!
+                                                                .trim())
                                                         .trim(),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal !*
+                                                              .blockSizeHorizontal! *
                                                           4.2,
-                                                      fontWeight: FontWeight.w700,
+                                                      fontWeight:
+                                                          FontWeight.w700,
                                                       color: Colors.black,
                                                     ),
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   height: SizeConfig
-                                                          .blockSizeVertical !*
+                                                          .blockSizeVertical! *
                                                       0.5,
                                                 ),
                                                 Text(
-                                                  listDoctorsSearchResults[index]["Specility"]!,
+                                                  listDoctorsSearchResults[
+                                                      index]["Specility"]!,
                                                   textAlign: TextAlign.left,
                                                   maxLines: 1,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
                                                     fontSize: SizeConfig
-                                                            .blockSizeHorizontal !*
+                                                            .blockSizeHorizontal! *
                                                         3.3,
                                                     color: Colors.grey,
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   height: SizeConfig
-                                                          .blockSizeVertical !*
+                                                          .blockSizeVertical! *
                                                       0.5,
                                                 ),
                                                 Text(
@@ -333,14 +340,14 @@ class AppointmentDoctorsListScreenState
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
                                                     fontSize: SizeConfig
-                                                            .blockSizeHorizontal !*
+                                                            .blockSizeHorizontal! *
                                                         3.3,
                                                     color: Colors.grey,
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   height: SizeConfig
-                                                          .blockSizeVertical !*
+                                                          .blockSizeVertical! *
                                                       0.5,
                                                 ),
                                                 Row(
@@ -366,9 +373,7 @@ class AppointmentDoctorsListScreenState
                                                                         index][
                                                                     'AppointmentStatus']!,
                                                               );
-                                                            }
-                                                            )
-                                                            );
+                                                            }));
                                                           } else {
                                                             showDoctorIsNotAvailableDialog(
                                                                 context);
@@ -378,7 +383,7 @@ class AppointmentDoctorsListScreenState
                                                             padding:
                                                                 EdgeInsets.all(
                                                               SizeConfig
-                                                                      .blockSizeHorizontal !*
+                                                                      .blockSizeHorizontal! *
                                                                   2.0,
                                                             ),
                                                             decoration:
@@ -400,13 +405,13 @@ class AppointmentDoctorsListScreenState
                                                                     color: Color(
                                                                         0xFF70a5db),
                                                                     fontSize:
-                                                                        SizeConfig.blockSizeHorizontal !*
+                                                                        SizeConfig.blockSizeHorizontal! *
                                                                             3.5),
                                                               ),
                                                             ))),
                                                     SizedBox(
                                                       width: SizeConfig
-                                                              .blockSizeHorizontal !*
+                                                              .blockSizeHorizontal! *
                                                           2.0,
                                                     ),
                                                     listDoctorsSearchResults[
@@ -432,10 +437,10 @@ class AppointmentDoctorsListScreenState
                                                                   "images/v-2-icn-phone.png",
                                                                 ),
                                                                 height: SizeConfig
-                                                                        .blockSizeHorizontal !*
+                                                                        .blockSizeHorizontal! *
                                                                     8.0,
                                                                 width: SizeConfig
-                                                                        .blockSizeHorizontal !*
+                                                                        .blockSizeHorizontal! *
                                                                     8.0,
                                                               ),
                                                             ))
@@ -451,17 +456,16 @@ class AppointmentDoctorsListScreenState
                           );
                         })
                     : doctorApiCalled
-                        ?
-                    Card(
+                        ? Card(
                             margin: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 3.0,
+                              SizeConfig.blockSizeHorizontal! * 3.0,
                             ),
                             shadowColor: Colors.red,
                             elevation: 2,
                             borderOnForeground: true,
                             child: Padding(
                               padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 3.0,
+                                SizeConfig.blockSizeHorizontal! * 3.0,
                               ),
                               child: Column(
                                 children: [
@@ -471,11 +475,11 @@ class AppointmentDoctorsListScreenState
                                       FaIcon(
                                         FontAwesomeIcons.questionCircle,
                                         color: Colors.red,
-                                        size: SizeConfig.blockSizeHorizontal !*
+                                        size: SizeConfig.blockSizeHorizontal! *
                                             6.5,
                                       ),
                                       SizedBox(
-                                        width: SizeConfig.blockSizeHorizontal !*
+                                        width: SizeConfig.blockSizeHorizontal! *
                                             3.0,
                                       ),
                                       Text(
@@ -484,7 +488,7 @@ class AppointmentDoctorsListScreenState
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   3.8,
                                         ),
                                       ),
@@ -1086,7 +1090,7 @@ class AppointmentDoctorsListScreenState
               "Doctor not available for Appointment.",
               style: TextStyle(
                 color: Colors.red,
-                fontSize: SizeConfig.blockSizeHorizontal !* 4.1,
+                fontSize: SizeConfig.blockSizeHorizontal! * 4.1,
               ),
             ),
             actions: <Widget>[
@@ -1121,7 +1125,7 @@ class AppointmentDoctorsListScreenState
             title: Text(
               "Request has been sent to $patientName to connect with you. You will be connected once doctor accepts your request.",
               style: TextStyle(
-                fontSize: SizeConfig.blockSizeHorizontal !* 3.8,
+                fontSize: SizeConfig.blockSizeHorizontal! * 3.8,
                 color: Colors.black,
               ),
             ),
@@ -1144,9 +1148,8 @@ class AppointmentDoctorsListScreenState
   isImageNotNullAndBlank1(int index) {
     isImageNotNullAndBlank(index)
         ? NetworkImage(
-        '$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}')
-        : AssetImage(
-        "images/ic_user_placeholder.png");
+            '$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}')
+        : AssetImage("images/ic_user_placeholder.png");
   }
 }
 
@@ -1189,14 +1192,14 @@ class CountryDialogState extends State<CountryDialog> {
     icon = Icon(
       Icons.search,
       color: Colors.blue,
-      size: SizeConfig.blockSizeHorizontal !* 6.2,
+      size: SizeConfig.blockSizeHorizontal! * 6.2,
     );
 
     titleWidget = Text(
       "Select ${widget.type}",
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+        fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
         fontWeight: FontWeight.bold,
         color: Colors.green,
         decoration: TextDecoration.none,
@@ -1278,7 +1281,7 @@ class CountryDialogState extends State<CountryDialog> {
         child: Column(
           children: <Widget>[
             Container(
-              height: SizeConfig.blockSizeVertical !* 8,
+              height: SizeConfig.blockSizeVertical! * 8,
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: Row(
@@ -1288,7 +1291,7 @@ class CountryDialogState extends State<CountryDialog> {
                       child: Icon(
                         Icons.arrow_back,
                         color: Colors.red,
-                        size: SizeConfig.blockSizeHorizontal !* 6.2,
+                        size: SizeConfig.blockSizeHorizontal! * 6.2,
                       ),
                       onTap: () {
                         /*setState(() {
@@ -1298,11 +1301,11 @@ class CountryDialogState extends State<CountryDialog> {
                       },
                     ),
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal !* 6,
+                      width: SizeConfig.blockSizeHorizontal! * 6,
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal !* 50,
-                      height: SizeConfig.blockSizeVertical !* 8,
+                      width: SizeConfig.blockSizeHorizontal! * 50,
+                      height: SizeConfig.blockSizeVertical! * 8,
                       child: Center(
                         child: titleWidget,
                       ),
@@ -1312,7 +1315,7 @@ class CountryDialogState extends State<CountryDialog> {
                           alignment: Alignment.centerRight,
                           child: Padding(
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
+                                SizeConfig.blockSizeHorizontal! * 1),
                             child: InkWell(
                               child: icon,
                               onTap: () {
@@ -1325,7 +1328,7 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.cancel,
                                       color: Colors.red,
                                       size:
-                                          SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = TextField(
                                       controller: searchController,
@@ -1347,19 +1350,19 @@ class CountryDialogState extends State<CountryDialog> {
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.0,
                                       ),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         //hintStyle: TextStyle(color: Colors.grey),
                                         hintText: "Search ${widget.type}",
@@ -1370,14 +1373,14 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.search,
                                       color: Colors.blue,
                                       size:
-                                          SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = Text(
                                       "Select ${widget.type}",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.8,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.green,
@@ -1417,7 +1420,7 @@ class CountryDialogState extends State<CountryDialog> {
                         child: Padding(
                             padding: EdgeInsets.all(0.0),
                             child: Container(
-                                width: SizeConfig.blockSizeHorizontal !* 90,
+                                width: SizeConfig.blockSizeHorizontal! * 90,
                                 padding: EdgeInsets.only(
                                   top: 5,
                                   bottom: 5,

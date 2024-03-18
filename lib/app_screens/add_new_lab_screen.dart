@@ -2,12 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_opd_reg.dart';
-import 'package:swasthyasetu/podo/model_templates_advice_investigations.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_opd_reg.dart';
+import 'package:silvertouch/podo/model_templates_advice_investigations.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
 
@@ -15,7 +18,6 @@ List<ModelOPDRegistration> listOPDRegistration = [];
 List<ModelOPDRegistration> listOPDRegistrationSelected = [];
 List<ModelOPDRegistration> listOPDRegistrationSearchResults = [];
 List<AdviceInvestigationTemplateModel> listTemplates = [];
-
 
 class AddNewLabScreen extends StatefulWidget {
   @override
@@ -41,10 +43,10 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
     super.initState();
     emptyMessageWidget = Center(
       child: SizedBox(
-        height: SizeConfig.blockSizeVertical !* 80,
-        width: SizeConfig.blockSizeHorizontal !* 100,
+        height: SizeConfig.blockSizeVertical! * 80,
+        width: SizeConfig.blockSizeHorizontal! * 100,
         child: Container(
-          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -85,7 +87,7 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
         title: titleWidget,
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -105,18 +107,18 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
                       setState(() {
                         listOPDRegistrationSearchResults = listOPDRegistration
                             .where((model) =>
-                                model.name
-                                    !.toLowerCase()
+                                model.name!
+                                    .toLowerCase()
                                     .contains(text.toLowerCase()) ||
-                                model.amount
-                                    !.toLowerCase()
+                                model.amount!
+                                    .toLowerCase()
                                     .contains(text.toLowerCase()))
                             .toList();
                       });
                     },
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                     ),
                     decoration: InputDecoration(
                       hintText: "Search Advice Investigations",
@@ -134,15 +136,19 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
             },
             icon: icon,
           )
-        ], toolbarTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colorsblack,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colorsblack,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+        ],
+        toolbarTextStyle: TextTheme(
+                titleMedium: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .bodyMedium,
+        titleTextStyle: TextTheme(
+                titleMedium: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .titleLarge,
       ),
       body: Column(
         children: <Widget>[
@@ -152,7 +158,7 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
           Align(
             alignment: Alignment.topRight,
             child: RawMaterialButton(
-              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2.0),
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 2.0),
               onPressed: () {
                 submitAllLabsForAdd(context);
                 //getSelectedListAndGoToAddOPDProcedureScreen(context);
@@ -160,8 +166,8 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
               elevation: 2.0,
               fillColor: Color(0xFF06A759),
               child: Image(
-                width: SizeConfig.blockSizeHorizontal !* 5.5,
-                height: SizeConfig.blockSizeHorizontal !* 5.5,
+                width: SizeConfig.blockSizeHorizontal! * 5.5,
+                height: SizeConfig.blockSizeHorizontal! * 5.5,
                 //height: 80,
                 image: AssetImage("images/ic_right_arrow_triangular.png"),
               ),
@@ -284,9 +290,9 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
           itemBuilder: (context, index) {
             return Padding(
                 padding: EdgeInsets.only(
-                    left: SizeConfig.blockSizeHorizontal !* 2,
-                    right: SizeConfig.blockSizeHorizontal !* 2,
-                    top: SizeConfig.blockSizeHorizontal !* 2),
+                    left: SizeConfig.blockSizeHorizontal! * 2,
+                    right: SizeConfig.blockSizeHorizontal! * 2,
+                    top: SizeConfig.blockSizeHorizontal! * 2),
                 child: InkWell(
                   onTap: () {
                     if (!isBind(listOPDRegistrationSearchResults[index])) {
@@ -304,14 +310,14 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
                                 : Colors.white,
                             child: Padding(
                               padding: EdgeInsets.all(
-                                  SizeConfig.blockSizeHorizontal !* 2),
+                                  SizeConfig.blockSizeHorizontal! * 2),
                               child: Row(
                                 children: [
                                   isBind(listOPDRegistrationSearchResults[
                                           index])
                                       ? SizedBox(
                                           width:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   2,
                                         )
                                       : Container(),
@@ -338,7 +344,7 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
                                           index])
                                       ? SizedBox(
                                           width:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   3,
                                         )
                                       : Container(),
@@ -358,14 +364,14 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     4,
                                                 fontWeight: FontWeight.w500),
                                           ),
                                         ),
                                         SizedBox(
                                           height:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   1,
                                         ),
                                         Align(
@@ -381,7 +387,7 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
                                                     ? Colors.black
                                                     : Colors.grey,
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     2.8,
                                                 fontWeight: isBind(
                                                         listOPDRegistrationSearchResults[
@@ -397,7 +403,7 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
                                           index])
                                       ? SizedBox(
                                           width:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   2,
                                         )
                                       : Container(),
@@ -412,9 +418,9 @@ class AddNewLabScreenState extends State<AddNewLabScreen> {
                                           icon: Icon(
                                             Icons.delete,
                                             color: Colors.red,
-                                            size:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    6,
+                                            size: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                6,
                                           ),
                                         )
                                       : Container(),

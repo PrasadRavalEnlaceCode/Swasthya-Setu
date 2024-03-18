@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/color.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
 
 class TreatmentSheetScreen extends StatefulWidget {
 
@@ -46,7 +46,36 @@ class _TreatmentSheetScreenState extends State<TreatmentSheetScreen> {
               fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
       ),
       body: Builder(builder: (context) {
-        return Container();
+        return Center(
+          child: Container(
+            width: SizeConfig.blockSizeHorizontal! * 30,
+            child: SizedBox(
+              height: SizeConfig.blockSizeVertical! * 80,
+              width: SizeConfig.blockSizeHorizontal! * 100,
+              child: Container(
+                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Image(
+                      image: AssetImage("images/ic_idea_new.png"),
+                      width: 200,
+                      height: 100,
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    Text(
+                      "This Feature will Available Soon....",
+                      style: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
       },
       ),
     );

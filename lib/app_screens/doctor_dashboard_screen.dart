@@ -17,46 +17,48 @@ import 'package:in_app_update/in_app_update.dart';
 import 'package:page_indicator/page_indicator.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:swasthyasetu/api/api_helper.dart';
-import 'package:swasthyasetu/app_screens/Complaint_master_list_screen.dart';
-import 'package:swasthyasetu/app_screens/add_edit_complaints_masters.dart';
-import 'package:swasthyasetu/app_screens/add_patient_screen.dart';
-import 'package:swasthyasetu/app_screens/change_password_doctor_screen.dart';
-import 'package:swasthyasetu/app_screens/dashboard_doctor.dart';
-import 'package:swasthyasetu/app_screens/diagnosis_master_list_screen.dart';
-import 'package:swasthyasetu/app_screens/doctor_health_videos.dart';
-import 'package:swasthyasetu/app_screens/doctor_investigation_list.dart';
-import 'package:swasthyasetu/app_screens/drugs_list_screen.dart';
-import 'package:swasthyasetu/app_screens/examination_masters_list_screen.dart';
-import 'package:swasthyasetu/app_screens/form_3c_screen.dart';
-import 'package:swasthyasetu/app_screens/help_screen.dart';
-import 'package:swasthyasetu/app_screens/invite_patient_screen.dart';
-import 'package:swasthyasetu/app_screens/ipd/indoor_list.dart';
-import 'package:swasthyasetu/app_screens/ipd/pmr_screen.dart';
-import 'package:swasthyasetu/app_screens/ipd/vital_chart_add_screen.dart';
-import 'package:swasthyasetu/app_screens/market_place_screen.dart';
-import 'package:swasthyasetu/app_screens/masters_list_screen.dart';
-import 'package:swasthyasetu/app_screens/my_chats_patient.dart';
-import 'package:swasthyasetu/app_screens/my_invoices.dart';
-import 'package:swasthyasetu/app_screens/my_patients_screen.dart';
-import 'package:swasthyasetu/app_screens/my_payment_code_screen.dart';
-import 'package:swasthyasetu/app_screens/notification_list_screen.dart';
-import 'package:swasthyasetu/app_screens/nurse_doc_screen.dart';
-import 'package:swasthyasetu/app_screens/opd_registration_screen.dart';
-import 'package:swasthyasetu/app_screens/opd_services_list_screen.dart';
-import 'package:swasthyasetu/app_screens/patient_resources_screen.dart';
-import 'package:swasthyasetu/app_screens/popup_dialog_image.dart';
-import 'package:swasthyasetu/app_screens/switch_organization.dart';
-import 'package:swasthyasetu/app_screens/switch_role_screen.dart';
-import 'package:swasthyasetu/app_screens/view_profile_details_doctor.dart';
-import 'package:swasthyasetu/app_screens/view_profile_details_patient.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/main.dart';
-import 'package:swasthyasetu/podo/model_investigation_master_list.dart';
-import 'package:swasthyasetu/podo/response_login_icons_model.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/services/navigation_service.dart';
+import 'package:silvertouch/api/api_helper.dart';
+import 'package:silvertouch/app_screens/Complaint_master_list_screen.dart';
+import 'package:silvertouch/app_screens/add_edit_complaints_masters.dart';
+import 'package:silvertouch/app_screens/add_patient_screen.dart';
+import 'package:silvertouch/app_screens/change_password_doctor_screen.dart';
+import 'package:silvertouch/app_screens/dashboard_doctor.dart';
+import 'package:silvertouch/app_screens/diagnosis_master_list_screen.dart';
+import 'package:silvertouch/app_screens/doctor_health_videos.dart';
+import 'package:silvertouch/app_screens/doctor_investigation_list.dart';
+import 'package:silvertouch/app_screens/drugs_list_screen.dart';
+import 'package:silvertouch/app_screens/examination_masters_list_screen.dart';
+import 'package:silvertouch/app_screens/form_3c_screen.dart';
+import 'package:silvertouch/app_screens/help_screen.dart';
+import 'package:silvertouch/app_screens/invite_patient_screen.dart';
+import 'package:silvertouch/app_screens/ipd/indoor_list.dart';
+import 'package:silvertouch/app_screens/ipd/pmr_screen.dart';
+import 'package:silvertouch/app_screens/ipd/vital_chart_add_screen.dart';
+import 'package:silvertouch/app_screens/market_place_screen.dart';
+import 'package:silvertouch/app_screens/masters_list_screen.dart';
+import 'package:silvertouch/app_screens/my_chats_patient.dart';
+import 'package:silvertouch/app_screens/my_doc_master/my_doc_drop-down_master.dart';
+import 'package:silvertouch/app_screens/my_document_doctor/my_document_doctor_screen.dart';
+import 'package:silvertouch/app_screens/my_invoices.dart';
+import 'package:silvertouch/app_screens/my_patients_screen.dart';
+import 'package:silvertouch/app_screens/my_payment_code_screen.dart';
+import 'package:silvertouch/app_screens/notification_list_screen.dart';
+import 'package:silvertouch/app_screens/nurse/nurse_doc_screen.dart';
+import 'package:silvertouch/app_screens/opd_registration_screen.dart';
+import 'package:silvertouch/app_screens/opd_services_list_screen.dart';
+import 'package:silvertouch/app_screens/patient_resources_screen.dart';
+import 'package:silvertouch/app_screens/popup_dialog_image.dart';
+import 'package:silvertouch/app_screens/switch_organization.dart';
+import 'package:silvertouch/app_screens/switch_role_screen.dart';
+import 'package:silvertouch/app_screens/view_profile_details_doctor.dart';
+import 'package:silvertouch/app_screens/view_profile_details_patient.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/main.dart';
+import 'package:silvertouch/podo/model_investigation_master_list.dart';
+import 'package:silvertouch/podo/response_login_icons_model.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/services/navigation_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../podo/model_drawer.dart';
@@ -117,9 +119,13 @@ class DoctorDashboardScreen extends StatefulWidget {
 
   final String? selectedOrganizationName;
   final String? selectedOrganizationIDF;
+  final String? selectedOrganizationUnit;
 
-  DoctorDashboardScreen({this.selectedOrganizationName,
-    this.selectedOrganizationIDF});
+  DoctorDashboardScreen({
+    this.selectedOrganizationName,
+    this.selectedOrganizationIDF,
+    this.selectedOrganizationUnit,
+  });
 
   logOut(BuildContext context) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
@@ -151,6 +157,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
   var username = "", password = "", type = "", fullName = "", email = "";
   List<String> listPhotos = [];
   List<String> listOfRoles = [];
+  List<DrawerModel> liste = [];
 
   /*AboutIconModel aboutIconModel = AboutIconModel("", "", "", ""),
       aboutVenueModel = AboutIconModel("", "", "", "");*/
@@ -178,22 +185,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
   var bindedAlready = false;
   late String selectedOrganizationName;
   late String selectedOrganizationIDF;
-  // String? organizationName;
-  // String? organizationIDF;
-  //
-  // @override
-  // void didUpdateWidget(covariant DoctorDashboardScreen oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //
-  //   // Check if the data has changed before updating the state
-  //   if (widget.selectedOrganizationName != organizationName ||
-  //       widget.selectedOrganizationIDF != organizationIDF) {
-  //     setState(() {
-  //       organizationName = widget.selectedOrganizationName;
-  //       organizationIDF = widget.selectedOrganizationIDF;
-  //     });
-  //   }
-  // }
+  late String selectedOrganizationUnit;
 
   var isLoading = false;
   final getItLocator = GetIt.instance;
@@ -243,24 +235,43 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
       middleName = jsonData[0]['MiddleName'];
       businessName = jsonData[0]['BusinessName'];
       userNameGlobal =
-          businessName != "" ? businessName.trim() : "Complete your profile";
+      businessName != "" ? businessName.trim() : "${firstName.trim()} ${lastName.trim()}";
       mobNo = jsonData[0]['MobileNo'] != "" ? jsonData[0]['MobileNo'] : "-";
-      roleName = jsonData[0]['RoleName'] != "" ? jsonData[0]['RoleName']: "-";
+      // roleName = jsonData[0]['RoleName'] != "" ? jsonData[0]['RoleName']: "-";
       doctorSuffix = jsonData[0]['DoctorSuffix'];
       couponCode = jsonData[0]['CouponCode'];
       downloadURL = jsonData[0]['DownloadURL'];
-      OPDRoleStatus = jsonData[0]['OPDRoleStatus'] != "" ? jsonData[0]['OPDRoleStatus']: "-";
-      IPDRoleStatus = jsonData[0]['IPDRoleStatus'] != "" ? jsonData[0]['IPDRoleStatus']: "-";
-      AccountsRoleStatus = jsonData[0]['AccountsRoleStatus'] != "" ? jsonData[0]['AccountsRoleStatus']: "-";
-      ReportsRoleStatus = jsonData[0]['ReportsRoleStatus'] != "" ? jsonData[0]['ReportsRoleStatus']: "-";
-      DashboardRoleStatus = jsonData[0]['DashboardRoleStatus'] != "" ? jsonData[0]['DashboardRoleStatus']: "-";
+      // OPDRoleStatus = jsonData[0]['OPDRoleStatus'] != "" ? jsonData[0]['OPDRoleStatus']: "-";
+      // IPDRoleStatus = jsonData[0]['IPDRoleStatus'] != "" ? jsonData[0]['IPDRoleStatus']: "-";
+      // AccountsRoleStatus = jsonData[0]['AccountsRoleStatus'] != "" ? jsonData[0]['AccountsRoleStatus']: "-";
+      // ReportsRoleStatus = jsonData[0]['ReportsRoleStatus'] != "" ? jsonData[0]['ReportsRoleStatus']: "-";
+      // DashboardRoleStatus = jsonData[0]['DashboardRoleStatus'] != "" ? jsonData[0]['DashboardRoleStatus']: "-";
+
+      // Extract nested JSON data from 'dataDoctor' field
+      var dataDoctor = jsonData[0]['dataDoctor'];
+      roleName = dataDoctor['RoleName'];
+      OPDRoleStatus = dataDoctor['OPDRoleStatus'];
+      IPDRoleStatus = dataDoctor['IPDRoleStatus'];
+      AccountsRoleStatus = dataDoctor['AccountsRoleStatus'];
+      ReportsRoleStatus = dataDoctor['ReportsRoleStatus'];
+      DashboardRoleStatus = dataDoctor['DashboardRoleStatus'];
 
       setUserName(userNameGlobal);
       //setEmergencyNumber(jsonData[0]['EmergencyNumber']);
       debugPrint("Img url - $imgUrl");
       debugPrint("IPD Role -------------------------------------------------------- $IPDRoleStatus");
+      debugPrint("Dashboard Role -------------------------------------------------------- $DashboardRoleStatus");
 
-      setState(() {});
+      setState(() {
+        if (DashboardRoleStatus == "1") {
+          listIconName.add("Doctor\nDashboard");
+          listImage.add("v-2-icn-dashboard.png");
+        }
+        if (IPDRoleStatus == "1") {
+          listIconName.add("IPD");
+          listImage.add("v-2-icn-investigation.png");
+        }
+      });
     } else {
       final snackBar = SnackBar(
         backgroundColor: Colors.red,
@@ -278,7 +289,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
       builder: (BuildContext context) => CustomDialog(
         title: "Please Update",
         description:
-            "An updated version of this app is available. would you like to update?",
+        "An updated version of this app is available. would you like to update?",
         buttonText: "Update",
         image: Image(
           width: 80,
@@ -294,8 +305,11 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
   void initState() {
     super.initState();
 
-    selectedOrganizationName = widget.selectedOrganizationName ?? "Swashtya Setu";
-    selectedOrganizationIDF = widget.selectedOrganizationIDF ?? "1";
+    selectedOrganizationName = widget.selectedOrganizationName ?? "Silver Touch";
+    selectedOrganizationIDF = widget.selectedOrganizationIDF ?? "5";
+    selectedOrganizationUnit = widget.selectedOrganizationUnit ?? "Ranip";
+
+    saveOrganizationInfo();
 
     listMasters = [];
     listMasters.add("Drug Frequency Master");
@@ -305,6 +319,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
     listAddMasters.add("Add Complaint Masters");
     listAddMasters.add("Add Examination Masters");
     listAddMasters.add("Add Diagnosis Masters");
+    listAddMasters.add("Add Document Category");
     navigationService = getItLocator<NavigationService>();
     bottomNavBarIndex = 0;
     Future.delayed(Duration.zero, () {
@@ -321,8 +336,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
     notificationCounterApiCalled = false;
     notificationCount = "0";
 
-    // if (roleName == "frontoffice") {
-
+    if(widget.selectedOrganizationIDF == null ) {
       listIconName.add("Add\nNew Patient");
       listIconName.add("My\nPatients");
       listIconName.add("My\nAppointments");
@@ -333,12 +347,62 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
       listIconName.add("Event\nfor Drs");
       listIconName.add("Investigatin\nList");
 
-      // if(DashboardRoleStatus == "0"){
-        listIconName.add("Doctor\nDashboard");
-    //   }
-    // if(IPDRoleStatus == "0"){
-      listIconName.add("IPD");
-    // }
+      listImage.add("v-2-icn-add-patient.png");
+      listImage.add("v-2-icn-my-patient.png");
+      listImage.add("v-2-icn-my-appointment.png");
+      listImage.add("v-2-icn-sent-notification.png");
+      listImage.add("v-2-icn-my-library.png");
+      listImage.add("v-2-icn-market-place.png");
+      listImage.add("v-2-icn-patient-resourece.png");
+      listImage.add("v-2-icn-event-drs.png");
+      listImage.add("v-2-icn-investigation.png");
+
+      // if (widget.selectedOrganizationIDF == "1") {
+      //   listIconName.add("Add\nNew Patient");
+      //   listIconName.add("My\nPatients");
+      //   listIconName.add("My\nAppointments");
+      //   listIconName.add("Send\nNotifications");
+      //   listIconName.add("My\nLibrary");
+      //   listIconName.add("Market\nPlace");
+      //   listIconName.add("Patient\nResources");
+      //   listIconName.add("Event\nfor Drs");
+      //   listIconName.add("Investigatin\nList");
+
+      //   listImage.add("v-2-icn-add-patient.png");
+      //   listImage.add("v-2-icn-my-patient.png");
+      //   listImage.add("v-2-icn-my-appointment.png");
+      //   listImage.add("v-2-icn-sent-notification.png");
+      //   listImage.add("v-2-icn-my-library.png");
+      //   listImage.add("v-2-icn-market-place.png");
+      //   listImage.add("v-2-icn-patient-resourece.png");
+      //   listImage.add("v-2-icn-event-drs.png");
+      //   listImage.add("v-2-icn-investigation.png");
+      // } else if (widget.selectedOrganizationIDF == "12"){
+      //   listIconName.add("My\nPatients");
+      //   listIconName.add("My\nAppointments");
+      //   listIconName.add("Send\nNotifications");
+      //   listIconName.add("Patient\nResources");
+      //   listIconName.add("Event\nfor Drs");
+      //   listIconName.add("Investigatin\nList");
+
+      //   listImage.add("v-2-icn-my-patient.png");
+      //   listImage.add("v-2-icn-my-appointment.png");
+      //   listImage.add("v-2-icn-sent-notification.png");
+      //   listImage.add("v-2-icn-patient-resourece.png");
+      //   listImage.add("v-2-icn-event-drs.png");
+      //   listImage.add("v-2-icn-investigation.png");
+      // }
+
+    }else if (widget.selectedOrganizationIDF == "5") {
+      listIconName.add("Add\nNew Patient");
+      listIconName.add("My\nPatients");
+      listIconName.add("My\nAppointments");
+      listIconName.add("Send\nNotifications");
+      listIconName.add("My\nLibrary");
+      listIconName.add("Market\nPlace");
+      listIconName.add("Patient\nResources");
+      listIconName.add("Event\nfor Drs");
+      listIconName.add("Investigatin\nList");
 
 
       listImage.add("v-2-icn-add-patient.png");
@@ -350,13 +414,53 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
       listImage.add("v-2-icn-patient-resourece.png");
       listImage.add("v-2-icn-event-drs.png");
       listImage.add("v-2-icn-investigation.png");
-    // if(DashboardRoleStatus == "0"){
-      listImage.add("v-2-icn-dashboard.png");
-    // }
-    // if(IPDRoleStatus == "0"){
-      listImage.add("v-2-icn-investigation.png");
-    // }
+    }else{
+      listIconName.add("My\nPatients");
+      listIconName.add("My\nAppointments");
+      listIconName.add("Event\nfor Drs");
+      listIconName.add("Investigatin\nList");
 
+      listImage.add("v-2-icn-my-patient.png");
+      listImage.add("v-2-icn-my-appointment.png");
+      listImage.add("v-2-icn-event-drs.png");
+      listImage.add("v-2-icn-investigation.png");
+    }
+
+    liste = widget.selectedOrganizationIDF == null
+        ? [
+      DrawerModel(title: "Home", image: "images/v-2-icn-categories-nav.png"),
+      DrawerModel(title: "OPD Registration", image: "images/v-2-icn-opd-nav.png"),
+      DrawerModel(title: "Drugs", image: "images/ic_drugs_dashbord.png"),
+      DrawerModel(title: "Add Masters", image: "images/v-2-icn-plush.png"),
+      DrawerModel(title: "Services", image: "images/ic_opd_services_dashboard.png"),
+      DrawerModel(title: "Form3c", image: "images/ic_form_3c_dashboard.png"),
+      // DrawerModel(title: "MyInvoice", image: "images/ic_form_3c_dashboard.png"),
+      DrawerModel(title: "Camp", image: "images/ic_camp.png"),
+      DrawerModel(title: "Help", image: "images/v-2-icn-help.png"),
+      DrawerModel(title: "Log Out", image: "images/v-2-icn-logout-nav.png"),
+    ]
+        : liste = widget.selectedOrganizationIDF == "5"
+        ? [
+      DrawerModel(title: "Home", image: "images/v-2-icn-categories-nav.png"),
+      DrawerModel(title: "OPD Registration", image: "images/v-2-icn-opd-nav.png"),
+      DrawerModel(title: "Drugs", image: "images/ic_drugs_dashbord.png"),
+      DrawerModel(title: "Add Masters", image: "images/v-2-icn-plush.png"),
+      DrawerModel(title: "Services", image: "images/ic_opd_services_dashboard.png"),
+      DrawerModel(title: "Form3c", image: "images/ic_form_3c_dashboard.png"),
+      DrawerModel(title: "Camp", image: "images/ic_camp.png"),
+      DrawerModel(title: "Help", image: "images/v-2-icn-help.png"),
+      DrawerModel(title: "Log Out", image: "images/v-2-icn-logout-nav.png"),
+    ]
+        : [
+
+      DrawerModel(title: "Home", image: "images/v-2-icn-categories-nav.png"),
+      // DrawerModel(title: "OPD Registration", image: "images/v-2-icn-opd-nav.png"),
+      DrawerModel(title: "Services", image: "images/ic_opd_services_dashboard.png"),
+      DrawerModel(title: "My Invoice", image: "images/v-2-icn-medical-profile.png"),
+      DrawerModel(title: "Help", image: "images/v-2-icn-help.png"),
+      DrawerModel(title: "Log Out", image: "images/v-2-icn-logout-nav.png"),
+
+    ];
 
     // }else{
     //   listIconName.add("Add\nNew Patient");
@@ -386,6 +490,13 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
     WidgetsBinding.instance.addObserver(this);
   }
 
+  Future<void> saveOrganizationInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('selectedOrganizationName', selectedOrganizationName);
+    prefs.setString('selectedOrganizationIDF', selectedOrganizationIDF);
+    prefs.setString('selectedOrganizationUnit', selectedOrganizationUnit);
+  }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -394,6 +505,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
     /*payGatewayURL = "";*/
     super.dispose();
   }
+
 
   AppLifecycleState? lifeCycleState;
 
@@ -410,28 +522,29 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
 
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
   int tappedIndex = -1;
-  final List<DrawerModel> liste = [
-    DrawerModel(title: "Home", image: "images/v-2-icn-categories-nav.png"),
-    // DrawerModel(
-    //     title: "Appointment", image: "images/v-2-icn-calender-gray.png"),
-    // DrawerModel(
-    //     title: "My Patients", image: "images/v-2-icn-my-patient-nav.png"),
-    // DrawerModel(
-    //     title: "My Consultation",
-    //     image: "images/v-2-icn-my-consultation-nav.png"),
-    DrawerModel(title: "OPD Registration", image: "images/v-2-icn-opd-nav.png"),
-    DrawerModel(title: "Drugs", image: "images/ic_drugs_dashbord.png"),
-    DrawerModel(title: "Add Masters", image: "images/v-2-icn-plush.png"),
-    DrawerModel(
-        title: "Services", image: "images/ic_opd_services_dashboard.png"),
-    DrawerModel(title: "Form3c", image: "images/ic_form_3c_dashboard.png"),
-    DrawerModel(
-        title: "Lab Reports", image: "images/v-2-icn-medical-profile.png"),
-    DrawerModel(title: "Camp", image: "images/ic_camp.png"),
 
-    DrawerModel(title: "Help", image: "images/v-2-icn-help.png"),
-    DrawerModel(title: "Log Out", image: "images/v-2-icn-logout-nav.png"),
-  ];
+  // final List<DrawerModel> liste = [
+  //   DrawerModel(title: "Home", image: "images/v-2-icn-categories-nav.png"),
+  //   // DrawerModel(
+  //   //     title: "Appointment", image: "images/v-2-icn-calender-gray.png"),
+  //   // DrawerModel(
+  //   //     title: "My Patients", image: "images/v-2-icn-my-patient-nav.png"),
+  //   // DrawerModel(
+  //   //     title: "My Consultation",
+  //   //     image: "images/v-2-icn-my-consultation-nav.png"),
+  //   DrawerModel(title: "OPD Registration", image: "images/v-2-icn-opd-nav.png"),
+  //   DrawerModel(title: "Drugs", image: "images/ic_drugs_dashbord.png"),
+  //   DrawerModel(title: "Add Masters", image: "images/v-2-icn-plush.png"),
+  //   DrawerModel(
+  //       title: "Services", image: "images/ic_opd_services_dashboard.png"),
+  //   DrawerModel(title: "Form3c", image: "images/ic_form_3c_dashboard.png"),
+  //   DrawerModel(
+  //       title: "Lab Reports", image: "images/v-2-icn-medical-profile.png"),
+  //   DrawerModel(title: "Camp", image: "images/ic_camp.png"),
+  //
+  //   DrawerModel(title: "Help", image: "images/v-2-icn-help.png"),
+  //   DrawerModel(title: "Log Out", image: "images/v-2-icn-logout-nav.png"),
+  // ];
 
   openDrawer() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -446,21 +559,21 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
   Container buildNotificationCount(int i) {
     return Container(
         child: Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
-        //set border radius more than 50% of height and width to make circle
-      ),
-      color: tappedIndex == i ? colorWhite : colorBlueDark,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          "2",
-          style:
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+            //set border radius more than 50% of height and width to make circle
+          ),
+          color: tappedIndex == i ? colorWhite : colorBlueDark,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "2",
+              style:
               TextStyle(color: tappedIndex == i ? colorBlueDark : colorWhite),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    ));
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ));
   }
 
   @override
@@ -491,44 +604,47 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                             backgroundColor: Colors.transparent,
                             child: (imgUrl != "" && imgUrl != "null")
                                 ? CircleAvatar(
-                                    radius: 28,
-                                    backgroundImage:
-                                        NetworkImage("$doctorImgUrl$imgUrl"))
+                                radius: 28,
+                                backgroundImage:
+                                NetworkImage("$doctorImgUrl$imgUrl"))
                                 : CircleAvatar(
-                                    radius: 28,
-                                    backgroundColor: Colors.grey,
-                                    backgroundImage: AssetImage(
-                                        "images/ic_user_placeholder.png")),
+                                radius: 28,
+                                backgroundColor: Colors.grey,
+                                backgroundImage: AssetImage(
+                                    "images/ic_user_placeholder.png")),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "$userNameGlobal",
-                                style: TextStyle(
-                                    color: colorBlueDark,
-                                    fontSize:
-                                        SizeConfig.blockSizeHorizontal! * 3.3,
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                "Mobile No - $mobNo",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize:
-                                      SizeConfig.blockSizeHorizontal! * 3.3,
+                          Expanded(
+                            flex: 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "$userNameGlobal",
+                                  style: TextStyle(
+                                      color: colorBlueDark,
+                                      fontSize:
+                                      SizeConfig.blockSizeHorizontal! * 3.2,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                Text(
+                                  "Mobile No - $mobNo",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize:
+                                    SizeConfig.blockSizeHorizontal! * 3.3,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -542,13 +658,14 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                       shrinkWrap: true,
                       itemCount: liste.length,
                       itemBuilder: (_, i) {
-                        return Column(
+                        return widget.selectedOrganizationIDF == null
+                            ? Column(
                           children: [
                             i == 11
                                 ? Divider(
-                                    color: colorgreyText,
-                                    height: 0,
-                                  )
+                              color: colorgreyText,
+                              height: 0,
+                            )
                                 : Container(),
                             ListTile(
                               tileColor: tappedIndex == i ? Colors.blue : null,
@@ -573,11 +690,11 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                   tappedIndex = i;
                                 });
                                 if(i == 0){
-                                if (i == 0) {
-                                  Navigator.pop(context);
-                                  tappedIndex = 0;
-                                  getDashboardData();
-                                }}
+                                  if (i == 0) {
+                                    Navigator.pop(context);
+                                    tappedIndex = 0;
+                                    getDashboardData();
+                                  }}
                                 // else if (i == 1) {
                                 //   Navigator.pop(context);
                                 //   Navigator.of(context)
@@ -600,19 +717,19 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                 //   });
                                 // }
                                 else if (i == 1) {
-                                  if (roleName == "frontoffice") {
+                                  // if (roleName == "frontoffice") {
                                   Navigator.pop(context);
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
-                                    return OPDRegistrationScreen();
-                                  })).then((value) {
+                                        return OPDRegistrationScreen();
+                                      })).then((value) {
                                     getDashboardData();
                                     tappedIndex = -1;
                                   });
-                                }else{
-                                    print("Condition not met for index $i and roleName $roleName");
-                                    // Add default or alternative behavior here
-                                  }
+                                  // }else{
+                                  //     print("Condition not met for index $i and roleName $roleName");
+                                  //     // Add default or alternative behavior here
+                                  //   }
                                 }
                                 // else if (i == 4)
                                 // {
@@ -634,6 +751,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                 } else if (i == 3) {
                                   Navigator.pop(context);
                                   tappedIndex = -1;
+                                  print(listAddMasters);
                                   showAddMasterSelectionDialog(
                                       listAddMasters, context);
                                   // Navigator.of(context).push(
@@ -649,8 +767,8 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                   // services
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
-                                    return OPDServiceListScreen();
-                                  })).then((value) {
+                                        return OPDServiceListScreen();
+                                      })).then((value) {
                                     getDashboardData();
                                     tappedIndex = -1;
                                   });
@@ -659,18 +777,28 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                   Navigator.pop(context);
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
-                                    return Form3CScreen();
-                                  })).then((value) {
+                                        return Form3CScreen();
+                                      })).then((value) {
                                     getDashboardData();
                                     tappedIndex = -1;
                                   });
                                   // form3c
-                                } else if (i == 6) {
+                                }
+                                // else if (i == 6) {
+                                //   Navigator.pop(context);
+                                //   Navigator.of(context).push(
+                                //       MaterialPageRoute(builder: (context) {
+                                //     return MyInvoiceListScreen();
+                                //   })).then((value) {
+                                //     getDashboardData();
+                                //     tappedIndex = -1;
+                                //   });}
+                                else if (i == 6) {
                                   Navigator.pop(context);
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
-                                    return LabReportsScreen();
-                                  })).then((value) {
+                                        return CampScreen();
+                                      })).then((value) {
                                     getDashboardData();
                                     tappedIndex = -1;
                                   });
@@ -678,21 +806,12 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                   Navigator.pop(context);
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
-                                    return CampScreen();
-                                  })).then((value) {
+                                        return HelpScreen(patientIDP!);
+                                      })).then((value) {
                                     getDashboardData();
                                     tappedIndex = -1;
                                   });
                                 } else if (i == 8) {
-                                  Navigator.pop(context);
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) {
-                                    return HelpScreen(patientIDP!);
-                                  })).then((value) {
-                                    getDashboardData();
-                                    tappedIndex = -1;
-                                  });
-                                } else if (i == 9) {
                                   Navigator.pop(context);
                                   showConfirmationDialogLogout(
                                     context,
@@ -700,11 +819,262 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                 }
                               }, // Reverse bool value
                             ),
-                            i == 8
+                            i == 7
                                 ? Divider(
-                                    color: colorgreyText,
-                                    height: 0,
-                                  )
+                              color: colorgreyText,
+                              height: 0,
+                            )
+                                : Container(),
+                          ],
+                        )
+                            :  widget.selectedOrganizationIDF == "5"
+                            ?Column(
+                          children: [
+                            i == 11
+                                ? Divider(
+                              color: colorgreyText,
+                              height: 0,
+                            )
+                                : Container(),
+                            ListTile(
+                              tileColor: tappedIndex == i ? Colors.blue : null,
+                              // If current item is selected show blue color
+                              leading: Image.asset(liste[i].image!,
+                                  width: SizeConfig.blockSizeHorizontal! * 4.0,
+                                  color: tappedIndex == i
+                                      ? Colors.white
+                                      : Colors.black),
+                              // trailing: i == 1 || i == 3
+                              //     ? buildNotificationCount(i)
+                              //     : null,
+                              minLeadingWidth: 10,
+                              title: Text(liste[i].title!,
+                                  style: TextStyle(
+                                      color: tappedIndex == i
+                                          ? Colors.white
+                                          : Colors.black)),
+                              onTap: () {
+                                print("Tapped index: $i, Role name: $roleName");
+                                setState(() {
+                                  tappedIndex = i;
+                                });
+                                if(i == 0){
+                                  if (i == 0) {
+                                    Navigator.pop(context);
+                                    tappedIndex = 0;
+                                    getDashboardData();
+                                  }}
+                                // else if (i == 1) {
+                                //   Navigator.pop(context);
+                                //   Navigator.of(context)
+                                //       .push(MaterialPageRoute(builder: (context) {
+                                //     return OPDRegistrationScreen();
+                                //   })).then((value) {
+                                //     getDashboardData();
+                                //     tappedIndex = -1;
+                                //   });
+                                // }
+                                // else if (i == 1)
+                                // {
+                                //   Navigator.pop(context);
+                                //   Navigator.of(context)
+                                //       .push(MaterialPageRoute(builder: (context) {
+                                //     return MyPatientsScreen();
+                                //   })).then((value) {
+                                //     getDashboardData();
+                                //     tappedIndex = -1;
+                                //   });
+                                // }
+                                else if (i == 1) {
+                                  // if (roleName == "frontoffice") {
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                        return OPDRegistrationScreen();
+                                      })).then((value) {
+                                    getDashboardData();
+                                    tappedIndex = -1;
+                                  });
+                                  // }else{
+                                  //     print("Condition not met for index $i and roleName $roleName");
+                                  //     // Add default or alternative behavior here
+                                  //   }
+                                }
+                                // else if (i == 4)
+                                // {
+                                //   Navigator.pop(context);
+                                //   tappedIndex = -1;
+                                // }
+                                else if (i == 2) {
+                                  Navigator.pop(context);
+                                  tappedIndex = -1;
+                                  // Navigator.of(context)
+                                  //     .push(MaterialPageRoute(builder: (context) {
+                                  //   return MarketPlaceScreen(patientIDP: patientIDP);
+                                  // })).then((value) {
+                                  //   getDashboardData();
+                                  // });
+                                  // drops
+                                  showMasterSelectionDialog(
+                                      listMasters, context);
+                                } else if (i == 3) {
+                                  Navigator.pop(context);
+                                  tappedIndex = -1;
+                                  print(listAddMasters);
+                                  showAddMasterSelectionDialog(
+                                      listAddMasters, context);
+                                  // Navigator.of(context).push(
+                                  //     MaterialPageRoute(builder: (context) {
+                                  //   return AddMastersScreen();
+                                  // })).then((value) {
+                                  //   getDashboardData();
+                                  //
+                                  // });
+                                }
+                                else if (i == 4) {
+                                  Navigator.pop(context);
+                                  // services
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                        return OPDServiceListScreen();
+                                      })).then((value) {
+                                    getDashboardData();
+                                    tappedIndex = -1;
+                                  });
+                                }
+                                else if (i == 5) {
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                        return Form3CScreen();
+                                      })).then((value) {
+                                    getDashboardData();
+                                    tappedIndex = -1;
+                                  });
+                                  // form3c
+                                }
+                                // else if (i == 6) {
+                                //   Navigator.pop(context);
+                                //   Navigator.of(context).push(
+                                //       MaterialPageRoute(builder: (context) {
+                                //     return MyInvoiceListScreen();
+                                //   })).then((value) {
+                                //     getDashboardData();
+                                //     tappedIndex = -1;
+                                //   });}
+                                else if (i == 6) {
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                        return CampScreen();
+                                      })).then((value) {
+                                    getDashboardData();
+                                    tappedIndex = -1;
+                                  });
+                                } else if (i == 7) {
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                        return HelpScreen(patientIDP!);
+                                      })).then((value) {
+                                    getDashboardData();
+                                    tappedIndex = -1;
+                                  });
+                                } else if (i == 8) {
+                                  Navigator.pop(context);
+                                  showConfirmationDialogLogout(
+                                    context,
+                                  );
+                                }
+                              }, // Reverse bool value
+                            ),
+                            i == 7
+                                ? Divider(
+                              color: colorgreyText,
+                              height: 0,
+                            )
+                                : Container(),
+                          ],
+                        )
+                            : Column(
+                          children: [
+                            i == 11
+                                ? Divider(
+                              color: colorgreyText,
+                              height: 0,
+                            )
+                                : Container(),
+                            ListTile(
+                              tileColor: tappedIndex == i ? Colors.blue : null,
+                              // If current item is selected show blue color
+                              leading: Image.asset(liste[i].image!,
+                                  width: SizeConfig.blockSizeHorizontal! * 4.0,
+                                  color: tappedIndex == i
+                                      ? Colors.white
+                                      : Colors.black),
+                              // trailing: i == 1 || i == 3
+                              //     ? buildNotificationCount(i)
+                              //     : null,
+                              minLeadingWidth: 10,
+                              title: Text(liste[i].title!,
+                                  style: TextStyle(
+                                      color: tappedIndex == i
+                                          ? Colors.white
+                                          : Colors.black)),
+                              onTap: () {
+                                print("Tapped index: $i, Role name: $roleName");
+                                setState(() {
+                                  tappedIndex = i;
+                                });
+                                if(i == 0){
+                                  if (i == 0) {
+                                    Navigator.pop(context);
+                                    tappedIndex = 0;
+                                    getDashboardData();
+                                  }}
+                                else if (i == 1) {
+                                  Navigator.pop(context);
+                                  // services
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                        return OPDServiceListScreen();
+                                      })).then((value) {
+                                    getDashboardData();
+                                    tappedIndex = -1;
+                                  });
+                                }
+                                else if (i == 2) {
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                        return MyInvoiceListScreen();
+                                      })).then((value) {
+                                    getDashboardData();
+                                    tappedIndex = -1;
+                                  });
+                                }
+                                else if (i == 3) {
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                        return HelpScreen(patientIDP!);
+                                      })).then((value) {
+                                    getDashboardData();
+                                    tappedIndex = -1;
+                                  });
+                                } else if (i == 4) {
+                                  Navigator.pop(context);
+                                  showConfirmationDialogLogout(
+                                    context,
+                                  );
+                                }
+                              }, // Reverse bool value
+                            ),
+                            i == 3
+                                ? Divider(
+                              color: colorgreyText,
+                              height: 0,
+                            )
                                 : Container(),
                           ],
                         );
@@ -723,7 +1093,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
               currentIndex: bottomNavBarIndex,
               type: BottomNavigationBarType.fixed,
               onTap: (index) {
-                if (index == 3) {
+                if (index == 2) {
                   openDrawer();
                 } else {
                   onTabTapped(index, context);
@@ -762,22 +1132,22 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                       width: SizeConfig.blockSizeHorizontal! * 6,
                     ),
                     label: 'My Profile'),
-                BottomNavigationBarItem(
-                    activeIcon: Image(
-                      image: AssetImage(
-                        "images/icn-qr-code.png",
-                      ),
-                      color: colorBlueApp,
-                      width: SizeConfig.blockSizeHorizontal! * 6,
-                    ),
-                    icon: Image(
-                      image: AssetImage(
-                        "images/icn-qr-code.png",
-                      ),
-                      color: darkgrey,
-                      width: SizeConfig.blockSizeHorizontal! * 6,
-                    ),
-                    label: 'Payment Code'),
+                // BottomNavigationBarItem(
+                //     activeIcon: Image(
+                //       image: AssetImage(
+                //         "images/icn-qr-code.png",
+                //       ),
+                //       color: colorBlueApp,
+                //       width: SizeConfig.blockSizeHorizontal! * 6,
+                //     ),
+                //     icon: Image(
+                //       image: AssetImage(
+                //         "images/icn-qr-code.png",
+                //       ),
+                //       color: darkgrey,
+                //       width: SizeConfig.blockSizeHorizontal! * 6,
+                //     ),
+                //     label: 'Payment Code'),
                 BottomNavigationBarItem(
                     activeIcon: Image(
                       image: AssetImage(
@@ -803,18 +1173,34 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                     child: bottomNavBarIndex == 0
                         ? _createListView(mContext)
                         : (bottomNavBarIndex == 1
-                            ?generalProfileWidget(context)
+                        ?generalProfileWidget(context)
                     // roleName == "frontoffice"
                     // ?
-                        // :nurseGeneralProfileWidget(context)
-                            : (bottomNavBarIndex == 2
-                                ? selectedOrganizationIDF == "1"
-                    ?MyPaymentCodeScreen(
-                                    payGatewayURL)
-                       : Container(
-
-                    )
-                                : Container())));
+                    // :nurseGeneralProfileWidget(context)
+                    //     : (bottomNavBarIndex == 2
+                    //     ? selectedOrganizationIDF == "5"
+                    //     ? MyPaymentCodeScreen(payGatewayURL)
+                    //     : Container(
+                    //     child: AlertDialog(
+                    //       title: Text("Feature Not Available"),
+                    //       content: Text("This feature is not available for the selected organization."),
+                    //       actions: <Widget>[
+                    //         TextButton(
+                    //           onPressed: () {
+                    //             Navigator.of(context).push(
+                    //                 MaterialPageRoute(
+                    //                     builder: (context) =>
+                    //                         DoctorDashboardScreen(
+                    //                           selectedOrganizationIDF: selectedOrganizationIDF,
+                    //                           selectedOrganizationName: selectedOrganizationName,
+                    //                         )));
+                    //           },
+                    //           child: Text("OK"),
+                    //         ),
+                    //       ],
+                    //     )
+                    // )
+                        : Container()));
               },
             )));
   }
@@ -851,61 +1237,55 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal:
-                                  SizeConfig.blockSizeHorizontal! * 2.0),
+                              SizeConfig.blockSizeHorizontal! * 2.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left:
-                                        SizeConfig.blockSizeHorizontal! * 28.0),
-                                child: Text(
-                                  "Doctor Profile",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize:
-                                        SizeConfig.blockSizeHorizontal! * 5.0,
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    "Doctor Profile",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize:
+                                      SizeConfig.blockSizeHorizontal! * 5.0,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal! * 15.0,
-                                ),
-                                child: InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(builder: (context) {
-                                        return HelpScreen(patientIDP!);
-                                      })).then((value) {
-                                        getDashboardData();
-                                      });
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "help",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: SizeConfig
-                                                    .blockSizeHorizontal! *
-                                                4.0,
-                                          ),
-                                          textAlign: TextAlign.center,
+                              InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) {
+                                          return HelpScreen(patientIDP!);
+                                        })).then((value) {
+                                      getDashboardData();
+                                    });
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "help",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: SizeConfig
+                                              .blockSizeHorizontal! *
+                                              4.0,
                                         ),
-                                        Image.asset(
-                                          "images/v-2-icn-help.png",
-                                          // alignment: Alignment.centerRight,
-                                          width:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  8.0,
-                                        ),
-                                      ],
-                                    )),
-                              )
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      Image.asset(
+                                        "images/v-2-icn-help.png",
+                                        // alignment: Alignment.centerRight,
+                                        width:
+                                        SizeConfig.blockSizeHorizontal! *
+                                            8.0,
+                                      ),
+                                    ],
+                                  ))
                             ],
                           ),
                         ),
@@ -928,15 +1308,15 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                           backgroundColor: Colors.transparent,
                           child: (imgUrl != "" && imgUrl != "null")
                               ? CircleAvatar(
-                                  radius: 48,
-                                  backgroundImage: NetworkImage(
-                                      "$doctorImgUrl$imgUrl") /*),*/
-                                  )
+                              radius: 48,
+                              backgroundImage: NetworkImage(
+                                  "$doctorImgUrl$imgUrl") /*),*/
+                          )
                               : CircleAvatar(
-                                  radius: 48,
-                                  backgroundColor: Colors.grey,
-                                  backgroundImage: AssetImage(
-                                      "images/ic_user_placeholder.png")),
+                              radius: 48,
+                              backgroundColor: Colors.grey,
+                              backgroundImage: AssetImage(
+                                  "images/ic_user_placeholder.png")),
                         ),
                       ),
                       SizedBox(
@@ -1008,7 +1388,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          MainAxisAlignment.end,
                                           children: <Widget>[
                                             Align(
                                               alignment: Alignment.topRight,
@@ -1028,57 +1408,57 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                   ])),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Divider(
-                          color: Colors.grey.withOpacity(0.2),
-                          thickness: 2,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10),
-                        child: Container(
-                            width: SizeConfig.blockSizeHorizontal! * 100,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                            ),
-                            child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Text(
-                                    "Referral code",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Text(
-                                            "$patientID",
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: SizeConfig
-                                                      .blockSizeHorizontal! *
-                                                  3.3,
-                                            ),
-                                          ),
-                                          /*Icon(
-                                                            Icons.chevron_right,
-                                                            color: Colors.grey,
-                                                          )*/
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ])),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      //   child: Divider(
+                      //     color: Colors.grey.withOpacity(0.2),
+                      //     thickness: 2,
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: 20.0, vertical: 10),
+                      //   child: Container(
+                      //       width: SizeConfig.blockSizeHorizontal! * 100,
+                      //       decoration: BoxDecoration(
+                      //         color: Colors.white,
+                      //       ),
+                      //       child: Row(
+                      //           mainAxisSize: MainAxisSize.max,
+                      //           children: <Widget>[
+                      //             Text(
+                      //               "Referral code",
+                      //               style: TextStyle(
+                      //                 color: Colors.black,
+                      //               ),
+                      //             ),
+                      //             Expanded(
+                      //               child: Align(
+                      //                 alignment: Alignment.topRight,
+                      //                 child: Row(
+                      //                   mainAxisSize: MainAxisSize.max,
+                      //                   mainAxisAlignment:
+                      //                       MainAxisAlignment.end,
+                      //                   children: <Widget>[
+                      //                     Text(
+                      //                       "$patientID",
+                      //                       style: TextStyle(
+                      //                         color: Colors.grey,
+                      //                         fontSize: SizeConfig
+                      //                                 .blockSizeHorizontal! *
+                      //                             3.3,
+                      //                       ),
+                      //                     ),
+                      //                     /*Icon(
+                      //                                       Icons.chevron_right,
+                      //                                       color: Colors.grey,
+                      //                                     )*/
+                      //                   ],
+                      //                 ),
+                      //               ),
+                      //             )
+                      //           ])),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Divider(
@@ -1212,11 +1592,12 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                           thickness: 2,
                         ),
                       ),
+
                       InkWell(
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                            return MyInvoiceListScreen();
+                            return MyDocumentDoctorScreen();
                           }));
                         },
                         child: Padding(
@@ -1231,7 +1612,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
                                     Text(
-                                      "My Invoices",
+                                      "My Documents",
                                       style: TextStyle(
                                         color: Colors.black,
                                       ),
@@ -1242,7 +1623,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          MainAxisAlignment.end,
                                           children: <Widget>[
                                             Align(
                                               alignment: Alignment.topRight,
@@ -1262,6 +1643,63 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                   ])),
                         ),
                       ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      //   child: Divider(
+                      //     color: Colors.grey.withOpacity(0.2),
+                      //     thickness: 2,
+                      //   ),
+                      // ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     Navigator.of(context)
+                      //         .push(MaterialPageRoute(builder: (context) {
+                      //       return MyInvoiceListScreen();
+                      //     }));
+                      //   },
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.symmetric(
+                      //         horizontal: 20.0, vertical: 10),
+                      //     child: Container(
+                      //         width: SizeConfig.blockSizeHorizontal! * 100,
+                      //         decoration: BoxDecoration(
+                      //           color: Colors.white,
+                      //         ),
+                      //         child: Row(
+                      //             mainAxisSize: MainAxisSize.max,
+                      //             children: <Widget>[
+                      //               Text(
+                      //                 "My Invoices",
+                      //                 style: TextStyle(
+                      //                   color: Colors.black,
+                      //                 ),
+                      //               ),
+                      //               Expanded(
+                      //                 child: Align(
+                      //                   alignment: Alignment.topRight,
+                      //                   child: Row(
+                      //                     mainAxisSize: MainAxisSize.max,
+                      //                     mainAxisAlignment:
+                      //                         MainAxisAlignment.end,
+                      //                     children: <Widget>[
+                      //                       Align(
+                      //                         alignment: Alignment.topRight,
+                      //                         child: Row(
+                      //                           children: <Widget>[
+                      //                             Icon(
+                      //                               Icons.chevron_right,
+                      //                               color: Colors.grey,
+                      //                             )
+                      //                           ],
+                      //                         ),
+                      //                       ),
+                      //                     ],
+                      //                   ),
+                      //                 ),
+                      //               )
+                      //             ])),
+                      //   ),
+                      // ),
                       // Padding(
                       //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       //   child: Divider(
@@ -1911,7 +2349,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                   onPressed: () {
                     logOut(context);
                     Navigator.pop(context);
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -2107,7 +2545,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
   }
 
   static const MethodChannel _channel =
-      MethodChannel('flutter_phone_direct_caller');
+  MethodChannel('flutter_phone_direct_caller');
 
   static Future<bool> callNumber(String number) async {
     return await _channel.invokeMethod(
@@ -2124,131 +2562,131 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
         context: context,
         barrierDismissible: false,
         builder: (context) => Dialog(
-              /*shape: RoundedRectangleBorder(
+          /*shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),*/
-              backgroundColor: Colors.white,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal! * 3,
+          backgroundColor: Colors.white,
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(
+                  SizeConfig.blockSizeHorizontal! * 3,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    InkWell(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.red,
+                        size: SizeConfig.blockSizeHorizontal! * 6.2,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    child: Row(
-                      children: <Widget>[
-                        InkWell(
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal! * 6.2,
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal! * 6,
+                    ),
+                    Text(
+                      "Choose Action",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                  onTap: () async {
+                    Navigator.of(context).pop();
+                    await FlutterPhoneDirectCaller.callNumber(
+                        emergencyNumber);
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal! * 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
                           ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal! * 6,
-                        ),
-                        Text(
-                          "Choose Action",
-                          textAlign: TextAlign.center,
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Call",
+                          textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            fontSize: 15,
+                            color: Colors.black,
                             decoration: TextDecoration.none,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                      onTap: () async {
-                        Navigator.of(context).pop();
-                        await FlutterPhoneDirectCaller.callNumber(
-                            emergencyNumber);
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
+                      ))),
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _sendSMS(
+                        "Hi, this is $name, I am in emergency! Need your help.",
+                        ["$emergencyNumber"]);
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal! * 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
                           ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Sms",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            decoration: TextDecoration.none,
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Call",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        _sendSMS(
-                            "Hi, this is $name, I am in emergency! Need your help.",
-                            ["$emergencyNumber"]);
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
-                          ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Sms",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                ],
-              ),
-            ));
+                        ),
+                      ))),
+            ],
+          ),
+        ));
   }
 
   Future<void> scanTheQRCodeNow(BuildContext context) async {
@@ -2375,7 +2813,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                 ),
                 child: Row(
                   children: <Widget>[
-                    Text("SWASTHYA SETU",
+                    Text("Silver Touch",
                         key: UniqueKey(),
                         textAlign: TextAlign.right,
                         style: TextStyle(
@@ -2392,14 +2830,14 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                             children: [
                               InkWell(
                                 onTap: () {
-                                  if(selectedOrganizationIDF == "1"){
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              MyChats(""))).then((value) {
-                                    getDashboardData();
-                                  });
+                                  if(selectedOrganizationIDF == "5"){
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MyChats(""))).then((value) {
+                                      getDashboardData();
+                                    });
                                   }else{
                                     showDialog(
                                       context: context,
@@ -2429,7 +2867,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                     ),
                                     Visibility(
                                         visible:
-                                            messageCount != "0" ? true : false,
+                                        messageCount != "0" ? true : false,
                                         child: Positioned(
                                           right: 2,
                                           child: new Container(
@@ -2437,7 +2875,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                             decoration: new BoxDecoration(
                                               color: Colors.red,
                                               borderRadius:
-                                                  BorderRadius.circular(8),
+                                              BorderRadius.circular(8),
                                             ),
                                             constraints: BoxConstraints(
                                               minWidth: 15,
@@ -2461,7 +2899,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                               ),
                               InkWell(
                                 onTap: () {
-                                  if(selectedOrganizationIDF == "1") {
+                                  if(selectedOrganizationIDF == "5") {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -2508,7 +2946,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                                             decoration: new BoxDecoration(
                                               color: Colors.red,
                                               borderRadius:
-                                                  BorderRadius.circular(8),
+                                              BorderRadius.circular(8),
                                             ),
                                             constraints: BoxConstraints(
                                               minWidth: 15,
@@ -2569,9 +3007,16 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                         fontWeight: FontWeight.w400),
                     children: [
                       new TextSpan(
-                          text: ("${selectedOrganizationName}"),
+                          text: selectedOrganizationName == 'Admin' ? 'Swashtya Setu' : selectedOrganizationName,
                           style: TextStyle(
-                              color: Colorsblack, fontWeight: FontWeight.bold))
+                          color: Colorsblack, fontWeight: FontWeight.bold)),
+                      new TextSpan(
+                        text: selectedOrganizationUnit,
+                        style: TextStyle(
+                            color: Colorsblack,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
+                      )
                     ]),
               ),
             ),
@@ -2642,7 +3087,7 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                       itemBuilder: (context, index) {
                         return IconCard(
                           IconModel(listIconName[index],
-                              listImage[index],"",
+                            listImage[index],"",
                           ),
                           getDashboardData,
                           selectedOrganizationIDF, // Pass selectedOrganizationIDF
@@ -2677,23 +3122,23 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
               child: Center(
                 child: listPhotos.length > 0
                     ? Container(
-                        height: SizeConfig.blockSizeVertical! * 25,
-                        width: SizeConfig.blockSizeHorizontal! * 98.0,
-                        child: AutomaticPageView2(
-                            listPhotos,
-                            listSliderImagesWebViewOuter,
-                            listSliderImagesWebViewTitleOuter),
-                      )
+                  height: SizeConfig.blockSizeVertical! * 25,
+                  width: SizeConfig.blockSizeHorizontal! * 98.0,
+                  child: AutomaticPageView2(
+                      listPhotos,
+                      listSliderImagesWebViewOuter,
+                      listSliderImagesWebViewTitleOuter),
+                )
                     : Container(
-                        // height: SizeConfig.blockSizeVertical! * 25,
-                        // width: SizeConfig.blockSizeHorizontal! * 98.0,
-                        // decoration: BoxDecoration(
-                        //   image: DecorationImage(
-                        //     image: AssetImage('images/shimmer_effect.png'),
-                        //     fit: BoxFit.fill,
-                        //   ),
-                        // ),
-                      ),
+                  // height: SizeConfig.blockSizeVertical! * 25,
+                  // width: SizeConfig.blockSizeHorizontal! * 98.0,
+                  // decoration: BoxDecoration(
+                  //   image: DecorationImage(
+                  //     image: AssetImage('images/shimmer_effect.png'),
+                  //     fit: BoxFit.fill,
+                  //   ),
+                  // ),
+                ),
               ),
             ),
             SizedBox(
@@ -2945,22 +3390,33 @@ class PatientDashboardState extends State<DoctorDashboardScreen>
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
                                 return ComplaintsMasterListScreen(
-                                    listMasters[index], index);
+                                    listAddMasters[index], index);
                               })).then((value) {});
                             }
                             else if(index == 1){
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
                                 return ExaminationsMasterListScreen(
-                                    listMasters[index], index);
+                                    listAddMasters[index], index);
                               })).then((value) {});
                             }
                             else if (index == 2){
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
                                 return DiagnosisMasterListScreen(
-                                    listMasters[index], index);
+                                    listAddMasters[index], index);
                               })).then((value) {});
+                            }else if (index == 3) {
+                              if (list.length > 3) { // Check if the list has enough elements
+                                print("List length: ${list.length}");
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) {
+                                      return MyDocumentDropDownMasterListScreen(
+                                          listAddMasters[index], index);
+                                    })).then((value) {});
+                              } else {
+                                print("Error: Insufficient elements in the list.");
+                              }
                             }
                           },
                           child: Padding(
@@ -3036,20 +3492,20 @@ class AutomaticPageViewState extends State<AutomaticPageView> {
     super.initState();
     if (subSliderTimeGlobal != "") {
       Timer.periodic(Duration(seconds: int.parse(subSliderTimeGlobal)),
-          (Timer timer) {
-        if (_currentPage < widget.listViewPagerImages.length - 1) {
-          _currentPage++;
-        } else {
-          _currentPage = 0;
-        }
+              (Timer timer) {
+            if (_currentPage < widget.listViewPagerImages.length - 1) {
+              _currentPage++;
+            } else {
+              _currentPage = 0;
+            }
 
-        if (mounted)
-          _pageController.animateToPage(
-            _currentPage,
-            duration: Duration(milliseconds: 350),
-            curve: Curves.easeIn,
-          );
-      });
+            if (mounted)
+              _pageController.animateToPage(
+                _currentPage,
+                duration: Duration(milliseconds: 350),
+                curve: Curves.easeIn,
+              );
+          });
     }
   }
 
@@ -3108,20 +3564,20 @@ class AutomaticPageViewState2 extends State<AutomaticPageView2> {
     subSliderTimeGlobal = '3';
     if (subSliderTimeGlobal != "") {
       Timer.periodic(Duration(seconds: int.parse(subSliderTimeGlobal)),
-          (Timer timer) {
-        if (_currentPage < widget.listViewPagerImages.length - 1) {
-          _currentPage++;
-        } else {
-          _currentPage = 0;
-        }
+              (Timer timer) {
+            if (_currentPage < widget.listViewPagerImages.length - 1) {
+              _currentPage++;
+            } else {
+              _currentPage = 0;
+            }
 
-        if (mounted)
-          _pageController.animateToPage(
-            _currentPage,
-            duration: Duration(milliseconds: 350),
-            curve: Curves.easeIn,
-          );
-      });
+            if (mounted)
+              _pageController.animateToPage(
+                _currentPage,
+                duration: Duration(milliseconds: 350),
+                curve: Curves.easeIn,
+              );
+          });
     }
   }
 
@@ -3232,15 +3688,6 @@ _launchURL() async {
   }
 }
 
-_launchThisURL() async {
-  const url = "https://swasthyasetu.com/doctor/dashboard.php";
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
 class IconCard extends StatelessWidget {
   IconModel? model;
   Function? getDashBoardData;
@@ -3272,309 +3719,186 @@ class IconCard extends StatelessWidget {
     // this.DashboardRoleStatus = DashboardRoleStatus;
   }
 
-  // async {
-  //
-  // if (model!.iconName == "Invite Patient") {
-  // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return InvitePatientScreen();
-  // })).then((value) {
-  // getDashBoardData!();
-  // });
-  // }
-  // else if (model!.iconName == "Event\nfor Drs") {
-  // _launchURL(); // Call the function directly
-  // getDashBoardData!();
-  // }
-  // else if (model!.iconName == "IPD") {
-  // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return IndoorListScreen();
-  // })).then((value) {
-  // getDashBoardData!();
-  // });
-  // }
-  // else if (model!.iconName == "Patient\nResources") {
-  // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return PatientResourcesScreen();
-  // })).then((value) {
-  // getDashBoardData!();
-  // });
-  // }
-  // else if (model!.iconName == "Market\nPlace") {
-  // if(roleName == ""){Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return MarketPlaceDashboardScreen(patientIDP!);
-  // })).then((value) {
-  // getDashBoardData!();
-  // });}
-  // }
-  // else if (model!.iconName == "My\nAppointments") {
-  // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return OPDRegistrationScreen();
-  // })).then((value) {
-  // getDashBoardData!();
-  // });
-  // }
-  // else if (model!.iconName == "Investigatin\nList") {
-  // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return DoctorInvestigationListScreen();
-  // })).then((value) {
-  // getDashBoardData!();
-  // });
-  // }
-  // else if (model!.iconName == "Doctor\nDashboard") {
-  // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return DashboardDoctorScreen(
-  // selectedOrganizationIDF: "$organizationIDF"
-  // );
-  // })).then((value) {
-  // getDashBoardData!();
-  // });
-  // }
-  //
-  // // else if (model!.iconName == "Health Videos") {
-  // //   Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // //     return DoctorHealthVideos();
-  // //   })).then((value) {
-  // //     getDashBoardData!();
-  // //   });
-  // // }
-  // else if (model!.iconName == "Send\nNotifications") {
-  // var name = await getUserName();
-  // Get.to(() => SelectPatientsForShareVideo(null, name))!
-  //     .then((value) {
-  // getDashBoardData!();
-  // });
-  // } else if (model!.iconName == "Camp") {
-  // var name = await getUserName();
-  // Get.to(() => CampScreen())!.then((value) {
-  // //getDashBoardData();
-  // });
-  // } else if (model!.iconName == "Lab Reports") {
-  // Get.to(() => LabReportsScreen())!.then((value) {
-  // getDashBoardData!();
-  // });
-  // } else if (model!.iconName == "Services") {
-  // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return OPDServiceListScreen();
-  // })).then((value) {
-  // getDashBoardData!();
-  // });
-  // } else if (model!.iconName == "Add\nNew Patient") {
-  // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return AddPatientScreenDoctor(
-  // from: "onlyAddPatient",
-  // );
-  // })).then((value) {
-  // getDashBoardData!();
-  // });
-  // } else if (model!.iconName == "My\nPatients") {
-  // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return MyPatientsScreen();
-  // })).then((value) {
-  // getDashBoardData!();
-  // });
-  // } else if (model!.iconName == "My\nLibrary") {
-  // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return DoctorLibraryScreen(patientIDP: patientIDP);
-  // })).then((value) {
-  // getDashBoardData!();
-  // });
-  // }
-  // //   else if (model!.iconName == "Drugs") {
-  // //   Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // //     return DrugsListScreen();
-  // //   })).then((value) {
-  // //     getDashBoardData!();
-  // //   });
-  // // }
-  // else if (model!.iconName == "Form 3C") {
-  // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  // return Form3CScreen();
-  // })).then((value) {
-  // getDashBoardData!();
-  // });
-  // }
-  // },
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return
       Visibility(
-          // visible: roleName =="frontoffice" ,
+        // visible: roleName =="frontoffice" ,
         // visible: shouldShowInkWell(model!.iconName, roleName),
         // visible: roleName =="frontoffice" &&
         //     model!.iconName == "Market\nPlace",
         child: InkWell(
-          highlightColor: Colors.green[200],
-          customBorder: CircleBorder(),
-          onTap: () async {
+            highlightColor: Colors.green[200],
+            customBorder: CircleBorder(),
+            onTap: () async {
 
-            if (model!.iconName == "Invite Patient") {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return InvitePatientScreen();
-              })).then((value) {
+              if (model!.iconName == "Invite Patient") {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return InvitePatientScreen();
+                })).then((value) {
+                  getDashBoardData!();
+                });
+              }
+              else if (model!.iconName == "Event\nfor Drs") {
+                _launchURL(); // Call the function directly
                 getDashBoardData!();
-              });
-            }
-            else if (model!.iconName == "Event\nfor Drs") {
-              _launchURL(); // Call the function directly
-              getDashBoardData!();
-            }
-            else if (model!.iconName == "IPD") {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return IndoorListScreen(
+              }
+              else if (model!.iconName == "IPD") {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return IndoorListScreen(
                     // patientindooridp: "20",
                     // PatientIDP: "736"
-                );
-              })).then((value) {
-                getDashBoardData!();
-              });
-            }
-            else if (model!.iconName == "Patient\nResources") {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return PatientResourcesScreen();
-              })).then((value) {
-                getDashBoardData!();
-              });
-            }
-            else if (model!.iconName == "Market\nPlace") {
-              if(roleName == ""){Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return MarketPlaceDashboardScreen(patientIDP!);
-              })).then((value) {
-                getDashBoardData!();
-              });}
-            }
-            else if (model!.iconName == "My\nAppointments") {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return OPDRegistrationScreen();
-              })).then((value) {
-                getDashBoardData!();
-              });
-            }
-            else if (model!.iconName == "Investigatin\nList") {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return DoctorInvestigationListScreen();
-              })).then((value) {
-                getDashBoardData!();
-              });
-            }
-            else if (model!.iconName == "Doctor\nDashboard") {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return DashboardDoctorScreen(
-                    selectedOrganizationIDF: "${selectedOrganizationIDF}"
-                );
-              })).then((value) {
-                getDashBoardData!();
-              });
-            }
+                  );
+                })).then((value) {
+                  getDashBoardData!();
+                });
+              }
+              else if (model!.iconName == "Patient\nResources") {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return PatientResourcesScreen();
+                })).then((value) {
+                  getDashBoardData!();
+                });
+              }
+              else if (model!.iconName == "Market\nPlace") {
+                if(roleName == ""){Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return MarketPlaceDashboardScreen(patientIDP!);
+                })).then((value) {
+                  getDashBoardData!();
+                });}
+              }
+              else if (model!.iconName == "My\nAppointments") {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return OPDRegistrationScreen();
+                })).then((value) {
+                  getDashBoardData!();
+                });
+              }
+              else if (model!.iconName == "Investigatin\nList") {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return DoctorInvestigationListScreen();
+                })).then((value) {
+                  getDashBoardData!();
+                });
+              }
+              else if (model!.iconName == "Doctor\nDashboard") {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return DashboardDoctorScreen(
+                      selectedOrganizationIDF: "${selectedOrganizationIDF}"
+                  );
+                })).then((value) {
+                  getDashBoardData!();
+                });
+              }
 
-            // else if (model!.iconName == "Health Videos") {
-            //   Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            //     return DoctorHealthVideos();
-            //   })).then((value) {
-            //     getDashBoardData!();
-            //   });
-            // }
-            else if (model!.iconName == "Send\nNotifications") {
-              var name = await getUserName();
-              Get.to(() => SelectPatientsForShareVideo(null, name))!
-                  .then((value) {
-                getDashBoardData!();
-              });
-            } else if (model!.iconName == "Camp") {
-              var name = await getUserName();
-              Get.to(() => CampScreen())!.then((value) {
-                //getDashBoardData();
-              });
-            } else if (model!.iconName == "Lab Reports") {
-              Get.to(() => LabReportsScreen())!.then((value) {
-                getDashBoardData!();
-              });
-            } else if (model!.iconName == "Services") {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return OPDServiceListScreen();
-              })).then((value) {
-                getDashBoardData!();
-              });
-            } else if (model!.iconName == "Add\nNew Patient") {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return AddPatientScreenDoctor(
-                  from: "onlyAddPatient",
-                );
-              })).then((value) {
-                getDashBoardData!();
-              });
-            } else if (model!.iconName == "My\nPatients") {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return MyPatientsScreen();
-              })).then((value) {
-                getDashBoardData!();
-              });
-            } else if (model!.iconName == "My\nLibrary") {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return DoctorLibraryScreen(patientIDP: patientIDP);
-              })).then((value) {
-                getDashBoardData!();
-              });
-            }
-            //   else if (model!.iconName == "Drugs") {
-            //   Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            //     return DrugsListScreen();
-            //   })).then((value) {
-            //     getDashBoardData!();
-            //   });
-            // }
-            else if (model!.iconName == "Form 3C") {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return Form3CScreen();
-              })).then((value) {
-                getDashBoardData!();
-              });
-            }
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.blockSizeHorizontal! * 0.0),
-            child: Container(
-              child: Card(
-                color: colorWhite,
-                elevation: 2.0,
-                margin: EdgeInsets.all(
-                  SizeConfig.blockSizeHorizontal! * 2.0,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
+              // else if (model!.iconName == "Health Videos") {
+              //   Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              //     return DoctorHealthVideos();
+              //   })).then((value) {
+              //     getDashBoardData!();
+              //   });
+              // }
+              else if (model!.iconName == "Send\nNotifications") {
+                var name = await getUserName();
+                Get.to(() => SelectPatientsForShareVideo(null, name))!
+                    .then((value) {
+                  getDashBoardData!();
+                });
+              } else if (model!.iconName == "Camp") {
+                var name = await getUserName();
+                Get.to(() => CampScreen())!.then((value) {
+                  //getDashBoardData();
+                });
+              } else if (model!.iconName == "Lab Reports") {
+                Get.to(() => LabReportsScreen())!.then((value) {
+                  getDashBoardData!();
+                });
+              } else if (model!.iconName == "Services") {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return OPDServiceListScreen();
+                })).then((value) {
+                  getDashBoardData!();
+                });
+              } else if (model!.iconName == "Add\nNew Patient") {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return AddPatientScreenDoctor(
+                    from: "onlyAddPatient",
+                  );
+                })).then((value) {
+                  getDashBoardData!();
+                });
+              } else if (model!.iconName == "My\nPatients") {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return MyPatientsScreen();
+                })).then((value) {
+                  getDashBoardData!();
+                });
+              } else if (model!.iconName == "My\nLibrary") {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return DoctorLibraryScreen(patientIDP: patientIDP);
+                })).then((value) {
+                  getDashBoardData!();
+                });
+              }
+              //   else if (model!.iconName == "Drugs") {
+              //   Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              //     return DrugsListScreen();
+              //   })).then((value) {
+              //     getDashBoardData!();
+              //   });
+              // }
+              else if (model!.iconName == "Form 3C") {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return Form3CScreen();
+                })).then((value) {
+                  getDashBoardData!();
+                });
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: SizeConfig.blockSizeHorizontal! * 0.0),
+              child: Container(
+                child: Card(
+                  color: colorWhite,
+                  elevation: 2.0,
+                  margin: EdgeInsets.all(
                     SizeConfig.blockSizeHorizontal! * 2.0,
                   ),
-                ),
-                child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Image(
-                        width: SizeConfig.blockSizeHorizontal! * 7,
-                        height: SizeConfig.blockSizeHorizontal! * 7,
-                        image: AssetImage(
-                          'images/${model!.image}',
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      SizeConfig.blockSizeHorizontal! * 2.0,
+                    ),
+                  ),
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Image(
+                          width: SizeConfig.blockSizeHorizontal! * 7,
+                          height: SizeConfig.blockSizeHorizontal! * 7,
+                          image: AssetImage(
+                            'images/${model!.image}',
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical! * 2,
-                      ),
-                      Flexible(
-                        child: Text(model!.iconName!,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: SizeConfig.blockSizeHorizontal! * 2.8,
-                            )),
-                      ),
-                    ]),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical! * 2,
+                        ),
+                        Flexible(
+                          child: Text(model!.iconName!,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: SizeConfig.blockSizeHorizontal! * 2.8,
+                              )),
+                        ),
+                      ]),
+                ),
               ),
-            ),
-          )),
+            )),
       );
   }
 
@@ -3591,140 +3915,140 @@ class IconCard extends StatelessWidget {
         context: context,
         barrierDismissible: false,
         builder: (context) => Dialog(
-              /*shape: RoundedRectangleBorder(
+          /*shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),*/
-              backgroundColor: Colors.white,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal! * 3,
+          backgroundColor: Colors.white,
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(
+                  SizeConfig.blockSizeHorizontal! * 3,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    InkWell(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.red,
+                        size: SizeConfig.blockSizeHorizontal! * 6.2,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    child: Row(
-                      children: <Widget>[
-                        InkWell(
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal! * 6.2,
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal! * 6,
+                    ),
+                    Text(
+                      "Choose Language",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                        builder: (context) => CoronaQuestionnaireScreen(
+                            patientIDP, "eng")))
+                        .then((value) {
+                      getDashBoardData!();
+                    });
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal! * 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
                           ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal! * 6,
-                        ),
-                        Text(
-                          "Choose Language",
-                          textAlign: TextAlign.center,
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "English",
+                          textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            fontSize: 15,
+                            color: Colors.black,
                             decoration: TextDecoration.none,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (context) => CoronaQuestionnaireScreen(
-                                    patientIDP, "eng")))
-                            .then((value) {
-                          getDashBoardData!();
-                        });
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
+                      ))),
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                        builder: (context) => CoronaQuestionnaireScreen(
+                            patientIDP, "guj")))
+                        .then((value) {
+                      getDashBoardData!();
+                    });
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal! * 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
                           ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Gujarati",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            decoration: TextDecoration.none,
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "English",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (context) => CoronaQuestionnaireScreen(
-                                    patientIDP, "guj")))
-                            .then((value) {
-                          getDashBoardData!();
-                        });
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal! * 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
-                          ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Gujarati",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                ],
-              ),
-            ));
+                        ),
+                      ))),
+            ],
+          ),
+        ));
   }
 }
 

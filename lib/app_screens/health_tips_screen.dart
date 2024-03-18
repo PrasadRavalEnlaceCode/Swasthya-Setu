@@ -1,10 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/enums/list_type.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:silvertouch/enums/list_type.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -49,7 +54,7 @@ class TypicalListsScreenState extends State<TypicalListsScreen> {
           title: titleWidget,
           backgroundColor: Color(0xFFFFFFFF),
           iconTheme: IconThemeData(
-              color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
+              color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
           actions: <Widget>[
             IconButton(
               onPressed: () {
@@ -80,7 +85,7 @@ class TypicalListsScreenState extends State<TypicalListsScreen> {
                       },
                       style: TextStyle(
                         color: Colorsblack,
-                        fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                        fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                       ),
                       decoration: InputDecoration(
                         /*hintStyle: TextStyle(
@@ -106,15 +111,19 @@ class TypicalListsScreenState extends State<TypicalListsScreen> {
               },
               icon: icon,
             )
-          ], toolbarTextStyle: TextTheme(
-              titleMedium: TextStyle(
-                  color: Colorsblack,
-                  fontFamily: "Ubuntu",
-                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-              titleMedium: TextStyle(
-                  color: Colorsblack,
-                  fontFamily: "Ubuntu",
-                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+          ],
+          toolbarTextStyle: TextTheme(
+                  titleMedium: TextStyle(
+                      color: Colorsblack,
+                      fontFamily: "Ubuntu",
+                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
+              .bodyMedium,
+          titleTextStyle: TextTheme(
+                  titleMedium: TextStyle(
+                      color: Colorsblack,
+                      fontFamily: "Ubuntu",
+                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
+              .titleLarge,
         ),
         body: Container(
           color: Color(0xFFDCDCDC),
@@ -220,16 +229,16 @@ class TypicalListsScreenState extends State<TypicalListsScreen> {
             onTap: () {},
             child: Card(
               margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal !* 2,
-                  right: SizeConfig.blockSizeHorizontal !* 2,
-                  top: SizeConfig.blockSizeHorizontal !* 2,
+                  left: SizeConfig.blockSizeHorizontal! * 2,
+                  right: SizeConfig.blockSizeHorizontal! * 2,
+                  top: SizeConfig.blockSizeHorizontal! * 2,
                   bottom: index == listHealthTipsSearchResults.length - 1
-                      ? SizeConfig.blockSizeHorizontal !* 2
+                      ? SizeConfig.blockSizeHorizontal! * 2
                       : 0),
               color: Colors.white,
               elevation: 2.0,
               child: Padding(
-                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2),
+                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 2),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
@@ -237,11 +246,11 @@ class TypicalListsScreenState extends State<TypicalListsScreen> {
                   children: <Widget>[
                     Image(
                       image: AssetImage(getImagePath()),
-                      width: SizeConfig.blockSizeHorizontal !* 8,
-                      height: SizeConfig.blockSizeHorizontal !* 8,
+                      width: SizeConfig.blockSizeHorizontal! * 8,
+                      height: SizeConfig.blockSizeHorizontal! * 8,
                     ),
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal !* 3,
+                      width: SizeConfig.blockSizeHorizontal! * 3,
                     ),
                     Expanded(
                       child: Column(
@@ -252,18 +261,18 @@ class TypicalListsScreenState extends State<TypicalListsScreen> {
                             textAlign: TextAlign.left,
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeHorizontal !* 4.2,
+                                fontSize: SizeConfig.blockSizeHorizontal! * 4.2,
                                 fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
-                            height: SizeConfig.blockSizeVertical !* 0.5,
+                            height: SizeConfig.blockSizeVertical! * 0.5,
                           ),
                           Text(
                             listHealthTipsSearchResults[index]["desc"],
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: Colors.grey,
-                              fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
+                              fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
                             ),
                           )
                         ],

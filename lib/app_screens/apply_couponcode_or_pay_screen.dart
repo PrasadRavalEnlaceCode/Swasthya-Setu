@@ -3,13 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paytm_allinonesdk/paytm_allinonesdk.dart';
-import 'package:swasthyasetu/app_screens/patient_dashboard_screen.dart';
-import 'package:swasthyasetu/controllers/apply_coupon_controller.dart';
-import 'package:swasthyasetu/enums/coupon_code_states.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/app_screens/patient_dashboard_screen.dart';
+import 'package:silvertouch/controllers/apply_coupon_controller.dart';
+import 'package:silvertouch/enums/coupon_code_states.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 import 'package:http/http.dart' as http;
 
 String PAYTM_MERCHANT_ID = "lXSUMo99907202227729";
@@ -33,18 +36,20 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(
           color: Colors.black,
-          size: SizeConfig.blockSizeVertical !* 2.2,
+          size: SizeConfig.blockSizeVertical! * 2.2,
         ),
-        elevation: 0, toolbarTextStyle: TextTheme(
+        elevation: 0,
+        toolbarTextStyle: TextTheme(
           titleMedium: TextStyle(
               color: Colors.white,
               fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.3),
-        ).bodyMedium, titleTextStyle: TextTheme(
+              fontSize: SizeConfig.blockSizeVertical! * 2.3),
+        ).bodyMedium,
+        titleTextStyle: TextTheme(
           titleMedium: TextStyle(
               color: Colors.white,
               fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+              fontSize: SizeConfig.blockSizeVertical! * 2.3),
         ).titleLarge,
       ),
       body: Builder(
@@ -59,7 +64,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                     shrinkWrap: true,
                     children: [
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 1.0,
+                        height: SizeConfig.blockSizeVertical! * 1.0,
                       ),
                       Obx(
                         () => Text(
@@ -67,7 +72,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: SizeConfig.blockSizeHorizontal !* 8.5,
+                            fontSize: SizeConfig.blockSizeHorizontal! * 8.5,
                             fontWeight: FontWeight.w500,
                             letterSpacing: 2.0,
                             height: 1.0,
@@ -75,53 +80,53 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 0.5,
+                        height: SizeConfig.blockSizeVertical! * 0.5,
                       ),
                       Text(
                         "(Including GST)",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
+                          fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
                           letterSpacing: 2.0,
                           height: 1.0,
                         ),
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 1.0,
+                        height: SizeConfig.blockSizeVertical! * 1.0,
                       ),
                       Text(
                         "to proceed",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
+                          fontSize: SizeConfig.blockSizeHorizontal! * 5.0,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 2.0,
                           height: 1.0,
                         ),
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 6.0,
+                        height: SizeConfig.blockSizeVertical! * 6.0,
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+                          horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
                         ),
                         child: Text(
                           "Do you have coupon code?",
                           style: TextStyle(
                             color: Colors.blueGrey,
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                            fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical !* 1.0,
+                        height: SizeConfig.blockSizeVertical! * 1.0,
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+                          horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -144,17 +149,17 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                           /*helperStyle: TextStyle(color: Colors.black, fontSize: SizeConfig.blockSizeHorizontal*3.0,),*/
                                           prefixIcon: Padding(
                                             padding: EdgeInsets.all(
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   2.3,
                                             ),
                                             child: Image(
                                               image: AssetImage(
                                                   "images/ic_coupon_code.png"),
                                               width: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   2.0,
                                               height: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   2.0,
                                             ),
                                           ),
@@ -173,17 +178,17 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                           /*helperStyle: TextStyle(color: Colors.black, fontSize: SizeConfig.blockSizeHorizontal*3.0,),*/
                                           prefixIcon: Padding(
                                             padding: EdgeInsets.all(
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   2.3,
                                             ),
                                             child: Image(
                                               image: AssetImage(
                                                   "images/ic_coupon_code.png"),
                                               width: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   2.0,
                                               height: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   2.0,
                                             ),
                                           ),
@@ -195,7 +200,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                         right: 0,
                                         child: Padding(
                                           padding: EdgeInsets.all(
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 2.3,
                                           ),
                                           child: InkWell(
@@ -211,10 +216,10 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                                   "images/ic_cancel.png"),
                                               color: Colors.red,
                                               width: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   8.0,
                                               height: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   8.0,
                                             ),
                                           ),
@@ -224,7 +229,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                               ],
                             )),
                             SizedBox(
-                              width: SizeConfig.blockSizeHorizontal !* 3.0,
+                              width: SizeConfig.blockSizeHorizontal! * 3.0,
                             ),
                             Obx(
                               () => Align(
@@ -260,7 +265,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.5,
                                       ),
                                     ),
@@ -276,7 +281,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                 ),
                 Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+                      horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -292,7 +297,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 5.0,
                                       ),
                                     ),
@@ -302,7 +307,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   5.0,
                                         ),
                                       ),
@@ -318,9 +323,9 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                           "Total Amount : ",
                                           style: TextStyle(
                                             color: Colors.black,
-                                            fontSize:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    4.0,
+                                            fontSize: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                4.0,
                                           ),
                                         ),
                                         Obx(
@@ -329,7 +334,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   4.0,
                                             ),
                                           ),
@@ -338,7 +343,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                     ),
                                     SizedBox(
                                       height:
-                                          SizeConfig.blockSizeVertical !* 0.3,
+                                          SizeConfig.blockSizeVertical! * 0.3,
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -347,9 +352,9 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                           "- Discount : ",
                                           style: TextStyle(
                                             color: Colors.green,
-                                            fontSize:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    4.0,
+                                            fontSize: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                4.0,
                                           ),
                                         ),
                                         Obx(
@@ -358,7 +363,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                             style: TextStyle(
                                               color: Colors.green,
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   4.0,
                                             ),
                                           ),
@@ -367,20 +372,20 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                     ),
                                     SizedBox(
                                       height:
-                                          SizeConfig.blockSizeVertical !* 0.5,
+                                          SizeConfig.blockSizeVertical! * 0.5,
                                     ),
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child: Container(
-                                        width:
-                                            SizeConfig.blockSizeHorizontal !* 50,
+                                        width: SizeConfig.blockSizeHorizontal! *
+                                            50,
                                         height: 2.0,
                                         color: Colors.grey,
                                       ),
                                     ),
                                     SizedBox(
                                       height:
-                                          SizeConfig.blockSizeVertical !* 0.5,
+                                          SizeConfig.blockSizeVertical! * 0.5,
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -389,9 +394,9 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                           "You Will Pay : ",
                                           style: TextStyle(
                                             color: Colors.black,
-                                            fontSize:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    5.0,
+                                            fontSize: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                5.0,
                                           ),
                                         ),
                                         Obx(
@@ -400,7 +405,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   5.0,
                                             ),
                                           ),
@@ -411,7 +416,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                                 ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1.0,
+                          height: SizeConfig.blockSizeVertical! * 1.0,
                         ),
                         MaterialButton(
                             minWidth: SizeConfig.screenWidth,
@@ -425,19 +430,19 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
                             color: Colors.green,
                             child: Padding(
                               padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 3.0,
+                                SizeConfig.blockSizeHorizontal! * 3.0,
                               ),
                               child: Text(
                                 "Proceed",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 4.5,
+                                      SizeConfig.blockSizeHorizontal! * 4.5,
                                 ),
                               ),
                             )),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1.0,
+                          height: SizeConfig.blockSizeVertical! * 1.0,
                         ),
                       ],
                     )),
@@ -685,7 +690,7 @@ class ApplyCouponCodeOrPayScreen extends StatelessWidget {
             amount.toString(), txnToken, null!, true, false);
       } catch (err) {
         debugPrint("Paytm general catch");
-       // debugPrint(err.message);
+        // debugPrint(err.message);
         /*payment_response = err.message;*/
       }
     } catch (e) {

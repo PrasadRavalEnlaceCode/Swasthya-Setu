@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/app_screens/add_patient_screen.dart';
-import 'package:swasthyasetu/app_screens/select_opd_procedures_screen.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_opd_reg.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/app_screens/add_patient_screen.dart';
+import 'package:silvertouch/app_screens/select_opd_procedures_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_opd_reg.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
 
 import '../utils/color.dart';
 
@@ -242,13 +242,13 @@ class OPDRegistrationDetailsScreenState
       for (var i = 0; i < jsonData.length; i++) {
         var jo = jsonData[i];
         listOPDRegistration.add(ModelOPDRegistration(
-            jo['HospitalConsultationServiceIDP'].toString(),
-            jo['OPDService'],
-            jo['Total'].toString(),
-            "blabalabal",
+          jo['HospitalConsultationServiceIDP'].toString(),
+          jo['OPDService'],
+          jo['Total'].toString(),
+          "blabalabal",
           checkOutStatus: jo['CheckoutStatus'].toString(),
         ));
-    }
+      }
       setState(() {});
     } else {
       final snackBar = SnackBar(
@@ -268,76 +268,91 @@ class OPDRegistrationDetailsScreenState
         title: Text("OPD Procedures"),
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
-            titleMedium: TextStyle(
-          color: Colorsblack,
-          fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
-        )).bodyMedium, titleTextStyle: TextTheme(
-            titleMedium: TextStyle(
-          color: Colorsblack,
-          fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
-        )).titleLarge,
+          titleMedium: TextStyle(
+            color: Colorsblack,
+            fontFamily: "Ubuntu",
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          )).bodyMedium, titleTextStyle: TextTheme(
+          titleMedium: TextStyle(
+            color: Colorsblack,
+            fontFamily: "Ubuntu",
+            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          )).titleLarge,
       ),
-      floatingActionButton: paymentStatus == "0"
-          ?ListView.builder(
-          itemCount: 1,
-          shrinkWrap: true,
-          // physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context,index) {
-            return
-              // Padding(
-              // padding: const EdgeInsets.only(left: 300.0,right: 40.0,top: 100.0 ,bottom: 20.0),
-              // child:
-              Align(
-                alignment: Alignment(0.7, 0.2),
-                child: FloatingActionButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => SelectOPDProceduresScreen(
-                            widget.patientIDP, widget.idp, "existing")
-                    )).then((value) {
-                      getOPDRegistrationDetails();
-                    });
+      floatingActionButton:
+      FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(
+              builder: (context) =>
+                  SelectOPDProceduresScreen(
+                      widget.patientIDP, widget.idp, "existing")
+          )).then((value) {
+            getOPDRegistrationDetails();
+          });
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.black,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
-                    // Navigator.of(context).pop();
-                    // if(listOPDRegistration.isNotEmpty)
-                    // {listOPDRegistration[index]
-                    //     .checkOutStatus ==
-                    //     "1"
-                    //     ? showAlreadyCheckedOutDialog(
-                    //     listOPDRegistration[index].idp!, context)
-                    //     :
-                    // Navigator.push(context, MaterialPageRoute(
-                    //     builder: (context) => SelectOPDProceduresScreen(
-                    //         widget.patientIDP, widget.idp, "existing")
-                    // )).then((value) {
-                    //   getOPDRegistrationDetails();
-                    // });
-                    // }
-                    // else{
-                    //   listOPDRegistration[index]
-                    //     .checkOutStatus ==
-                    //     "1"
-                    //     ? showAlreadyCheckedOutDialog(
-                    //     listOPDRegistration[index].idp!, context)
-                    //     :
-                    // Navigator.push(context, MaterialPageRoute(
-                    //     builder: (context) => SelectOPDProceduresScreen(
-                    //         widget.patientIDP, widget.idp, "new")
-                    // )).then((value) {
-                    //   getOPDRegistrationDetails();
-                    // });
-                    // }
-                  },
-                  child: Icon(Icons.add),
-                  backgroundColor: Colors.black,
-                ),
-              );
-            // );
-          }
-      )
-          : Container(),
+      // ListView.builder(
+      //     itemCount: 1,
+      //     shrinkWrap: true,
+      //     // physics: NeverScrollableScrollPhysics(),
+      //     itemBuilder: (context,index) {
+      //       return
+      //         // Padding(
+      //         // padding: const EdgeInsets.only(left: 300.0,right: 40.0,top: 100.0 ,bottom: 20.0),
+      //         // child:
+      //         Align(
+      //           alignment: Alignment(0.7, 0.2),
+      //           child: FloatingActionButton(
+      //             onPressed: () {
+      //               Navigator.push(context, MaterialPageRoute(
+      //                   builder: (context) => SelectOPDProceduresScreen(
+      //                       widget.patientIDP, widget.idp, "existing")
+      //               )).then((value) {
+      //                 getOPDRegistrationDetails();
+      //               });
+      //
+      //               // Navigator.of(context).pop();
+      //               // if(listOPDRegistration.isNotEmpty)
+      //               // {listOPDRegistration[index]
+      //               //     .checkOutStatus ==
+      //               //     "1"
+      //               //     ? showAlreadyCheckedOutDialog(
+      //               //     listOPDRegistration[index].idp!, context)
+      //               //     :
+      //               // Navigator.push(context, MaterialPageRoute(
+      //               //     builder: (context) => SelectOPDProceduresScreen(
+      //               //         widget.patientIDP, widget.idp, "existing")
+      //               // )).then((value) {
+      //               //   getOPDRegistrationDetails();
+      //               // });
+      //               // }
+      //               // else{
+      //               //   listOPDRegistration[index]
+      //               //     .checkOutStatus ==
+      //               //     "1"
+      //               //     ? showAlreadyCheckedOutDialog(
+      //               //     listOPDRegistration[index].idp!, context)
+      //               //     :
+      //               // Navigator.push(context, MaterialPageRoute(
+      //               //     builder: (context) => SelectOPDProceduresScreen(
+      //               //         widget.patientIDP, widget.idp, "new")
+      //               // )).then((value) {
+      //               //   getOPDRegistrationDetails();
+      //               // });
+      //               // }
+      //             },
+      //             child: Icon(Icons.add),
+      //             backgroundColor: Colors.black,
+      //           ),
+      //         );
+      //       // );
+      //     }
+      // )
+      //     : Container(),
       body: Container(
         color: Color(0xFFDCDCDC),
         child: Column(
@@ -346,53 +361,53 @@ class OPDRegistrationDetailsScreenState
               child: listOPDRegistration.length > 0
                   ?
               ListView.builder(
-                      itemCount: listOPDRegistration.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal !* 2,
-                              right: SizeConfig.blockSizeHorizontal !* 2,
-                              top: SizeConfig.blockSizeHorizontal !* 2),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(
-                                          SizeConfig.blockSizeHorizontal !* 3),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 3,
+                  itemCount: listOPDRegistration.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal !* 2,
+                          right: SizeConfig.blockSizeHorizontal !* 2,
+                          top: SizeConfig.blockSizeHorizontal !* 2),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(
+                                      SizeConfig.blockSizeHorizontal !* 3),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 3,
+                                        child: Text(
+                                          listOPDRegistration[index].name!,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: SizeConfig
+                                                  .blockSizeHorizontal !*
+                                                  4,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Align(
+                                            alignment: Alignment.topRight,
                                             child: Text(
-                                              listOPDRegistration[index].name!,
+                                              "${listOPDRegistration[index].amount}/-",
                                               style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: Colors.green,
                                                   fontSize: SizeConfig
-                                                          .blockSizeHorizontal !*
-                                                      4,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Align(
-                                                alignment: Alignment.topRight,
-                                                child: Text(
-                                                  "${listOPDRegistration[index].amount}/-",
-                                                  style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeHorizontal !*
-                                                          3.5,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                )),
-                                          ),
-                                          /*SizedBox(
+                                                      .blockSizeHorizontal !*
+                                                      3.5,
+                                                  fontWeight:
+                                                  FontWeight.w500),
+                                            )),
+                                      ),
+                                      /*SizedBox(
                                     width: SizeConfig.blockSizeHorizontal * 3,
                                   ),
                                   InkWell(
@@ -402,46 +417,46 @@ class OPDRegistrationDetailsScreenState
                                       width: SizeConfig.blockSizeHorizontal * 8,
                                     ),
                                   )*/
-                                        ],
-                                      ),
-                                    )),
-                              ),
-                              SizedBox(
-                                width: SizeConfig.blockSizeHorizontal !* 2,
-                              ),
-                              // Text(listOPDRegistration[index]
-                              //     .checkOutStatus! ),
-                              InkWell(
-                                onTap: () {
-                                  listOPDRegistration[index].amount == "0"
+                                    ],
+                                  ),
+                                )),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal !* 2,
+                          ),
+                          // Text(listOPDRegistration[index]
+                          //     .checkOutStatus! ),
+                          InkWell(
+                            onTap: () {
+                              listOPDRegistration[index].amount == "0"
                                   ?
-                                  listOPDRegistration[index]
-                                      .checkOutStatus ==
-                                      "0"
+                              listOPDRegistration[index]
+                                  .checkOutStatus ==
+                                  "0"
                                   ?
-                                  showConfirmationDialogForDeleteOPDReg(
-                                      listOPDRegistration[index].idp!, context)
-                                      :showAlreadyCheckedOutDialog(
+                              showConfirmationDialogForDeleteOPDReg(
+                                  listOPDRegistration[index].idp!, context)
+                                  :showAlreadyCheckedOutDialog(
                                   listOPDRegistration[index].idp!, context)
                                   :listOPDRegistration[index]
-                                      .checkOutStatus ==
-                                      "0"
-                                      ?
-                                  showConfirmationDialogForDeleteOPDReg(
-                                      listOPDRegistration[index].idp!, context)
-                                      :showAlreadyCheckedOutDialog(
-                                      listOPDRegistration[index].idp!, context);
-                                },
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                  size: SizeConfig.blockSizeHorizontal !* 8,
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      })
+                                  .checkOutStatus ==
+                                  "0"
+                                  ?
+                              showConfirmationDialogForDeleteOPDReg(
+                                  listOPDRegistration[index].idp!, context)
+                                  :showAlreadyCheckedOutDialog(
+                                  listOPDRegistration[index].idp!, context);
+                            },
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                              size: SizeConfig.blockSizeHorizontal !* 8,
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  })
                   : emptyMessageWidget!,
             ),
             // ListView.builder(

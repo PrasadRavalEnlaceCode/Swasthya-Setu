@@ -2,13 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:swasthyasetu/app_screens/investigation_list_read_only_screen.dart';
-import 'package:swasthyasetu/app_screens/select_opd_procedures_screen.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_opd_reg.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/widgets/extensions.dart';
+import 'package:silvertouch/app_screens/add_consultation_screen.dart';
+import 'package:silvertouch/app_screens/add_patient_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_opd_reg.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:silvertouch/widgets/extensions.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -60,7 +63,7 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
 
   @override
   void dispose() {
-    widget.listOPDRegistrationSelected = [];
+    // widget.listOPDRegistrationSelected = [];
     total = 0;
     netPrice = 0;
     _radioValuePaymentMode = 0;
@@ -74,16 +77,18 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
       appBar: AppBar(
         title: Text("Add Payment"),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack),
+        toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
-        )).bodyMedium, titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+        )).bodyMedium,
+        titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
         )).titleLarge,
       ),
       body: Builder(
@@ -99,16 +104,16 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
                     }),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical !* 0.5,
+                height: SizeConfig.blockSizeVertical! * 0.5,
               ),
               Align(
                 alignment: Alignment.bottomRight,
                 child: Container(
                   child: Padding(
                       padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal !* 2,
-                        right: SizeConfig.blockSizeHorizontal !* 2,
-                        top: SizeConfig.blockSizeVertical !* 1.0,
+                        left: SizeConfig.blockSizeHorizontal! * 2,
+                        right: SizeConfig.blockSizeHorizontal! * 2,
+                        top: SizeConfig.blockSizeVertical! * 1.0,
                       ),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -120,29 +125,30 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
                               "Total Price : ${total.toString()}/-",
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                               ),
                             ).pO(
-                              right: SizeConfig.blockSizeHorizontal !* 2.0,
+                              right: SizeConfig.blockSizeHorizontal! * 2.0,
                             ),
                             Container(
-                              width: SizeConfig.blockSizeHorizontal !* 22,
+                              width: SizeConfig.blockSizeHorizontal! * 22,
                               child: TextField(
                                 keyboardType: TextInputType.number,
                                 maxLength: 5,
                                 style: TextStyle(
                                     color: Colors.green,
-                                    fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                                    fontSize:
+                                        SizeConfig.blockSizeVertical! * 2.1),
                                 controller: totalDiscountController,
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelText: "Discount",
                                   hintText: "",
                                   counterText: "",
@@ -152,7 +158,7 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
                                 },
                               ),
                             ).pO(
-                              right: SizeConfig.blockSizeHorizontal !* 2.0,
+                              right: SizeConfig.blockSizeHorizontal! * 2.0,
                             ),
                             Align(
                               alignment: Alignment.centerRight,
@@ -160,7 +166,8 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
                                 "Net Total : ${netPrice.toString()}/-",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                                  fontSize:
+                                      SizeConfig.blockSizeHorizontal! * 4.0,
                                 ),
                               ),
                             ),
@@ -175,7 +182,7 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2),
+                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 2),
                   child: InkWell(
                     onTap: () {
                       showDateSelectionDialog();
@@ -186,14 +193,14 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
                           controller: entryDateController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.1),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.1),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.1),
                             labelText: "OPD Date",
                             hintText: "",
                           ),
@@ -205,14 +212,14 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                    left: SizeConfig.blockSizeHorizontal !* 2,
-                    right: SizeConfig.blockSizeHorizontal !* 2),
+                    left: SizeConfig.blockSizeHorizontal! * 2,
+                    right: SizeConfig.blockSizeHorizontal! * 2),
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
                     'Payment Status',
                     style: TextStyle(
-                        fontSize: SizeConfig.blockSizeHorizontal !* 4.3,
+                        fontSize: SizeConfig.blockSizeHorizontal! * 4.3,
                         fontWeight: FontWeight.w500),
                   ),
                 ),
@@ -221,7 +228,7 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
                 alignment: Alignment.bottomLeft,
                 child: Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.blockSizeHorizontal !* 3),
+                        horizontal: SizeConfig.blockSizeHorizontal! * 3),
                     child: Row(
                       children: <Widget>[
                         Radio(
@@ -242,14 +249,14 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
               _radioValuePaymentStatus == 0
                   ? Padding(
                       padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal !* 2,
-                          right: SizeConfig.blockSizeHorizontal !* 2),
+                          left: SizeConfig.blockSizeHorizontal! * 2,
+                          right: SizeConfig.blockSizeHorizontal! * 2),
                       child: Align(
                         alignment: Alignment.bottomLeft,
                         child: Text(
                           'Payment Mode',
                           style: TextStyle(
-                              fontSize: SizeConfig.blockSizeHorizontal !* 4.3,
+                              fontSize: SizeConfig.blockSizeHorizontal! * 4.3,
                               fontWeight: FontWeight.w500),
                         ),
                       ),
@@ -260,7 +267,7 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
                       alignment: Alignment.bottomLeft,
                       child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: SizeConfig.blockSizeHorizontal !* 3),
+                              horizontal: SizeConfig.blockSizeHorizontal! * 3),
                           child: Row(
                             children: <Widget>[
                               Radio(
@@ -280,22 +287,22 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
                     )
                   : Container(),
               Padding(
-                  padding:
-                      EdgeInsets.only(left: SizeConfig.blockSizeHorizontal !* 2),
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal! * 2),
                   child: Visibility(
                     visible: _radioValuePaymentMode == 1,
                     child: TextField(
                       style: TextStyle(
                           color: Colors.green,
-                          fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                          fontSize: SizeConfig.blockSizeVertical! * 2.1),
                       controller: paymentNarrationController,
                       decoration: InputDecoration(
                         hintStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.1),
                         labelStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                            fontSize: SizeConfig.blockSizeVertical! * 2.1),
                         labelText: "Payment Narration",
                         hintText: "",
                         counterText: "",
@@ -315,8 +322,8 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
                     elevation: 2.0,
                     fillColor: Color(0xFF06A759),
                     child: Image(
-                      width: SizeConfig.blockSizeHorizontal !* 5.5,
-                      height: SizeConfig.blockSizeHorizontal !* 5.5,
+                      width: SizeConfig.blockSizeHorizontal! * 5.5,
+                      height: SizeConfig.blockSizeHorizontal! * 5.5,
                       //height: 80,
                       image: AssetImage("images/ic_right_arrow_triangular.png"),
                     ),
@@ -389,180 +396,194 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
   }
 
   void submitAllTheData(BuildContext context) async {
-    var jArrayOPDProcedures = "[";
-    for (var i = 0; i < widget.listOPDRegistrationSelected.length; i++) {
-      //if (listInvestigationMaster[i].isChecked) {
-      jArrayOPDProcedures =
-          "$jArrayOPDProcedures{\"HospitalOPDServcesIDF\":\"${listOPDRegistrationSelected[i].idp}\",\"Price\":\"${listOPDRegistrationSelected[i].amountBeforeDiscount}\",\"Discount\":\"${listOPDRegistrationSelected[i].discount}\",\"Total\":\"${listOPDRegistrationSelected[i].amount}\"},";
-      //}
-    }
-    jArrayOPDProcedures = jArrayOPDProcedures + "]";
-    jArrayOPDProcedures = jArrayOPDProcedures.replaceAll(",]", "]");
+    print('Length of listOPDRegistrationSelected: ${widget.listOPDRegistrationSelected.length}');
 
-    String loginUrl = "";
-    if (widget.from == "existing")
-      loginUrl = "${baseURL}doctorOpdAdded.php";
-    else if (widget.from == "notification")
-      loginUrl = "${baseURL}appointmentacceptremove.php";
-    else
-      loginUrl = "${baseURL}doctorOpdSave.php";
-    ProgressDialog pr;
-    pr = ProgressDialog(context);
-    pr.show();
-    //listIcon = new List();
-    String patientUniqueKey = await getPatientUniqueKey();
-    String userType = await getUserType();
-    String patientIDP = await getPatientOrDoctorIDP();
-    debugPrint("Key and type");
-    debugPrint(patientUniqueKey);
-    debugPrint(userType);
-    String paymentStatus = "";
-    if (_radioValuePaymentStatus == 0)
-      paymentStatus = "0";
-    else
-      paymentStatus = "1";
-    String paymentMode = "";
-    if (_radioValuePaymentMode == 0)
-      paymentMode = "Cash";
-    else
-      paymentMode = "Cheque";
+    if (widget.listOPDRegistrationSelected != 0 &&
+        widget.listOPDRegistrationSelected.isNotEmpty)
+    {
+      var jArrayOPDProcedures = "[";
+      for (var i = 0; i < widget.listOPDRegistrationSelected.length; i++) {
+        //if (listInvestigationMaster[i].isChecked) {
+        jArrayOPDProcedures =
+        "$jArrayOPDProcedures{\"HospitalOPDServcesIDF\":\"${widget.listOPDRegistrationSelected[i]
+            .idp}\",\"Price\":\"${widget.listOPDRegistrationSelected[i]
+            .amountBeforeDiscount}\",\"Discount\":\"${widget.listOPDRegistrationSelected[i]
+            .discount}\",\"Total\":\"${widget.listOPDRegistrationSelected[i]
+            .amount}\"},";
+        //}
+      }
+      jArrayOPDProcedures = jArrayOPDProcedures + "]";
+      jArrayOPDProcedures = jArrayOPDProcedures.replaceAll(",]", "]");
 
-    String unCommonParameter = "";
-    print('widget.from ${widget.from}');
-    if (widget.from == "existing") {
-      unCommonParameter = "," +
+      print(
+          'Length of listOPDRegistrationSelected: ${listOPDRegistrationSelected
+              .length}');
+
+      String loginUrl = "";
+      if (widget.from == "existing")
+        loginUrl = "${baseURL}doctorOpdAdded.php";
+      else if (widget.from == "notification")
+        loginUrl = "${baseURL}appointmentacceptremove.php";
+      else
+        loginUrl = "${baseURL}doctorOpdSave.php";
+      ProgressDialog pr;
+      pr = ProgressDialog(context);
+      pr.show();
+      //listIcon = new List();
+      String patientUniqueKey = await getPatientUniqueKey();
+      String userType = await getUserType();
+      String patientIDP = await getPatientOrDoctorIDP();
+      debugPrint("Key and type");
+      debugPrint(patientUniqueKey);
+      debugPrint(userType);
+      String paymentStatus = "";
+      if (_radioValuePaymentStatus == 0)
+        paymentStatus = "0";
+      else
+        paymentStatus = "1";
+      String paymentMode = "";
+      if (_radioValuePaymentMode == 0)
+        paymentMode = "Cash";
+      else
+        paymentMode = "Cheque";
+
+      String unCommonParameter = "";
+      print('widget.from ${widget.from}');
+      if (widget.from == "existing") {
+        unCommonParameter = "," +
+            "\"" +
+            "HospitalConsultationIDF" +
+            "\"" +
+            ":" +
+            "\"" +
+            widget.consultationIDP +
+            "\"";
+      }
+      // else if (widget.from == "notification") {
+      //   unCommonParameter = "," +
+      //       "\"OPDDate\":\"${entryDateController.text}\"," +
+      //       "\"AppoinmentRequestIDP\":\"${widget.appointmentRequestIDP}\"," +
+      //       "\"RemoveStatus\":\"0\"";
+      // }
+      else {
+        unCommonParameter = "," +
+            "\"" +
+            "OPDDate" +
+            "\"" +
+            ":" +
+            "\"" +
+            entryDateController.text +
+            "\"";
+      }
+      var campID = '';
+      if (widget.campID != '') campID = widget.campID.toString();
+
+      String totalDiscount = "";
+      if (totalDiscountController.text
+          .trim()
+          .isEmpty)
+        totalDiscount = "0";
+      else
+        totalDiscount = totalDiscountController.text;
+
+      String jsonStr = "{" +
           "\"" +
-          "HospitalConsultationIDF" +
+          "DoctorIDP" +
           "\"" +
           ":" +
           "\"" +
-          widget.consultationIDP +
-          "\"";
-    }
-    // else if (widget.from == "notification") {
-    //   unCommonParameter = "," +
-    //       "\"OPDDate\":\"${entryDateController.text}\"," +
-    //       "\"AppoinmentRequestIDP\":\"${widget.appointmentRequestIDP}\"," +
-    //       "\"RemoveStatus\":\"0\"";
-    // }
-    else {
-      unCommonParameter = "," +
+          patientIDP +
           "\"" +
-          "OPDDate" +
+          "," +
+          "\"" +
+          "PatientIDP" +
           "\"" +
           ":" +
           "\"" +
-          entryDateController.text +
-          "\"";
-    }
-    var campID = '';
-    if (widget.campID != '') campID = widget.campID.toString();
+          widget.patientIDP +
+          "\"" +
+          "," +
+          "\"" +
+          "PaymentStatus" +
+          "\"" +
+          ":" +
+          "\"" +
+          paymentStatus +
+          "\"" +
+          "," +
+          "\"" +
+          "PaymentMode" +
+          "\"" +
+          ":" +
+          "\"" +
+          paymentMode +
+          "\"" +
+          unCommonParameter +
+          "," +
+          "\"" +
+          "PaymentDetails" +
+          "\"" +
+          ":" +
+          "\"" +
+          paymentNarrationController.text +
+          "\"" +
+          "," +
+          "\"consultationdata" +
+          "\"" +
+          ":" +
+          jArrayOPDProcedures +
+          "," +
+          "\"discount" +
+          "\"" +
+          ":" +
+          "\"" +
+          totalDiscount +
+          "\"" +
+          "," +
+          "\"DoctorCampIDF" +
+          "\"" +
+          ":" +
+          "\"" +
+          campID +
+          "\"" +
+          "}";
 
-    String totalDiscount = "";
-    if (totalDiscountController.text.trim().isEmpty)
-      totalDiscount = "0";
-    else
-      totalDiscount = totalDiscountController.text;
+      // String jsonStr = "{" +
+      //       "\"" + "DoctorIDP" + "\"" + ":" + "1" + "," +
+      //       "\"" + "PatientIDP" + "\"" + ":" + "736" + "," +
+      //       "\"" + "PaymentStatus" + "\"" + ":" + "0" + "," +
+      //       "\"" + "PaymentMode" + "\"" + ":" + "Cash" +
+      //       "\"" + "HospitalConsultationIDF" + "\"" + ":" + "43741" +
+      //       "\"" + "OPDDate" + ":" + "22-08-2023" + "," +
+      //       "\"" + "PaymentDetails" + ":" + "" + "," +
+      //       "\"" + "consultationdata" + "\"" + ":" + "[{\""+ "HospitalOPDServcesIDF" + "\"" + ":" +"1" + "," +
+      //       "\"" + "Price" + "\"" + ":" + "250.00" + "," +
+      //       "\"" + "Discount" + "\"" + ":" + "0" + "\"" + "," +
+      //       "\"" + "Total" + "\"" + ":" + "250.00" + "}]," +
+      //       "\"" + "discount" + "\"" + ":" + "0" + "," +
+      //       "\"" + "DoctorCampIDF" + "\"" + ":" + "" +
+      //       "}";
 
-
-    String jsonStr = "{" +
-        "\"" +
-        "DoctorIDP" +
-        "\"" +
-        ":" +
-        "\"" +
-        patientIDP +
-        "\"" +
-        "," +
-        "\"" +
-        "PatientIDP" +
-        "\"" +
-        ":" +
-        "\"" +
-        widget.patientIDP +
-        "\"" +
-        "," +
-        "\"" +
-        "PaymentStatus" +
-        "\"" +
-        ":" +
-        "\"" +
-        paymentStatus +
-        "\"" +
-        "," +
-        "\"" +
-        "PaymentMode" +
-        "\"" +
-        ":" +
-        "\"" +
-        paymentMode +
-        "\"" +
-        unCommonParameter +
-        "," +
-        "\"" +
-        "PaymentDetails" +
-        "\"" +
-        ":" +
-        "\"" +
-        paymentNarrationController.text +
-        "\"" +
-        "," +
-        "\"consultationdata" +
-        "\"" +
-        ":" +
-        jArrayOPDProcedures +
-        "," +
-        "\"discount" +
-        "\"" +
-        ":" +
-        "\"" +
-        totalDiscount +
-        "\"" +
-        "," +
-        "\"DoctorCampIDF" +
-        "\"" +
-        ":" +
-        "\"" +
-        campID +
-        "\"" +
-        "}";
-
-    // String jsonStr = "{" +
-    //       "\"" + "DoctorIDP" + "\"" + ":" + "1" + "," +
-    //       "\"" + "PatientIDP" + "\"" + ":" + "736" + "," +
-    //       "\"" + "PaymentStatus" + "\"" + ":" + "0" + "," +
-    //       "\"" + "PaymentMode" + "\"" + ":" + "Cash" +
-    //       "\"" + "HospitalConsultationIDF" + "\"" + ":" + "43741" +
-    //       "\"" + "OPDDate" + ":" + "22-08-2023" + "," +
-    //       "\"" + "PaymentDetails" + ":" + "" + "," +
-    //       "\"" + "consultationdata" + "\"" + ":" + "[{\""+ "HospitalOPDServcesIDF" + "\"" + ":" +"1" + "," +
-    //       "\"" + "Price" + "\"" + ":" + "250.00" + "," +
-    //       "\"" + "Discount" + "\"" + ":" + "0" + "\"" + "," +
-    //       "\"" + "Total" + "\"" + ":" + "250.00" + "}]," +
-    //       "\"" + "discount" + "\"" + ":" + "0" + "," +
-    //       "\"" + "DoctorCampIDF" + "\"" + ":" + "" +
-    //       "}";
-
-    print(loginUrl);
-    print(jsonStr);
-    String encodedJSONStr = encodeBase64(jsonStr);
-    debugPrint(encodedJSONStr);
-    var response = await apiHelper.callApiWithHeadersAndBody(
-      url: loginUrl,
-      //Uri.parse(loginUrl),
-      headers: {
-        "u": patientUniqueKey,
-        "type": userType,
-      },
-      body: {"getjson": encodedJSONStr},
-    );
-    //var resBody = json.decode(response.body);
-    debugPrint(response.body.toString());
-    final jsonResponse = json.decode(response.body.toString());
-    ResponseModel model = ResponseModel.fromJSON(jsonResponse);
-    pr.hide();
-    if (model.status == "OK") {
-      /*var data = jsonResponse['Data'];
+      print(loginUrl);
+      print(jsonStr);
+      String encodedJSONStr = encodeBase64(jsonStr);
+      debugPrint(encodedJSONStr);
+      var response = await apiHelper.callApiWithHeadersAndBody(
+        url: loginUrl,
+        //Uri.parse(loginUrl),
+        headers: {
+          "u": patientUniqueKey,
+          "type": userType,
+        },
+        body: {"getjson": encodedJSONStr},
+      );
+      //var resBody = json.decode(response.body);
+      debugPrint(response.body.toString());
+      final jsonResponse = json.decode(response.body.toString());
+      ResponseModel model = ResponseModel.fromJSON(jsonResponse);
+      pr.hide();
+      if (model.status == "OK") {
+        /*var data = jsonResponse['Data'];
       var strData = decodeBase64(data);
       debugPrint("Decoded Data Investigation Masters list : " + strData);
       final jsonData = json.decode(strData);
@@ -578,31 +599,39 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
           false,
         ));
       }*/
-      final snackBar = SnackBar(
-        backgroundColor: Colors.green,
-        content: Text(model.message!),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Future.delayed(
-          Duration(
-            seconds: 1,
-          ), () {
-        if (widget.from == "selectedPatient") {
-          /*print("go to opd reg screen with replacement");
+        final snackBar = SnackBar(
+          backgroundColor: Colors.green,
+          content: Text(model.message!),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        Future.delayed(
+            Duration(
+              seconds: 1,
+            ), () {
+          if (widget.from == "selectedPatient") {
+            /*print("go to opd reg screen with replacement");
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
             return OPDRegistrationScreen();
           }));*/
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => OPDRegistrationScreen()));
-        } else {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => OPDRegistrationScreen()));
-        }
-      });
-    } else if (model.status == "Error") {
-      final snackBar = SnackBar(
-        backgroundColor: Colors.red,
-        content: Text(model.message!),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => OPDRegistrationScreen()));
+          } else {
+            Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => OPDRegistrationScreen()));
+          }
+        });
+      } else if (model.status == "Error") {
+        final snackBar = SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(model.message!),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
+    else{
+      print("There are Some Issueee---");
     }
   }
 }
@@ -658,9 +687,9 @@ class OPDProcedureItemState extends State<OPDProcedureItem> {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(
-            left: SizeConfig.blockSizeHorizontal !* 4,
-            right: SizeConfig.blockSizeHorizontal !* 4,
-            top: SizeConfig.blockSizeHorizontal !* 2,
+            left: SizeConfig.blockSizeHorizontal! * 4,
+            right: SizeConfig.blockSizeHorizontal! * 4,
+            top: SizeConfig.blockSizeHorizontal! * 2,
           ),
           child: Align(
             alignment: Alignment.topLeft,
@@ -672,10 +701,10 @@ class OPDProcedureItemState extends State<OPDProcedureItem> {
         ),
         Padding(
           padding: EdgeInsets.only(
-              left: SizeConfig.blockSizeHorizontal !* 4,
-              right: SizeConfig.blockSizeHorizontal !* 4,
-              top: SizeConfig.blockSizeHorizontal !* 2,
-              bottom: SizeConfig.blockSizeHorizontal !* 2),
+              left: SizeConfig.blockSizeHorizontal! * 4,
+              right: SizeConfig.blockSizeHorizontal! * 4,
+              top: SizeConfig.blockSizeHorizontal! * 2,
+              bottom: SizeConfig.blockSizeHorizontal! * 2),
           child: Row(children: <Widget>[
             Expanded(
               child: TextField(
@@ -683,15 +712,15 @@ class OPDProcedureItemState extends State<OPDProcedureItem> {
                 maxLength: 5,
                 style: TextStyle(
                     color: Colors.green,
-                    fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                    fontSize: SizeConfig.blockSizeVertical! * 2.1),
                 controller: priceController,
                 decoration: InputDecoration(
                   hintStyle: TextStyle(
                       color: Colors.black,
-                      fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                      fontSize: SizeConfig.blockSizeVertical! * 2.1),
                   labelStyle: TextStyle(
                       color: Colors.black,
-                      fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                      fontSize: SizeConfig.blockSizeVertical! * 2.1),
                   labelText: "Price",
                   hintText: "",
                   counterText: "",
@@ -702,7 +731,7 @@ class OPDProcedureItemState extends State<OPDProcedureItem> {
               ),
             ),
             SizedBox(
-              width: SizeConfig.blockSizeHorizontal !* 3,
+              width: SizeConfig.blockSizeHorizontal! * 3,
             ),
             Expanded(
               child: TextField(
@@ -710,15 +739,15 @@ class OPDProcedureItemState extends State<OPDProcedureItem> {
                 maxLength: 5,
                 style: TextStyle(
                     color: Colors.green,
-                    fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                    fontSize: SizeConfig.blockSizeVertical! * 2.1),
                 controller: discountController,
                 decoration: InputDecoration(
                   hintStyle: TextStyle(
                       color: Colors.black,
-                      fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                      fontSize: SizeConfig.blockSizeVertical! * 2.1),
                   labelStyle: TextStyle(
                       color: Colors.black,
-                      fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                      fontSize: SizeConfig.blockSizeVertical! * 2.1),
                   labelText: "Discount",
                   hintText: "",
                   counterText: "",
@@ -729,7 +758,7 @@ class OPDProcedureItemState extends State<OPDProcedureItem> {
               ),
             ),
             SizedBox(
-              width: SizeConfig.blockSizeHorizontal !* 3,
+              width: SizeConfig.blockSizeHorizontal! * 3,
             ),
             Expanded(
                 child: IgnorePointer(
@@ -738,15 +767,15 @@ class OPDProcedureItemState extends State<OPDProcedureItem> {
                 maxLength: 5,
                 style: TextStyle(
                     color: Colors.green,
-                    fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                    fontSize: SizeConfig.blockSizeVertical! * 2.1),
                 controller: totalController,
                 decoration: InputDecoration(
                   hintStyle: TextStyle(
                       color: Colors.black,
-                      fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                      fontSize: SizeConfig.blockSizeVertical! * 2.1),
                   labelStyle: TextStyle(
                       color: Colors.black,
-                      fontSize: SizeConfig.blockSizeVertical !* 2.1),
+                      fontSize: SizeConfig.blockSizeVertical! * 2.1),
                   labelText: "Total",
                   hintText: "",
                   counterText: "",

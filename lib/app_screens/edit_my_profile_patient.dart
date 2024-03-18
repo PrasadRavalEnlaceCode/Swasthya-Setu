@@ -6,16 +6,16 @@ import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:swasthyasetu/api/api_helper.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/dropdown_item.dart';
-import 'package:swasthyasetu/podo/model_profile_patient.dart';
-import 'package:swasthyasetu/podo/patient_profile_upload_model.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/multipart_request_with_progress.dart';
-import 'package:swasthyasetu/utils/progress_dialog_with_percentage.dart';
-import 'package:swasthyasetu/utils/ultimate_slider.dart';
+import 'package:silvertouch/api/api_helper.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/dropdown_item.dart';
+import 'package:silvertouch/podo/model_profile_patient.dart';
+import 'package:silvertouch/podo/patient_profile_upload_model.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
+import 'package:silvertouch/utils/ultimate_slider.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -235,18 +235,20 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
 
     selectedCountry = DropDownItem(widget.patientProfileModel!.countryIDF!,
         widget.patientProfileModel!.country!);
-    selectedState = DropDownItem(
-        widget.patientProfileModel!.stateIDF!, widget.patientProfileModel!.state!);
-    selectedCity = DropDownItem(
-        widget.patientProfileModel!.cityIDF!, widget.patientProfileModel!.city!);
+    selectedState = DropDownItem(widget.patientProfileModel!.stateIDF!,
+        widget.patientProfileModel!.state!);
+    selectedCity = DropDownItem(widget.patientProfileModel!.cityIDF!,
+        widget.patientProfileModel!.city!);
 
     getUserType().then((value) {
       type = value;
       isDoctor = value == 'doctor' ? true : false;
       setState(() {});
     });
-    print('widget.patientProfileModel!.weight ${widget.patientProfileModel!.weight}');
-    print('widget.patientProfileModel!.height ${widget.patientProfileModel!.height}');
+    print(
+        'widget.patientProfileModel!.weight ${widget.patientProfileModel!.weight}');
+    print(
+        'widget.patientProfileModel!.height ${widget.patientProfileModel!.height}');
   }
 
   void cmToFeet() {
@@ -381,7 +383,7 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
     }
   }
 
-  Future<void> submitImageForUpdate(BuildContext context,[File? image]) async {
+  Future<void> submitImageForUpdate(BuildContext context, [File? image]) async {
     /*ProgressDialog pr = ProgressDialog(context);
     pr.show();*/
     //var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
@@ -461,13 +463,12 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
     headers['u'] = patientUniqueKey;
     headers['type'] = userType;
     multipartRequest.headers.addAll(headers);
-    if(image!=null)
-      {
-        var imgLength = await image!.length();
-        multipartRequest.files.add(new http.MultipartFile(
-            'image', image.openRead(), imgLength,
-            filename: image.path));
-      }
+    if (image != null) {
+      var imgLength = await image!.length();
+      multipartRequest.files.add(new http.MultipartFile(
+          'image', image.openRead(), imgLength,
+          filename: image.path));
+    }
     var response = await apiHelper.callMultipartApi(multipartRequest);
     //pr.hide();
     debugPrint("Status code - " + response.statusCode.toString());
@@ -550,26 +551,24 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
       //widget.image = await ImagePicker.pickImage(source: ImageSource.camera);
       File imgSelected =
           await chooseImageWithExIfRotate(picker, ImageSource.camera);
-      CroppedFile? croppedimage = await ImageCropper().cropImage(
-          sourcePath: imgSelected.path,
-          uiSettings: [
-            AndroidUiSettings(
-                toolbarTitle: 'Cropper',
-                toolbarColor: Colors.deepOrange,
-                toolbarWidgetColor: Colors.white,
-                initAspectRatio: CropAspectRatioPreset.original,
-                lockAspectRatio: false),
-            IOSUiSettings(
-              minimumAspectRatio: 1.0,
-            )
-          ],
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-            CropAspectRatioPreset.ratio3x2,
-            CropAspectRatioPreset.original,
-            CropAspectRatioPreset.ratio4x3,
-            CropAspectRatioPreset.ratio16x9
-          ]);
+      CroppedFile? croppedimage = await ImageCropper()
+          .cropImage(sourcePath: imgSelected.path, uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        )
+      ], aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ]);
       final path = croppedimage!.path;
       widget.image = File(path);
       // widget.image = imgSelected;
@@ -596,26 +595,24 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
       File imgSelected =
           await chooseImageWithExIfRotate(picker, ImageSource.gallery);
 
-      CroppedFile? croppedImage = await ImageCropper().cropImage(
-          sourcePath: imgSelected.path,
-          uiSettings: [
-            AndroidUiSettings(
-                toolbarTitle: 'Cropper',
-                toolbarColor: Colors.deepOrange,
-                toolbarWidgetColor: Colors.white,
-                initAspectRatio: CropAspectRatioPreset.original,
-                lockAspectRatio: false),
-            IOSUiSettings(
-              minimumAspectRatio: 1.0,
-            )
-          ],
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-            CropAspectRatioPreset.ratio3x2,
-            CropAspectRatioPreset.original,
-            CropAspectRatioPreset.ratio4x3,
-            CropAspectRatioPreset.ratio16x9
-          ]);
+      CroppedFile? croppedImage = await ImageCropper()
+          .cropImage(sourcePath: imgSelected.path, uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        )
+      ], aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ]);
       final path = croppedImage!.path;
       widget.image = File(path);
       //widget.image = imgSelected;
@@ -629,13 +626,13 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
       children: <Widget>[
         //...bottom card part,
         Container(
-          width: SizeConfig.blockSizeHorizontal !* 90,
-          height: SizeConfig.blockSizeVertical !* 25,
+          width: SizeConfig.blockSizeHorizontal! * 90,
+          height: SizeConfig.blockSizeVertical! * 25,
           padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical !* 1,
-            bottom: SizeConfig.blockSizeVertical !* 1,
-            left: SizeConfig.blockSizeHorizontal !* 1,
-            right: SizeConfig.blockSizeHorizontal !* 1,
+            top: SizeConfig.blockSizeVertical! * 1,
+            bottom: SizeConfig.blockSizeVertical! * 1,
+            left: SizeConfig.blockSizeHorizontal! * 1,
+            right: SizeConfig.blockSizeHorizontal! * 1,
           ),
           decoration: new BoxDecoration(
             color: Colors.white,
@@ -658,7 +655,7 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.red,
-                      size: SizeConfig.blockSizeVertical !* 2.8,
+                      size: SizeConfig.blockSizeVertical! * 2.8,
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -668,14 +665,14 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: SizeConfig.blockSizeVertical !* 2.3,
+                      fontSize: SizeConfig.blockSizeVertical! * 2.3,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical !* 0.5,
+                height: SizeConfig.blockSizeVertical! * 0.5,
               ),
               /*MaterialButton(
               onPressed: () {},
@@ -707,14 +704,14 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     },
                     child: Image(
                       fit: BoxFit.contain,
-                      width: SizeConfig.blockSizeHorizontal !* 10,
-                      height: SizeConfig.blockSizeVertical !* 10,
+                      width: SizeConfig.blockSizeHorizontal! * 10,
+                      height: SizeConfig.blockSizeVertical! * 10,
                       //height: 80,
                       image: AssetImage("images/ic_camera.png"),
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal !* 0.5,
+                    width: SizeConfig.blockSizeHorizontal! * 0.5,
                   ),
                   MaterialButton(
                     onPressed: () {
@@ -722,25 +719,23 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     },
                     child: Image(
                       fit: BoxFit.contain,
-                      width: SizeConfig.blockSizeHorizontal !* 10,
-                      height: SizeConfig.blockSizeVertical !* 10,
+                      width: SizeConfig.blockSizeHorizontal! * 10,
+                      height: SizeConfig.blockSizeVertical! * 10,
                       //height: 80,
                       image: AssetImage("images/ic_gallery.png"),
                     ),
                   ),
-                  SizedBox
-                  (
-                    width: SizeConfig.blockSizeHorizontal !* 0.5,
+                  SizedBox(
+                    width: SizeConfig.blockSizeHorizontal! * 0.5,
                   ),
                   MaterialButton(
-                    onPressed: ()
-                    {
+                    onPressed: () {
                       removeImage();
                     },
                     child: Icon(
                       Icons.close,
                       color: Colors.red,
-                      size: SizeConfig.blockSizeHorizontal !* 10,
+                      size: SizeConfig.blockSizeHorizontal! * 10,
                     ),
                   ),
                 ],
@@ -791,15 +786,19 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
           title: Text("Edit Profile"),
           backgroundColor: Color(0xFFFFFFFF),
           iconTheme: IconThemeData(
-              color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
-              titleMedium: TextStyle(
-                  color: Colorsblack,
-                  fontFamily: "Ubuntu",
-                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-              titleMedium: TextStyle(
-                  color: Colorsblack,
-                  fontFamily: "Ubuntu",
-                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+              color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.2),
+          toolbarTextStyle: TextTheme(
+                  titleMedium: TextStyle(
+                      color: Colorsblack,
+                      fontFamily: "Ubuntu",
+                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
+              .bodyMedium,
+          titleTextStyle: TextTheme(
+                  titleMedium: TextStyle(
+                      color: Colorsblack,
+                      fontFamily: "Ubuntu",
+                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
+              .titleLarge,
         ),
         body: Builder(
           builder: (context) {
@@ -868,22 +867,24 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: IgnorePointer(
                           child: TextField(
                             controller: patientIDController,
                             style: TextStyle(
                                 color: Colors.green,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Colors.black,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               labelStyle: TextStyle(
                                   color: Colors.black,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               labelText: "Patient ID",
                               hintText: "",
                             ),
@@ -894,9 +895,9 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: Row(
                           children: [
                             Expanded(
@@ -906,16 +907,16 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelText: "First Name",
                                   hintText: "",
                                 ),
@@ -934,9 +935,9 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: Row(
                           children: [
                             Expanded(
@@ -946,16 +947,16 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelText: "Middle Name",
                                   hintText: "",
                                 ),
@@ -974,9 +975,9 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: Row(
                           children: [
                             Expanded(
@@ -986,16 +987,16 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelText: "Last Name",
                                   hintText: "",
                                 ),
@@ -1014,9 +1015,9 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: Row(
                           children: [
                             Expanded(
@@ -1026,16 +1027,16 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelText: "Mobile Number",
                                   hintText: "",
                                 ),
@@ -1052,23 +1053,23 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 1,
+                      height: SizeConfig.blockSizeVertical! * 1,
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
                           padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal !* 5),
+                              left: SizeConfig.blockSizeHorizontal! * 5),
                           child: Text("Gender",
                               style: TextStyle(
                                   fontSize:
-                                      SizeConfig.blockSizeHorizontal !* 4))),
+                                      SizeConfig.blockSizeHorizontal! * 4))),
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: SizeConfig.blockSizeHorizontal !* 3),
+                              horizontal: SizeConfig.blockSizeHorizontal! * 3),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
@@ -1080,7 +1081,7 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                                   title: Text("Male",
                                       style: TextStyle(
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   4)),
                                   dense: true,
                                 ),
@@ -1093,7 +1094,7 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                                   title: Text("Female",
                                       style: TextStyle(
                                           fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   4)),
                                   dense: true,
                                 ),
@@ -1104,26 +1105,26 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: type == "patient"
                             ? TextField(
                                 controller: emergencyNumberController,
                                 keyboardType: TextInputType.phone,
                                 style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3,
+                                  fontSize: SizeConfig.blockSizeVertical! * 2.3,
                                 ),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelText: "Emergency Number",
                                   hintText: "",
                                 ),
@@ -1135,17 +1136,19 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                                   style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3,
+                                        SizeConfig.blockSizeVertical! * 2.3,
                                   ),
                                   decoration: InputDecoration(
                                     hintStyle: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical !* 2.3),
+                                            SizeConfig.blockSizeVertical! *
+                                                2.3),
                                     labelStyle: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical !* 2.3),
+                                            SizeConfig.blockSizeVertical! *
+                                                2.3),
                                     labelText: "Emergency Number",
                                     hintText: "",
                                   ),
@@ -1156,9 +1159,9 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: type == "doctor"
                             ? IgnorePointer(
                                 child: TextField(
@@ -1166,16 +1169,18 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                                   style: TextStyle(
                                       color: Colors.green,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   decoration: InputDecoration(
                                     hintStyle: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical !* 2.3),
+                                            SizeConfig.blockSizeVertical! *
+                                                2.3),
                                     labelStyle: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical !* 2.3),
+                                            SizeConfig.blockSizeVertical! *
+                                                2.3),
                                     labelText: "Email",
                                     hintText: "",
                                   ),
@@ -1190,18 +1195,18 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                                       style: TextStyle(
                                           color: Colors.green,
                                           fontSize:
-                                              SizeConfig.blockSizeVertical !*
+                                              SizeConfig.blockSizeVertical! *
                                                   2.3),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.3),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.3),
                                         labelText: "Email",
                                         hintText: "",
@@ -1226,25 +1231,26 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                           isDoctor ? showDateSelectionDialog() : Container();
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               enabled: isDoctor,
                               controller: dobController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "Date Of Birth",
                                 hintText: "",
                               ),
@@ -1254,7 +1260,7 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 2,
+                      height: SizeConfig.blockSizeVertical! * 2,
                     ),
                     SliderWidget(
                         min: 0,
@@ -1277,24 +1283,25 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                           showBloodGroupSelectionDialog(listBloodGroup);
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: bloodGroupController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "Blood Group",
                                 hintText: "",
                               ),
@@ -1306,21 +1313,21 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: addressController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Address",
                             hintText: "",
                           ),
@@ -1335,24 +1342,25 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                               listCountriesSearchResults, "Country");
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: countryController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "Country",
                                 hintText: "",
                               ),
@@ -1369,25 +1377,25 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                               listStatesSearchResults, "State");
                         },
                         child: Container(
-                            width: SizeConfig.blockSizeHorizontal !* 90,
+                            width: SizeConfig.blockSizeHorizontal! * 90,
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
+                                SizeConfig.blockSizeHorizontal! * 1),
                             child: IgnorePointer(
                               child: TextField(
                                 controller: stateController,
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   labelText: "State",
                                   hintText: "",
                                 ),
@@ -1403,24 +1411,25 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                               listCitiesSearchResults, "City");
                         },
                         child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal !* 1),
+                              SizeConfig.blockSizeHorizontal! * 1),
                           child: IgnorePointer(
                             child: TextField(
                               controller: cityController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "City",
                                 hintText: "",
                               ),
@@ -1432,21 +1441,21 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: marriedController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Married",
                             hintText: "",
                           ),
@@ -1456,22 +1465,22 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           keyboardType: TextInputType.number,
                           controller: noOfFamilyMembersController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "No. of Family Members",
                             hintText: "",
                           ),
@@ -1481,21 +1490,21 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 90,
+                        width: SizeConfig.blockSizeHorizontal! * 90,
                         padding:
-                            EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 1),
+                            EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 1),
                         child: TextField(
                           controller: yourPositionInFamilyController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Your position in family",
                             hintText: "",
                           ),
@@ -1505,18 +1514,18 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                   ],
                 )),
                 Container(
-                  height: SizeConfig.blockSizeVertical !* 12,
+                  height: SizeConfig.blockSizeVertical! * 12,
                   padding: EdgeInsets.only(
-                      right: SizeConfig.blockSizeHorizontal !* 3.5,
-                      top: SizeConfig.blockSizeVertical !* 3.5),
+                      right: SizeConfig.blockSizeHorizontal! * 3.5,
+                      top: SizeConfig.blockSizeVertical! * 3.5),
                   child: Align(
                     alignment: Alignment.topRight,
                     child: Container(
-                      width: SizeConfig.blockSizeHorizontal !* 12,
-                      height: SizeConfig.blockSizeHorizontal !* 12,
+                      width: SizeConfig.blockSizeHorizontal! * 12,
+                      height: SizeConfig.blockSizeHorizontal! * 12,
                       child: RawMaterialButton(
                         onPressed: () {
-                          if(widget.image==null)
+                          if (widget.image == null)
                             submitImageForUpdate(context);
                           else
                             submitImageForUpdate(context, widget.image);
@@ -1524,8 +1533,8 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                         elevation: 2.0,
                         fillColor: Color(0xFF06A759),
                         child: Image(
-                          width: SizeConfig.blockSizeHorizontal !* 5.5,
-                          height: SizeConfig.blockSizeHorizontal !* 5.5,
+                          width: SizeConfig.blockSizeHorizontal! * 5.5,
+                          height: SizeConfig.blockSizeHorizontal! * 5.5,
                           //height: 80,
                           image: AssetImage(
                               "images/ic_right_arrow_triangular.png"),
@@ -1595,7 +1604,7 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
             child: Column(
               children: <Widget>[
                 Container(
-                  height: SizeConfig.blockSizeVertical !* 8,
+                  height: SizeConfig.blockSizeVertical! * 8,
                   child: Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Row(
@@ -1605,7 +1614,7 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                           child: Icon(
                             Icons.arrow_back,
                             color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal !* 6.2,
+                            size: SizeConfig.blockSizeHorizontal! * 6.2,
                           ),
                           onTap: () {
                             /*setState(() {
@@ -1615,17 +1624,17 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                           },
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 6,
+                          width: SizeConfig.blockSizeHorizontal! * 6,
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal !* 50,
-                          height: SizeConfig.blockSizeVertical !* 8,
+                          width: SizeConfig.blockSizeHorizontal! * 50,
+                          height: SizeConfig.blockSizeVertical! * 8,
                           child: Center(
                             child: Text(
                               "Select Blood Group",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+                                fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green,
                                 decoration: TextDecoration.none,
@@ -1653,7 +1662,7 @@ class EditMyProfilePatientState extends State<EditMyProfilePatient> {
                             child: Padding(
                                 padding: EdgeInsets.all(0.0),
                                 child: Container(
-                                    width: SizeConfig.blockSizeHorizontal !* 90,
+                                    width: SizeConfig.blockSizeHorizontal! * 90,
                                     padding: EdgeInsets.only(
                                       top: 5,
                                       bottom: 5,
@@ -1944,14 +1953,14 @@ class CountryDialogState extends State<CountryDialog> {
     icon = Icon(
       Icons.search,
       color: Colors.blue,
-      size: SizeConfig.blockSizeHorizontal !* 6.2,
+      size: SizeConfig.blockSizeHorizontal! * 6.2,
     );
 
     titleWidget = Text(
       "Select ${widget.type}",
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+        fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
         fontWeight: FontWeight.bold,
         color: Colors.green,
         decoration: TextDecoration.none,
@@ -1972,7 +1981,7 @@ class CountryDialogState extends State<CountryDialog> {
         child: Column(
           children: <Widget>[
             Container(
-              height: SizeConfig.blockSizeVertical !* 8,
+              height: SizeConfig.blockSizeVertical! * 8,
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: Row(
@@ -1982,7 +1991,7 @@ class CountryDialogState extends State<CountryDialog> {
                       child: Icon(
                         Icons.arrow_back,
                         color: Colors.red,
-                        size: SizeConfig.blockSizeHorizontal !* 6.2,
+                        size: SizeConfig.blockSizeHorizontal! * 6.2,
                       ),
                       onTap: () {
                         /*setState(() {
@@ -1992,11 +2001,11 @@ class CountryDialogState extends State<CountryDialog> {
                       },
                     ),
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal !* 6,
+                      width: SizeConfig.blockSizeHorizontal! * 6,
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal !* 50,
-                      height: SizeConfig.blockSizeVertical !* 8,
+                      width: SizeConfig.blockSizeHorizontal! * 50,
+                      height: SizeConfig.blockSizeVertical! * 8,
                       child: Center(
                         child: titleWidget,
                       ),
@@ -2006,7 +2015,7 @@ class CountryDialogState extends State<CountryDialog> {
                           alignment: Alignment.centerRight,
                           child: Padding(
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
+                                SizeConfig.blockSizeHorizontal! * 1),
                             child: InkWell(
                               child: icon,
                               onTap: () {
@@ -2019,7 +2028,7 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.cancel,
                                       color: Colors.red,
                                       size:
-                                          SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = TextField(
                                       controller: searchController,
@@ -2057,19 +2066,19 @@ class CountryDialogState extends State<CountryDialog> {
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.0,
                                       ),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         //hintStyle: TextStyle(color: Colors.grey),
                                         hintText: "Search ${widget.type}",
@@ -2080,14 +2089,14 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.search,
                                       color: Colors.blue,
                                       size:
-                                          SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = Text(
                                       "Select ${widget.type}",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.8,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.green,
@@ -2161,7 +2170,7 @@ class CountryDialogState extends State<CountryDialog> {
                         child: Padding(
                             padding: EdgeInsets.all(0.0),
                             child: Container(
-                                width: SizeConfig.blockSizeHorizontal !* 90,
+                                width: SizeConfig.blockSizeHorizontal! * 90,
                                 padding: EdgeInsets.only(
                                   top: 5,
                                   bottom: 5,
@@ -2502,7 +2511,7 @@ class _SliderWidgetState extends State<SliderWidget> {
       ),*/
         color: Colors.white,
         padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.blockSizeHorizontal !* 6),
+            horizontal: SizeConfig.blockSizeHorizontal! * 6),
         child: Column(
           children: [
             Visibility(
@@ -2511,7 +2520,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                 '$heightInFeet',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: SizeConfig.blockSizeHorizontal !* 3.8,
+                  fontSize: SizeConfig.blockSizeHorizontal! * 3.8,
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
@@ -2550,7 +2559,7 @@ class _SliderWidgetState extends State<SliderWidget> {
               ],
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical !* 5.0,
+              height: SizeConfig.blockSizeVertical! * 5.0,
             )
             /*Text(
                       '${this.widget.title} - ',

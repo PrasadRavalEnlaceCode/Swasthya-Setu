@@ -6,13 +6,16 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/podo/subscription_history_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_profile_patient.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/podo/subscription_history_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+
 import 'package:dio/dio.dart';
-import 'package:swasthyasetu/widgets/extensions.dart';
+import 'package:silvertouch/widgets/extensions.dart';
 
 class SubscriptionDetailsScreen extends StatefulWidget {
   final String expiryDate;
@@ -47,33 +50,37 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
         title: Text("Subscription Details"),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(
-            color: Colors.black, size: SizeConfig.blockSizeVertical !* 2.5),
-        elevation: 0, toolbarTextStyle: TextTheme(
-            titleLarge: TextStyle(
-                color: Colors.white,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-            titleLarge: TextStyle(
-                color: Colors.white,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+            color: Colors.black, size: SizeConfig.blockSizeVertical! * 2.5),
+        elevation: 0,
+        toolbarTextStyle: TextTheme(
+                titleLarge: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .bodyMedium,
+        titleTextStyle: TextTheme(
+                titleLarge: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .titleLarge,
       ),
       body: Container(
         padding: EdgeInsets.all(
-          SizeConfig.blockSizeHorizontal !* 4.0,
+          SizeConfig.blockSizeHorizontal! * 4.0,
         ),
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Image(
-              width: SizeConfig.blockSizeHorizontal !* 25,
-              height: SizeConfig.blockSizeHorizontal !* 25,
+              width: SizeConfig.blockSizeHorizontal! * 25,
+              height: SizeConfig.blockSizeHorizontal! * 25,
               //height: 80,
-              image: AssetImage("images/swasthya_setu_logo.jpeg"),
+              image: AssetImage("images/logo_silver_touch.jpg"),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical !* 1.0,
+              height: SizeConfig.blockSizeVertical! * 1.0,
             ),
             Text(
               "Subscription Status",
@@ -81,7 +88,7 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
               softWrap: true,
               style: TextStyle(
                 color: Colors.red,
-                fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                 letterSpacing: 1.0,
                 height: 1.4,
               ),
@@ -92,7 +99,7 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
               softWrap: true,
               style: TextStyle(
                 color: Colors.red,
-                fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                 letterSpacing: 1.0,
                 height: 1.4,
               ),
@@ -103,14 +110,14 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
               softWrap: true,
               style: TextStyle(
                 color: Colors.green,
-                fontSize: SizeConfig.blockSizeHorizontal !* 6.0,
+                fontSize: SizeConfig.blockSizeHorizontal! * 6.0,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 1.0,
                 height: 1.2,
               ),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical !* 2.0,
+              height: SizeConfig.blockSizeVertical! * 2.0,
             ),
             Text(
               "Subscription History",
@@ -118,14 +125,14 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
               softWrap: true,
               style: TextStyle(
                 color: Colors.grey,
-                fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 1.5,
                 height: 1.6,
               ),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical !* 2.0,
+              height: SizeConfig.blockSizeVertical! * 2.0,
             ),
             Expanded(
               child: isLoading
@@ -158,14 +165,15 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                               ),
                             ),
                             Expanded(
                               child: Container(
                                   margin: EdgeInsets.symmetric(
                                       horizontal:
-                                          SizeConfig.blockSizeHorizontal !* 3.0),
+                                          SizeConfig.blockSizeHorizontal! *
+                                              3.0),
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                     color: Colors.grey,
@@ -191,13 +199,13 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                                                         style: TextStyle(
                                                           color: Colors.grey,
                                                           fontSize: SizeConfig
-                                                                  .blockSizeHorizontal !*
+                                                                  .blockSizeHorizontal! *
                                                               3.0,
                                                           letterSpacing: 2.5,
                                                         ),
                                                       ).pO(
                                                           bottom: SizeConfig
-                                                                  .blockSizeVertical !*
+                                                                  .blockSizeVertical! *
                                                               0.3),
                                                       Text(
                                                         model.activationDate!,
@@ -206,7 +214,7 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                                                         style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: SizeConfig
-                                                                  .blockSizeHorizontal !*
+                                                                  .blockSizeHorizontal! *
                                                               4.0,
                                                           fontWeight:
                                                               FontWeight.w500,
@@ -227,13 +235,13 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                                                         style: TextStyle(
                                                           color: Colors.grey,
                                                           fontSize: SizeConfig
-                                                                  .blockSizeHorizontal !*
+                                                                  .blockSizeHorizontal! *
                                                               3.0,
                                                           letterSpacing: 1.5,
                                                         ),
                                                       ).pO(
                                                           bottom: SizeConfig
-                                                                  .blockSizeVertical !*
+                                                                  .blockSizeVertical! *
                                                               0.3),
                                                       Text(
                                                         model.expiryDate!,
@@ -242,7 +250,7 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                                                         style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: SizeConfig
-                                                                  .blockSizeHorizontal !*
+                                                                  .blockSizeHorizontal! *
                                                               4.0,
                                                           fontWeight:
                                                               FontWeight.w500,
@@ -254,15 +262,15 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                                                 ),
                                                 SizedBox(
                                                   width: SizeConfig
-                                                          .blockSizeHorizontal !*
+                                                          .blockSizeHorizontal! *
                                                       1.0,
                                                 ),
                                               ],
                                             ),
                                             SizedBox(
-                                              height:
-                                                  SizeConfig.blockSizeVertical !*
-                                                      1.0,
+                                              height: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  1.0,
                                             ),
                                             Align(
                                               alignment: Alignment.centerLeft,
@@ -272,14 +280,14 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                                                 style: TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: SizeConfig
-                                                          .blockSizeHorizontal !*
+                                                          .blockSizeHorizontal! *
                                                       3.0,
                                                   letterSpacing: 2.5,
                                                 ),
                                               ),
                                             ).pO(
                                                 bottom: SizeConfig
-                                                        .blockSizeVertical !*
+                                                        .blockSizeVertical! *
                                                     0.3),
                                             Align(
                                               alignment: Alignment.centerLeft,
@@ -291,7 +299,7 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                                                 style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: SizeConfig
-                                                          .blockSizeHorizontal !*
+                                                          .blockSizeHorizontal! *
                                                       4.0,
                                                   fontWeight: FontWeight.w500,
                                                   letterSpacing: 1.5,
@@ -456,21 +464,21 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                                           ],
                                         ).pS(
                                           horizontal:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   3.0,
                                           vertical:
-                                              SizeConfig.blockSizeVertical !*
+                                              SizeConfig.blockSizeVertical! *
                                                   0.5,
                                         ),
                                       ),
                                       Container(
                                         color: Colors.grey[300],
-                                        width: SizeConfig.blockSizeHorizontal !*
+                                        width: SizeConfig.blockSizeHorizontal! *
                                             10.0,
                                         height:
-                                            SizeConfig.blockSizeVertical !* 13,
+                                            SizeConfig.blockSizeVertical! * 13,
                                         padding: EdgeInsets.all(
-                                          SizeConfig.blockSizeHorizontal !* 1.5,
+                                          SizeConfig.blockSizeHorizontal! * 1.5,
                                         ),
                                         child: InkWell(
                                           onTap: () {
@@ -484,12 +492,12 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                                               "images/ic_download.png",
                                             ),
                                             color: Colors.blue,
-                                            width:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    3.0,
-                                            height:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    3.0,
+                                            width: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                3.0,
+                                            height: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                3.0,
                                           ),
                                         ),
                                       ),
@@ -596,7 +604,7 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
       String strData = decodeBase64(encodedFileName);
       final jsonData = json.decode(strData);
       String fileName = jsonData[0]['FileName'].toString();
-      String downloadPdfUrl = "${baseURL}images/subscriptionReceipt/$fileName";
+      String downloadPdfUrl = "${baseImagePath}images/subscriptionReceipt/$fileName";
       downloadAndOpenTheFile(downloadPdfUrl, fileName);
     } else {
       final snackBar = SnackBar(
@@ -670,7 +678,7 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
         pr!.hide();
         String query = "SELECT * FROM task WHERE task_id='" + id + "'";
         var tasks = FlutterDownloader.loadTasksWithRawQuery(query: query);
- FlutterDownloader.open(taskId: id);
+        FlutterDownloader.open(taskId: id);
       }
     });
   }
@@ -685,8 +693,7 @@ class SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
     IsolateNameServer.removePortNameMapping('downloader_send_port');
   }
 
-  static void downloadCallback(
-      String id, int status, int progress) {
+  static void downloadCallback(String id, int status, int progress) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
     send!.send([id, status, progress]);

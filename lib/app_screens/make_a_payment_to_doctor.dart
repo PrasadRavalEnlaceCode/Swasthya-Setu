@@ -2,12 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/api/api_helper.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_opd_reg.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/api/api_helper.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/model_opd_reg.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 
@@ -62,7 +66,7 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
         title: titleWidget,
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -82,18 +86,18 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
                       setState(() {
                         listOPDRegistrationSearchResults = listOPDRegistration
                             .where((model) =>
-                                model.name
-                                !.toLowerCase()
+                                model.name!
+                                    .toLowerCase()
                                     .contains(text.toLowerCase()) ||
-                                model.amount
-                                !.toLowerCase()
+                                model.amount!
+                                    .toLowerCase()
                                     .contains(text.toLowerCase()))
                             .toList();
                       });
                     },
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                     ),
                     decoration: InputDecoration(
                       /*hintStyle: TextStyle(
@@ -119,15 +123,19 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
             },
             icon: icon,
           )
-        ], toolbarTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colorsblack,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colorsblack,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+        ],
+        toolbarTextStyle: TextTheme(
+                titleMedium: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .bodyMedium,
+        titleTextStyle: TextTheme(
+                titleMedium: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .titleLarge,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -138,7 +146,7 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
                   border: Border(
                       bottom: BorderSide(width: 1.0, color: Colors.grey))),
               child: Padding(
-                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
                   child: Column(
                     children: [
                       Row(
@@ -147,16 +155,16 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
                           (widget.doctorImage != "" &&
                                   widget.doctorImage != "null")
                               ? CircleAvatar(
-                                  radius: SizeConfig.blockSizeHorizontal !* 6,
+                                  radius: SizeConfig.blockSizeHorizontal! * 6,
                                   backgroundImage: NetworkImage(
                                       "$doctorImgUrl${widget.doctorImage}"))
                               : CircleAvatar(
-                                  radius: SizeConfig.blockSizeHorizontal !* 6,
+                                  radius: SizeConfig.blockSizeHorizontal! * 6,
                                   backgroundColor: Colors.grey,
                                   backgroundImage: AssetImage(
                                       "images/ic_user_placeholder.png")),
                           SizedBox(
-                            width: SizeConfig.blockSizeHorizontal !* 3,
+                            width: SizeConfig.blockSizeHorizontal! * 3,
                           ),
                           Expanded(
                             child: Column(
@@ -168,20 +176,20 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal !* 4.2,
+                                        SizeConfig.blockSizeHorizontal! * 4.2,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.black,
                                   ),
                                 ),
                                 SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 0.5,
+                                  height: SizeConfig.blockSizeVertical! * 0.5,
                                 ),
                                 Text(
                                   widget.speciality + " - " + widget.cityName,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal !* 3.3,
+                                        SizeConfig.blockSizeHorizontal! * 3.3,
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -199,9 +207,9 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
                       itemBuilder: (context, index) {
                         return Padding(
                             padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal !* 2,
-                                right: SizeConfig.blockSizeHorizontal !* 2,
-                                top: SizeConfig.blockSizeHorizontal !* 2),
+                                left: SizeConfig.blockSizeHorizontal! * 2,
+                                right: SizeConfig.blockSizeHorizontal! * 2,
+                                top: SizeConfig.blockSizeHorizontal! * 2),
                             child: InkWell(
                               onTap: () {
                                 listOPDRegistrationSearchResults[index]
@@ -219,7 +227,7 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
                                     child: Card(
                                         child: Padding(
                                       padding: EdgeInsets.all(
-                                          SizeConfig.blockSizeHorizontal !* 2),
+                                          SizeConfig.blockSizeHorizontal! * 2),
                                       child: Row(
                                         children: <Widget>[
                                           Expanded(
@@ -231,7 +239,7 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: SizeConfig
-                                                          .blockSizeHorizontal !*
+                                                          .blockSizeHorizontal! *
                                                       4,
                                                   fontWeight: FontWeight.w500),
                                             ),
@@ -245,7 +253,7 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
                                                 style: TextStyle(
                                                     color: Colors.green,
                                                     fontSize: SizeConfig
-                                                            .blockSizeHorizontal !*
+                                                            .blockSizeHorizontal! *
                                                         3.5,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -253,9 +261,9 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width:
-                                                SizeConfig.blockSizeHorizontal !*
-                                                    3,
+                                            width: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                3,
                                           ),
                                           Checkbox(
                                             value:
@@ -299,7 +307,8 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
               : Expanded(
                   child: Center(
                   child: Container(
-                    padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+                    padding:
+                        EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
@@ -325,31 +334,31 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
                   "Total - \u20B9$total",
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: SizeConfig.blockSizeHorizontal !* 6.5,
+                    fontSize: SizeConfig.blockSizeHorizontal! * 6.5,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 1.5,
                   ),
                 )
               : Container(),
           SizedBox(
-            height: SizeConfig.blockSizeVertical !* 0.2,
+            height: SizeConfig.blockSizeVertical! * 0.2,
           ),
           listOPDRegistrationSearchResults.length > 0 && total > 0
               ? Text(
                   "additional 18% GST will be added on total upon payment",
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: SizeConfig.blockSizeHorizontal !* 3.5,
+                    fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
                   ),
                 )
               : Container(),
           SizedBox(
-            height: SizeConfig.blockSizeVertical !* 1.0,
+            height: SizeConfig.blockSizeVertical! * 1.0,
           ),
           listOPDRegistrationSearchResults.length > 0 && total > 0
               ? Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+                    horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
                   ),
                   child: MaterialButton(
                     onPressed: () {
@@ -375,7 +384,7 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
             minWidth: double.maxFinite,
             color: Colors.white,*/
             child: Container(
-              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 4.0),
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 4.0),
               decoration: BoxDecoration(
                   color: Colors.grey[100],
                   borderRadius: BorderRadius.circular(15.0),
@@ -387,13 +396,13 @@ class MakeAPaymentToDoctorState extends State<MakeAPaymentToDoctor> {
                 "Pay Without Services",
                 style: TextStyle(
                   color: Colors.blue[600],
-                  fontSize: SizeConfig.blockSizeHorizontal !* 3.6,
+                  fontSize: SizeConfig.blockSizeHorizontal! * 3.6,
                   letterSpacing: 1.4,
                 ),
               ),
             ),
           ).paddingSymmetric(
-            vertical: SizeConfig.blockSizeVertical !* 1.5,
+            vertical: SizeConfig.blockSizeVertical! * 1.5,
           ),
           /*Align(
             alignment: Alignment.topRight,

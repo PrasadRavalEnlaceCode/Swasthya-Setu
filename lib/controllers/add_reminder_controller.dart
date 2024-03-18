@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/database/tb_reminder.dart';
-import 'package:swasthyasetu/global/utils.dart' as utils;
+import 'package:silvertouch/database/tb_reminder.dart';
+import 'package:silvertouch/global/utils.dart' as utils;
 
 class AddReminderController extends GetxController {
   Rx<TbReminderTable> reminder = TbReminderTable(
@@ -100,8 +100,7 @@ class AddReminderController extends GetxController {
       final time =
           await utils.showTimeSelectionDialog(context, pickedOnceTime.value);
       pickedOnceTime.value = time;
-      remindOnceTimeStr.value =
-          utils.getFormattedTimeInStrFromTimeOfDay(time);
+      remindOnceTimeStr.value = utils.getFormattedTimeInStrFromTimeOfDay(time);
     }
   }
 
@@ -155,7 +154,7 @@ class AddReminderController extends GetxController {
         prefix = "Hour";
       else
         prefix = "Hours";
-        listHours!.add("${(i + 1).toString()} $prefix");
+      listHours!.add("${(i + 1).toString()} $prefix");
       /*if (i != listHours.length - 1)
         listHours.add((i + 1).toString());
       else

@@ -2,17 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/api/api_helper.dart';
-import 'package:swasthyasetu/app_screens/check_expiry_blank_screen.dart';
-import 'package:swasthyasetu/app_screens/select_profile_screen.dart';
-import 'package:swasthyasetu/utils/color.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/api/api_helper.dart';
+import 'package:silvertouch/app_screens/check_expiry_blank_screen.dart';
+import 'package:silvertouch/app_screens/fill_profile_details.dart';
+import 'package:silvertouch/app_screens/select_profile_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_profile_patient.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/sms_listener.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-import 'package:swasthyasetu/app_screens/fill_profile_details.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/sms_listener.dart';
 
 final focus = FocusNode();
 
@@ -110,18 +111,18 @@ class VerifyOTPScreenState extends State<VerifyOTPScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image(
-              width: SizeConfig.blockSizeHorizontal !* 30,
+              width: SizeConfig.blockSizeHorizontal! * 30,
               //height: 80,
-              image: AssetImage("images/swasthya_setu_logo.jpeg"),
+              image: AssetImage("images/logo_silver_touch.jpg"),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical !* 3,
+              height: SizeConfig.blockSizeVertical! * 3,
             ),
             Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeHorizontal !* 10),
+                      left: SizeConfig.blockSizeHorizontal! * 10),
                   child: Text("Enter OTP received on your Mobile No.",
                       textAlign: TextAlign.start,
                       style: TextStyle(
@@ -134,9 +135,10 @@ class VerifyOTPScreenState extends State<VerifyOTPScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: SizeConfig.blockSizeHorizontal !* 75,
-                    height: SizeConfig.blockSizeHorizontal !* 20,
-                    padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+                    width: SizeConfig.blockSizeHorizontal! * 75,
+                    height: SizeConfig.blockSizeHorizontal! * 20,
+                    padding:
+                        EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
                     child: PinFieldAutoFill(
                       decoration: UnderlineDecoration(
                           colorBuilder: FixedColorBuilder(Colors.black),
@@ -174,8 +176,8 @@ class VerifyOTPScreenState extends State<VerifyOTPScreen> {
                     ),*/
                   ),
                   Container(
-                    width: SizeConfig.blockSizeHorizontal !* 12,
-                    height: SizeConfig.blockSizeHorizontal !* 12,
+                    width: SizeConfig.blockSizeHorizontal! * 12,
+                    height: SizeConfig.blockSizeHorizontal! * 12,
                     child: RawMaterialButton(
                       onPressed: () {
                         verifyOTP(mContext);
@@ -188,8 +190,8 @@ class VerifyOTPScreenState extends State<VerifyOTPScreen> {
                       elevation: 2.0,
                       fillColor: Color(0xFF06A759),
                       child: Image(
-                        width: SizeConfig.blockSizeHorizontal !* 5.5,
-                        height: SizeConfig.blockSizeHorizontal !* 5.5,
+                        width: SizeConfig.blockSizeHorizontal! * 5.5,
+                        height: SizeConfig.blockSizeHorizontal! * 5.5,
                         //height: 80,
                         image:
                             AssetImage("images/ic_right_arrow_triangular.png"),
@@ -245,8 +247,7 @@ class VerifyOTPScreenState extends State<VerifyOTPScreen> {
       //listIcon = new List();
       var response = await apiHelper.callApiWithHeadersAndBody(
         url: loginUrl,
-        headers:
-        {
+        headers: {
           "u": widget.mobNo,
           "p": _code,
           "type": "patient",

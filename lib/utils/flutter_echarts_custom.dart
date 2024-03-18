@@ -9,8 +9,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_echarts/echarts_script.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/utils/common_methods.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/utils/common_methods.dart';
 
 /// <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, target-densitydpi=device-dpi" /><style type="text/css">body,html,#chart{height: 100%;width: 100%;margin: 0px;}div {-webkit-tap-highlight-color:rgba(255,255,255,0);}</style></head><body><div id="chart" /></body></html>
 /// 'data:text/html;base64,' + base64Encode(const Utf8Encoder().convert( /* STRING ABOVE */ ))
@@ -134,7 +134,9 @@ class _EchartsCustomState
         : '';
     final themeStr =
         this.widget.theme != null ? '\'${this.widget.theme}\'' : 'null';
-    await _controller?.evaluateJavascript(source: '''
+    await _controller?.evaluateJavascript(
+        source:
+            '''
       $echartsScript
       $extensionsStr
       var chart = echarts.init(document.getElementById('chart'), $themeStr);
@@ -199,7 +201,9 @@ class _EchartsCustomState
   void update(String preOption) async {
     _currentOption = widget.option;
     if (_currentOption != preOption) {
-      await _controller?.evaluateJavascript(source: '''
+      await _controller?.evaluateJavascript(
+          source:
+              '''
         try {
           chart.setOption($_currentOption, true);
         } catch(e) {
@@ -270,7 +274,7 @@ class _EchartsCustomState
                   /*child: SlideTransition(
                   position: offset,*/
                   child: Container(
-                    height: SizeConfig.blockSizeVertical !* 50,
+                    height: SizeConfig.blockSizeVertical! * 50,
                     child: InAppWebView(
                       initialUrlRequest: URLRequest(url: Uri.parse(htmlBase64)),
                       //initialUrl: 'https://www.google.com/',
@@ -300,13 +304,12 @@ class _EchartsCustomState
                         _controller!.reload();
                       },
                       onLoadHttpError: (InAppWebViewController? controller,
-                          Uri? url, int? code, String? error)
-                      {
+                          Uri? url, int? code, String? error) {
                         debugPrint("Error in Loading EChart - $error");
                         _controller!.reload();
                       },
-                      onLoadStop: (InAppWebViewController? controller, Uri? url) async
-                      {
+                      onLoadStop:
+                          (InAppWebViewController? controller, Uri? url) async {
                         //if (Platform.isAndroid) {
                         setState(() {
                           _opacity = 1.0;

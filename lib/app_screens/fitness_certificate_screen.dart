@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/controllers/certificate_controller.dart';
-import 'package:swasthyasetu/podo/model_certificate.dart';
+import 'package:silvertouch/controllers/certificate_controller.dart';
+import 'package:silvertouch/podo/model_certificate.dart';
 
 import '../global/SizeConfig.dart';
 import '../utils/color.dart';
@@ -26,15 +26,17 @@ class FitnessCertificateScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             cert!.certificateTypeName!,
-            style: TextStyle(fontSize: SizeConfig.blockSizeVertical !* 2.5),
+            style: TextStyle(fontSize: SizeConfig.blockSizeVertical! * 2.5),
           ),
           backgroundColor: Color(0xFFFFFFFF),
           iconTheme: IconThemeData(color: Colorsblack),
           toolbarTextStyle: TextTheme(
-                  titleMedium: TextStyle(color: Colorsblack, fontFamily: "Ubuntu"))
+                  titleMedium:
+                      TextStyle(color: Colorsblack, fontFamily: "Ubuntu"))
               .bodyMedium,
           titleTextStyle: TextTheme(
-                  titleMedium: TextStyle(color: Colorsblack, fontFamily: "Ubuntu"))
+                  titleMedium:
+                      TextStyle(color: Colorsblack, fontFamily: "Ubuntu"))
               .titleLarge,
         ),
         body: Column(
@@ -42,7 +44,7 @@ class FitnessCertificateScreen extends StatelessWidget {
             Expanded(
               child: Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.blockSizeHorizontal !* 3),
+                      horizontal: SizeConfig.blockSizeHorizontal! * 3),
                   child: Column(
                     children: [
                       Form(
@@ -96,12 +98,13 @@ class FitnessCertificateScreen extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.blockSizeHorizontal !* 3,
-                  horizontal: SizeConfig.blockSizeHorizontal !* 3),
+                  vertical: SizeConfig.blockSizeHorizontal! * 3,
+                  horizontal: SizeConfig.blockSizeHorizontal! * 3),
               child: Align(
                 alignment: Alignment.topRight,
                 child: Container(
-                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2.5),
+                  padding:
+                      EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 2.5),
                   decoration: BoxDecoration(
                     color: Color(0xFF06A759),
                     shape: BoxShape.circle,
@@ -113,8 +116,8 @@ class FitnessCertificateScreen extends StatelessWidget {
                             idp, patientIDP, cert!.certificateTypeIDP, context);
                     },
                     child: Image(
-                      width: SizeConfig.blockSizeHorizontal !* 5.5,
-                      height: SizeConfig.blockSizeHorizontal !* 5.5,
+                      width: SizeConfig.blockSizeHorizontal! * 5.5,
+                      height: SizeConfig.blockSizeHorizontal! * 5.5,
                       //height: 80,
                       image: AssetImage("images/ic_right_arrow_triangular.png"),
                     ),

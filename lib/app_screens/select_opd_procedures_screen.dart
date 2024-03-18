@@ -1,13 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/api/api_helper.dart';
-import 'package:swasthyasetu/app_screens/add_opd_procedures.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_opd_reg.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/api/api_helper.dart';
+import 'package:silvertouch/app_screens/add_opd_procedures.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_opd_reg.dart';
+import 'package:silvertouch/podo/model_profile_patient.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
 
 import '../utils/color.dart';
 
@@ -66,7 +68,7 @@ class SelectOPDProceduresScreenState extends State<SelectOPDProceduresScreen> {
         title: titleWidget,
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -86,18 +88,18 @@ class SelectOPDProceduresScreenState extends State<SelectOPDProceduresScreen> {
                       setState(() {
                         listOPDRegistrationSearchResults = listOPDRegistration
                             .where((model) =>
-                                model.name
-                                !.toLowerCase()
+                                model.name!
+                                    .toLowerCase()
                                     .contains(text.toLowerCase()) ||
-                                model.amount
-                                !.toLowerCase()
+                                model.amount!
+                                    .toLowerCase()
                                     .contains(text.toLowerCase()))
                             .toList();
                       });
                     },
                     style: TextStyle(
                       color: Colorsblack,
-                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                     ),
                     decoration: InputDecoration(
                       /*hintStyle: TextStyle(
@@ -124,15 +126,19 @@ class SelectOPDProceduresScreenState extends State<SelectOPDProceduresScreen> {
             },
             icon: icon,
           )
-        ], toolbarTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colorsblack,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-            titleMedium: TextStyle(
-                color: Colorsblack,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+        ],
+        toolbarTextStyle: TextTheme(
+                titleMedium: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .bodyMedium,
+        titleTextStyle: TextTheme(
+                titleMedium: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .titleLarge,
       ),
       body: Column(
         children: <Widget>[
@@ -142,9 +148,9 @@ class SelectOPDProceduresScreenState extends State<SelectOPDProceduresScreen> {
                 itemBuilder: (context, index) {
                   return Padding(
                       padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal !* 2,
-                          right: SizeConfig.blockSizeHorizontal !* 2,
-                          top: SizeConfig.blockSizeHorizontal !* 2),
+                          left: SizeConfig.blockSizeHorizontal! * 2,
+                          right: SizeConfig.blockSizeHorizontal! * 2,
+                          top: SizeConfig.blockSizeHorizontal! * 2),
                       child: InkWell(
                         onTap: () {
                           listOPDRegistrationSearchResults[index].isChecked =
@@ -161,7 +167,7 @@ class SelectOPDProceduresScreenState extends State<SelectOPDProceduresScreen> {
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.all(
-                                        SizeConfig.blockSizeHorizontal !* 3),
+                                        SizeConfig.blockSizeHorizontal! * 3),
                                     child: Row(
                                       children: <Widget>[
                                         Expanded(
@@ -173,7 +179,7 @@ class SelectOPDProceduresScreenState extends State<SelectOPDProceduresScreen> {
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     4,
                                                 fontWeight: FontWeight.w500),
                                           ),
@@ -187,7 +193,7 @@ class SelectOPDProceduresScreenState extends State<SelectOPDProceduresScreen> {
                                               style: TextStyle(
                                                   color: colorBlueApp,
                                                   fontSize: SizeConfig
-                                                          .blockSizeHorizontal !*
+                                                          .blockSizeHorizontal! *
                                                       3.5,
                                                   fontWeight: FontWeight.w500),
                                             ),
@@ -195,7 +201,7 @@ class SelectOPDProceduresScreenState extends State<SelectOPDProceduresScreen> {
                                         ),
                                         SizedBox(
                                           width:
-                                              SizeConfig.blockSizeHorizontal !*
+                                              SizeConfig.blockSizeHorizontal! *
                                                   3,
                                         ),
                                         Checkbox(
@@ -257,7 +263,7 @@ class SelectOPDProceduresScreenState extends State<SelectOPDProceduresScreen> {
             ),
           )*/
           Padding(
-            padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+            padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
             child: MaterialButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),
@@ -267,9 +273,9 @@ class SelectOPDProceduresScreenState extends State<SelectOPDProceduresScreen> {
                   "Proceed".toUpperCase(),
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0),
+                      fontSize: SizeConfig.blockSizeHorizontal! * 4.0),
                 ),
-                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
                 color: colorBlueApp,
                 onPressed: () async {
                   getSelectedListAndGoToAddOPDProcedureScreen(context);
@@ -334,10 +340,16 @@ class SelectOPDProceduresScreenState extends State<SelectOPDProceduresScreen> {
     if (model.status == "OK") {
       var data = jsonResponse['Data'];
       var strData = decodeBase64(data);
-      debugPrint("Decoded Data Investigation Masters list : " + strData);
-      final jsonData = json.decode(strData);
+
+
+      String newData = strData.replaceFirst('{ACCURIS}', '{ACCURIS}"');
+
+      debugPrint("Decoded Data Investigation Masters list : " + newData);
+
+      final jsonData = json.decode(newData);
       for (var i = 0; i < jsonData.length; i++) {
         var jo = jsonData[i];
+
         listOPDRegistration.add(ModelOPDRegistration(
             jo['HospitalOPDServcesIDP'].toString(),
             jo['OPDService'],

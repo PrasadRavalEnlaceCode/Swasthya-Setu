@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/app_screens/chat_screen.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
-
+import 'package:silvertouch/app_screens/chat_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 import '../utils/color.dart';
 import 'fullscreen_image.dart';
 
@@ -16,7 +19,7 @@ class MyChats extends StatefulWidget {
       "${baseURL}doctorPatientChatList.php";
 
   String emptyTextMyDoctors1 =
-      "Ask your Doctor to send you bind request from Swasthya setu Doctor panel so that you can able to share all your Health records to your prefered doctor.";
+      "Ask your Doctor to send you bind request from Silver Touch Doctor panel so that you can able to share all your Health records to your prefered doctor.";
 
   String emptyMessage = "";
 
@@ -56,13 +59,13 @@ class MyChatsState extends State<MyChats> {
       userType = value;
       if (userType == "patient") toolbarTitle = "Ask Doctor";
       if (userType == "doctor") toolbarTitle = "Chat with Patient";
-      titleWidget = Text(toolbarTitle,style: TextStyle(color: Colorsblack));
+      titleWidget = Text(toolbarTitle, style: TextStyle(color: Colorsblack));
     });
     widget.emptyMessage = "${widget.emptyTextMyDoctors1}";
     widget.emptyMessageWidget = SizedBox(
-      height: SizeConfig.blockSizeVertical !* 80,
+      height: SizeConfig.blockSizeVertical! * 80,
       child: Container(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -97,7 +100,7 @@ class MyChatsState extends State<MyChats> {
         centerTitle: true,
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.5),
+            color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.5),
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -118,17 +121,17 @@ class MyChatsState extends State<MyChats> {
                         if (listDoctors.length > 0)
                           listDoctorsSearchResults = listDoctors
                               .where((objDoctor) =>
-                                  objDoctor["FirstName"]
-                                      !.toLowerCase()
+                                  objDoctor["FirstName"]!
+                                      .toLowerCase()
                                       .contains(text.toLowerCase()) ||
-                                  objDoctor["LastName"]
-                                      !.toLowerCase()
+                                  objDoctor["LastName"]!
+                                      .toLowerCase()
                                       .contains(text.toLowerCase()) ||
-                                  objDoctor["Specility"]
-                                      !.toLowerCase()
+                                  objDoctor["Specility"]!
+                                      .toLowerCase()
                                       .contains(text.toLowerCase()) ||
-                                  objDoctor["CityName"]
-                                      !.toLowerCase()
+                                  objDoctor["CityName"]!
+                                      .toLowerCase()
                                       .contains(text.toLowerCase()))
                               .toList();
                         else
@@ -137,7 +140,7 @@ class MyChatsState extends State<MyChats> {
                     },
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                     ),
                     decoration: InputDecoration(
                       /*hintStyle: TextStyle(
@@ -156,22 +159,27 @@ class MyChatsState extends State<MyChats> {
                     Icons.search,
                     color: Colors.black,
                   );
-                  this.titleWidget = Text(toolbarTitle,style: TextStyle(color: Colorsblack));
+                  this.titleWidget =
+                      Text(toolbarTitle, style: TextStyle(color: Colorsblack));
                   listDoctorsSearchResults = listDoctors;
                 }
               });
             },
             icon: icon,
           )
-        ], toolbarTextStyle: TextTheme(
-            titleLarge: TextStyle(
-                color: Colorsblack,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-            titleLarge: TextStyle(
-                color: Colorsblack,
-                fontFamily: "Ubuntu",
-                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+        ],
+        toolbarTextStyle: TextTheme(
+                titleLarge: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .bodyMedium,
+        titleTextStyle: TextTheme(
+                titleLarge: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical! * 2.5))
+            .titleLarge,
       ),
       body: Builder(
         builder: (context) {
@@ -196,12 +204,12 @@ class MyChatsState extends State<MyChats> {
                                     //              "LastName": jo['LastName'].toString(),
                                     String patientName =
                                         (listDoctorsSearchResults[index]
-                                                        ["FirstName"]
-                                                    !.trim() +
+                                                        ["FirstName"]!
+                                                    .trim() +
                                                 " " +
                                                 listDoctorsSearchResults[index]
-                                                        ["LastName"]
-                                                    !.trim())
+                                                        ["LastName"]!
+                                                    .trim())
                                             .replaceAll("  ", " ");
                                     Navigator.of(context).push(
                                         MaterialPageRoute(builder: (context) {
@@ -229,7 +237,8 @@ class MyChatsState extends State<MyChats> {
                                                   color: Colors.grey))),
                                       child: Padding(
                                         padding: EdgeInsets.all(
-                                            SizeConfig.blockSizeHorizontal !* 4),
+                                            SizeConfig.blockSizeHorizontal! *
+                                                4),
                                         child: Row(
                                             mainAxisSize: MainAxisSize.max,
                                             children: <Widget>[
@@ -253,14 +262,16 @@ class MyChatsState extends State<MyChats> {
                                                       "fullImg_$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}_${listDoctorsSearchResults[index]['DoctorIDP']}",
                                                   child: CircleAvatar(
                                                       radius: SizeConfig
-                                                              .blockSizeHorizontal !*
+                                                              .blockSizeHorizontal! *
                                                           6,
-                                                      backgroundImage: ifImageNotNullAndBlank1(index)),
+                                                      backgroundImage:
+                                                          ifImageNotNullAndBlank1(
+                                                              index)),
                                                 ),
                                               ),
                                               SizedBox(
                                                 width: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     5,
                                               ),
                                               Column(
@@ -272,18 +283,18 @@ class MyChatsState extends State<MyChats> {
                                                   Text(
                                                     (listDoctorsSearchResults[
                                                                         index][
-                                                                    "FirstName"]
-                                                                !.trim() +
+                                                                    "FirstName"]!
+                                                                .trim() +
                                                             " " +
                                                             listDoctorsSearchResults[
-                                                                        index]
-                                                                    ["LastName"]
-                                                                !.trim())
+                                                                        index][
+                                                                    "LastName"]!
+                                                                .trim())
                                                         .trim(),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal !*
+                                                              .blockSizeHorizontal! *
                                                           4.2,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -297,7 +308,7 @@ class MyChatsState extends State<MyChats> {
                                                   ),
                                                   SizedBox(
                                                     height: SizeConfig
-                                                            .blockSizeVertical !*
+                                                            .blockSizeVertical! *
                                                         0.5,
                                                   ),
                                                   Text(
@@ -310,7 +321,7 @@ class MyChatsState extends State<MyChats> {
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal !*
+                                                              .blockSizeHorizontal! *
                                                           3.3,
                                                       color: listDoctorsSearchResults[
                                                                       index][
@@ -345,7 +356,7 @@ class MyChatsState extends State<MyChats> {
                                                                     EdgeInsets
                                                                         .all(
                                                                   SizeConfig
-                                                                          .blockSizeHorizontal !*
+                                                                          .blockSizeHorizontal! *
                                                                       1.0,
                                                                 ),
                                                                 decoration: BoxDecoration(
@@ -363,7 +374,7 @@ class MyChatsState extends State<MyChats> {
                                                                     color: Colors
                                                                         .white,
                                                                     fontSize:
-                                                                        SizeConfig.blockSizeHorizontal !*
+                                                                        SizeConfig.blockSizeHorizontal! *
                                                                             4.0,
                                                                   ),
                                                                 ),
@@ -447,15 +458,12 @@ class MyChatsState extends State<MyChats> {
         listDoctorsSearchResults[index]["DoctorImage"] != "null");
   }
 
-  ifImageNotNullAndBlank1(int index)
-  {
+  ifImageNotNullAndBlank1(int index) {
     isImageNotNullAndBlank(index)
-        ? NetworkImage(userType ==
-        "patient"
-        ? "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}"
-        : "$userImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}")
-        : AssetImage(
-        "images/ic_user_placeholder.png");
+        ? NetworkImage(userType == "patient"
+            ? "$doctorImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}"
+            : "$userImgUrl${listDoctorsSearchResults[index]["DoctorImage"]}")
+        : AssetImage("images/ic_user_placeholder.png");
   }
 
   String encodeBase64(String text) {

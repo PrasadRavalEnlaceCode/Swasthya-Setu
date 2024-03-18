@@ -8,16 +8,18 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:swasthyasetu/app_screens/edit_my_profile_medical_patient.dart';
-import 'package:swasthyasetu/app_screens/patient_dashboard_screen.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/dropdown_item.dart';
-import 'package:swasthyasetu/podo/patient_profile_upload_model.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/multipart_request_with_progress.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
-import 'package:swasthyasetu/utils/progress_dialog_with_percentage.dart';
+import 'package:silvertouch/app_screens/edit_my_profile_medical_patient.dart';
+import 'package:silvertouch/app_screens/patient_dashboard_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/dropdown_item.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/patient_profile_upload_model.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 import 'custom_dialog_select_image_from.dart';
@@ -648,7 +650,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
       //widget.image = await ImagePicker.pickImage(source: ImageSource.camera);
       File imgSelected =
           await chooseImageWithExIfRotate(picker, ImageSource.camera);
- widget.image = imgSelected;
+      widget.image = imgSelected;
       Navigator.of(context).pop();
       setState(() {});
       //if (image != null) submitImageForUpdate(context, image);
@@ -671,7 +673,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
       //widget.image = await ImagePicker.pickImage(source: ImageSource.gallery);
       File imgSelected =
           await chooseImageWithExIfRotate(picker, ImageSource.gallery);
- widget.image = imgSelected;
+      widget.image = imgSelected;
       Navigator.of(context).pop();
       setState(() {});
       //if (image != null) submitImageForUpdate(context, image);
@@ -682,13 +684,13 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
       children: <Widget>[
         //...bottom card part,
         Container(
-          width: SizeConfig.blockSizeHorizontal !* 90,
-          height: SizeConfig.blockSizeVertical !* 25,
+          width: SizeConfig.blockSizeHorizontal! * 90,
+          height: SizeConfig.blockSizeVertical! * 25,
           padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical !* 1,
-            bottom: SizeConfig.blockSizeVertical !* 1,
-            left: SizeConfig.blockSizeHorizontal !* 1,
-            right: SizeConfig.blockSizeHorizontal !* 1,
+            top: SizeConfig.blockSizeVertical! * 1,
+            bottom: SizeConfig.blockSizeVertical! * 1,
+            left: SizeConfig.blockSizeHorizontal! * 1,
+            right: SizeConfig.blockSizeHorizontal! * 1,
           ),
           decoration: new BoxDecoration(
             color: Colors.white,
@@ -711,7 +713,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.red,
-                      size: SizeConfig.blockSizeVertical !* 2.8,
+                      size: SizeConfig.blockSizeVertical! * 2.8,
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -721,14 +723,14 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: SizeConfig.blockSizeVertical !* 2.3,
+                      fontSize: SizeConfig.blockSizeVertical! * 2.3,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical !* 0.5,
+                height: SizeConfig.blockSizeVertical! * 0.5,
               ),
               /*MaterialButton(
               onPressed: () {},
@@ -760,14 +762,14 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                     },
                     child: Image(
                       fit: BoxFit.contain,
-                      width: SizeConfig.blockSizeHorizontal !* 10,
-                      height: SizeConfig.blockSizeVertical !* 10,
+                      width: SizeConfig.blockSizeHorizontal! * 10,
+                      height: SizeConfig.blockSizeVertical! * 10,
                       //height: 80,
                       image: AssetImage("images/ic_camera.png"),
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal !* 1,
+                    width: SizeConfig.blockSizeHorizontal! * 1,
                   ),
                   MaterialButton(
                     onPressed: () {
@@ -775,14 +777,14 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                     },
                     child: Image(
                       fit: BoxFit.contain,
-                      width: SizeConfig.blockSizeHorizontal !* 10,
-                      height: SizeConfig.blockSizeVertical !* 10,
+                      width: SizeConfig.blockSizeHorizontal! * 10,
+                      height: SizeConfig.blockSizeVertical! * 10,
                       //height: 80,
                       image: AssetImage("images/ic_gallery.png"),
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.blockSizeHorizontal !* 1,
+                    width: SizeConfig.blockSizeHorizontal! * 1,
                   ),
                   MaterialButton(
                     onPressed: () {
@@ -791,7 +793,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                     child: Icon(
                       Icons.close,
                       color: Colors.red,
-                      size: SizeConfig.blockSizeHorizontal !* 10,
+                      size: SizeConfig.blockSizeHorizontal! * 10,
                     ),
                   ),
                 ],
@@ -884,15 +886,19 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
           title: Text("Complete profile to continue"),
           backgroundColor: Color(0xFFFFFFFF),
           iconTheme: IconThemeData(
-              color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
-              titleMedium: TextStyle(
-                  color: Colorsblack,
-                  fontFamily: "Ubuntu",
-                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-              titleMedium: TextStyle(
-                  color: Colorsblack,
-                  fontFamily: "Ubuntu",
-                  fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+              color: Colorsblack, size: SizeConfig.blockSizeVertical! * 2.2),
+          toolbarTextStyle: TextTheme(
+                  titleMedium: TextStyle(
+                      color: Colorsblack,
+                      fontFamily: "Ubuntu",
+                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
+              .bodyMedium,
+          titleTextStyle: TextTheme(
+                  titleMedium: TextStyle(
+                      color: Colorsblack,
+                      fontFamily: "Ubuntu",
+                      fontSize: SizeConfig.blockSizeVertical! * 2.5))
+              .titleLarge,
         ),
         body: WillPopScope(
             onWillPop: () =>
@@ -912,23 +918,24 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                         Align(
                           alignment: Alignment.center,
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal !* 90,
+                            width: SizeConfig.blockSizeHorizontal! * 90,
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
+                                SizeConfig.blockSizeHorizontal! * 1),
                             child: TextField(
                               controller: firstNameController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "First Name",
                                 hintText: "",
                               ),
@@ -938,23 +945,24 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                         Align(
                           alignment: Alignment.center,
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal !* 90,
+                            width: SizeConfig.blockSizeHorizontal! * 90,
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
+                                SizeConfig.blockSizeHorizontal! * 1),
                             child: TextField(
                               controller: middleNameController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "Middle Name",
                                 hintText: "",
                               ),
@@ -964,23 +972,24 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                         Align(
                           alignment: Alignment.center,
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal !* 90,
+                            width: SizeConfig.blockSizeHorizontal! * 90,
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
+                                SizeConfig.blockSizeHorizontal! * 1),
                             child: TextField(
                               controller: lastNameController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "Last Name",
                                 hintText: "",
                               ),
@@ -988,24 +997,25 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1,
+                          height: SizeConfig.blockSizeVertical! * 1,
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
                               padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal !* 5),
+                                  left: SizeConfig.blockSizeHorizontal! * 5),
                               child: Text("Gender",
                                   style: TextStyle(
                                       fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 4))),
+                                          SizeConfig.blockSizeHorizontal! *
+                                              4))),
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal:
-                                      SizeConfig.blockSizeHorizontal !* 3),
+                                      SizeConfig.blockSizeHorizontal! * 3),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
@@ -1017,7 +1027,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                                       title: Text("Male",
                                           style: TextStyle(
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   4)),
                                       dense: true,
                                     ),
@@ -1030,7 +1040,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                                       title: Text("Female",
                                           style: TextStyle(
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   4)),
                                       dense: true,
                                     ),
@@ -1068,23 +1078,24 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                         Align(
                           alignment: Alignment.center,
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal !* 90,
+                            width: SizeConfig.blockSizeHorizontal! * 90,
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
+                                SizeConfig.blockSizeHorizontal! * 1),
                             child: TextField(
                               controller: emailController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "Email",
                                 hintText: "",
                               ),
@@ -1098,25 +1109,27 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                               showDateSelectionDialog();
                             },
                             child: Container(
-                              width: SizeConfig.blockSizeHorizontal !* 90,
+                              width: SizeConfig.blockSizeHorizontal! * 90,
                               padding: EdgeInsets.all(
-                                  SizeConfig.blockSizeHorizontal !* 1),
+                                  SizeConfig.blockSizeHorizontal! * 1),
                               child: IgnorePointer(
                                 child: TextField(
                                   controller: dobController,
                                   style: TextStyle(
                                       color: Colors.green,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   decoration: InputDecoration(
                                     hintStyle: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical !* 2.3),
+                                            SizeConfig.blockSizeVertical! *
+                                                2.3),
                                     labelStyle: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical !* 2.3),
+                                            SizeConfig.blockSizeVertical! *
+                                                2.3),
                                     labelText: "Date Of Birth",
                                     hintText: "",
                                   ),
@@ -1204,25 +1217,27 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                                   listCitiesSearchResults, "City");
                             },
                             child: Container(
-                              width: SizeConfig.blockSizeHorizontal !* 90,
+                              width: SizeConfig.blockSizeHorizontal! * 90,
                               padding: EdgeInsets.all(
-                                  SizeConfig.blockSizeHorizontal !* 1),
+                                  SizeConfig.blockSizeHorizontal! * 1),
                               child: IgnorePointer(
                                 child: TextField(
                                   controller: cityController,
                                   style: TextStyle(
                                       color: Colors.green,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.3),
+                                          SizeConfig.blockSizeVertical! * 2.3),
                                   decoration: InputDecoration(
                                     hintStyle: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical !* 2.3),
+                                            SizeConfig.blockSizeVertical! *
+                                                2.3),
                                     labelStyle: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeVertical !* 2.3),
+                                            SizeConfig.blockSizeVertical! *
+                                                2.3),
                                     labelText: "City",
                                     hintText: "",
                                   ),
@@ -1242,7 +1257,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                     Row(
                       children: [
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 3.0,
+                          width: SizeConfig.blockSizeHorizontal! * 3.0,
                         ),
                         Checkbox(
                           value: privacyPolicyAccepted,
@@ -1260,7 +1275,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                   horizontal:
-                                      SizeConfig.blockSizeHorizontal !* 5.0,
+                                      SizeConfig.blockSizeHorizontal! * 5.0,
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -1271,7 +1286,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                                         children: [
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     0.5,
                                           ),
                                           Text(
@@ -1280,13 +1295,13 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                                             style: TextStyle(
                                               color: Colors.blue,
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   6.0,
                                             ),
                                           ),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     1.0,
                                           ),
                                           Text(
@@ -1294,7 +1309,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   4.0,
                                             ),
                                           ),
@@ -1303,7 +1318,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                                             style: TextStyle(
                                               color: Colors.blue,
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   6.0,
                                             ),
                                           ),
@@ -1312,7 +1327,7 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   4.0,
                                             ),
                                           ),
@@ -1348,8 +1363,8 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                     Align(
                       alignment: Alignment.topRight,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal !* 12,
-                        height: SizeConfig.blockSizeHorizontal !* 12,
+                        width: SizeConfig.blockSizeHorizontal! * 12,
+                        height: SizeConfig.blockSizeHorizontal! * 12,
                         child: RawMaterialButton(
                           onPressed: () {
                             submitImageForUpdate(context, widget.image);
@@ -1357,8 +1372,8 @@ class FillProfileDetailsState extends State<FillProfileDetails> {
                           elevation: 2.0,
                           fillColor: Color(0xFF06A759),
                           child: Image(
-                            width: SizeConfig.blockSizeHorizontal !* 5.5,
-                            height: SizeConfig.blockSizeHorizontal !* 5.5,
+                            width: SizeConfig.blockSizeHorizontal! * 5.5,
+                            height: SizeConfig.blockSizeHorizontal! * 5.5,
                             //height: 80,
                             image: AssetImage(
                                 "images/ic_right_arrow_triangular.png"),
@@ -1785,14 +1800,14 @@ class CountryDialogState extends State<CountryDialog> {
     icon = Icon(
       Icons.search,
       color: Colors.blue,
-      size: SizeConfig.blockSizeHorizontal !* 6.2,
+      size: SizeConfig.blockSizeHorizontal! * 6.2,
     );
 
     titleWidget = Text(
       "Select ${widget.type}",
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+        fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
         fontWeight: FontWeight.bold,
         color: Colors.green,
         decoration: TextDecoration.none,
@@ -1879,7 +1894,7 @@ class CountryDialogState extends State<CountryDialog> {
         child: Column(
           children: <Widget>[
             Container(
-              height: SizeConfig.blockSizeVertical !* 8,
+              height: SizeConfig.blockSizeVertical! * 8,
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: Row(
@@ -1889,7 +1904,7 @@ class CountryDialogState extends State<CountryDialog> {
                       child: Icon(
                         Icons.arrow_back,
                         color: Colors.red,
-                        size: SizeConfig.blockSizeHorizontal !* 6.2,
+                        size: SizeConfig.blockSizeHorizontal! * 6.2,
                       ),
                       onTap: () {
                         /*setState(() {
@@ -1899,11 +1914,11 @@ class CountryDialogState extends State<CountryDialog> {
                       },
                     ),
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal !* 6,
+                      width: SizeConfig.blockSizeHorizontal! * 6,
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal !* 50,
-                      height: SizeConfig.blockSizeVertical !* 8,
+                      width: SizeConfig.blockSizeHorizontal! * 50,
+                      height: SizeConfig.blockSizeVertical! * 8,
                       child: Center(
                         child: titleWidget,
                       ),
@@ -1913,7 +1928,7 @@ class CountryDialogState extends State<CountryDialog> {
                           alignment: Alignment.centerRight,
                           child: Padding(
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
+                                SizeConfig.blockSizeHorizontal! * 1),
                             child: InkWell(
                               child: icon,
                               onTap: () {
@@ -1926,7 +1941,7 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.cancel,
                                       color: Colors.red,
                                       size:
-                                          SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = TextField(
                                       controller: searchController,
@@ -1964,19 +1979,19 @@ class CountryDialogState extends State<CountryDialog> {
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.0,
                                       ),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         //hintStyle: TextStyle(color: Colors.grey),
                                         hintText: "Search ${widget.type}",
@@ -1987,14 +2002,14 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.search,
                                       color: Colors.blue,
                                       size:
-                                          SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = Text(
                                       "Select ${widget.type}",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.8,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.green,
@@ -2068,7 +2083,7 @@ class CountryDialogState extends State<CountryDialog> {
                         child: Padding(
                             padding: EdgeInsets.all(0.0),
                             child: Container(
-                                width: SizeConfig.blockSizeHorizontal !* 90,
+                                width: SizeConfig.blockSizeHorizontal! * 90,
                                 padding: EdgeInsets.only(
                                   top: 5,
                                   bottom: 5,

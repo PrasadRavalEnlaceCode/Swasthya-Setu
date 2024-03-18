@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/dropdown_item.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/podo/speciality_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/dropdown_item.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/podo/speciality_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import 'add_patient_screen.dart';
 
@@ -60,24 +63,24 @@ class AddNewDoctorState extends State<AddNewDoctor> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+          horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
         ),
         child: !showSuccessMessage
             ? Column(
                 children: [
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical !* 2.5,
+                    height: SizeConfig.blockSizeVertical! * 2.5,
                   ),
                   Text(
                     "Invite your doctor to participate in your care",
                     style: TextStyle(
                       color: Colors.blueGrey[700],
-                      fontSize: SizeConfig.blockSizeHorizontal !* 4.2,
+                      fontSize: SizeConfig.blockSizeHorizontal! * 4.2,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical !* 2.5,
+                    height: SizeConfig.blockSizeVertical! * 2.5,
                   ),
                   Expanded(
                     child: ListView(
@@ -87,39 +90,39 @@ class AddNewDoctorState extends State<AddNewDoctor> {
                           controller: doctorNameController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Doctor Name",
                             hintText: "",
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1.5,
+                          height: SizeConfig.blockSizeVertical! * 1.5,
                         ),
                         TextField(
                           controller: clinicNameController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Clinic Name",
                             hintText: "",
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1.5,
+                          height: SizeConfig.blockSizeVertical! * 1.5,
                         ),
                         InkWell(
                           onTap: () {
@@ -130,16 +133,17 @@ class AddNewDoctorState extends State<AddNewDoctor> {
                               controller: specialityController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "Speciality",
                                 hintText: "",
                               ),
@@ -147,26 +151,26 @@ class AddNewDoctorState extends State<AddNewDoctor> {
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1.5,
+                          height: SizeConfig.blockSizeVertical! * 1.5,
                         ),
                         TextField(
                           controller: addressController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Address",
                             hintText: "",
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1.5,
+                          height: SizeConfig.blockSizeVertical! * 1.5,
                         ),
                         InkWell(
                           onTap: () {
@@ -178,16 +182,17 @@ class AddNewDoctorState extends State<AddNewDoctor> {
                               controller: cityController,
                               style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                  fontSize:
+                                      SizeConfig.blockSizeVertical! * 2.3),
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.3),
+                                        SizeConfig.blockSizeVertical! * 2.3),
                                 labelText: "City",
                                 hintText: "",
                               ),
@@ -195,46 +200,46 @@ class AddNewDoctorState extends State<AddNewDoctor> {
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1.5,
+                          height: SizeConfig.blockSizeVertical! * 1.5,
                         ),
                         TextField(
                           controller: mobileNoController,
                           keyboardType: TextInputType.number,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Mobile",
                             hintText: "",
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1.5,
+                          height: SizeConfig.blockSizeVertical! * 1.5,
                         ),
                         TextField(
                           controller: emailController,
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                              fontSize: SizeConfig.blockSizeVertical! * 2.3),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.blockSizeVertical !* 2.3),
+                                fontSize: SizeConfig.blockSizeVertical! * 2.3),
                             labelText: "Email",
                             hintText: "",
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.blockSizeVertical !* 1.5,
+                          height: SizeConfig.blockSizeVertical! * 1.5,
                         ),
                       ],
                     ),
@@ -242,10 +247,10 @@ class AddNewDoctorState extends State<AddNewDoctor> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Container(
-                      width: SizeConfig.blockSizeHorizontal !* 10,
-                      height: SizeConfig.blockSizeHorizontal !* 10,
+                      width: SizeConfig.blockSizeHorizontal! * 10,
+                      height: SizeConfig.blockSizeHorizontal! * 10,
                       margin: EdgeInsets.only(
-                        bottom: SizeConfig.blockSizeVertical !* 1.0,
+                        bottom: SizeConfig.blockSizeVertical! * 1.0,
                       ),
                       child: RawMaterialButton(
                         onPressed: () {
@@ -254,8 +259,8 @@ class AddNewDoctorState extends State<AddNewDoctor> {
                         elevation: 2.0,
                         fillColor: Color(0xFF06A759),
                         child: Image(
-                          width: SizeConfig.blockSizeHorizontal !* 5.5,
-                          height: SizeConfig.blockSizeHorizontal !* 5.5,
+                          width: SizeConfig.blockSizeHorizontal! * 5.5,
+                          height: SizeConfig.blockSizeHorizontal! * 5.5,
                           //height: 80,
                           image: AssetImage(
                               "images/ic_right_arrow_triangular.png"),
@@ -271,42 +276,42 @@ class AddNewDoctorState extends State<AddNewDoctor> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 3.0,
+                      height: SizeConfig.blockSizeVertical! * 3.0,
                     ),
                     Image(
                       image: AssetImage("images/ic_check_circle.png"),
-                      width: SizeConfig.blockSizeHorizontal !* 20.0,
-                      height: SizeConfig.blockSizeHorizontal !* 20.0,
+                      width: SizeConfig.blockSizeHorizontal! * 20.0,
+                      height: SizeConfig.blockSizeHorizontal! * 20.0,
                       color: Colors.green,
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 3.0,
+                      height: SizeConfig.blockSizeVertical! * 3.0,
                     ),
                     Text(
                       "Doctor Added",
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal !* 7.0,
+                        fontSize: SizeConfig.blockSizeHorizontal! * 7.0,
                         fontWeight: FontWeight.w500,
                         fontStyle: FontStyle.italic,
                         letterSpacing: 1.0,
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 1.5,
+                      height: SizeConfig.blockSizeVertical! * 1.5,
                     ),
                     Text(
                       "Doctor has been added.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal !* 4.3,
+                        fontSize: SizeConfig.blockSizeHorizontal! * 4.3,
                         fontStyle: FontStyle.italic,
                         letterSpacing: 1.0,
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.blockSizeVertical !* 2.0,
+                      height: SizeConfig.blockSizeVertical! * 2.0,
                     ),
                     MaterialButton(
                       onPressed: () {
@@ -317,7 +322,7 @@ class AddNewDoctorState extends State<AddNewDoctor> {
                         "Okay",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: SizeConfig.blockSizeHorizontal !* 4.3,
+                          fontSize: SizeConfig.blockSizeHorizontal! * 4.3,
                           fontStyle: FontStyle.italic,
                           letterSpacing: 1.0,
                         ),
@@ -587,14 +592,14 @@ class CountryDialogState extends State<CountryDialog> {
     icon = Icon(
       Icons.search,
       color: Colors.blue,
-      size: SizeConfig.blockSizeHorizontal !* 6.2,
+      size: SizeConfig.blockSizeHorizontal! * 6.2,
     );
 
     titleWidget = Text(
       "Select ${widget.type}",
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+        fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
         fontWeight: FontWeight.bold,
         color: Colors.green,
         decoration: TextDecoration.none,
@@ -615,7 +620,7 @@ class CountryDialogState extends State<CountryDialog> {
         child: Column(
           children: <Widget>[
             Container(
-              height: SizeConfig.blockSizeVertical !* 8,
+              height: SizeConfig.blockSizeVertical! * 8,
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: Row(
@@ -625,18 +630,18 @@ class CountryDialogState extends State<CountryDialog> {
                       child: Icon(
                         Icons.arrow_back,
                         color: Colors.red,
-                        size: SizeConfig.blockSizeHorizontal !* 6.2,
+                        size: SizeConfig.blockSizeHorizontal! * 6.2,
                       ),
                       onTap: () {
                         Navigator.of(context).pop();
                       },
                     ),
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal !* 6,
+                      width: SizeConfig.blockSizeHorizontal! * 6,
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal !* 50,
-                      height: SizeConfig.blockSizeVertical !* 8,
+                      width: SizeConfig.blockSizeHorizontal! * 50,
+                      height: SizeConfig.blockSizeVertical! * 8,
                       child: Center(
                         child: titleWidget,
                       ),
@@ -646,7 +651,7 @@ class CountryDialogState extends State<CountryDialog> {
                           alignment: Alignment.centerRight,
                           child: Padding(
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
+                                SizeConfig.blockSizeHorizontal! * 1),
                             child: InkWell(
                               child: icon,
                               onTap: () {
@@ -659,7 +664,7 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.cancel,
                                       color: Colors.red,
                                       size:
-                                          SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = TextField(
                                       controller: searchController,
@@ -679,19 +684,19 @@ class CountryDialogState extends State<CountryDialog> {
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.0,
                                       ),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         //hintStyle: TextStyle(color: Colors.grey),
                                         hintText: "Search ${widget.type}",
@@ -702,14 +707,14 @@ class CountryDialogState extends State<CountryDialog> {
                                       Icons.search,
                                       color: Colors.blue,
                                       size:
-                                          SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = Text(
                                       "Select ${widget.type}",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.8,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.green,
@@ -750,7 +755,7 @@ class CountryDialogState extends State<CountryDialog> {
                         child: Padding(
                             padding: EdgeInsets.all(0.0),
                             child: Container(
-                                width: SizeConfig.blockSizeHorizontal !* 90,
+                                width: SizeConfig.blockSizeHorizontal! * 90,
                                 padding: EdgeInsets.only(
                                   top: 5,
                                   bottom: 5,
@@ -896,14 +901,14 @@ class SpecialityDialogState extends State<SpecialityDialog> {
     icon = Icon(
       Icons.search,
       color: Colors.blue,
-      size: SizeConfig.blockSizeHorizontal !* 6.2,
+      size: SizeConfig.blockSizeHorizontal! * 6.2,
     );
 
     titleWidget = Text(
       "Select Speciality",
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+        fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
         fontWeight: FontWeight.bold,
         color: Colors.green,
         decoration: TextDecoration.none,
@@ -929,7 +934,7 @@ class SpecialityDialogState extends State<SpecialityDialog> {
         child: Column(
           children: <Widget>[
             Container(
-              height: SizeConfig.blockSizeVertical !* 8,
+              height: SizeConfig.blockSizeVertical! * 8,
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: Row(
@@ -939,7 +944,7 @@ class SpecialityDialogState extends State<SpecialityDialog> {
                       child: Icon(
                         Icons.arrow_back,
                         color: Colors.red,
-                        size: SizeConfig.blockSizeHorizontal !* 6.2,
+                        size: SizeConfig.blockSizeHorizontal! * 6.2,
                       ),
                       onTap: () {
                         Navigator.of(context).pop();
@@ -947,11 +952,11 @@ class SpecialityDialogState extends State<SpecialityDialog> {
                       },
                     ),
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal !* 6,
+                      width: SizeConfig.blockSizeHorizontal! * 6,
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal !* 50,
-                      height: SizeConfig.blockSizeVertical !* 8,
+                      width: SizeConfig.blockSizeHorizontal! * 50,
+                      height: SizeConfig.blockSizeVertical! * 8,
                       child: Center(
                         child: titleWidget,
                       ),
@@ -961,7 +966,7 @@ class SpecialityDialogState extends State<SpecialityDialog> {
                           alignment: Alignment.centerRight,
                           child: Padding(
                             padding: EdgeInsets.all(
-                                SizeConfig.blockSizeHorizontal !* 1),
+                                SizeConfig.blockSizeHorizontal! * 1),
                             child: InkWell(
                               child: icon,
                               onTap: () {
@@ -974,7 +979,7 @@ class SpecialityDialogState extends State<SpecialityDialog> {
                                       Icons.cancel,
                                       color: Colors.red,
                                       size:
-                                          SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = TextField(
                                       controller: searchController,
@@ -994,19 +999,19 @@ class SpecialityDialogState extends State<SpecialityDialog> {
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.0,
                                       ),
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         labelStyle: TextStyle(
                                             color: Colors.black,
                                             fontSize:
-                                                SizeConfig.blockSizeVertical !*
+                                                SizeConfig.blockSizeVertical! *
                                                     2.1),
                                         //hintStyle: TextStyle(color: Colors.grey),
                                         hintText: "Search Speciality",
@@ -1017,14 +1022,14 @@ class SpecialityDialogState extends State<SpecialityDialog> {
                                       Icons.search,
                                       color: Colors.blue,
                                       size:
-                                          SizeConfig.blockSizeHorizontal !* 6.2,
+                                          SizeConfig.blockSizeHorizontal! * 6.2,
                                     );
                                     this.titleWidget = Text(
                                       "Select Speciality",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
+                                            SizeConfig.blockSizeHorizontal! *
                                                 4.8,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.green,
@@ -1063,7 +1068,7 @@ class SpecialityDialogState extends State<SpecialityDialog> {
                         child: Padding(
                             padding: EdgeInsets.all(0.0),
                             child: Container(
-                                width: SizeConfig.blockSizeHorizontal !* 90,
+                                width: SizeConfig.blockSizeHorizontal! * 90,
                                 padding: EdgeInsets.only(
                                   top: 5,
                                   bottom: 5,
@@ -1088,7 +1093,8 @@ class SpecialityDialogState extends State<SpecialityDialog> {
                                 child: Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
-                                    widget.listSpeciality[index].specialityName!,
+                                    widget
+                                        .listSpeciality[index].specialityName!,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 15,

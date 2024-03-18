@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
 
 class ProgressDialog {
   BuildContext context;
@@ -76,37 +75,37 @@ class CustomProgressDialogState extends State<CustomProgressDialog>
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Dialog(
-      elevation: 0.0,
-      backgroundColor: Colors.transparent,
-      child: /*Stack(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        child: /*Stack(
         alignment: Alignment.center,
         children: [*/
-          WillPopScope(
-              child: Center(
-                child: FadeTransition(
-                  opacity: animationController!,
-                  child: Container(
-                    width: SizeConfig.blockSizeHorizontal !* 23,
-                    height: SizeConfig.blockSizeHorizontal !* 23,
-                    decoration: BoxDecoration(
-                      /*shape: BoxShape.circle,*/
-                      borderRadius: BorderRadius.circular(
-                          SizeConfig.blockSizeHorizontal !* 6.0),
-                      color: Color(0xFFFFFFFF),
-                    ),
-                    padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 2),
-                    child: Image(
-                      /*image: AssetImage("images/ic_doctor_loading.png"),*/
-                      image: AssetImage("images/swasthya_setu_logo.jpeg"),
-                      width: SizeConfig.blockSizeHorizontal !* 23,
-                      height: SizeConfig.blockSizeHorizontal !* 23,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+            WillPopScope(
+          child: Center(
+            child: FadeTransition(
+              opacity: animationController!,
+              child: Container(
+                width: SizeConfig.blockSizeHorizontal! * 23,
+                height: SizeConfig.blockSizeHorizontal! * 23,
+                decoration: BoxDecoration(
+                  /*shape: BoxShape.circle,*/
+                  borderRadius: BorderRadius.circular(
+                      SizeConfig.blockSizeHorizontal! * 6.0),
+                  color: Color(0xFFFFFFFF),
+                ),
+                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 2),
+                child: Image(
+                  /*image: AssetImage("images/ic_doctor_loading.png"),*/
+                  image: AssetImage("images/logo_silver_touch.jpg"),
+                  width: SizeConfig.blockSizeHorizontal! * 23,
+                  height: SizeConfig.blockSizeHorizontal! * 23,
+                  fit: BoxFit.fill,
                 ),
               ),
-              onWillPop: _onWillPop,
-      /*Container(
+            ),
+          ),
+          onWillPop: _onWillPop,
+          /*Container(
             width: SizeConfig.blockSizeHorizontal * 24,
             height: SizeConfig.blockSizeHorizontal * 24,
             child: CircularProgressIndicator(
@@ -115,14 +114,12 @@ class CustomProgressDialogState extends State<CustomProgressDialog>
               ),
             ),
           ),*/
-      /*],
+          /*],
       ),*/
-    ));
+        ));
   }
 
   Future<bool> _onWillPop() {
-    return (
-        widget.hideFn()!
-    ) ?? false;
+    return (widget.hideFn()!) ?? false;
   }
 }

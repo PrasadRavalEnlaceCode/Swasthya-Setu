@@ -9,12 +9,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:open_filex/open_filex.dart';
-import 'package:swasthyasetu/app_screens/PDFViewerCachedFromUrl.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_opd_reg.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/app_screens/PDFViewerCachedFromUrl.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/model_opd_reg.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 import '../utils/color.dart';
 import '../utils/common_methods.dart';
 
@@ -47,16 +51,13 @@ class LabReportsScreenState extends State<LabReportsScreen> {
     toDate = DateTime.now();
     fromDateString = formatter.format(fromDate!);
     toDateString = formatter.format(toDate!);
-    dateRange = DateTimeRange(
-        start: fromDate!,
-        end: toDate!
-    );
+    dateRange = DateTimeRange(start: fromDate!, end: toDate!);
     emptyMessageWidget = Center(
       child: SizedBox(
-        height: SizeConfig.blockSizeVertical !* 80,
-        width: SizeConfig.blockSizeHorizontal !* 100,
+        height: SizeConfig.blockSizeVertical! * 80,
+        width: SizeConfig.blockSizeHorizontal! * 100,
         child: Container(
-          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 5),
+          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -96,17 +97,19 @@ class LabReportsScreenState extends State<LabReportsScreen> {
       appBar: AppBar(
         title: Text("Lab Reports"),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack),
+        toolbarTextStyle: TextTheme(
           titleLarge: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
           ),
-        ).bodyMedium, titleTextStyle: TextTheme(
+        ).bodyMedium,
+        titleTextStyle: TextTheme(
           titleLarge: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
           ),
         ).titleLarge,
       ),
@@ -117,33 +120,34 @@ class LabReportsScreenState extends State<LabReportsScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical !* 2,
+                  height: SizeConfig.blockSizeVertical! * 2,
                 ),
                 Container(
-                  height: SizeConfig.blockSizeVertical !* 8,
+                  height: SizeConfig.blockSizeVertical! * 8,
                   child: Padding(
                     padding: EdgeInsets.only(left: 5.0, right: 5.0),
                     child: Container(
-                      child:
-                      InkWell(
+                      child: InkWell(
                           onTap: () async {
                             // showDateRangePickerDialog();
                           },
                           child: Row(
                             children: <Widget>[
                               Expanded(
-                                child: ElevatedButton(
-                                  child: Text('${start.day}-${start.month}-${start.year}'),
-                                  onPressed: pickDateRange,
-                                )
+                                  child: ElevatedButton(
+                                child: Text(
+                                    '${start.day}-${start.month}-${start.year}'),
+                                onPressed: pickDateRange,
+                              )),
+                              const SizedBox(
+                                width: 10,
                               ),
-                              const SizedBox(width: 10,),
                               Expanded(
                                   child: ElevatedButton(
-                                    child: Text('${end.day}-${end.month}-${end.year}'),
-                                    onPressed: pickDateRange,
-                                  )
-                              ),
+                                child:
+                                    Text('${end.day}-${end.month}-${end.year}'),
+                                onPressed: pickDateRange,
+                              )),
                             ],
                           )),
                       padding: EdgeInsets.all(5.0),
@@ -158,11 +162,10 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical !* 2,
+                  height: SizeConfig.blockSizeVertical! * 2,
                 ),
                 Expanded(
-                  child:
-                  listOPDRegistration.length > 0
+                  child: listOPDRegistration.length > 0
                       ? ListView.builder(
                           shrinkWrap: true,
                           physics: AlwaysScrollableScrollPhysics(),
@@ -170,9 +173,10 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                           itemBuilder: (context, index) {
                             return Padding(
                                 padding: EdgeInsets.only(
-                                    left: SizeConfig.blockSizeHorizontal !* 2,
-                                    right: SizeConfig.blockSizeHorizontal !* 2,
-                                    bottom: SizeConfig.blockSizeHorizontal !* 3),
+                                    left: SizeConfig.blockSizeHorizontal! * 2,
+                                    right: SizeConfig.blockSizeHorizontal! * 2,
+                                    bottom:
+                                        SizeConfig.blockSizeHorizontal! * 3),
                                 child: InkWell(
                                   onTap: () {
                                     if (listOPDRegistration[index]
@@ -182,11 +186,13 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                       //     "${baseURL}images/labreports/${listOPDRegistration[index].reportFileName}",
                                       //     listOPDRegistration[index]
                                       //         .reportFileName!);
-                                      String downloadPdfUrl = "${baseURL}images/labreports/${listOPDRegistration[index].reportFileName}";
+                                      String downloadPdfUrl =
+                                          "${baseImagePath}images/labreports/${listOPDRegistration[index].reportFileName}";
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute<dynamic>(
-                                            builder: (_) => PDFViewerCachedFromUrl(
+                                            builder: (_) =>
+                                                PDFViewerCachedFromUrl(
                                               url: downloadPdfUrl,
                                             ),
                                           ));
@@ -200,7 +206,8 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                           : Colors.white,
                                       child: Padding(
                                         padding: EdgeInsets.all(
-                                            SizeConfig.blockSizeHorizontal !* 3),
+                                            SizeConfig.blockSizeHorizontal! *
+                                                3),
                                         child: Column(
                                           children: <Widget>[
                                             Row(
@@ -226,10 +233,10 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                     //     width: 30.0,
                                                     //     height: 30.0,
                                                     //   ),
-                                              : Container(),
+                                                    : Container(),
                                                 SizedBox(
                                                   width: SizeConfig
-                                                          .blockSizeHorizontal !*
+                                                          .blockSizeHorizontal! *
                                                       3,
                                                 ),
                                                 Expanded(
@@ -244,7 +251,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                             FontAwesomeIcons
                                                                 .calendarAlt,
                                                             size: SizeConfig
-                                                                    .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 3.6,
                                                             color: listOPDRegistration[
                                                                             index]
@@ -256,7 +263,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                           ),
                                                           SizedBox(
                                                             width: SizeConfig
-                                                                    .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 2.0,
                                                           ),
                                                           Text(
@@ -274,7 +281,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                                   : Colors
                                                                       .blueGrey,
                                                               fontSize: SizeConfig
-                                                                      .blockSizeHorizontal !*
+                                                                      .blockSizeHorizontal! *
                                                                   3.6,
                                                               letterSpacing:
                                                                   1.4,
@@ -284,7 +291,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                       ),
                                                       SizedBox(
                                                         height: SizeConfig
-                                                                .blockSizeVertical !*
+                                                                .blockSizeVertical! *
                                                             1.3,
                                                       ),
                                                       Text(
@@ -299,7 +306,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                                 ? Colors.black
                                                                 : Colors.black,
                                                             fontSize: SizeConfig
-                                                                    .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 4.3,
                                                             fontStyle: FontStyle
                                                                 .italic,
@@ -310,7 +317,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                       ),
                                                       SizedBox(
                                                         height: SizeConfig
-                                                                .blockSizeVertical !*
+                                                                .blockSizeVertical! *
                                                             1.0,
                                                       ),
                                                       Text(
@@ -327,7 +334,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                               ? Colors.black
                                                               : Colors.blueGrey,
                                                           fontSize: SizeConfig
-                                                                  .blockSizeHorizontal !*
+                                                                  .blockSizeHorizontal! *
                                                               3,
                                                           letterSpacing: 1.4,
                                                         ),
@@ -337,7 +344,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                               "1"
                                                           ? SizedBox(
                                                               height: SizeConfig
-                                                                      .blockSizeVertical !*
+                                                                      .blockSizeVertical! *
                                                                   2.0,
                                                             )
                                                           : Container(),
@@ -375,7 +382,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                                         color: Colors
                                                                             .black,
                                                                         fontSize:
-                                                                            SizeConfig.blockSizeHorizontal !*
+                                                                            SizeConfig.blockSizeHorizontal! *
                                                                                 3.6,
                                                                         fontWeight:
                                                                             FontWeight.w500,
@@ -383,7 +390,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                                     ),
                                                                     SizedBox(
                                                                       width: SizeConfig
-                                                                              .blockSizeHorizontal !*
+                                                                              .blockSizeHorizontal! *
                                                                           1.0,
                                                                     ),
                                                                     FaIcon(
@@ -392,18 +399,18 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                                       color: Colors
                                                                           .black,
                                                                       size: SizeConfig
-                                                                              .blockSizeHorizontal !*
+                                                                              .blockSizeHorizontal! *
                                                                           4.4,
                                                                     ),
                                                                   ],
                                                                 ).paddingSymmetric(
                                                                   horizontal:
                                                                       SizeConfig
-                                                                              .blockSizeHorizontal !*
+                                                                              .blockSizeHorizontal! *
                                                                           3.0,
                                                                   vertical:
                                                                       SizeConfig
-                                                                              .blockSizeVertical !*
+                                                                              .blockSizeVertical! *
                                                                           0.5,
                                                                 ),
                                                               ),
@@ -414,7 +421,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                 ),
                                                 SizedBox(
                                                   width: SizeConfig
-                                                          .blockSizeHorizontal !*
+                                                          .blockSizeHorizontal! *
                                                       6.0,
                                                 ),
                                                 Column(
@@ -429,12 +436,17 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                               //     listOPDRegistration[
                                                               //             index]
                                                               //         .reportFileName!);
-                                                              String downloadPdfUrl = "${baseURL}images/labreports/${listOPDRegistration[index].reportFileName}";
+                                                              String
+                                                                  downloadPdfUrl =
+                                                                  "${baseImagePath}images/labreports/${listOPDRegistration[index].reportFileName}";
                                                               Navigator.push(
                                                                   context,
-                                                                  MaterialPageRoute<dynamic>(
-                                                                    builder: (_) => PDFViewerCachedFromUrl(
-                                                                      url: downloadPdfUrl,
+                                                                  MaterialPageRoute<
+                                                                      dynamic>(
+                                                                    builder: (_) =>
+                                                                        PDFViewerCachedFromUrl(
+                                                                      url:
+                                                                          downloadPdfUrl,
                                                                     ),
                                                                   ));
                                                             },
@@ -442,7 +454,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                               FontAwesomeIcons
                                                                   .solidFilePdf,
                                                               size: SizeConfig
-                                                                      .blockSizeHorizontal !*
+                                                                      .blockSizeHorizontal! *
                                                                   7,
                                                               color:
                                                                   Colors.black,
@@ -451,7 +463,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                         : Container(),
                                                     SizedBox(
                                                       height: SizeConfig
-                                                              .blockSizeVertical !*
+                                                              .blockSizeVertical! *
                                                           1.0,
                                                     ),
                                                     listOPDRegistration[index]
@@ -463,7 +475,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                                                                 color: Colors
                                                                     .black,
                                                                 fontSize: SizeConfig
-                                                                        .blockSizeHorizontal !*
+                                                                        .blockSizeHorizontal! *
                                                                     3.0,
                                                                 letterSpacing:
                                                                     1.8,
@@ -499,7 +511,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
       ),
     );
   }
-  
+
   // Future<void> showDateRangePickerDialog() async {
   //
   //   // showCustomDateRangePicker(
@@ -535,16 +547,15 @@ class LabReportsScreenState extends State<LabReportsScreen> {
   //   // );
   // }
 
-  Future pickDateRange() async
-  {
+  Future pickDateRange() async {
     DateTimeRange? newDateRange = await showDateRangePicker(
-        context: context,
-        initialDateRange: dateRange,
-        firstDate: DateTime(1900),
-        lastDate: DateTime(2100),
+      context: context,
+      initialDateRange: dateRange,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
     );
 
-    if(newDateRange == null) return;
+    if (newDateRange == null) return;
 
     setState(() {
       dateRange = newDateRange;
@@ -556,15 +567,14 @@ class LabReportsScreenState extends State<LabReportsScreen> {
       getLabReports();
     });
   }
-  
+
   void showDownloadProgress(received, total) {
     if (total != -1) {
       print((received / total * 100).toStringAsFixed(0) + "%");
     }
   }
 
-  static void downloadCallback(
-      String id, int status, int progress) {
+  static void downloadCallback(String id, int status, int progress) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
     send!.send([id, status, progress]);
@@ -590,7 +600,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
         pr!.hide();
         String query = "SELECT * FROM task WHERE task_id='" + id + "'";
         var tasks = FlutterDownloader.loadTasksWithRawQuery(query: query);
- FlutterDownloader.open(taskId: id);
+        FlutterDownloader.open(taskId: id);
       }
     });
   }
@@ -739,7 +749,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
       // String downloadPdfUrl = "${baseURL}images/form3cdoc/$fileName";
       // downloadAndOpenTheFile(downloadPdfUrl, fileName);
       // downloadAndOpenTheFile(downloadPdfUrl,fileName);
-      String downloadPdfUrl = "${baseURL}images/form3cdoc/$fileName";
+      String downloadPdfUrl = "${baseImagePath}images/form3cdoc/$fileName";
       Navigator.push(
           context,
           MaterialPageRoute<dynamic>(
@@ -859,41 +869,41 @@ class LabReportsScreenState extends State<LabReportsScreen> {
     Get.bottomSheet(
       Material(
         child: Container(
-          height: SizeConfig.blockSizeVertical !* 33,
+          height: SizeConfig.blockSizeVertical! * 33,
           padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.blockSizeHorizontal !* 5.0,
+            horizontal: SizeConfig.blockSizeHorizontal! * 5.0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: SizeConfig.blockSizeVertical !* 1.5,
+                height: SizeConfig.blockSizeVertical! * 1.5,
               ),
               Text(
                 "Send message to ${model.name}",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: SizeConfig.blockSizeHorizontal !* 4.5,
+                  fontSize: SizeConfig.blockSizeHorizontal! * 4.5,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical !* 1.5,
+                height: SizeConfig.blockSizeVertical! * 1.5,
               ),
               Container(
                 color: Colors.blueGrey,
-                width: SizeConfig.blockSizeHorizontal !* 10.0,
+                width: SizeConfig.blockSizeHorizontal! * 10.0,
                 height: 2.0,
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical !* 1.5,
+                height: SizeConfig.blockSizeVertical! * 1.5,
               ),
               Expanded(
                 child: TextField(
                   controller: messageController,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                    fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
                   ),
                   keyboardType: TextInputType.multiline,
                   maxLines: 5,
@@ -918,7 +928,7 @@ class LabReportsScreenState extends State<LabReportsScreen> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical !* 1.5,
+                height: SizeConfig.blockSizeVertical! * 1.5,
               ),
             ],
           ),

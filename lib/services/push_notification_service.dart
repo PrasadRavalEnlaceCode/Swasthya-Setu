@@ -6,21 +6,27 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-import 'package:swasthyasetu/app_screens/chat_screen.dart';
-import 'package:swasthyasetu/app_screens/feelings_list_screen.dart';
-import 'package:swasthyasetu/app_screens/health_tips_screen.dart';
-import 'package:swasthyasetu/app_screens/investigations_list_with_graph.dart';
-import 'package:swasthyasetu/app_screens/lab_reports.dart';
-import 'package:swasthyasetu/app_screens/music_list_screen.dart';
-import 'package:swasthyasetu/app_screens/my_appointments_patient.dart';
-import 'package:swasthyasetu/app_screens/notification_list_screen.dart';
-import 'package:swasthyasetu/app_screens/play_video_screen.dart';
-import 'package:swasthyasetu/app_screens/report_patient_screen.dart';
-import 'package:swasthyasetu/app_screens/vitals_list.dart';
-import 'package:swasthyasetu/enums/list_type.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/services/navigation_service.dart';
-
+import 'package:silvertouch/app_screens/chat_screen.dart';
+import 'package:silvertouch/app_screens/feelings_list_screen.dart';
+import 'package:silvertouch/app_screens/health_tips_screen.dart';
+import 'package:silvertouch/app_screens/investigations_list_with_graph.dart';
+import 'package:silvertouch/app_screens/lab_reports.dart';
+import 'package:silvertouch/app_screens/music_list_screen.dart';
+import 'package:silvertouch/app_screens/my_appointments_patient.dart';
+import 'package:silvertouch/app_screens/notification_list_screen.dart';
+import 'package:silvertouch/app_screens/play_video_screen.dart';
+import 'package:silvertouch/app_screens/report_patient_screen.dart';
+import 'package:silvertouch/app_screens/vitals_list.dart';
+import 'package:silvertouch/enums/list_type.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/services/navigation_service.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
@@ -454,8 +460,8 @@ class PushNotificationService {
       Future.delayed(Duration(seconds: 1), () async {
         getItLocator<NavigationService>()
             .navigatorKey
-            .currentState
-            !.push(MaterialPageRoute(
+            .currentState!
+            .push(MaterialPageRoute(
                 builder: (context) => ChatScreen(
                       patientIDP: messageIdp,
                       patientName: title
@@ -476,16 +482,14 @@ class PushNotificationService {
       return;
     } else if (type == "notify") {
       print("Type is notify");
-      Future.delayed(Duration(seconds: 1), () async{
+      Future.delayed(Duration(seconds: 1), () async {
         String userType = await getUserType();
         String patientIDP = await getPatientOrDoctorIDP();
-        if (userType == "patient"){
-        getItLocator<NavigationService>()
-            .navigatorKey
-            .currentState
-            !.push(MaterialPageRoute(builder: (context) => NotificationList()));
-        flutterLocalNotificationsPlugin.cancel(0);
-        }else if (userType == "doctor") {
+        if (userType == "patient") {
+          getItLocator<NavigationService>().navigatorKey.currentState!.push(
+              MaterialPageRoute(builder: (context) => NotificationList()));
+          flutterLocalNotificationsPlugin.cancel(0);
+        } else if (userType == "doctor") {
           getItLocator<NavigationService>().navigatorKey.currentState!.push(
               MaterialPageRoute(builder: (context) => LabReportsScreen()));
           flutterLocalNotificationsPlugin.cancel(0);
@@ -510,7 +514,7 @@ class PushNotificationService {
           getItLocator<NavigationService>().navigatorKey.currentState!.push(
               MaterialPageRoute(
                   builder: (context) =>
-                      PatientReportScreen(patientIDP, "dashboard",false)));
+                      PatientReportScreen(patientIDP, "dashboard", false)));
           flutterLocalNotificationsPlugin.cancel(0);
         } else if (userType == "doctor") {
           getItLocator<NavigationService>().navigatorKey.currentState!.push(
@@ -532,8 +536,8 @@ class PushNotificationService {
         String patientIDP = await getPatientOrDoctorIDP();
         getItLocator<NavigationService>()
             .navigatorKey
-            .currentState
-            !.push(MaterialPageRoute(
+            .currentState!
+            .push(MaterialPageRoute(
                 builder: (context) => InvestigationsListWithGraph(
                       patientIDP,
                       from: "sugar",

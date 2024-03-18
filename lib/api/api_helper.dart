@@ -27,10 +27,9 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class ApiHelper {
-
   // Add default headers here
   static Map<String, String> defaultHeaders = {
-    "appid" : "1",
+    "appid": "5",
   };
 
   // Function to update the default headers
@@ -44,9 +43,10 @@ class ApiHelper {
     Map<String, String>? headers,
     dynamic body,
   }) async {
-
     // Merge default headers with provided headers (if any)
     Map<String, String> mergedHeaders = {...defaultHeaders, ...?headers};
+
+    print("Request Headers: $mergedHeaders");
 
     var response = await http.post(
       Uri.parse(url!),

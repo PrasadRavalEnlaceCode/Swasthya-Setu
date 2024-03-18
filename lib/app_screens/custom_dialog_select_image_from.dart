@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
 
 //import 'package:store_redirect/store_redirect.dart';
 
@@ -53,7 +53,7 @@ dialogContent(BuildContext context, String title, _controller, callback) {
     children: <Widget>[
       //...bottom card part,
       Container(
-        width: SizeConfig.blockSizeHorizontal !* 90,
+        width: SizeConfig.blockSizeHorizontal! * 90,
         padding: EdgeInsets.only(
           top: Consts.padding / 2,
           bottom: Consts.padding / 2,

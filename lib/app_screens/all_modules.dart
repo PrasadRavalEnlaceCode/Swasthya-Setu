@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:swasthyasetu/app_screens/VitalsCombineListScreen.dart';
-import 'package:swasthyasetu/app_screens/all_consultation.dart';
-import 'package:swasthyasetu/app_screens/calary_counter_screen.dart';
-import 'package:swasthyasetu/app_screens/documents_list_screen.dart';
-import 'package:swasthyasetu/app_screens/exercise_list_screen.dart';
-import 'package:swasthyasetu/app_screens/feelings_list_screen.dart';
-import 'package:swasthyasetu/app_screens/health_tips_screen.dart';
-import 'package:swasthyasetu/app_screens/investigations_list_with_graph.dart';
-import 'package:swasthyasetu/app_screens/music_list_screen.dart';
-import 'package:swasthyasetu/app_screens/order_blood_screen.dart';
-import 'package:swasthyasetu/app_screens/order_medicine_screen.dart';
-import 'package:swasthyasetu/app_screens/reminders_list_screen.dart';
-import 'package:swasthyasetu/app_screens/report_patient_screen.dart';
-import 'package:swasthyasetu/app_screens/vitals_list.dart';
+import 'package:silvertouch/app_screens/VitalsCombineListScreen.dart';
+import 'package:silvertouch/app_screens/all_consultation.dart';
+import 'package:silvertouch/app_screens/calary_counter_screen.dart';
+import 'package:silvertouch/app_screens/documents_list_screen.dart';
+import 'package:silvertouch/app_screens/exercise_list_screen.dart';
+import 'package:silvertouch/app_screens/feelings_list_screen.dart';
+import 'package:silvertouch/app_screens/health_tips_screen.dart';
+import 'package:silvertouch/app_screens/investigations_list_with_graph.dart';
+import 'package:silvertouch/app_screens/music_list_screen.dart';
+import 'package:silvertouch/app_screens/order_blood_screen.dart';
+import 'package:silvertouch/app_screens/order_medicine_screen.dart';
+import 'package:silvertouch/app_screens/reminders_list_screen.dart';
+import 'package:silvertouch/app_screens/report_patient_screen.dart';
+import 'package:silvertouch/app_screens/vitals_list.dart';
+// import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../enums/list_type.dart';
 import '../global/SizeConfig.dart';
@@ -196,10 +203,13 @@ class _AllModulesState extends State<AllModules> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("All Modules",style: TextStyle(
-          color: Colorsblack,
-          fontFamily: "Ubuntu",
-        ),),
+        title: Text(
+          "All Modules",
+          style: TextStyle(
+            color: Colorsblack,
+            fontFamily: "Ubuntu",
+          ),
+        ),
         backgroundColor: colorWhite,
         elevation: 0,
         iconTheme: IconThemeData(color: Colorsblack),
@@ -208,14 +218,14 @@ class _AllModulesState extends State<AllModules> {
       body: SingleChildScrollView(
         child: Container(
             padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
-              vertical: SizeConfig.blockSizeHorizontal !* 1.0,
+              horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
+              vertical: SizeConfig.blockSizeHorizontal! * 1.0,
             ),
             color: Color(0xfff0f1f5),
             child: Column(
               children: [
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical !* 1.0,
+                  height: SizeConfig.blockSizeVertical! * 1.0,
                 ),
                 Center(
                   child: GridView.builder(
@@ -255,8 +265,7 @@ class IconCard extends StatelessWidget {
         String patientIDP = await getPatientOrDoctorIDP();
         if (model!.iconName == "Consultation") {
           Get.to(() => AllConsultation());
-        }
-        else if (model!.iconName == "Health\nBriefcase") {
+        } else if (model!.iconName == "Health\nBriefcase") {
           Get.to(() => DocumentsListScreen(patientIDP));
         } else if (model!.iconName == "Order\nMedicine") {
           Get.to(() => OrderMedicineListScreen(patientIDP));
@@ -275,8 +284,7 @@ class IconCard extends StatelessWidget {
           Get.to(() => VitalsListScreen(patientIDP, "4"));
         } else if (model!.iconName == "Eye Examination") {
           Get.to(() => ComingSoonScreen());
-        } else if (model!.iconName == "Meditation")
-        {
+        } else if (model!.iconName == "Meditation") {
           Get.to(() => MusicListScreen(patientIDP));
         } else if (model!.iconName == "Health Questions") {
           showLanguageSelectionDialog(context, patientIDP);
@@ -287,9 +295,10 @@ class IconCard extends StatelessWidget {
         } else if (model!.iconName == "Appointment") {
           Get.to(() => ComingSoonScreen());
         } else if (model!.iconName == "Documents") {
-          Get.to(() => PatientReportScreen(patientIDP, "dashboard",false));
+          Get.to(() => PatientReportScreen(patientIDP, "dashboard", false));
         } else if (model!.iconName == "Prescription") {
-          Get.to(() => PatientReportScreen(patientIDP, "prescription_fixed",false));
+          Get.to(() =>
+              PatientReportScreen(patientIDP, "prescription_fixed", false));
         } else if (model!.iconName == "Calorie \n Counter") {
           Get.to(() => CalaryCounterScreen(patientIDP));
         } else if (model!.iconName == "Reminders") {
@@ -321,17 +330,17 @@ class IconCard extends StatelessWidget {
       },
       child: Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.blockSizeHorizontal !* 0.0),
+            horizontal: SizeConfig.blockSizeHorizontal! * 0.0),
         child: Card(
           color: colorWhite,
           elevation: 2.0,
           //shadowColor: model.iconColor,
           margin: EdgeInsets.all(
-            SizeConfig.blockSizeHorizontal !* 2.0,
+            SizeConfig.blockSizeHorizontal! * 2.0,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
-              SizeConfig.blockSizeHorizontal !* 2.0,
+              SizeConfig.blockSizeHorizontal! * 2.0,
             ),
           ),
           child: Column(
@@ -340,35 +349,35 @@ class IconCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: SizeConfig.blockSizeHorizontal !* 15,
-                  height: SizeConfig.blockSizeHorizontal !* 15,
+                  width: SizeConfig.blockSizeHorizontal! * 15,
+                  height: SizeConfig.blockSizeHorizontal! * 15,
                   child: Padding(
                     padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal !* 3.0,
+                      SizeConfig.blockSizeHorizontal! * 3.0,
                     ),
                     child: model!.iconType == "image"
                         ? Image(
-                            width: SizeConfig.blockSizeHorizontal !* 5,
-                            height: SizeConfig.blockSizeHorizontal !* 5,
+                            width: SizeConfig.blockSizeHorizontal! * 5,
+                            height: SizeConfig.blockSizeHorizontal! * 5,
                             image: AssetImage(
                               'images/${model!.iconImg}',
                             ),
-                      color: colorBlueDark,
+                            color: colorBlueDark,
                           )
                         : model!.iconType == "faIcon"
                             ? FaIcon(
                                 model!.iconData,
-                                size: SizeConfig.blockSizeHorizontal !* 5,
+                                size: SizeConfig.blockSizeHorizontal! * 5,
                                 color: Color(0xFF06A759),
                               )
                             : Container(
-                                width: SizeConfig.blockSizeHorizontal !* 5,
-                                height: SizeConfig.blockSizeHorizontal !* 5,
+                                width: SizeConfig.blockSizeHorizontal! * 5,
+                                height: SizeConfig.blockSizeHorizontal! * 5,
                               ),
                   ),
                 ),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical !* 0,
+                  height: SizeConfig.blockSizeVertical! * 0,
                 ),
                 FittedBox(
                   fit: BoxFit.fitWidth,
@@ -377,7 +386,7 @@ class IconCard extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal !* 3.2,
+                        fontSize: SizeConfig.blockSizeHorizontal! * 3.2,
                         letterSpacing: 1.2,
                       )),
                 ),
@@ -401,7 +410,7 @@ class IconCard extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal !* 3,
+                      SizeConfig.blockSizeHorizontal! * 3,
                     ),
                     child: Row(
                       children: <Widget>[
@@ -409,20 +418,20 @@ class IconCard extends StatelessWidget {
                           child: Icon(
                             Icons.arrow_back,
                             color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal !* 6.2,
+                            size: SizeConfig.blockSizeHorizontal! * 6.2,
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 6,
+                          width: SizeConfig.blockSizeHorizontal! * 6,
                         ),
                         Text(
                           "Choose Language",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+                            fontSize: SizeConfig.blockSizeHorizontal! * 4.8,
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
                             decoration: TextDecoration.none,
@@ -438,7 +447,7 @@ class IconCard extends StatelessWidget {
                             () => CoronaQuestionnaireScreen(patientIDP, "eng"));
                       },
                       child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.only(
                             top: 5,
                             bottom: 5,
@@ -479,7 +488,7 @@ class IconCard extends StatelessWidget {
                             () => CoronaQuestionnaireScreen(patientIDP, "guj"));
                       },
                       child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
+                          width: SizeConfig.blockSizeHorizontal! * 90,
                           padding: EdgeInsets.only(
                             top: 5,
                             bottom: 5,

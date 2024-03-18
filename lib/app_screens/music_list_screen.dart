@@ -2,12 +2,16 @@ import 'dart:convert';
 
 /*import 'package:audio_service/audio_service.dart';*/
 import 'package:flutter/material.dart';
-import 'package:swasthyasetu/app_screens/play_music_simple_screen.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/media_item.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/app_screens/play_music_simple_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/media_item.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 
@@ -122,16 +126,18 @@ class MusicListScreenState extends State<MusicListScreen> {
         appBar: AppBar(
           title: Text("Meditation"),
           backgroundColor: Color(0xFFFFFFFF),
-          iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+          iconTheme: IconThemeData(color: Colorsblack),
+          toolbarTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
-          )).bodyMedium, titleTextStyle: TextTheme(
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
+          )).bodyMedium,
+          titleTextStyle: TextTheme(
               titleMedium: TextStyle(
             color: Colorsblack,
             fontFamily: "Ubuntu",
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
           )).titleLarge,
         ),
         body: Builder(
@@ -161,7 +167,7 @@ class MusicListScreenState extends State<MusicListScreen> {
                               child: Card(
                                 child: Padding(
                                   padding: EdgeInsets.all(
-                                      SizeConfig.blockSizeHorizontal !* 4),
+                                      SizeConfig.blockSizeHorizontal! * 4),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -182,22 +188,22 @@ class MusicListScreenState extends State<MusicListScreen> {
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     4.5,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
                                             SizedBox(
-                                              height:
-                                                  SizeConfig.blockSizeVertical !*
-                                                      1.5,
+                                              height: SizeConfig
+                                                      .blockSizeVertical! *
+                                                  1.5,
                                             ),
                                             Text(
                                               listMedia[index].artist!,
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     4.0,
                                               ),
                                             )
@@ -220,8 +226,9 @@ class MusicListScreenState extends State<MusicListScreen> {
                                         },
                                         icon: Icon(
                                           Icons.play_arrow,
-                                          size: SizeConfig.blockSizeHorizontal !*
-                                              10,
+                                          size:
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  10,
                                         ),
                                       )
                                     ],

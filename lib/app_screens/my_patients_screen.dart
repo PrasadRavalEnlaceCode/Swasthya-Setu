@@ -3,14 +3,18 @@ import 'dart:convert';
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:swasthyasetu/app_screens/chat_screen.dart';
-import 'package:swasthyasetu/app_screens/fullscreen_image.dart';
-import 'package:swasthyasetu/app_screens/selected_patient_screen.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_my_patients.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
-import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:silvertouch/app_screens/chat_screen.dart';
+import 'package:silvertouch/app_screens/fullscreen_image.dart';
+import 'package:silvertouch/app_screens/selected_patient_screen.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_investigation_list_doctor.dart';
+import 'package:silvertouch/podo/model_my_patients.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
+import 'package:silvertouch/utils/color.dart';
+import 'package:silvertouch/utils/multipart_request_with_progress.dart';
+import 'package:silvertouch/utils/progress_dialog.dart';
+import 'package:silvertouch/utils/progress_dialog_with_percentage.dart';
 
 import '../utils/color.dart';
 
@@ -65,16 +69,18 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
       appBar: AppBar(
         title: titleWidget,
         backgroundColor: white,
-        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
+        iconTheme: IconThemeData(color: Colorsblack),
+        toolbarTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
-        )).bodyMedium, titleTextStyle: TextTheme(
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+        )).bodyMedium,
+        titleTextStyle: TextTheme(
             titleMedium: TextStyle(
           color: Colorsblack,
           fontFamily: "Ubuntu",
-          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+          fontSize: SizeConfig.blockSizeVertical! * 2.5,
         )).titleLarge,
         /*actions: <Widget>[
           IconButton(
@@ -150,11 +156,11 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical !* 2,
+                  height: SizeConfig.blockSizeVertical! * 2,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal !* 3.0,
+                    horizontal: SizeConfig.blockSizeHorizontal! * 3.0,
                   ),
                   child: Container(
                     alignment: Alignment.center,
@@ -333,7 +339,7 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                 //   ),
                 // ),
                 SizedBox(
-                  height: SizeConfig.blockSizeVertical !* 1.2,
+                  height: SizeConfig.blockSizeVertical! * 1.2,
                 ),
                 Expanded(
                   child: listMyPatientsSearchResults.length > 0
@@ -343,7 +349,7 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                             return Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal:
-                                        SizeConfig.blockSizeHorizontal !* 3),
+                                        SizeConfig.blockSizeHorizontal! * 3),
                                 child: InkWell(
                                     onTap: () {
                                       Navigator.of(context).push(
@@ -381,58 +387,69 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                                               visible: false,
                                               child: VerticalDivider(
                                                 width: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     2,
                                                 thickness: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     2,
                                                 color: Colors.green,
                                               ),
                                             ),
                                             SizedBox(
                                               width: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   3,
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                if(listMyPatientsSearchResults[index].imgUrl != "")
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
-                                                  return FullScreenImage(
-                                                      "$userImgUrl${listMyPatientsSearchResults[index].imgUrl}");
-                                                }));
+                                                if (listMyPatientsSearchResults[
+                                                            index]
+                                                        .imgUrl !=
+                                                    "")
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) {
+                                                    return FullScreenImage(
+                                                        "$userImgUrl${listMyPatientsSearchResults[index].imgUrl}");
+                                                  }));
                                               },
                                               child: CircleAvatar(
                                                 radius: SizeConfig
-                                                        .blockSizeHorizontal !*
+                                                        .blockSizeHorizontal! *
                                                     6.5,
                                                 backgroundColor: colorBlueApp,
-                                                child:
-                                                (listMyPatientsSearchResults[index].imgUrl != "") ?
-                                                    CircleAvatar(
-                                                    radius: SizeConfig.blockSizeHorizontal !* 6,
-                                                    backgroundColor: Colors.grey,
-                                                    backgroundImage: NetworkImage("$userImgUrl${listMyPatientsSearchResults[index].imgUrl}")
-                                                    )
-                                                            :
-                                                    CircleAvatar(
-                                                    radius: SizeConfig.blockSizeHorizontal !* 6,
-                                                    backgroundColor: Colors.grey,
-                                                    backgroundImage: AssetImage(
-                                                    "images/ic_user_placeholder.png")),),
+                                                child: (listMyPatientsSearchResults[index]
+                                                            .imgUrl !=
+                                                        "")
+                                                    ? CircleAvatar(
+                                                        radius: SizeConfig
+                                                                .blockSizeHorizontal! *
+                                                            6,
+                                                        backgroundColor:
+                                                            Colors.grey,
+                                                        backgroundImage:
+                                                            NetworkImage(
+                                                                "$userImgUrl${listMyPatientsSearchResults[index].imgUrl}"))
+                                                    : CircleAvatar(
+                                                        radius: SizeConfig
+                                                                .blockSizeHorizontal! *
+                                                            6,
+                                                        backgroundColor:
+                                                            Colors.grey,
+                                                        backgroundImage: AssetImage(
+                                                            "images/ic_user_placeholder.png")),
+                                              ),
                                             ),
                                             SizedBox(
                                               width: SizeConfig
-                                                      .blockSizeHorizontal !*
+                                                      .blockSizeHorizontal! *
                                                   5,
                                             ),
                                             Expanded(
                                               child: Padding(
                                                   padding: EdgeInsets.symmetric(
                                                       vertical: SizeConfig
-                                                              .blockSizeHorizontal !*
+                                                              .blockSizeHorizontal! *
                                                           3),
                                                   child: Column(
                                                     crossAxisAlignment:
@@ -459,12 +476,12 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                                                             fontWeight:
                                                                 FontWeight.w700,
                                                             fontSize: SizeConfig
-                                                                    .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 4),
                                                       ),
                                                       SizedBox(
                                                         height: SizeConfig
-                                                                .blockSizeVertical !*
+                                                                .blockSizeVertical! *
                                                             1,
                                                       ),
                                                       Row(children: <Widget>[
@@ -472,21 +489,21 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                                                           "ID - ${listMyPatientsSearchResults[index].patientID}",
                                                           style: TextStyle(
                                                             fontSize: SizeConfig
-                                                                    .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 3.5,
                                                             color: Colors.grey,
                                                           ),
                                                         ),
                                                         SizedBox(
                                                           width: SizeConfig
-                                                                  .blockSizeHorizontal !*
+                                                                  .blockSizeHorizontal! *
                                                               5,
                                                         ),
                                                         Text(
                                                           "${listMyPatientsSearchResults[index].gender}/${listMyPatientsSearchResults[index].age}",
                                                           style: TextStyle(
                                                             fontSize: SizeConfig
-                                                                    .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 3.5,
                                                             color: Colors.grey,
                                                           ),
@@ -497,18 +514,17 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                                                       ]),
                                                       Text(
                                                         listMyPatientsSearchResults[
-                                                        index]
+                                                                index]
                                                             .cityName,
                                                         style: TextStyle(
                                                             fontSize: SizeConfig
-                                                                .blockSizeHorizontal !*
+                                                                    .blockSizeHorizontal! *
                                                                 3.5,
-                                                            color:
-                                                            Colors.grey),
+                                                            color: Colors.grey),
                                                       ),
                                                       SizedBox(
                                                         height: SizeConfig
-                                                                .blockSizeVertical !*
+                                                                .blockSizeVertical! *
                                                             1.0,
                                                       ),
                                                       userType == 'frontoffice'
@@ -570,19 +586,19 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                                                                           color:
                                                                               colorBlueApp,
                                                                           width:
-                                                                              SizeConfig.blockSizeHorizontal !* 5.5,
+                                                                              SizeConfig.blockSizeHorizontal! * 5.5,
                                                                           height:
-                                                                              SizeConfig.blockSizeHorizontal !* 5.5,
+                                                                              SizeConfig.blockSizeHorizontal! * 5.5,
                                                                         ),
                                                                         SizedBox(
                                                                           width:
-                                                                              SizeConfig.blockSizeHorizontal !* 1.0,
+                                                                              SizeConfig.blockSizeHorizontal! * 1.0,
                                                                         ),
                                                                         Text(
                                                                           "Chat",
                                                                           style: TextStyle(
                                                                               color: colorBlueApp,
-                                                                              fontSize: SizeConfig.blockSizeHorizontal !* 3.5),
+                                                                              fontSize: SizeConfig.blockSizeHorizontal! * 3.5),
                                                                         ),
                                                                       ],
                                                                     ),
@@ -602,11 +618,11 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                                                                           "Call",
                                                                           style: TextStyle(
                                                                               color: colorBlueApp,
-                                                                              fontSize: SizeConfig.blockSizeHorizontal !* 3.5),
+                                                                              fontSize: SizeConfig.blockSizeHorizontal! * 3.5),
                                                                         ),
                                                                         SizedBox(
                                                                           width:
-                                                                              SizeConfig.blockSizeHorizontal !* 2.0,
+                                                                              SizeConfig.blockSizeHorizontal! * 2.0,
                                                                         ),
                                                                         InkWell(
                                                                           onTap:
@@ -627,8 +643,8 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                                                                                 doctorImage);
                                                                           },
                                                                           child: Image(
-                                                                              height: SizeConfig.blockSizeHorizontal !* 6.0,
-                                                                              width: SizeConfig.blockSizeHorizontal !* 6.0,
+                                                                              height: SizeConfig.blockSizeHorizontal! * 6.0,
+                                                                              width: SizeConfig.blockSizeHorizontal! * 6.0,
                                                                               image: AssetImage(
                                                                                 "images/icn-call-dr.png",
                                                                               )),
@@ -642,7 +658,7 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                                                                         ),
                                                                         SizedBox(
                                                                           width:
-                                                                              SizeConfig.blockSizeHorizontal !* 2.0,
+                                                                              SizeConfig.blockSizeHorizontal! * 2.0,
                                                                         ),
                                                                         InkWell(
                                                                           onTap:
@@ -663,8 +679,8 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                                                                                 doctorImage);
                                                                           },
                                                                           child: Image(
-                                                                              height: SizeConfig.blockSizeHorizontal !* 6.0,
-                                                                              width: SizeConfig.blockSizeHorizontal !* 6.0,
+                                                                              height: SizeConfig.blockSizeHorizontal! * 6.0,
+                                                                              width: SizeConfig.blockSizeHorizontal! * 6.0,
                                                                               image: AssetImage(
                                                                                 "images/icn-video-dr.png",
                                                                               )),
@@ -743,7 +759,7 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                                                                 ),
                                                                 SizedBox(
                                                                   width: SizeConfig
-                                                                          .blockSizeHorizontal !*
+                                                                          .blockSizeHorizontal! *
                                                                       3.0,
                                                                 ),
                                                               ],
@@ -759,7 +775,7 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                       : Container(),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+                  padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
                   child: MaterialButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
@@ -769,10 +785,10 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                         "Scan".toUpperCase(),
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.0),
+                            fontSize: SizeConfig.blockSizeHorizontal! * 4.0),
                       ),
                       padding:
-                          EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+                          EdgeInsets.all(SizeConfig.blockSizeHorizontal! * 3),
                       color: colorBlueApp,
                       onPressed: () async {
                         var result = await BarcodeScanner.scan();
@@ -886,6 +902,7 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
     String patientUniqueKey = await getPatientUniqueKey();
     String userType = await getUserType();
     String patientIDP = await getPatientOrDoctorIDP();
+
     debugPrint("Key and type");
     debugPrint(patientUniqueKey);
     debugPrint(userType);
@@ -893,6 +910,7 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
         "{" + "\"" + "DoctorIDP" + "\"" + ":" + "\"" + patientIDP + "\"" + "}";
 
     debugPrint(jsonStr);
+    debugPrint(loginUrl);
     debugPrint("---------------------------------------------");
 
     String encodedJSONStr = encodeBase64(jsonStr);
@@ -972,7 +990,6 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
 
     debugPrint(jsonStr);
     debugPrint("---------------------------------------------");
-
 
     String encodedJSONStr = encodeBase64(jsonStr);
     var response = await apiHelper.callApiWithHeadersAndBody(
@@ -1150,5 +1167,4 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
       } else {}
     } catch (exception) {}
   }
-
 }

@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:swasthyasetu/global/SizeConfig.dart';
-import 'package:swasthyasetu/global/utils.dart';
-import 'package:swasthyasetu/podo/model_questionnaire.dart';
-import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:silvertouch/global/SizeConfig.dart';
+import 'package:silvertouch/global/utils.dart';
+import 'package:silvertouch/podo/model_questionnaire.dart';
+import 'package:silvertouch/podo/response_main_model.dart';
 
 import '../utils/color.dart';
 import '../utils/progress_dialog.dart';
@@ -96,11 +96,17 @@ class CoronaQuestionnaireScreenState extends State<CoronaQuestionnaireScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Health Questionnaire",
-            style: TextStyle(fontSize: SizeConfig.blockSizeVertical !* 2.5)),
+            style: TextStyle(fontSize: SizeConfig.blockSizeVertical! * 2.5)),
         backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
-            titleMedium: TextStyle(color: Colorsblack, fontFamily: "Ubuntu")).bodyMedium, titleTextStyle: TextTheme(
-            titleMedium: TextStyle(color: Colorsblack, fontFamily: "Ubuntu")).titleLarge,
+        iconTheme: IconThemeData(color: Colorsblack),
+        toolbarTextStyle: TextTheme(
+                titleMedium:
+                    TextStyle(color: Colorsblack, fontFamily: "Ubuntu"))
+            .bodyMedium,
+        titleTextStyle: TextTheme(
+                titleMedium:
+                    TextStyle(color: Colorsblack, fontFamily: "Ubuntu"))
+            .titleLarge,
       ),
       body: Builder(builder: (context) {
         return Padding(
@@ -127,7 +133,7 @@ class CoronaQuestionnaireScreenState extends State<CoronaQuestionnaireScreen> {
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.1),
+                                        SizeConfig.blockSizeVertical! * 2.1),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -137,11 +143,11 @@ class CoronaQuestionnaireScreenState extends State<CoronaQuestionnaireScreen> {
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelText: "Entry Date",
                                   hintText: "",
                                 ),
@@ -161,7 +167,7 @@ class CoronaQuestionnaireScreenState extends State<CoronaQuestionnaireScreen> {
                                 style: TextStyle(
                                     color: Colors.green,
                                     fontSize:
-                                        SizeConfig.blockSizeVertical !* 2.1),
+                                        SizeConfig.blockSizeVertical! * 2.1),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -171,11 +177,11 @@ class CoronaQuestionnaireScreenState extends State<CoronaQuestionnaireScreen> {
                                   hintStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.1),
+                                          SizeConfig.blockSizeVertical! * 2.1),
                                   labelText: "Entry Time",
                                   hintText: "",
                                 ),
@@ -208,8 +214,8 @@ class CoronaQuestionnaireScreenState extends State<CoronaQuestionnaireScreen> {
                     bottom: 10.0,
                   ),
                   child: Container(
-                    width: SizeConfig.blockSizeHorizontal !* 12,
-                    height: SizeConfig.blockSizeHorizontal !* 12,
+                    width: SizeConfig.blockSizeHorizontal! * 12,
+                    height: SizeConfig.blockSizeHorizontal! * 12,
                     child: RawMaterialButton(
                       onPressed: () {
                         validateAndSubmitQuestionnaire(context);
@@ -217,8 +223,8 @@ class CoronaQuestionnaireScreenState extends State<CoronaQuestionnaireScreen> {
                       elevation: 2.0,
                       fillColor: Color(0xFF06A759),
                       child: Image(
-                        width: SizeConfig.blockSizeHorizontal !* 5.5,
-                        height: SizeConfig.blockSizeHorizontal !* 5.5,
+                        width: SizeConfig.blockSizeHorizontal! * 5.5,
+                        height: SizeConfig.blockSizeHorizontal! * 5.5,
                         //height: 80,
                         image:
                             AssetImage("images/ic_right_arrow_triangular.png"),
@@ -367,7 +373,7 @@ class QuestionCardState extends State<QuestionCard> {
           "${widget.index}) ${widget.modelQuestion.question}",
           textAlign: TextAlign.left,
           style: TextStyle(
-            fontSize: SizeConfig.blockSizeVertical !* 2.5,
+            fontSize: SizeConfig.blockSizeVertical! * 2.5,
             fontWeight: FontWeight.bold,
           ),
         ),
