@@ -59,6 +59,7 @@ class SelectedPatientScreen extends StatefulWidget {
 }
 
 class SelectedPatientScreenState extends State<SelectedPatientScreen> {
+
   String fullName = "",
       gender = "",
       age = "",
@@ -67,6 +68,7 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
       patientID = "";
 
   String doctorIDP = "";
+
   bool notify = false;
   PdfTypeController pdfTypeController = Get.put(PdfTypeController());
   List<PdfType> listPdfType = [
@@ -124,10 +126,11 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
         ),
       ),
     );
-    getPatientOrDoctorIDP().then((value) {
-      doctorIDP = value;
-      setState(() {});
-    });
+
+    // getPatientOrDoctorIDP().then((value) {
+    //   doctorIDP = value;
+    //   setState(() {});
+    // });
     getPatientProfileDetails();
     getOPDProcedures();
   }
@@ -162,6 +165,9 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
     debugPrint(jsonStr);
 
     String encodedJSONStr = encodeBase64(jsonStr);
+
+    debugPrint(encodedJSONStr);
+
     var response = await apiHelper.callApiWithHeadersAndBody(
       url: "${baseURL}patientProfileData.php",
       //Uri.parse(loginUrl),
@@ -173,15 +179,23 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
     );
     //var resBody = json.decode(response.body);
     debugPrint(response.body.toString());
+
     final jsonResponse = json.decode(response.body.toString());
+
     ResponseModel model = ResponseModel.fromJSON(jsonResponse);
     /*pr.hide();*/
     if (model.status == "OK") {
+
       var data = jsonResponse['Data'];
+
       var strData = decodeBase64(data);
+
       debugPrint("Decoded Data Array : " + strData);
       debugPrint("Decoded Data Array : " + strData);
+
       final jsonData = json.decode(strData);
+
+
       imgUrl = jsonData[0]['Image'];
       String firstName = jsonData[0]['FirstName'];
       String lastName = jsonData[0]['LastName'];
@@ -204,6 +218,74 @@ class SelectedPatientScreenState extends State<SelectedPatientScreen> {
           .showSnackBar(snackBar);*/
     }
   }
+
+  // void getPatientData(BuildContext context) async {
+  //   String loginUrl = "${baseURL}patientProfileData.php";
+  //   ProgressDialog? pr;
+  //   Future.delayed(Duration.zero, () {
+  //     pr = ProgressDialog(context);
+  //     pr!.show();
+  //   });
+  //   //listIcon = new List();
+  //   String patientUniqueKey = await getPatientUniqueKey();
+  //   String userType = await getUserType();
+  //   debugPrint("Key and type");
+  //   debugPrint(patientUniqueKey);
+  //   debugPrint("-----2222222222222222222222222222222222");
+  //   String jsonStr =
+  //       "{" + "\"" + "PatientIDP" + "\"" + ":" + "\"" + widget.patientIDP + "\"" + "}";
+  //
+  //   debugPrint(jsonStr);
+  //   debugPrint("---------------------------------------------");
+  //
+  //   String encodedJSONStr = encodeBase64(jsonStr);
+  //
+  //   var response = await apiHelper.callApiWithHeadersAndBody(
+  //     url: loginUrl,
+  //     //Uri.parse(loginUrl),
+  //     headers: {
+  //       "u": patientUniqueKey,
+  //       "type": userType,
+  //     },
+  //     body: {"getjson": encodedJSONStr},
+  //   );
+  //   debugPrint(response.body.toString());
+  //   final jsonResponse = json.decode(response.body.toString());
+  //   ResponseModel model = ResponseModel.fromJSON(jsonResponse);
+  //   pr!.hide();
+  //
+  //   if(model.status == "OK"){
+  //
+  //     var data = jsonResponse['Data'];
+  //
+  //     var strData = decodeBase64(data);
+  //
+  //     debugPrint("Decoded Data Array : " + strData);
+  //     final jsonData = json.decode(strData);
+  //
+  //     imgUrl = jsonData[0]['Image'];
+  //     String firstName = jsonData[0]['FirstName'];
+  //     String lastName = jsonData[0]['LastName'];
+  //     String middleName = jsonData[0]['MiddleName'];
+  //     gender = jsonData[0]['Gender'];
+  //     age = jsonData[0]['Age'];
+  //     patientID = jsonData[0]['PatientID'];
+  //     cityName = jsonData[0]['CityName'];
+  //     fullName =
+  //         firstName.trim() + " " + middleName.trim() + " " + lastName.trim();
+  //     //setEmergencyNumber(jsonData[0]['EmergencyNumber']);
+  //     debugPrint("Img url - $imgUrl");
+  //     setState(() {});
+  //   } else {
+  //     /*final snackBar = SnackBar(
+  //       backgroundColor: Colors.red,
+  //       content: Text(model.message),
+  //     );
+  //     ScaffoldMessenger.of(navigationService.navigatorKey.currentState)
+  //         .showSnackBar(snackBar);*/
+  //   }
+  // }
+
 
   @override
   Widget build(BuildContext context) {

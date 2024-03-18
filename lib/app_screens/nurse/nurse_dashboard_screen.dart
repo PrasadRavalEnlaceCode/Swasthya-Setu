@@ -16,17 +16,25 @@ import 'package:page_indicator/page_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swasthyasetu/api/api_helper.dart';
 import 'package:swasthyasetu/app_screens/add_patient_screen.dart';
+import 'package:swasthyasetu/app_screens/change_password_doctor_screen.dart';
 import 'package:swasthyasetu/app_screens/doctor_health_videos.dart';
+import 'package:swasthyasetu/app_screens/doctor_investigation_list.dart';
 import 'package:swasthyasetu/app_screens/drugs_list_screen.dart';
 import 'package:swasthyasetu/app_screens/form_3c_screen.dart';
+import 'package:swasthyasetu/app_screens/help_screen.dart';
 import 'package:swasthyasetu/app_screens/invite_patient_screen.dart';
+import 'package:swasthyasetu/app_screens/ipd/indoor_list.dart';
 import 'package:swasthyasetu/app_screens/login_screen_doctor.dart';
 import 'package:swasthyasetu/app_screens/login_screen_doctor_.dart';
 import 'package:swasthyasetu/app_screens/masters_list_screen.dart';
 import 'package:swasthyasetu/app_screens/my_patients_screen.dart';
+import 'package:swasthyasetu/app_screens/nurse/nurse_doc_screen.dart';
+import 'package:swasthyasetu/app_screens/nurse/nurse_profile.dart';
 import 'package:swasthyasetu/app_screens/opd_registration_screen.dart';
 import 'package:swasthyasetu/app_screens/opd_services_list_screen.dart';
 import 'package:swasthyasetu/app_screens/popup_dialog_image.dart';
+import 'package:swasthyasetu/app_screens/switch_organization.dart';
+import 'package:swasthyasetu/app_screens/view_profile_details_doctor.dart';
 import 'package:swasthyasetu/app_screens/view_profile_details_patient.dart';
 import 'package:swasthyasetu/global/SizeConfig.dart';
 import 'package:swasthyasetu/global/utils.dart';
@@ -34,14 +42,15 @@ import 'package:swasthyasetu/podo/model_investigation_master_list.dart';
 import 'package:swasthyasetu/podo/response_login_icons_model.dart';
 import 'package:swasthyasetu/podo/response_main_model.dart';
 import 'package:swasthyasetu/services/navigation_service.dart';
+import 'package:swasthyasetu/utils/color.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'camp_screen.dart';
-import 'corona_questionnaire.dart';
-import 'custom_dialog.dart';
-import 'lab_reports.dart';
-import 'landing_screen.dart';
-import 'select_patients_for_share_video.dart';
+import '../camp_screen.dart';
+import '../corona_questionnaire.dart';
+import '../custom_dialog.dart';
+import '../lab_reports.dart';
+import '../landing_screen.dart';
+import '../select_patients_for_share_video.dart';
 
 List<String> listSliderImagesWebViewOuter = [];
 List<String> listSliderImagesWebViewTitleOuter = [];
@@ -57,7 +66,17 @@ String imgUrl = "",
     middleName = "",
     userNameGlobal = "",
     patientID = "";
+
 String? patientIDP;
+
+String roleName = "";
+String OPDRoleStatus ="" ,
+    IPDRoleStatus = "",
+    AccountsRoleStatus= "",
+    ReportsRoleStatus= "",
+    DashboardRoleStatus= "",
+    orgFrontOfficeIDP = "",
+    orgIDF = "";
 
 bool shouldExit = false;
 String mobNo = "";
@@ -73,7 +92,20 @@ final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
     FlutterLocalNotificationsPlugin();*/
 
 // ignore: must_be_immutable
-class ReceptionDashboardScreen extends StatefulWidget {
+class NurseDashboardScreen extends StatefulWidget {
+
+
+  final String? selectedOrganizationName;
+  final String? selectedOrganizationIDF;
+  final String? selectedOrganizationUnit;
+
+  NurseDashboardScreen({
+    this.selectedOrganizationName,
+    this.selectedOrganizationIDF,
+    this.selectedOrganizationUnit,
+  });
+
+
   logOut(BuildContext context) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp.clear();
@@ -85,8 +117,9 @@ class ReceptionDashboardScreen extends StatefulWidget {
   }
 }
 
-class PatientDashboardState extends State<ReceptionDashboardScreen>
+class PatientDashboardState extends State<NurseDashboardScreen>
     with WidgetsBindingObserver {
+
   final String urlFetchPatientProfileDetails =
       "${baseURL}doctorProfileData.php";
   String doctorSuffix = "", couponCode = "", downloadURL = "";
@@ -132,6 +165,10 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
   var navigationService;
   ApiHelper apiHelper = ApiHelper();
 
+  late String selectedOrganizationName;
+  late String selectedOrganizationIDF;
+  late String selectedOrganizationUnit;
+
   void getPatientProfileDetails() async {
     patientID = await getPatientID();
     /*ProgressDialog pr = ProgressDialog(context);
@@ -169,18 +206,37 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
       var strData = decodeBase64(data);
       debugPrint("Decoded Data Array : " + strData);
       final jsonData = json.decode(strData);
-      imgUrl = jsonData[0]['DoctorImage'];
-      firstName = jsonData[0]['FirstName'];
-      lastName = jsonData[0]['LastName'];
-      middleName = jsonData[0]['MiddleName'];
-      userNameGlobal = (firstName.trim() + " " + lastName.trim()).trim() != ""
-          ? firstName.trim() + " " + lastName.trim()
-          : "Complete your profile";
-      mobNo = jsonData[0]['MobileNo'] != "" ? jsonData[0]['MobileNo'] : "-";
+      // imgUrl = jsonData[0]['DoctorImage'];
+      // firstName = jsonData[0]['FirstName'];
+      // lastName = jsonData[0]['LastName'];
+      // middleName = jsonData[0]['MiddleName'];
+      // userNameGlobal = (firstName.trim() + " " + lastName.trim()).trim() != ""
+      //     ? firstName.trim() + " " + lastName.trim()
+      //     : "Complete your profile";
+
       doctorSuffix = jsonData[0]['DoctorSuffix'];
       couponCode = jsonData[0]['CouponCode'];
       downloadURL = jsonData[0]['DownloadURL'];
+      // setUserName(userNameGlobal);
+
+      // Extract nested JSON data from 'dataDoctor' field
+     var dataDoctor = jsonData[0]['dataFrontOfiice'];
+      mobNo = dataDoctor['FrontOfficeMobileNo'] != "" ? dataDoctor['FrontOfficeMobileNo'] : "-";
+      userNameGlobal = dataDoctor['doctorName'];
       setUserName(userNameGlobal);
+      roleName = dataDoctor['RoleName'];
+      OPDRoleStatus = dataDoctor['OPDRoleStatus'];
+      IPDRoleStatus = dataDoctor['IPDRoleStatus'];
+      AccountsRoleStatus = dataDoctor['AccountsRoleStatus'];
+      ReportsRoleStatus = dataDoctor['ReportsRoleStatus'];
+      DashboardRoleStatus = dataDoctor['DashboardRoleStatus'];
+
+      //setEmergencyNumber(jsonData[0]['EmergencyNumber']);
+      debugPrint("Img url - $imgUrl");
+      debugPrint("IPD Role -------------------------------------------------------- $IPDRoleStatus");
+      debugPrint("Dashboard Role -------------------------------------------------------- $DashboardRoleStatus");
+
+
       //setEmergencyNumber(jsonData[0]['EmergencyNumber']);
       debugPrint("Img url - $imgUrl");
       setState(() {});
@@ -201,7 +257,7 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
       builder: (BuildContext context) => CustomDialog(
         title: "Please Update",
         description:
-            "An updated version of this app is available. would you like to update?",
+        "An updated version of this app is available. would you like to update?",
         buttonText: "Update",
         image: Image(
           width: 80,
@@ -218,6 +274,12 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
     /*mainSliderStatus = widget.mainSliderStatus;
     subSliderStatus = widget.subSliderStatus;
     dashboardCounterStatus = widget.dashboardCounterStatus;*/
+
+    selectedOrganizationName = widget.selectedOrganizationName ?? "Swashtya Setu";
+    selectedOrganizationIDF = widget.selectedOrganizationIDF ?? "1";
+    selectedOrganizationUnit = widget.selectedOrganizationUnit ?? "";
+
+
     super.initState();
     listMasters = [];
     listMasters.add("Drug Frequency Master");
@@ -237,31 +299,22 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
     });
     notificationCounterApiCalled = false;
     notificationCount = "0";
-    listIconName.add("Invite Patient");
+
     listIconName.add("Add Patient");
     listIconName.add("My Patients");
-    //listIconName.add("Masters");
-    // listIconName.add("Drugs");
-    // listIconName.add("Services");
     listIconName.add("Appointment List");
-    // listIconName.add("Form 3C");
-    // listIconName.add("Health Videos");
-    // listIconName.add("Lab Reports");
-    listIconName.add("Camp");
-    listIconName.add("Notifications");
+    // listIconName.add("Notifications");
+    listIconName.add("Investigatin\nList");
+    listIconName.add("IPD");
+    listIconName.add("Profile");
 
-    listImage.add("ic_invite_patient_dashboard.png");
     listImage.add("ic_add_patient.png");
     listImage.add("ic_patients_dashboard.png");
-    //listImage.add("ic_master_dashboard.png");
-    // listImage.add("ic_drugs_dashbord.png");
-    // listImage.add("ic_opd_services_dashboard.png");
     listImage.add("ic_opd_registration_dashboard.png");
-    // listImage.add("ic_form_3c_dashboard.png");
-    // listImage.add("ic_education_videos_dashboard.png");
-    // listImage.add("ic_report_dashbaord.png");
-    listImage.add('ic_camp.png');
-    listImage.add('ic_notification_bell.png');
+    // listImage.add('ic_notification_bell.png');
+    listImage.add("v-2-icn-investigation.png");
+    listImage.add("v-2-icn-investigation.png");
+    listImage.add("v-2-icn-profile-nav.png");
 
     WidgetsBinding.instance.addObserver(this);
   }
@@ -287,7 +340,8 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
     });
   }
 
-  GlobalKey<ScaffoldState> globalKey = GlobalKey();
+  // GlobalKey<ScaffoldState> globalKey = GlobalKey();
+  GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -314,8 +368,7 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
       var title = "";
       if (exitOrLogout == "exit") {
         title = "Do you really want to exit?";
-      }
-      else if (exitOrLogout == "logout") {
+      } else if (exitOrLogout == "logout") {
         title = "Do you really want to Logout?";
       }
       showDialog(
@@ -338,12 +391,12 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                             .invokeMethod('SystemNavigator.pop');
                       } else if (exitOrLogout == "logout") {
                         widget.logOut(context);
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                               builder: (context) => LoginScreenDoctor()),
-                          (Route<dynamic> route) => false,
+                              (Route<dynamic> route) => false,
                         );
                       }
                     },
@@ -384,8 +437,8 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
               TextButton(
                   onPressed: () {
                     logOut(context);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    // Navigator.pop(context);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -552,14 +605,19 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
           showImagePopUp(context, imgUrl);
         });
       }*/
-      fullName = await getUserName();
-      email = await getEmail();
+      // fullName = await getUserName();
+      // email = await getEmail();
       setPopUpIDP(jsonData['PopupIDP']);
       payGatewayURL = jsonData['PayGatewayURL'];
+
+      var dataDoctor = jsonData['StaffRoleStatusInfo'];
+      // mobNo = dataDoctor[0]['FrontOfficeMobileNo'].toString() != "" ? dataDoctor[0]['FrontOfficeMobileNo'].toString() : "-";
+      orgFrontOfficeIDP = dataDoctor[0]['OrganizationFrontOfficeIDP'].toString();
+      orgIDF= dataDoctor[0]['OrganizationIDF'].toString();
       setState(() {
         notificationCount = jsonData['NotificationCount'];
         messageCount =
-            jsonData['ChatCount'] != null ? jsonData['ChatCount'] : "0";
+        jsonData['ChatCount'] != null ? jsonData['ChatCount'] : "0";
       });
       /*var patientIDP = jsonData[0]['PatientIDP'];
       var patientUniqueKey = decodeBase64(jsonData[0]['PatientUniqueKey']);
@@ -593,130 +651,602 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
         context: context,
         barrierDismissible: false,
         builder: (context) => Dialog(
-              /*shape: RoundedRectangleBorder(
+          /*shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),*/
-              backgroundColor: Colors.white,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal !* 3,
+          backgroundColor: Colors.white,
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(
+                  SizeConfig.blockSizeHorizontal !* 3,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    InkWell(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.red,
+                        size: SizeConfig.blockSizeHorizontal !* 6.2,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    child: Row(
-                      children: <Widget>[
-                        InkWell(
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal !* 6.2,
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal !* 6,
+                    ),
+                    Text(
+                      "Choose Action",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    launchURL("tel:$emergencyNumber");
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal !* 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
                           ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 6,
-                        ),
-                        Text(
-                          "Choose Action",
-                          textAlign: TextAlign.center,
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Call",
+                          textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            fontSize: 15,
+                            color: Colors.black,
                             decoration: TextDecoration.none,
                           ),
+                        ),
+                      ))),
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _sendSMS(
+                        "Hi, this is $name, I am in emergency! Need your help.",
+                        ["$emergencyNumber"]);
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal !* 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Sms",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ))),
+            ],
+          ),
+        ));
+  }
+
+  SizedBox nurseGeneralProfileWidget(BuildContext mContext) {
+    return SizedBox(
+      height: SizeConfig.blockSizeVertical! * 90,
+      width: SizeConfig.blockSizeHorizontal! * 100,
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          Container(
+            color: Colors.white,
+            child: SizedBox(
+              height: SizeConfig.blockSizeVertical! * 90,
+              width: SizeConfig.blockSizeHorizontal! * 100,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListView(
+                    physics: ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    children: [
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical! * 1,
+                      ),
+                      ColoredBox(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                              SizeConfig.blockSizeHorizontal! * 2.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left:
+                                    SizeConfig.blockSizeHorizontal! * 28.0),
+                                child: Text(
+                                  "Nurse Profile",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize:
+                                    SizeConfig.blockSizeHorizontal! * 5.0,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal! * 15.0,
+                                ),
+                                child: InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (context) {
+                                            return HelpScreen(patientIDP!);
+                                          })).then((value) {
+                                        getDashboardData();
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "help",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: SizeConfig
+                                                .blockSizeHorizontal! *
+                                                4.0,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        Image.asset(
+                                          "images/v-2-icn-help.png",
+                                          // alignment: Alignment.centerRight,
+                                          width:
+                                          SizeConfig.blockSizeHorizontal! *
+                                              8.0,
+                                        ),
+                                      ],
+                                    )),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return ViewProfileDetailsDoctor();
+                          })).then((value) {
+                            getDashboardData();
+                            getPatientProfileDetails();
+                          });
+                        },
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.transparent,
+                          child: (imgUrl != "" && imgUrl != "null")
+                              ? CircleAvatar(
+                              radius: 48,
+                              backgroundImage: NetworkImage(
+                                  "$doctorImgUrl$imgUrl") /*),*/
+                          )
+                              : CircleAvatar(
+                              radius: 48,
+                              backgroundColor: Colors.grey,
+                              backgroundImage: AssetImage(
+                                  "images/ic_user_placeholder.png")),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return ViewProfileDetailsDoctor();
+                          })).then((value) {
+                            getDashboardData();
+                          });
+                        },
+                        child: Text(
+                          "$userNameGlobal",
+                          style: TextStyle(
+                              color: colorBlueDark,
+                              fontSize: SizeConfig.blockSizeHorizontal! * 3.3,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Text(
+                        "Mobile No - $mobNo",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: SizeConfig.blockSizeHorizontal! * 3.3,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Divider(
+                          color: Colors.grey.withOpacity(0.2),
+                          thickness: 2,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return ChangePasswordDoctorScreen();
+                          }));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10),
+                          child: Container(
+                              width: SizeConfig.blockSizeHorizontal! * 100,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Text(
+                                      "Change Password",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            Align(
+                                              alignment: Alignment.topRight,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.chevron_right,
+                                                    color: Colors.grey,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ])),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Divider(
+                          color: Colors.grey.withOpacity(0.2),
+                          thickness: 2,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10),
+                        child: InkWell(
+                          onTap: (){},
+                          child: Container(
+                              width: SizeConfig.blockSizeHorizontal! * 100,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Text(
+                                      "Switch Role",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            Expanded(
+                                              child: Align(
+                                                alignment: Alignment.topRight,
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                                  children: <Widget>[
+                                                    Align(
+                                                      alignment: Alignment.topRight,
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Icon(
+                                                            Icons.chevron_right,
+                                                            color: Colors.grey,
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ])),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Divider(
+                          color: Colors.grey.withOpacity(0.2),
+                          thickness: 2,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return SwitchOrganizationScreen();
+                          }));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10),
+                          child: Container(
+                              width: SizeConfig.blockSizeHorizontal! * 100,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Text(
+                                      "Switch OrganizationScreen",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            Align(
+                                              alignment: Alignment.topRight,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.chevron_right,
+                                                    color: Colors.grey,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ])),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Divider(
+                          color: Colors.grey.withOpacity(0.2),
+                          thickness: 2,
+                        ),
+                      ),
+
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return NurseDocumentScreen();
+                          }));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10),
+                          child: Container(
+                              width: SizeConfig.blockSizeHorizontal! * 100,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Text(
+                                      "My Documents",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            Align(
+                                              alignment: Alignment.topRight,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.chevron_right,
+                                                    color: Colors.grey,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ])),
+                        ),
+                      ),
+
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      //   child: Divider(
+                      //     color: Colors.grey.withOpacity(0.2),
+                      //     thickness: 2,
+                      //   ),
+                      // ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     Share.share(
+                      //         'View details of Dr $fullName from below link\n\nhttps://swasthyasetu.com/doctor/profile/$doctorSuffix');
+                      //   },
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.symmetric(
+                      //         horizontal: 20.0, vertical: 10),
+                      //     child: Container(
+                      //         decoration: BoxDecoration(color: Colors.white),
+                      //         child: Row(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: <Widget>[
+                      //               Expanded(
+                      //                 child: Text("Share My Profile"),
+                      //               ),
+                      //               Align(
+                      //                 alignment: Alignment.topRight,
+                      //                 child: Row(
+                      //                   children: <Widget>[
+                      //                     Icon(
+                      //                       Icons.chevron_right,
+                      //                       color: Colors.grey,
+                      //                     )
+                      //                   ],
+                      //                 ),
+                      //               ),
+                      //             ])),
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Divider(
+                          color: Colors.grey.withOpacity(0.2),
+                          thickness: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical! * 1.0,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showConfirmationDialogLogout(
+                        context,
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset("images/v-2-icn-logout-nav.png",
+                            width: SizeConfig.blockSizeHorizontal! * 6.0,
+                            color: Colors.black),
+                        SizedBox(
+                          width: SizeConfig.blockSizeVertical! * 1.0,
+                        ),
+                        Text(
+                          "Sign Out",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: SizeConfig.blockSizeHorizontal! * 4.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),
                   ),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        launchURL("tel:$emergencyNumber");
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
-                          ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Call",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        _sendSMS(
-                            "Hi, this is $name, I am in emergency! Need your help.",
-                            ["$emergencyNumber"]);
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
-                          ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Sms",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical! * 4.0,
+                  ),
                 ],
               ),
-            ));
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> scanTheQRCodeNow(BuildContext context) async {
@@ -864,9 +1394,9 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                       Align(
                           alignment: Alignment.topLeft,
                           child:
-                              /*Row(
+                          /*Row(
                             children: <Widget>[*/
-                              /*Expanded(
+                          /*Expanded(
                                 child: Text("Unique ID - $patientID",
                                     style: TextStyle(
                                       color: Colors.white,
@@ -874,7 +1404,7 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                                           SizeConfig.blockSizeHorizontal * 3.6,
                                     )),
                               ),*/
-                              Align(
+                          Align(
                             alignment: Alignment.topRight,
                             child: Container(
                               child: Row(
@@ -883,7 +1413,7 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize:
-                                            SizeConfig.blockSizeHorizontal !* 5,
+                                        SizeConfig.blockSizeHorizontal !* 5,
                                         fontWeight: FontWeight.w500,
                                       )),
                                   Expanded(
@@ -891,7 +1421,7 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                                         alignment: Alignment.centerRight,
                                         child: Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          MainAxisAlignment.end,
                                           children: [
                                             InkWell(
                                               onTap: () {
@@ -911,9 +1441,9 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                               ),
                             ),
                           )
-                          /*],
+                        /*],
                           )*/
-                          ),
+                      ),
                       SizedBox(
                         height: SizeConfig.blockSizeVertical !* 0.5,
                       ),
@@ -921,262 +1451,43 @@ class PatientDashboardState extends State<ReceptionDashboardScreen>
                   ))),
           listPhotos.length > 0
               ? Container(
-                  height: SizeConfig.blockSizeVertical !* 25,
-                  child: AutomaticPageView2(
-                      listPhotos,
-                      listSliderImagesWebViewOuter,
-                      listSliderImagesWebViewTitleOuter),
-                )
+            height: SizeConfig.blockSizeVertical !* 25,
+            child: AutomaticPageView2(
+                listPhotos,
+                listSliderImagesWebViewOuter,
+                listSliderImagesWebViewTitleOuter),
+          )
               : Container(
-                  width: SizeConfig.blockSizeVertical !* 25,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('images/shimmer_effect.png'),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
+            width: SizeConfig.blockSizeVertical !* 25,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('images/shimmer_effect.png'),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
           Container(
               child: Center(
-            child: GridView.builder(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                itemCount: listIconName.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 1.3, crossAxisCount: 3),
-                itemBuilder: (context, index) {
-                  return /*Center(
+                child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    itemCount: listIconName.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 1.3, crossAxisCount: 3),
+                    itemBuilder: (context, index) {
+                      return /*Center(
                       child: */
-                      IconCard(
-                    IconModel(listIconName[index], listImage[index], ""),
-                    getDashboardData,
-                  );
-                  //: Container(),
-                  /*);*/
-                }),
-          )),
+                        IconCard(
+                          IconModel(listIconName[index], listImage[index], ""),
+                          getDashboardData,
+                        );
+                      //: Container(),
+                      /*);*/
+                    }),
+              )),
           SizedBox(
             height: SizeConfig.blockSizeVertical !* 1,
           ),
-          /*Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 2),
-                    child: MaterialButton(
-                        height: SizeConfig.blockSizeVertical * 8,
-                        shape: Border.all(width: 0.5, color: Color(0xFF06A759)),
-                        */
-          /*color: Color(0xFFD3D3D3),*/
-          /*
-                        onPressed: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return DoctorsListScreen(patientIDP);
-                          }));
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Image(
-                              width: SizeConfig.blockSizeHorizontal * 6,
-                              image: AssetImage('images/ic_doctors.png'),
-                            ),
-                            SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 2,
-                            ),
-                            Text(
-                              "My Doctors",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: SizeConfig.blockSizeHorizontal * 3.2,
-                              ),
-                            ),
-                          ],
-                        )),
-                  )),
-              Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 2),
-                    child: MaterialButton(
-                        height: SizeConfig.blockSizeVertical * 8,
-                        shape: Border.all(width: 0.5, color: Color(0xFF06A759)),
-                        */
-          /*color: Color(0xFFD3D3D3),*/
-          /*
-                        onPressed: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: ((context) {
-                            return HealthTipsScreen(patientIDP);
-                          })));
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Image(
-                              width: SizeConfig.blockSizeHorizontal * 6,
-                              image: AssetImage('images/ic_health_tips.png'),
-                            ),
-                            SizedBox(
-                              width: SizeConfig.blockSizeHorizontal * 2,
-                            ),
-                            Text(
-                              "Health Tips",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: SizeConfig.blockSizeHorizontal * 3.2,
-                              ),
-                            ),
-                          ],
-                        )),
-                  )),
-            ],
-          ),
-          SizedBox(
-            height: SizeConfig.blockSizeVertical * 1,
-          ),*/
-          /*Padding(
-            padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 2),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "Health Videos",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: SizeConfig.blockSizeHorizontal * 3.8,
-                ),
-              ),
-            ),
-          ),*/
-          /*ListView.builder(
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
-              itemCount: listHealthVideos.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    debugPrint("vid play");
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => VideoPlayerScreen(
-                            listHealthVideos[index].webView,
-                            listHealthVideos[index].iconName,
-                            listHealthVideos[index].description)));
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 2),
-                    child: Column(
-                      children: <Widget>[
-                        Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            CachedNetworkImage(
-                              placeholder: (context, url) => Image(
-                                width: SizeConfig.blockSizeHorizontal * 92,
-                                height: SizeConfig.blockSizeVertical * 32,
-                                image: AssetImage('images/shimmer_effect.png'),
-                                fit: BoxFit.contain,
-                              ),
-                              imageUrl: listHealthVideos[index].image,
-                              fit: BoxFit.fitWidth,
-                              width: SizeConfig.blockSizeHorizontal * 95,
-                              height: SizeConfig.blockSizeVertical * 33,
-                            ),
-                            */
-          /*Image(
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 90,
-                                        height:
-                                            SizeConfig.blockSizeVertical * 28,
-                                        fit: BoxFit.fill,
-                                        image: NetworkImage(
-                                            listHealthVideos[index].image),
-                                      ),*/
-          /*
-                            Align(
-                              alignment: Alignment.center,
-                              child: Icon(
-                                Icons.play_arrow,
-                                color: Colors.green,
-                                size: SizeConfig.blockSizeHorizontal * 30,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 1,
-                        ),
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 2),
-                              child: Text(
-                                listHealthVideos[index].iconName,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize:
-                                      SizeConfig.blockSizeHorizontal * 4.2,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            )),
-                        */
-          /*SizedBox(
-                                                height: SizeConfig
-                                                        .blockSizeVertical *
-                                                    1,
-                                              ),
-                                              Align(
-                                                  alignment: Alignment.topLeft,
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            2,
-                                                        right: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            2),
-                                                    child: Text(
-                                                      listHealthVideos[index]
-                                                          .description,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            3.5,
-                                                      ),
-                                                    ),
-                                                  )),*/
-          /*
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 3,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),*/
-          /*Center(
-            child: Visibility(
-              visible: isLoading,
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.grey,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-              ),
-            ),
-          ),*/
         ]);
   }
 
@@ -1259,20 +1570,20 @@ class AutomaticPageViewState extends State<AutomaticPageView> {
     super.initState();
     if (subSliderTimeGlobal != "") {
       Timer.periodic(Duration(seconds: int.parse(subSliderTimeGlobal)),
-          (Timer timer) {
-        if (_currentPage < widget.listViewPagerImages.length - 1) {
-          _currentPage++;
-        } else {
-          _currentPage = 0;
-        }
+              (Timer timer) {
+            if (_currentPage < widget.listViewPagerImages.length - 1) {
+              _currentPage++;
+            } else {
+              _currentPage = 0;
+            }
 
-        if (mounted)
-          _pageController.animateToPage(
-            _currentPage,
-            duration: Duration(milliseconds: 350),
-            curve: Curves.easeIn,
-          );
-      });
+            if (mounted)
+              _pageController.animateToPage(
+                _currentPage,
+                duration: Duration(milliseconds: 350),
+                curve: Curves.easeIn,
+              );
+          });
     }
   }
 
@@ -1331,20 +1642,20 @@ class AutomaticPageViewState2 extends State<AutomaticPageView2> {
     subSliderTimeGlobal = '3';
     if (subSliderTimeGlobal != "") {
       Timer.periodic(Duration(seconds: int.parse(subSliderTimeGlobal)),
-          (Timer timer) {
-        if (_currentPage < widget.listViewPagerImages.length - 1) {
-          _currentPage++;
-        } else {
-          _currentPage = 0;
-        }
+              (Timer timer) {
+            if (_currentPage < widget.listViewPagerImages.length - 1) {
+              _currentPage++;
+            } else {
+              _currentPage = 0;
+            }
 
-        if (mounted)
-          _pageController.animateToPage(
-            _currentPage,
-            duration: Duration(milliseconds: 350),
-            curve: Curves.easeIn,
-          );
-      });
+            if (mounted)
+              _pageController.animateToPage(
+                _currentPage,
+                duration: Duration(milliseconds: 350),
+                curve: Curves.easeIn,
+              );
+          });
     }
   }
 
@@ -1501,7 +1812,22 @@ class IconCard extends StatelessWidget {
             })).then((value) {
               getDashBoardData();
             });*/
-          } else if (model!.iconName == "Services") {
+          }
+          else if (model!.iconName == "Profile") {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return NurseProfileScreenScreen();
+            })).then((value) {
+              getDashBoardData!();
+            });
+          }
+          else if (model!.iconName == "IPD") {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return IndoorListScreen();
+            })).then((value) {
+              getDashBoardData!();
+            });
+          }
+          else if (model!.iconName == "Services") {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
               return OPDServiceListScreen();
             })).then((value) {
@@ -1515,7 +1841,20 @@ class IconCard extends StatelessWidget {
             })).then((value) {
               getDashBoardData!();
             });
-          } else if (model!.iconName == "My Patients") {
+          }else if (model!.iconName == "Investigatin\nList") {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return DoctorInvestigationListScreen();
+            })).then((value) {
+              getDashBoardData!();
+            });
+          }
+          else if (model!.iconName == "IPD") {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return IndoorListScreen();
+            })).then((value) {
+              getDashBoardData!();
+            });
+          }else if (model!.iconName == "My Patients") {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
               return MyPatientsScreen();
             })).then((value) {
@@ -1545,7 +1884,7 @@ class IconCard extends StatelessWidget {
           child: Center(
             child: Container(
               child: Column(
-                  /*mainAxisSize: MainAxisSize.values[200],*/
+                /*mainAxisSize: MainAxisSize.values[200],*/
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -1711,140 +2050,140 @@ class IconCard extends StatelessWidget {
         context: context,
         barrierDismissible: false,
         builder: (context) => Dialog(
-              /*shape: RoundedRectangleBorder(
+          /*shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),*/
-              backgroundColor: Colors.white,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(
-                      SizeConfig.blockSizeHorizontal !* 3,
+          backgroundColor: Colors.white,
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(
+                  SizeConfig.blockSizeHorizontal !* 3,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    InkWell(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.red,
+                        size: SizeConfig.blockSizeHorizontal !* 6.2,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    child: Row(
-                      children: <Widget>[
-                        InkWell(
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Colors.red,
-                            size: SizeConfig.blockSizeHorizontal !* 6.2,
+                    SizedBox(
+                      width: SizeConfig.blockSizeHorizontal !* 6,
+                    ),
+                    Text(
+                      "Choose Language",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                        builder: (context) => CoronaQuestionnaireScreen(
+                            patientIDP, "eng")))
+                        .then((value) {
+                      getDashBoardData!();
+                    });
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal !* 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
                           ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal !* 6,
-                        ),
-                        Text(
-                          "Choose Language",
-                          textAlign: TextAlign.center,
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "English",
+                          textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal !* 4.8,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            fontSize: 15,
+                            color: Colors.black,
                             decoration: TextDecoration.none,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (context) => CoronaQuestionnaireScreen(
-                                    patientIDP, "eng")))
-                            .then((value) {
-                          getDashBoardData!();
-                        });
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
+                      ))),
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                        builder: (context) => CoronaQuestionnaireScreen(
+                            patientIDP, "guj")))
+                        .then((value) {
+                      getDashBoardData!();
+                    });
+                  },
+                  child: Container(
+                      width: SizeConfig.blockSizeHorizontal !* 90,
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5,
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        border: Border(
+                          bottom:
+                          BorderSide(width: 2.0, color: Colors.grey),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: const Offset(0.0, 10.0),
                           ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Gujarati",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            decoration: TextDecoration.none,
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "English",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (context) => CoronaQuestionnaireScreen(
-                                    patientIDP, "guj")))
-                            .then((value) {
-                          getDashBoardData!();
-                        });
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal !* 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
-                          ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Gujarati",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                ],
-              ),
-            ));
+                        ),
+                      ))),
+            ],
+          ),
+        ));
   }
 }
 

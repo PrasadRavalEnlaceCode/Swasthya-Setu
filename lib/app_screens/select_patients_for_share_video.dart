@@ -306,7 +306,7 @@ class SelectPatientsForShareVideoState
                                   height: SizeConfig.blockSizeVertical !* 1.0,
                                 ),
                                 TextFormField(
-                                  controller: description,
+                                  controller: link,
                                   style: TextStyle(color: Colors.green),
                                   decoration: InputDecoration(
                                     hintStyle: TextStyle(color: Colors.black),
@@ -315,11 +315,11 @@ class SelectPatientsForShareVideoState
                                     hintText: "",
                                     counterText: "",
                                   ),
-                                  validator: (value) {
-                                    if (value!.length == 0)
-                                      return 'Please enter Link';
-                                    return null;
-                                  },
+                                  // validator: (value) {
+                                  //   if (value!.length == 0)
+                                  //     return 'Please enter Link';
+                                  //   return null;
+                                  // },
                                   keyboardType: TextInputType.multiline,
                                   maxLines: 3,
                                   minLines: 1,
@@ -943,6 +943,7 @@ class SelectPatientsForShareVideoState
       pr = ProgressDialog(context);
       pr.show();
     });*/
+
     String doctorIDP = await getPatientOrDoctorIDP();
     String patientUniqueKey = await getPatientUniqueKey();
     String userType = await getUserType();

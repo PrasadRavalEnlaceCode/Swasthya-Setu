@@ -1007,20 +1007,8 @@ class AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                             notesController = TextEditingController();
                           }
                           setState(() {});
-                        } /*: null*/),
-                    /*InkWell(
-                        onTap: () {},
-                        child: Container(
-                            color: Colors.green,
-                            child: Padding(
-                              padding: EdgeInsets.all(
-                                  SizeConfig.blockSizeHorizontal * 5),
-                              child: Text(
-                                "Add",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            )),
-                      ),*/
+                        }
+                        ),
                   ],
                 ),
               ],
@@ -1276,7 +1264,9 @@ class AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
             .masterIDP
             : "";
         jArrayPrescription =
-        "$jArrayPrescription{\"HospitalMedicineIDF\":\"$drugIDP\",\"DrugDoseScheduleIDF\":\"$drugDosageIDP\",\"DosageAdviceIDF\":\"$drugAdviceIDP\",\"Days\":\"${model.duration}\",\"Notes\":\"${model.notes}\"},";
+        "$jArrayPrescription{\"HospitalMedicineIDF\":\"$drugIDP\","
+            "\"DrugDoseScheduleIDF\":\"$drugDosageIDP\",\"DosageAdviceIDF\":\"$drugAdviceIDP\","
+            "\"Days\":\"${model.duration}\",\"Notes\":\"${model.notes}\"},";
       }
     }
     jArrayPrescription = jArrayPrescription + "]";
@@ -1660,7 +1650,6 @@ class SelectMasterDialogState extends State<SelectMasterDialog> {
         decoration: TextDecoration.none,
       ),
     );*/
-
     /*icon = Icon(
       Icons.search,
       color: Colors.blue,

@@ -413,7 +413,7 @@ Future<TimeOfDay> showTimeSelectionDialog(
         return MediaQuery(
             child: child!,
             data:
-                MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: false));
+            MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: false));
       });
 
   if (time != null) {
@@ -421,7 +421,6 @@ Future<TimeOfDay> showTimeSelectionDialog(
   }
   return null!;
 }
-
 
 String getFormattedTimeInStrFromTimeOfDay(TimeOfDay time) {
   DateTime dateTime = DateTime(DateTime.now().year, DateTime.now().month,
@@ -436,19 +435,19 @@ Future<File> chooseImageWithExIfRotate(
   // Pick an image.
   final XFile? image = await picker.pickImage(source: imageSource);
   File notRotatedFile = File(image!.path);
-  File rotatedFile = await FlutterExifRotation.rotateImage(path: notRotatedFile.path);
+  File rotatedFile =
+  await FlutterExifRotation.rotateImage(path: notRotatedFile.path);
   return rotatedFile;
 }
 
 DateTime dateTimeFromTimeOfDay(TimeOfDay time) {
   DateTime now = DateTime.now();
   DateTime dateTime =
-      DateTime(now.year, now.month, now.day, time.hour, time.minute);
+  DateTime(now.year, now.month, now.day, time.hour, time.minute);
   return dateTime;
 }
 
 IconData getBackIconCorrespondingToPlatform() {
-  if (Platform.isAndroid)
-    return Icons.keyboard_backspace;
+  if (Platform.isAndroid) return Icons.keyboard_backspace;
   return Icons.arrow_back_ios;
 }

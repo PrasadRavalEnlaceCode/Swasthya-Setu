@@ -17,7 +17,6 @@ class ReminderListController extends GetxController {
         getAllReminders();
     });*/
     getAllReminders();
-
   }
 
   void getAllReminders() async {
@@ -210,7 +209,7 @@ class ReminderListController extends GetxController {
 
   getAllNotifications() async {
     List<TbNotificationTable> listNotifications =
-        await dbNotification.getAllNotifications();
+    await dbNotification.getAllNotifications();
     debugPrint("Notification list");
     for (int i = 0; i < listNotifications.length; i++) {
       debugPrint(listNotifications[i].notificationID.toString() +
@@ -223,15 +222,15 @@ class ReminderListController extends GetxController {
 
   getNotificationsWithReminderID(int reminderID) async {
     List<TbNotificationTable> listNotifications =
-        await dbNotification.getNotificationsWithReminderID(reminderID);
+    await dbNotification.getNotificationsWithReminderID(reminderID);
     return listNotifications;
   }
 
   getNotificationsWithReminderIDAndBetweenTimes(
       int reminderID, DateTime fromDate, DateTime toDate) async {
     List<TbNotificationTable> listNotifications =
-        await dbNotification.getNotificationsWithReminderIDAndBetweenTimes(
-            reminderID, fromDate, toDate);
+    await dbNotification.getNotificationsWithReminderIDAndBetweenTimes(
+        reminderID, fromDate, toDate);
     return listNotifications;
   }
 

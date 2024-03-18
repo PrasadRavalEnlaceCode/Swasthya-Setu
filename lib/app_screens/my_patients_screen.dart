@@ -352,9 +352,7 @@ class MyPatientsScreenState extends State<MyPatientsScreen> {
                                                   Duration(milliseconds: 500),
                                               pageBuilder: (context, _, __) {
                                                 return SelectedPatientScreen(
-                                                  listMyPatientsSearchResults[
-                                                          index]
-                                                      .patientIDP,
+                                                  listMyPatientsSearchResults[index].patientIDP,
                                                   listMyPatientsSearchResults[
                                                           index]
                                                       .healthRecordsDisplayStatus,

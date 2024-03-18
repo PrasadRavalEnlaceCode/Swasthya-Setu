@@ -664,7 +664,7 @@ class NotificationListState extends State<NotificationList> {
       for (int i = 0; i < jsonData[2]['BindPatientRequest'].length; i++) {
         final jo = jsonData[2]['BindPatientRequest'][i];
         listNotification!.add(ModelNotificationList(
-            jo["AppoinmentRequestIDP"], jo["PatientIDP"], "", "", "", "", "",
+            "", jo["PatientIDP"], "", "", "", "", "",
             notificationType: "bind",
             modelNotificationPatientData: ModelNotificationPatientData(
               patientIDP: jo["PatientIDP"],
@@ -677,6 +677,8 @@ class NotificationListState extends State<NotificationList> {
               age: jo["years"],
               gender: jo["Gender"],
               photo: jo["Image"],
+              //   date: "" ,
+              // purpose: "",
             )));
       }
       for (int i = 0; i < jsonData[1]['Appointement'].length; i++) {

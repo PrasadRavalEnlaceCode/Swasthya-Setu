@@ -10,19 +10,22 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:swasthyasetu/app_screens/my_document_doctor/my_document_doctor_screen.dart';
 import 'package:swasthyasetu/global/SizeConfig.dart';
 import 'package:swasthyasetu/global/utils.dart';
 import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/color.dart';
 import 'package:swasthyasetu/utils/multipart_request_with_progress.dart';
-
-import '../utils/color.dart';
-import '../utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/utils/progress_dialog_with_percentage.dart';
 
 TextEditingController tagNameController = TextEditingController();
 
 TextEditingController entryDateController = new TextEditingController();
 TextEditingController entryTimeController = new TextEditingController();
+// List<Map<String, dynamic>> listDoc = <Map<String, dynamic>>[];NurseAddDocumentScreen
 List<String> listOfDocumentDropDown = [];
+List<int> listOfDocumentIDP = [];
+Map<String, int> documentIDMap = {};
 String? selectedDocument;
 
 var pickedDate = DateTime.now();
@@ -75,13 +78,101 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
     setState(() {});
   }
 
+
+  void getListOfDocumentDropDown(BuildContext context) async{
+    listOfDocumentDropDown = [];
+    String loginUrl = "${baseURL}doctor_category_wise_document_type_list.php";
+    String patientUniqueKey = await getPatientUniqueKey();
+    String userType = await getUserType();
+    String patientIDP = await getPatientOrDoctorIDP();
+    debugPrint("------");
+    debugPrint("Key and type");
+    debugPrint(patientUniqueKey);
+    debugPrint(userType);
+    String jsonStr = "{" +
+        "\"" +
+        "DoctorIDP" +
+        "\"" +
+        ":" +
+        "\"" +
+        patientIDP +
+        "\"" +
+        "}";
+
+    debugPrint(jsonStr);
+    debugPrint("----------");
+    String encodedJSONStr = encodeBase64(jsonStr);
+    var response = await apiHelper.callApiWithHeadersAndBody(
+      url: loginUrl,
+      headers: {
+        "u": patientUniqueKey,
+        "type": userType,
+      },
+      body: {"getjson": encodedJSONStr},
+    );
+
+    debugPrint(response.body.toString());
+
+    final jsonResponse = json.decode(response.body.toString());
+
+    ResponseModel model = ResponseModel.fromJSON(jsonResponse);
+    if (response.statusCode == 200)
+      try{
+        if (model.status == "OK") {
+          var data = jsonResponse['Data'];
+          var strData = decodeBase64(data);
+          debugPrint("Decoded Buttton List: " + strData);
+
+          final jsonData = json.decode(strData);
+
+          for (var i = 0; i < jsonData.length; i++) {
+            final jo = jsonData[i];
+            String category = jo['Category'].toString();
+            listOfDocumentDropDown.add(category);
+
+            int documentCategoryIDP = jo['DocumentCategoryIDP'];
+            listOfDocumentIDP.add(documentCategoryIDP);
+
+            // Populate the map
+            documentIDMap[category] = documentCategoryIDP;
+          }
+
+          // for (var i = 0; i < jsonData.length; i++)
+          // {
+          //   final jo = jsonData[i];
+          //   String category = jo['Category'].toString();
+          //   listOfDocumentDropDown.add(category);
+          //
+          //   int DocumentCategoryIDP = jo['DocumentCategoryIDP'];
+          //   listOfDocumentIDP.add(DocumentCategoryIDP);
+          // }
+          setState(() {});
+        }
+      }catch(e){
+        print("Error decoding JSON: $e");
+      }else {
+      print("HTTP error: ${response.statusCode}");
+    }
+  }
+
+  // Method to handle document selection
+  void onDocumentSelected(String selectedDocument) {
+    int? selectedDocumentIDP = documentIDMap[selectedDocument];
+    if (selectedDocumentIDP != null) {
+
+    } else {
+      print("Document ID not found for selected document: $selectedDocument");
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Add in My Space",
+            "Add in My Document",
             style: TextStyle(fontSize: SizeConfig.blockSizeVertical !* 2.5),
           ),
           backgroundColor: Color(0xFFFFFFFF),
@@ -222,45 +313,43 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
                                         ),
                                       ),*/
                               ),
-                              /*Align(
-                                      alignment: Alignment.center,
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Colors.black,
-                                        size:
-                                            SizeConfig.blockSizeHorizontal * 15,
-                                      ),
-                                    ),*/
-                              /*Container(
-                                  width: SizeConfig.blockSizeHorizontal * 20,
-                                  height: SizeConfig.blockSizeHorizontal * 20,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          'images/ic_edit_report.png'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                        sigmaX: 3.0, sigmaY: 3.0),
-                                    child: Container(
-                                      color: Colors.black.withOpacity(0.3),
-                                    ),
-                                  ),
-                                ),*/
-                              /*CircleAvatar(
-                                  radius: 60.0,
-                                  backgroundColor: Colors.grey,
-                                  backgroundImage: AssetImage(
-                                      "images/ic_report_placeholder.png") */ /*),*/ /*
-                                  ),*/
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 40,
                         ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),  // Border color
+                              borderRadius: BorderRadius.circular(8.0),  // Border radius
+                            ),
+                            width: SizeConfig.blockSizeHorizontal !* 90,
+                            child: DropdownButton<String>(
+                              value: selectedDocument ?? "10th MarkSheet",
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedDocument = newValue;
+                                  tagNameController.text = selectedDocument ?? '';
+                                });
+                                if (newValue != null) {
+                                  onDocumentSelected(newValue);
+                                }
+                              },
+                              isExpanded: true,
+                              items: listOfDocumentDropDown.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Center(child: Text(value)),
+                                );
+                              }).toList(),
+
+                            ),
+                          ),
+                        ),
+
                         Align(
                           alignment: Alignment.center,
                           child: Container(
@@ -282,92 +371,12 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
                                 labelText: "Document Name",
                                 hintText: "",
                               ),
+
                             ),
                           ),
                         ),
-                        /*Align(
-                      alignment: Alignment.center,
-                      child: MaterialButton(
-                        onPressed: () {
-                          showDateSelectionDialog();
-                        },
-                        child: Container(
-                          width: SizeConfig.blockSizeHorizontal * 90,
-                          padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal * 3),
-                          child: IgnorePointer(
-                            child: TextField(
-                              controller: entryDateController,
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical * 2.3),
-                              decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                        SizeConfig.blockSizeVertical * 2.3),
-                                labelStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                        SizeConfig.blockSizeVertical * 2.3),
-                                labelText: "Entry Date",
-                                hintText: "",
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: MaterialButton(
-                        onPressed: () {
-                          showTimeSelectionDialog();
-                        },
-                        child: Container(
-                          width: SizeConfig.blockSizeHorizontal * 90,
-                          padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal * 3),
-                          child: IgnorePointer(
-                            child: TextField(
-                              controller: entryTimeController,
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical * 2.3),
-                              decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                        SizeConfig.blockSizeVertical * 2.3),
-                                labelStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                        SizeConfig.blockSizeVertical * 2.3),
-                                labelText: "Entry Time",
-                                hintText: "",
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),*/
                       ],
                     )),
-                DropdownButton<String>(
-                  value: selectedDocument,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedDocument = newValue;
-                    });
-                  },
-                    items: listOfDocumentDropDown.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-
-                ),
                 /*Container(
                   height: 80.0,
                   padding: EdgeInsets.only(
@@ -381,7 +390,7 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
                     height: SizeConfig.blockSizeHorizontal !* 12,
                     child: RawMaterialButton(
                       onPressed: () {
-                        submitDocumentNurse(context, selectedFile);
+                        submitDocumentDoctor(context, selectedFile);
                       },
                       elevation: 2.0,
                       fillColor: Color(0xFF06A759),
@@ -492,8 +501,6 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
         Navigator.of(context).pop();
         setState(() {});
       }
-      //if (image != null) submitImageForUpdate(context, image);
-      //_controller.add(image);
     }
 
     return Stack(
@@ -548,27 +555,6 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
               SizedBox(
                 height: SizeConfig.blockSizeVertical !* 1.5,
               ),
-              /*MaterialButton(
-              onPressed: () {},
-              child: Image(
-                width: 60,
-                height: 60,
-                //height: 80,
-                image: AssetImage("images/ic_camera.png"),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            MaterialButton(
-              onPressed: () {},
-              child: Image(
-                width: 60,
-                height: 60,
-                //height: 80,
-                image: AssetImage("images/ic_gallery.png"),
-              ),
-            ),*/
               Container(
                 margin: EdgeInsets.only(
                   left: SizeConfig.blockSizeHorizontal !* 10,
@@ -723,187 +709,14 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
               SizedBox(
                 height: SizeConfig.blockSizeVertical !* 1.0,
               ),
-              /*Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  MaterialButton(
-                    onPressed: () {
-                      getImageFromCamera();
-                    },
-                    child: Image(
-                      fit: BoxFit.contain,
-                      width: SizeConfig.blockSizeHorizontal * 10,
-                      height: SizeConfig.blockSizeVertical * 10,
-                      //height: 80,
-                      image: AssetImage("images/ic_camera.png"),
-                    ),
-                  ),
-                  SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 1,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      getImageFromGallery();
-                    },
-                    child: Image(
-                      fit: BoxFit.contain,
-                      width: SizeConfig.blockSizeHorizontal * 10,
-                      height: SizeConfig.blockSizeVertical * 10,
-                      //height: 80,
-                      image: AssetImage("images/ic_gallery.png"),
-                    ),
-                  ),
-                  SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 1,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      removeImage();
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.red,
-                      size: SizeConfig.blockSizeHorizontal * 10,
-                    ),
-                  ),
-                ],
-              ),*/
+
             ],
           ),
         ),
 
-        //...top circlular image part,
-        /*Positioned(
-        left: Consts.padding,
-        right: Consts.padding,
-        child: CircleAvatar(
-          backgroundColor: Colors.deepOrangeAccent,
-          radius: Consts.avatarRadius,
-          child: image,
-        ),
-      ),*/
+
       ],
     );
-
-    /*return Stack(
-      children: <Widget>[
-        //...bottom card part,
-        Container(
-          width: SizeConfig.blockSizeHorizontal * 90,
-          padding: EdgeInsets.only(
-            top: Consts.padding / 2,
-            bottom: Consts.padding / 2,
-            left: Consts.padding / 2,
-            right: Consts.padding / 2,
-          ),
-          decoration: new BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(Consts.padding),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 10.0,
-                offset: const Offset(0.0, 10.0),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min, // To make the card compact
-            children: <Widget>[
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              */
-    /*MaterialButton(
-              onPressed: () {},
-              child: Image(
-                width: 60,
-                height: 60,
-                //height: 80,
-                image: AssetImage("images/ic_camera.png"),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            MaterialButton(
-              onPressed: () {},
-              child: Image(
-                width: 60,
-                height: 60,
-                //height: 80,
-                image: AssetImage("images/ic_gallery.png"),
-              ),
-            ),*/
-    /*
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  MaterialButton(
-                    onPressed: () {
-                      getImageFromCamera();
-                    },
-                    child: Image(
-                      width: 35,
-                      height: 35,
-                      //height: 80,
-                      image: AssetImage("images/ic_camera.png"),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      getImageFromGallery();
-                    },
-                    child: Image(
-                      width: 35,
-                      height: 35,
-                      //height: 80,
-                      image: AssetImage("images/ic_gallery.png"),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      removeImage();
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.red,
-                      size: 35,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-
-        //...top circlular image part,
-        */
-    /*Positioned(
-        left: Consts.padding,
-        right: Consts.padding,
-        child: CircleAvatar(
-          backgroundColor: Colors.deepOrangeAccent,
-          radius: Consts.avatarRadius,
-          child: image,
-        ),
-      ),*/ /*
-      ],
-    );*/
   }
 
   String encodeBase64(String text) {
@@ -936,63 +749,6 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
     );
   }
 
-  void getListOfDocumentDropDown(BuildContext context) async{
-    listOfDocumentDropDown = [];
-    String loginUrl = "${baseURL}doctor_document_type_list.php";
-    String patientUniqueKey = await getPatientUniqueKey();
-    String userType = await getUserType();
-    String patientIDP = await getPatientOrDoctorIDP();
-    debugPrint("------");
-    debugPrint("Key and type");
-    debugPrint(patientUniqueKey);
-    debugPrint(userType);
-    String jsonStr = "{" +
-        "\"" +
-        "DoctorIDP" +
-        "\"" +
-        ":" +
-        "\"" +
-        patientIDP +
-        "\"" +
-        "}";
-
-    debugPrint(jsonStr);
-    debugPrint("----------");
-    String encodedJSONStr = encodeBase64(jsonStr);
-    var response = await apiHelper.callApiWithHeadersAndBody(
-      url: loginUrl,
-      headers: {
-        "u": patientUniqueKey,
-        "type": userType,
-      },
-      body: {"getjson": encodedJSONStr},
-    );
-    debugPrint(response.body.toString());
-    final jsonResponse = json.decode(response.body.toString());
-    ResponseModel model = ResponseModel.fromJSON(jsonResponse);
-    if (response.statusCode == 200)
-      try{
-        if (model.status == "OK") {
-          var data = jsonResponse['Data'];
-          var strData = decodeBase64(data);
-          debugPrint("Decoded Radiology List: " + strData);
-
-          final jsonData = json.decode(strData);
-
-          for (var i = 0; i < jsonData.length; i++)
-          {
-            final jo = jsonData[i];
-            String category = jo['Category'].toString();
-            listOfDocumentDropDown.add(category);
-          }
-          setState(() {});
-        }
-      }catch(e){
-        print("Error decoding JSON: $e");
-      }else {
-      print("HTTP error: ${response.statusCode}");
-    }
-  }
 
   void showDateSelectionDialog() async {
     FocusScopeNode currentFocus = FocusScope.of(context);
@@ -1045,7 +801,7 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
     }
   }
 
-  void submitDocumentNurse(BuildContext context, image) async {
+  void submitDocumentDoctor(BuildContext context, image) async {
     if (image == null) {
       final snackBar = SnackBar(
         backgroundColor: Colors.red,
@@ -1064,27 +820,6 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
       return;
     }
 
-    /*if (entryDateController.text == "") {
-      final snackBar = SnackBar(
-        backgroundColor: Colors.red,
-        content: Text("Please select Report Date"),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return;
-    }
-
-    if (entryTimeController.text == "") {
-      final snackBar = SnackBar(
-        backgroundColor: Colors.red,
-        content: Text("Please select Report Time"),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return;
-    }*/
-
-    /*ProgressDialog pr = ProgressDialog(context);
-    pr.show();*/
-
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -1096,42 +831,48 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
 
     final multipartRequest = MultipartRequest(
       'POST',
-      Uri.parse("${baseURL}doctor_document_submit.php"),
+      Uri.parse("${baseURL}doctor_add_staff_document_submit.php"),
       onProgress: (int bytes, int total) {
         final progress = bytes / total;
         progressKey.currentState!.setProgress(progress);
       },
     );
 
+    // Get selected document IDP
+    int? selectedDocumentIDP = documentIDMap[selectedDocument] ?? 4;
+
+    // Check if selectedDocumentIDP is null
+    if (selectedDocumentIDP == null) {
+      // Show snackbar if document ID is not found
+      print("Document ID not found for selected document: $selectedDocument");
+      return;
+    }
+
+    // String selectedValue = selectedDocument ?? "10th MarkSheet"; // Use the selected value or a default value if none is selected
     String patientUniqueKey = await getPatientUniqueKey();
     String userType = await getUserType();
+    String patientIDP = await getPatientOrDoctorIDP();
+    String staffIDP = await getDoctorIDP();
     debugPrint("Key and type");
     debugPrint(patientUniqueKey);
     debugPrint(userType);
     String jsonStr;
     jsonStr = "{" +
-        "\"" +
-        "PatientIDP" +
-        "\"" +
-        ":" +
-        "\"" +
-        widget.patientIDP! +
-        "\"" +
-        "," +
-        "\"" +
-        "DocumentTagName" +
-        "\"" +
-        ":" +
-        "\"" +
-        tagNameController.text +
-        "\"" +
+        "\"" + "DocumentIDP" + "\"" + ":" + "\"" + "" + "\"" + "," +
+        "\"" + "StaffIDF" + "\"" + ":" + "\"" + staffIDP + "\"" + "," +
+        "\"" + "documenttype" + "\"" + ":" + "\"" + selectedDocumentIDP.toString() + "\"" + "," +
+        "\"" + "DoctorIDP" + "\"" + ":" + "\"" + patientIDP + "\"" + "," +
+        "\"" + "documentname" + "\"" + ":" + "\"" + tagNameController.text + "\"" + "," +
+        "\"" + "DeleteFlag" + "\"" + ":" + "\"" + "0" + "\"" +
         "}";
 
-    // {"DocumentIDP":"","documenttype":"2","StaffIDF":"120","DoctorIDP":"1","documentname":"12th MarkSheet","DeleteFlag":"0"}
+    // {"DocumentIDP":"","documenttype":"2","StaffIDF":"120",
+    // "DoctorIDP":"1","documentname":"12th MarkSheet","DeleteFlag":"0"}
 
     debugPrint("Jsonstr - $jsonStr");
-
+    debugPrint(image.path);
     String encodedJSONStr = encodeBase64(jsonStr);
+
     multipartRequest.fields['getjson'] = encodedJSONStr;
     Map<String, String> headers = Map();
     headers['u'] = patientUniqueKey;
@@ -1139,10 +880,14 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
     multipartRequest.headers.addAll(headers);
     if (image != null) {
       var imgLength = await image.length();
+      debugPrint(image.path);
       multipartRequest.files.add(new http.MultipartFile(
-          'DocumentImage', image.openRead(), imgLength,
-          filename: image.path));
+          'image', image.openRead(), imgLength,
+          filename: image.path)
+      );
+      debugPrint(image.path);
     }
+
     var response = await apiHelper.callMultipartApi(multipartRequest);
     //pr.hide();
     debugPrint("Status code - " + response.statusCode.toString());
@@ -1164,8 +909,13 @@ class NurseAddDocumentScreenState extends State<NurseAddDocumentScreen> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         Future.delayed(Duration(milliseconds: 300), () {
-          Navigator.of(context).pop();
+          Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => MyDocumentDoctorScreen())) ;
         });
+        // Future.delayed(Duration(milliseconds: 300), () {
+        //   Navigator.of(context).pop();
+        // });
       } else {
         final snackBar = SnackBar(
           backgroundColor: Colors.red,

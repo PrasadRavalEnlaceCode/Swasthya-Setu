@@ -10,36 +10,41 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:swasthyasetu/app_screens/my_document_doctor/my_document_doctor_screen.dart';
 import 'package:swasthyasetu/global/SizeConfig.dart';
 import 'package:swasthyasetu/global/utils.dart';
 import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/color.dart';
 import 'package:swasthyasetu/utils/multipart_request_with_progress.dart';
-
-import '../utils/color.dart';
-import '../utils/progress_dialog_with_percentage.dart';
+import 'package:swasthyasetu/utils/progress_dialog_with_percentage.dart';
 
 TextEditingController tagNameController = TextEditingController();
 
 TextEditingController entryDateController = new TextEditingController();
 TextEditingController entryTimeController = new TextEditingController();
+// List<Map<String, dynamic>> listDoc = <Map<String, dynamic>>[];NurseAddDocumentScreen
+List<String> listOfDocumentDropDown = [];
+List<int> listOfDocumentIDP = [];
+Map<String, int> documentIDMap = {};
+String? selectedDocument;
 
 var pickedDate = DateTime.now();
 var pickedTime = TimeOfDay.now();
 
-class AddDocumentScreen extends StatefulWidget {
+class DoctorAddMyDocumentScreen extends StatefulWidget {
   String? patientIDP;
 
-  AddDocumentScreen(String? patientIDP) {
+  DoctorAddMyDocumentScreen(String? patientIDP) {
     this.patientIDP = patientIDP;
   }
 
   @override
   State<StatefulWidget> createState() {
-    return AddDocumentScreenState();
+    return DoctorAddMyDocumentScreenState();
   }
 }
 
-class AddDocumentScreenState extends State<AddDocumentScreen> {
+class DoctorAddMyDocumentScreenState extends State<DoctorAddMyDocumentScreen> {
   File? selectedFile;
   String selectedFileType = "";
   GlobalKey<ProgressDialogWithPercentageState> progressKey = GlobalKey();
@@ -60,7 +65,7 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
     var formatter = new DateFormat('dd-MM-yyyy');
     String formatted = formatter.format(pickedDate);
     entryDateController = TextEditingController(text: formatted);
-
+    getListOfDocumentDropDown(context);
     final now = new DateTime.now();
     var dateOfTime =
     DateTime(now.year, now.month, now.day, now.hour, now.minute);
@@ -73,13 +78,101 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
     setState(() {});
   }
 
+
+  void getListOfDocumentDropDown(BuildContext context) async{
+    listOfDocumentDropDown = [];
+    String loginUrl = "${baseURL}doctor_category_wise_document_type_list.php";
+    String patientUniqueKey = await getPatientUniqueKey();
+    String userType = await getUserType();
+    String patientIDP = await getPatientOrDoctorIDP();
+    debugPrint("------");
+    debugPrint("Key and type");
+    debugPrint(patientUniqueKey);
+    debugPrint(userType);
+    String jsonStr = "{" +
+        "\"" +
+        "DoctorIDP" +
+        "\"" +
+        ":" +
+        "\"" +
+        patientIDP +
+        "\"" +
+        "}";
+
+    debugPrint(jsonStr);
+    debugPrint("----------");
+    String encodedJSONStr = encodeBase64(jsonStr);
+    var response = await apiHelper.callApiWithHeadersAndBody(
+      url: loginUrl,
+      headers: {
+        "u": patientUniqueKey,
+        "type": userType,
+      },
+      body: {"getjson": encodedJSONStr},
+    );
+
+    debugPrint(response.body.toString());
+
+    final jsonResponse = json.decode(response.body.toString());
+
+    ResponseModel model = ResponseModel.fromJSON(jsonResponse);
+    if (response.statusCode == 200)
+      try{
+        if (model.status == "OK") {
+          var data = jsonResponse['Data'];
+          var strData = decodeBase64(data);
+          debugPrint("Decoded Buttton List: " + strData);
+
+          final jsonData = json.decode(strData);
+
+          for (var i = 0; i < jsonData.length; i++) {
+            final jo = jsonData[i];
+            String category = jo['Category'].toString();
+            listOfDocumentDropDown.add(category);
+
+            int documentCategoryIDP = jo['DocumentCategoryIDP'];
+            listOfDocumentIDP.add(documentCategoryIDP);
+
+            // Populate the map
+            documentIDMap[category] = documentCategoryIDP;
+          }
+
+          // for (var i = 0; i < jsonData.length; i++)
+          // {
+          //   final jo = jsonData[i];
+          //   String category = jo['Category'].toString();
+          //   listOfDocumentDropDown.add(category);
+          //
+          //   int DocumentCategoryIDP = jo['DocumentCategoryIDP'];
+          //   listOfDocumentIDP.add(DocumentCategoryIDP);
+          // }
+          setState(() {});
+        }
+      }catch(e){
+        print("Error decoding JSON: $e");
+      }else {
+      print("HTTP error: ${response.statusCode}");
+    }
+  }
+
+  // Method to handle document selection
+  void onDocumentSelected(String selectedDocument) {
+    int? selectedDocumentIDP = documentIDMap[selectedDocument];
+    if (selectedDocumentIDP != null) {
+
+    } else {
+      print("Document ID not found for selected document: $selectedDocument");
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Add in My Space",
+            "Add in My Document",
             style: TextStyle(fontSize: SizeConfig.blockSizeVertical !* 2.5),
           ),
           backgroundColor: Color(0xFFFFFFFF),
@@ -108,18 +201,7 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                                 showDocumentTypeSelectionDialog(context);
                               },
                               child: (selectedFile != null)
-                                  ? /*Container(
-                            height: 200,
-                            decoration: BoxDecoration(
-                                color: Colors.green,
-                                image: DecorationImage(
-                                    image: MemoryImage(widget.bytes))))*/
-                              /*Image(
-                                  fit: BoxFit.contain,
-                                  image: FileImage(image),
-                                  width: SizeConfig.blockSizeHorizontal * 25,
-                                  height: SizeConfig.blockSizeHorizontal * 25,
-                                )*/
+                                  ?
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -194,19 +276,6 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                                 ],
                               )
                                   : Container(
-                                /*width:
-                                          SizeConfig.blockSizeHorizontal * 30,
-                                      height:
-                                          SizeConfig.blockSizeHorizontal * 30,*/
-                                /*decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          colorFilter: ColorFilter.mode(
-                                              Colors.grey, BlendMode.srcIn),
-                                          image: AssetImage(
-                                              'images/img_gallery_black.png'),
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),*/
                                   width: double.infinity,
                                   color: Colors.blueGrey,
                                   child: Padding(
@@ -244,45 +313,43 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                                         ),
                                       ),*/
                               ),
-                              /*Align(
-                                      alignment: Alignment.center,
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Colors.black,
-                                        size:
-                                            SizeConfig.blockSizeHorizontal * 15,
-                                      ),
-                                    ),*/
-                              /*Container(
-                                  width: SizeConfig.blockSizeHorizontal * 20,
-                                  height: SizeConfig.blockSizeHorizontal * 20,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          'images/ic_edit_report.png'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                        sigmaX: 3.0, sigmaY: 3.0),
-                                    child: Container(
-                                      color: Colors.black.withOpacity(0.3),
-                                    ),
-                                  ),
-                                ),*/
-                              /*CircleAvatar(
-                                  radius: 60.0,
-                                  backgroundColor: Colors.grey,
-                                  backgroundImage: AssetImage(
-                                      "images/ic_report_placeholder.png") */ /*),*/ /*
-                                  ),*/
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 40,
                         ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),  // Border color
+                              borderRadius: BorderRadius.circular(8.0),  // Border radius
+                            ),
+                            width: SizeConfig.blockSizeHorizontal !* 90,
+                            child: DropdownButton<String>(
+                              value: selectedDocument ?? "10th MarkSheet",
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedDocument = newValue;
+                                  tagNameController.text = selectedDocument ?? '';
+                                });
+                                if (newValue != null) {
+                                  onDocumentSelected(newValue);
+                                }
+                              },
+                              isExpanded: true,
+                              items: listOfDocumentDropDown.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Center(child: Text(value)),
+                                );
+                              }).toList(),
+
+                            ),
+                          ),
+                        ),
+
                         Align(
                           alignment: Alignment.center,
                           child: Container(
@@ -304,75 +371,10 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                                 labelText: "Document Name",
                                 hintText: "",
                               ),
+
                             ),
                           ),
                         ),
-                        /*Align(
-                      alignment: Alignment.center,
-                      child: MaterialButton(
-                        onPressed: () {
-                          showDateSelectionDialog();
-                        },
-                        child: Container(
-                          width: SizeConfig.blockSizeHorizontal * 90,
-                          padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal * 3),
-                          child: IgnorePointer(
-                            child: TextField(
-                              controller: entryDateController,
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical * 2.3),
-                              decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                        SizeConfig.blockSizeVertical * 2.3),
-                                labelStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                        SizeConfig.blockSizeVertical * 2.3),
-                                labelText: "Entry Date",
-                                hintText: "",
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: MaterialButton(
-                        onPressed: () {
-                          showTimeSelectionDialog();
-                        },
-                        child: Container(
-                          width: SizeConfig.blockSizeHorizontal * 90,
-                          padding: EdgeInsets.all(
-                              SizeConfig.blockSizeHorizontal * 3),
-                          child: IgnorePointer(
-                            child: TextField(
-                              controller: entryTimeController,
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: SizeConfig.blockSizeVertical * 2.3),
-                              decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                        SizeConfig.blockSizeVertical * 2.3),
-                                labelStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                        SizeConfig.blockSizeVertical * 2.3),
-                                labelText: "Entry Time",
-                                hintText: "",
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),*/
                       ],
                     )),
                 /*Container(
@@ -388,7 +390,7 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
                     height: SizeConfig.blockSizeHorizontal !* 12,
                     child: RawMaterialButton(
                       onPressed: () {
-                        submitPatientReport(context, selectedFile);
+                        submitDocumentDoctor(context, selectedFile);
                       },
                       elevation: 2.0,
                       fillColor: Color(0xFF06A759),
@@ -468,39 +470,37 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
         await ImagePicker.pickImage(source: ImageSource.gallery);*/
       File imgSelected =
       await chooseImageWithExIfRotate(picker, ImageSource.gallery);
-        if (imgSelected != null) {
-          CroppedFile? croppedImage = await ImageCropper().cropImage(
-            sourcePath: imgSelected.path,
-            aspectRatioPresets: [
-              CropAspectRatioPreset.square,
-              CropAspectRatioPreset.ratio3x2,
-              CropAspectRatioPreset.original,
-              CropAspectRatioPreset.ratio4x3,
-              CropAspectRatioPreset.ratio16x9
-            ],
-            uiSettings: [
-              AndroidUiSettings(
-                  toolbarTitle: 'Cropper',
-                  toolbarColor: Colors.deepOrange,
-                  toolbarWidgetColor: Colors.white,
-                  initAspectRatio: CropAspectRatioPreset.original,
-                  lockAspectRatio: false),
-              IOSUiSettings(
-                title: 'Cropper',
-              ),
-              WebUiSettings(
-                context: context,
-              ),
-            ],
-          );
-          final path = croppedImage!.path;
-          selectedFile = File(path);
-          selectedFileType = "image";
-          Navigator.of(context).pop();
-          setState(() {});
-        }
-      //if (image != null) submitImageForUpdate(context, image);
-      //_controller.add(image);
+      if (imgSelected != null) {
+        CroppedFile? croppedImage = await ImageCropper().cropImage(
+          sourcePath: imgSelected.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+            CropAspectRatioPreset.original,
+            CropAspectRatioPreset.ratio4x3,
+            CropAspectRatioPreset.ratio16x9
+          ],
+          uiSettings: [
+            AndroidUiSettings(
+                toolbarTitle: 'Cropper',
+                toolbarColor: Colors.deepOrange,
+                toolbarWidgetColor: Colors.white,
+                initAspectRatio: CropAspectRatioPreset.original,
+                lockAspectRatio: false),
+            IOSUiSettings(
+              title: 'Cropper',
+            ),
+            WebUiSettings(
+              context: context,
+            ),
+          ],
+        );
+        final path = croppedImage!.path;
+        selectedFile = File(path);
+        selectedFileType = "image";
+        Navigator.of(context).pop();
+        setState(() {});
+      }
     }
 
     return Stack(
@@ -555,27 +555,6 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
               SizedBox(
                 height: SizeConfig.blockSizeVertical !* 1.5,
               ),
-              /*MaterialButton(
-              onPressed: () {},
-              child: Image(
-                width: 60,
-                height: 60,
-                //height: 80,
-                image: AssetImage("images/ic_camera.png"),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            MaterialButton(
-              onPressed: () {},
-              child: Image(
-                width: 60,
-                height: 60,
-                //height: 80,
-                image: AssetImage("images/ic_gallery.png"),
-              ),
-            ),*/
               Container(
                 margin: EdgeInsets.only(
                   left: SizeConfig.blockSizeHorizontal !* 10,
@@ -730,187 +709,14 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
               SizedBox(
                 height: SizeConfig.blockSizeVertical !* 1.0,
               ),
-              /*Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  MaterialButton(
-                    onPressed: () {
-                      getImageFromCamera();
-                    },
-                    child: Image(
-                      fit: BoxFit.contain,
-                      width: SizeConfig.blockSizeHorizontal * 10,
-                      height: SizeConfig.blockSizeVertical * 10,
-                      //height: 80,
-                      image: AssetImage("images/ic_camera.png"),
-                    ),
-                  ),
-                  SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 1,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      getImageFromGallery();
-                    },
-                    child: Image(
-                      fit: BoxFit.contain,
-                      width: SizeConfig.blockSizeHorizontal * 10,
-                      height: SizeConfig.blockSizeVertical * 10,
-                      //height: 80,
-                      image: AssetImage("images/ic_gallery.png"),
-                    ),
-                  ),
-                  SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 1,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      removeImage();
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.red,
-                      size: SizeConfig.blockSizeHorizontal * 10,
-                    ),
-                  ),
-                ],
-              ),*/
+
             ],
           ),
         ),
 
-        //...top circlular image part,
-        /*Positioned(
-        left: Consts.padding,
-        right: Consts.padding,
-        child: CircleAvatar(
-          backgroundColor: Colors.deepOrangeAccent,
-          radius: Consts.avatarRadius,
-          child: image,
-        ),
-      ),*/
+
       ],
     );
-
-    /*return Stack(
-      children: <Widget>[
-        //...bottom card part,
-        Container(
-          width: SizeConfig.blockSizeHorizontal * 90,
-          padding: EdgeInsets.only(
-            top: Consts.padding / 2,
-            bottom: Consts.padding / 2,
-            left: Consts.padding / 2,
-            right: Consts.padding / 2,
-          ),
-          decoration: new BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(Consts.padding),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 10.0,
-                offset: const Offset(0.0, 10.0),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min, // To make the card compact
-            children: <Widget>[
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              */
-    /*MaterialButton(
-              onPressed: () {},
-              child: Image(
-                width: 60,
-                height: 60,
-                //height: 80,
-                image: AssetImage("images/ic_camera.png"),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            MaterialButton(
-              onPressed: () {},
-              child: Image(
-                width: 60,
-                height: 60,
-                //height: 80,
-                image: AssetImage("images/ic_gallery.png"),
-              ),
-            ),*/
-    /*
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  MaterialButton(
-                    onPressed: () {
-                      getImageFromCamera();
-                    },
-                    child: Image(
-                      width: 35,
-                      height: 35,
-                      //height: 80,
-                      image: AssetImage("images/ic_camera.png"),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      getImageFromGallery();
-                    },
-                    child: Image(
-                      width: 35,
-                      height: 35,
-                      //height: 80,
-                      image: AssetImage("images/ic_gallery.png"),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      removeImage();
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.red,
-                      size: 35,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-
-        //...top circlular image part,
-        */
-    /*Positioned(
-        left: Consts.padding,
-        right: Consts.padding,
-        child: CircleAvatar(
-          backgroundColor: Colors.deepOrangeAccent,
-          radius: Consts.avatarRadius,
-          child: image,
-        ),
-      ),*/ /*
-      ],
-    );*/
   }
 
   String encodeBase64(String text) {
@@ -940,13 +746,9 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
           backgroundColor: Colors.transparent,
           child: dialogContent(context, "Select Document Type"),
         )
-      /* builder: (BuildContext context) =>
-          CustomDialogSelectImage(
-            title: "Select Image from",
-            callback: this.callback,
-          ),*/
     );
   }
+
 
   void showDateSelectionDialog() async {
     FocusScopeNode currentFocus = FocusScope.of(context);
@@ -999,7 +801,7 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
     }
   }
 
-  void submitPatientReport(BuildContext context, image) async {
+  void submitDocumentDoctor(BuildContext context, image) async {
     if (image == null) {
       final snackBar = SnackBar(
         backgroundColor: Colors.red,
@@ -1018,27 +820,6 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
       return;
     }
 
-    /*if (entryDateController.text == "") {
-      final snackBar = SnackBar(
-        backgroundColor: Colors.red,
-        content: Text("Please select Report Date"),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return;
-    }
-
-    if (entryTimeController.text == "") {
-      final snackBar = SnackBar(
-        backgroundColor: Colors.red,
-        content: Text("Please select Report Time"),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return;
-    }*/
-
-    /*ProgressDialog pr = ProgressDialog(context);
-    pr.show();*/
-
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -1050,40 +831,53 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
 
     final multipartRequest = MultipartRequest(
       'POST',
-      Uri.parse("${baseURL}patientDocumentSubmit.php"),
+      Uri.parse("${baseURL}doctor_wise_add_new_document_submit.php"),
       onProgress: (int bytes, int total) {
         final progress = bytes / total;
         progressKey.currentState!.setProgress(progress);
       },
     );
 
+    // Get selected document IDP
+    int? selectedDocumentIDP = documentIDMap[selectedDocument] ?? 4;
+
+    // Check if selectedDocumentIDP is null
+    if (selectedDocumentIDP == null) {
+      // Show snackbar if document ID is not found
+      print("Document ID not found for selected document: $selectedDocument");
+      return;
+    }
+
+    // String selectedValue = selectedDocument ?? "10th MarkSheet"; // Use the selected value or a default value if none is selected
     String patientUniqueKey = await getPatientUniqueKey();
     String userType = await getUserType();
+    String patientIDP = await getPatientOrDoctorIDP();
     debugPrint("Key and type");
     debugPrint(patientUniqueKey);
     debugPrint(userType);
     String jsonStr;
     jsonStr = "{" +
         "\"" +
-        "PatientIDP" +
+        "DoctorIDP" +
         "\"" +
         ":" +
         "\"" +
-        widget.patientIDP! +
+        patientIDP +
         "\"" +
         "," +
-        "\"" +
-        "DocumentTagName" +
-        "\"" +
-        ":" +
-        "\"" +
-        tagNameController.text +
-        "\"" +
+        "\"" + "DocumentIDP" + "\"" + ":" + "\"" + "" + "\"" + "," +
+        "\"" + "documenttype" + "\"" + ":" + "\"" + selectedDocumentIDP.toString() + "\"" + "," +
+        "\"" + "documentname" + "\"" + ":" + "\"" + tagNameController.text + "\"" + "," +
+        "\"" + "DeleteFlag" + "\"" + ":" + "\"" + "0" + "\"" +
         "}";
+
+    // {"DoctorIDP":"1","DocumentIDP":"721",
+    // "documenttype":"7 ","documentname":"Pancard","DeleteFlag":"0"}
 
     debugPrint("Jsonstr - $jsonStr");
     debugPrint(image.path);
     String encodedJSONStr = encodeBase64(jsonStr);
+
     multipartRequest.fields['getjson'] = encodedJSONStr;
     Map<String, String> headers = Map();
     headers['u'] = patientUniqueKey;
@@ -1091,11 +885,14 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
     multipartRequest.headers.addAll(headers);
     if (image != null) {
       var imgLength = await image.length();
+      debugPrint(image.path);
       multipartRequest.files.add(new http.MultipartFile(
-          'DocumentImage', image.openRead(), imgLength,
-          filename: image.path));
-      debugPrint('DoctorDocument_${image.path}');
+          'image', image.openRead(), imgLength,
+          filename: image.path)
+      );
+      debugPrint(image.path);
     }
+
     var response = await apiHelper.callMultipartApi(multipartRequest);
     //pr.hide();
     debugPrint("Status code - " + response.statusCode.toString());
@@ -1117,8 +914,13 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         Future.delayed(Duration(milliseconds: 300), () {
-          Navigator.of(context).pop();
+        Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) => MyDocumentDoctorScreen())) ;
         });
+        // Future.delayed(Duration(milliseconds: 300), () {
+        //   Navigator.of(context).pop();
+        // });
       } else {
         final snackBar = SnackBar(
           backgroundColor: Colors.red,
@@ -1130,132 +932,6 @@ class AddDocumentScreenState extends State<AddDocumentScreen> {
       debugPrint("response :" + value.toString());
     });
   }
-
-  /*void showDocumentTypeSelectionDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Dialog(
-              */
-  /*shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),*/
-  /*
-              backgroundColor: Colors.white,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      InkWell(
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.red,
-                          size: SizeConfig.blockSizeHorizontal * 6.2,
-                        ),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 6,
-                      ),
-                      Text(
-                        "Choose Document Type",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: SizeConfig.blockSizeHorizontal * 4.8,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green,
-                          decoration: TextDecoration.none,
-                        ),
-                      ),
-                    ],
-                  ),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        selectPDFFromTheDevice(context);
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal * 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
-                          ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "PDF",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        showImageTypeSelectionDialog(context);
-                      },
-                      child: Container(
-                          width: SizeConfig.blockSizeHorizontal * 90,
-                          padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                            right: 5,
-                          ),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 2.0, color: Colors.grey),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10.0,
-                                offset: const Offset(0.0, 10.0),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Image",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ))),
-                ],
-              ),
-            ));
-  }*/
 
   void openDocumentPicker() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(

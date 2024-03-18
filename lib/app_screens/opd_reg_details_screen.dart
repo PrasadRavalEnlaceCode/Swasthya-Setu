@@ -279,65 +279,80 @@ class OPDRegistrationDetailsScreenState
           fontSize: SizeConfig.blockSizeVertical !* 2.5,
         )).titleLarge,
       ),
-      floatingActionButton: paymentStatus == "0"
-          ?ListView.builder(
-          itemCount: 1,
-          shrinkWrap: true,
-          // physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context,index) {
-            return
-              // Padding(
-              // padding: const EdgeInsets.only(left: 300.0,right: 40.0,top: 100.0 ,bottom: 20.0),
-              // child:
-              Align(
-                alignment: Alignment(0.7, 0.2),
-                child: FloatingActionButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => SelectOPDProceduresScreen(
-                            widget.patientIDP, widget.idp, "existing")
-                    )).then((value) {
-                      getOPDRegistrationDetails();
-                    });
+      floatingActionButton:
+          FloatingActionButton(
+            onPressed: () {
+            Navigator.push(context, MaterialPageRoute(
+                builder: (context) =>
+                    SelectOPDProceduresScreen(
+                    widget.patientIDP, widget.idp, "existing")
+            )).then((value) {
+              getOPDRegistrationDetails();
+            });
+            },
+            child: Icon(Icons.add),
+            backgroundColor: Colors.black,
+          ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
-                    // Navigator.of(context).pop();
-                    // if(listOPDRegistration.isNotEmpty)
-                    // {listOPDRegistration[index]
-                    //     .checkOutStatus ==
-                    //     "1"
-                    //     ? showAlreadyCheckedOutDialog(
-                    //     listOPDRegistration[index].idp!, context)
-                    //     :
-                    // Navigator.push(context, MaterialPageRoute(
-                    //     builder: (context) => SelectOPDProceduresScreen(
-                    //         widget.patientIDP, widget.idp, "existing")
-                    // )).then((value) {
-                    //   getOPDRegistrationDetails();
-                    // });
-                    // }
-                    // else{
-                    //   listOPDRegistration[index]
-                    //     .checkOutStatus ==
-                    //     "1"
-                    //     ? showAlreadyCheckedOutDialog(
-                    //     listOPDRegistration[index].idp!, context)
-                    //     :
-                    // Navigator.push(context, MaterialPageRoute(
-                    //     builder: (context) => SelectOPDProceduresScreen(
-                    //         widget.patientIDP, widget.idp, "new")
-                    // )).then((value) {
-                    //   getOPDRegistrationDetails();
-                    // });
-                    // }
-                  },
-                  child: Icon(Icons.add),
-                  backgroundColor: Colors.black,
-                ),
-              );
-            // );
-          }
-      )
-          : Container(),
+      // ListView.builder(
+      //     itemCount: 1,
+      //     shrinkWrap: true,
+      //     // physics: NeverScrollableScrollPhysics(),
+      //     itemBuilder: (context,index) {
+      //       return
+      //         // Padding(
+      //         // padding: const EdgeInsets.only(left: 300.0,right: 40.0,top: 100.0 ,bottom: 20.0),
+      //         // child:
+      //         Align(
+      //           alignment: Alignment(0.7, 0.2),
+      //           child: FloatingActionButton(
+      //             onPressed: () {
+      //               Navigator.push(context, MaterialPageRoute(
+      //                   builder: (context) => SelectOPDProceduresScreen(
+      //                       widget.patientIDP, widget.idp, "existing")
+      //               )).then((value) {
+      //                 getOPDRegistrationDetails();
+      //               });
+      //
+      //               // Navigator.of(context).pop();
+      //               // if(listOPDRegistration.isNotEmpty)
+      //               // {listOPDRegistration[index]
+      //               //     .checkOutStatus ==
+      //               //     "1"
+      //               //     ? showAlreadyCheckedOutDialog(
+      //               //     listOPDRegistration[index].idp!, context)
+      //               //     :
+      //               // Navigator.push(context, MaterialPageRoute(
+      //               //     builder: (context) => SelectOPDProceduresScreen(
+      //               //         widget.patientIDP, widget.idp, "existing")
+      //               // )).then((value) {
+      //               //   getOPDRegistrationDetails();
+      //               // });
+      //               // }
+      //               // else{
+      //               //   listOPDRegistration[index]
+      //               //     .checkOutStatus ==
+      //               //     "1"
+      //               //     ? showAlreadyCheckedOutDialog(
+      //               //     listOPDRegistration[index].idp!, context)
+      //               //     :
+      //               // Navigator.push(context, MaterialPageRoute(
+      //               //     builder: (context) => SelectOPDProceduresScreen(
+      //               //         widget.patientIDP, widget.idp, "new")
+      //               // )).then((value) {
+      //               //   getOPDRegistrationDetails();
+      //               // });
+      //               // }
+      //             },
+      //             child: Icon(Icons.add),
+      //             backgroundColor: Colors.black,
+      //           ),
+      //         );
+      //       // );
+      //     }
+      // )
+      //     : Container(),
       body: Container(
         color: Color(0xFFDCDCDC),
         child: Column(

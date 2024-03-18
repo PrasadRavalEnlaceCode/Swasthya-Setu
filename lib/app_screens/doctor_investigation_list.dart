@@ -37,7 +37,8 @@ State<DoctorInvestigationListScreen> {
 
   late String selectedOrganizationIDF;
   List<InvestigationItem> allInvestigations = [];
-  List<String> DataFormat = ["Type","Date","Patient","Doctor","OPD/IPD","Investigation","Lab Status","Created By","Action"];
+  List<Map<String, dynamic>> OPDInvestigationList = <Map<String, dynamic>>[];
+  List<Map<String, dynamic>> IPDInvestigationList = <Map<String, dynamic>>[];
 
   final sizeBox = SizedBox(width:30,height: 20,);
 
@@ -46,6 +47,7 @@ State<DoctorInvestigationListScreen> {
     dateRange = DateTimeRange(
         start: fromDate,
         end: toDate);
+    // getDoctorInvestigationOPD();
     super.initState();
   }
 
@@ -59,270 +61,842 @@ State<DoctorInvestigationListScreen> {
     final start = dateRange.start;
     final end = dateRange.end;
     SizeConfig().init(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Investigation List"),
-        backgroundColor: Color(0xFFFFFFFF),
-        iconTheme: IconThemeData(
-            color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
-          titleMedium: TextStyle(
-              color: Colorsblack,
-              fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-          titleMedium: TextStyle(
-              color: Colorsblack,
-              fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
-      ),
-      body: Builder(
-        builder: (context) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Investigation List"),
+          bottom: TabBar( // Add a TabBar for the tabs
+            tabs: [
+              Tab(text: "OPD"),
+              Tab(text: "IPD"),
+            ],
+          ),
+          backgroundColor: Color(0xFFFFFFFF),
+          iconTheme: IconThemeData(
+              color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
+            titleMedium: TextStyle(
+                color: Colorsblack,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+            titleMedium: TextStyle(
+                color: Colorsblack,
+                fontFamily: "Ubuntu",
+                fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+        ),
+        body: Builder(
+          builder: (context) {
+            return TabBarView(
                 children: [
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical !* 2,
-                  ),
-                  Container(
-                    height: SizeConfig.blockSizeVertical !* 8,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                      child: Container(
-                        child: InkWell(
-                            onTap: () {
-                              // showDateRangePickerDialog();
-                            },
-                            child: Row(
-                              children: <Widget>[
-                                // Expanded(
-                                //   child: Text(
-                                //     fromDateString == ""
-                                //         ? "Select Date Range"
-                                //         : "$fromDateString  to  $toDateString",
-                                //     textAlign: TextAlign.center,
-                                //     style: TextStyle(
-                                //         fontSize:
-                                //             SizeConfig.blockSizeVertical !* 2.6,
-                                //         fontWeight: FontWeight.w500,
-                                //         color: Colors.black),
-                                //   ),
-                                // ),
-                                // Container(
-                                //   width: SizeConfig.blockSizeHorizontal !* 15,
-                                //   child: Icon(
-                                //     Icons.arrow_drop_down,
-                                //     size: SizeConfig.blockSizeHorizontal !* 8,
-                                //   ),
-                                // ),
-                                Expanded(
-                                    child: ElevatedButton(
-                                      child: Text('${start.day}-${start.month}-${start.year}'),
-                                      onPressed: pickDateRange,
-                                    )
-                                ),
-                                const SizedBox(width: 10,),
-                                Expanded(
-                                    child: ElevatedButton(
-                                      child: Text('${end.day}-${end.month}-${end.year}'),
-                                      onPressed: pickDateRange,
-                                    )
-                                ),
-                              ],
-                            )),
-                        padding: EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical !* 2,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      if (fromDate == "") {
-                        final snackBar = SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text("Please select Date Range"),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        return;
-                      }
-                      else{
-                        getDoctorInvestigationList();
-                      }
-                    },
-                    color: Colors.blue,
-                    child: Text(
-                      "Submit",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  sizeBox,
-                  // Divider(
-                  //   thickness: 3,
-                  // ),
-                  // SizedBox(height: 16.0),
-                  // SingleChildScrollView(
-                  //   scrollDirection: Axis.horizontal,
-                  //   child: Row(
-                  //     children: List.generate(
-                  //       DataFormat.length,
-                  //           (index) => Padding(
-                  //             padding: EdgeInsets.only(
-                  //               left: 35.0, // Add space only on the left side
-                  //               right: 35.0,
-                  //             ),
-                  //         child: Text(
-                  //           DataFormat[index],
-                  //           style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontFamily: "Ubuntu",
-                  //             fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(height: 16.0),
-                  // Divider(
-                  //   thickness: 3,
-                  // ),
-                  SizedBox(height: 16.0),
-                  // ListView.builder(
-                  //   itemCount: allInvestigations.length,
-                  //   shrinkWrap: true,
-                  //   physics: NeverScrollableScrollPhysics(),
-                  //   itemBuilder: (context, index) {
-                  //     return buildInvestigationItem(allInvestigations[index]);
-                  //   },
-                  // ),
                   SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(width: 1.0, color: Colors.black),
-                          top: BorderSide(width: 1.0, color: Colors.black),
-                        ),
-                      ),
-                      child: DataTable(
-                        columnSpacing: 25.0,
-                        columns: [
-                          DataColumn(label: Text('Type',style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Ubuntu",
-                        fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                      ),)),
-                          DataColumn(label: Text('Date',
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Ubuntu",
-                            fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                          ),)),
-                          DataColumn(label: Text('Patient',
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Ubuntu",
-                            fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                          ),)),
-                          DataColumn(label: Text('Doctor',
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Ubuntu",
-                            fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                          ),)),
-                          DataColumn(label: Text('Investigation List',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Ubuntu",
-                              fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                            ),)),
-                          DataColumn(label: Text('OPD Service',
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Ubuntu",
-                            fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                          ),)),
-                          DataColumn(label: Text('Lab Status',
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Ubuntu",
-                            fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                          ),)),
-                          DataColumn(label: Text('Created By',
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Ubuntu",
-                            fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                          ),)),
-                          DataColumn(label: Text('Action',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Ubuntu",
-                              fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                            ),)),
-                          // Add more DataColumn widgets based on your requirements
-                        ],
-                        rows: allInvestigations.map((item) {
-                          return DataRow(
-                            cells: [
-                              DataCell(Text(item.type ?? '')),
-                              DataCell(Text(item.sDate ?? '')),
-                              DataCell(Text(item.patient ?? '')),
-                              DataCell(Text(item.doctor ?? '')),
-                              DataCell(Text(item.source ?? '')),
-                              DataCell(Text(item.opdService ?? '')),
-                              DataCell(Text(item.labStatus ?? '')),
-                              DataCell(Text(item.createdBy ?? '')),
-                              DataCell(
-                                Visibility(
-                                  visible: item.labStatus != 'new',
-                                  child: InkWell(
-                                    child: Center(
-                                        child: Icon(Icons.remove_red_eye)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 2,
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical !* 15.5,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                              child: Container(
+                                child: InkWell(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => InvestigationViewReportScreen(
-                                            id: item.id,
-                                            INID: item.INID,
-                                            PATID: item.patID,
-                                            OPD:'OPD',
-                                            ipd: 'ipd',
-                                            pathology: item.type,
-                                            HospitalConsultationIDP: item.hospitalConsultationIDP
+                                      // showDateRangePickerDialog();
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: <Widget>[
+
+                                            Expanded(
+                                                child: ElevatedButton(
+                                                  child: Text('${start.day}-${start.month}-${start.year}'),
+                                                  onPressed: pickDateRange,
+                                                )
+                                            ),
+                                            const SizedBox(width: 10,),
+                                            Expanded(
+                                                child: ElevatedButton(
+                                                  child: Text('${end.day}-${end.month}-${end.year}'),
+                                                  onPressed: pickDateRange,
+                                                )
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(
+                                          thickness: 2,
+                                        ),
+                                        MaterialButton(
+                                          onPressed: () {
+                                            if (fromDate == "") {
+                                              final snackBar = SnackBar(
+                                                backgroundColor: Colors.red,
+                                                content: Text("Please select Date Range"),
+                                              );
+                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                              return;
+                                            }
+                                            else{
+                                              getDoctorInvestigationOPD();
+                                            }
+                                          },
+                                          color: Colors.blue,
+                                          child: Text(
+                                            "Submit",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                         ),
-                                      );
-                                    },
+
+                                      ],
+                                    )),
+                                padding: EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1.0,
                                   ),
+                                  borderRadius: BorderRadius.circular(5.0),
                                 ),
                               ),
-                              // Add more DataCell widgets based on your requirements
-                            ],
-                          );
-                        }).toList(),
+                            ),
+                          ),
+                          SizedBox(height: 16.0),
+                          OPDInvestigationList.length > 0
+                              ?
+                          RefreshIndicator(
+                              child: ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: OPDInvestigationList.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                        padding: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeHorizontal !* 2,
+                                            right: SizeConfig.blockSizeHorizontal !* 2,
+                                            top: SizeConfig.blockSizeHorizontal !* 2),
+                                        child: InkWell(
+                                          onTap: (){
+                                            OPDInvestigationList[index]['labstatus'] == "new"
+                                                ? Container()
+                                                : Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    InvestigationViewReportScreen(
+                                                        id: OPDInvestigationList[index]['id'],
+                                                        // INID: OPDInvestigationList[index]['labstatus'],
+                                                        PATID: OPDInvestigationList[index]['PATID'],
+                                                        OPD: "OPD",
+                                                        // ipd: OPDInvestigationList[index]['labstatus'],
+                                                        pathology: OPDInvestigationList[index]['TYPE'],
+                                                        HospitalConsultationIDP: OPDInvestigationList[index]['HospitalConsultationIDP']
+                                                            ),
+                                              ),
+                                            );
+                                          },
+                                          child: Card(
+                                              color: OPDInvestigationList[index]['labstatus'] == "new"
+                                              ? Colors.white
+                                              : Color(0xFFC3C3C3),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                                  side: BorderSide(
+                                                    color:
+                                                    Colors.white,
+                                                  )),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    SizedBox(
+                                                      height: SizeConfig.blockSizeVertical !* 0.5,
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          "${OPDInvestigationList[index]['Patient']}",
+                                                          style: TextStyle(
+                                                              color: Colors.black,
+                                                              fontSize: SizeConfig
+                                                                  .blockSizeHorizontal !*
+                                                                  4,
+                                                              fontWeight:
+                                                              FontWeight.w600),
+                                                        ),
+                                                        SizedBox(
+                                                          width: SizeConfig
+                                                              .blockSizeHorizontal !*
+                                                              18,
+                                                        ),
+                                                        Expanded(
+                                                          flex: 2,
+                                                          child: Text(
+                                                            "Date: ${OPDInvestigationList[index]['S_date']}",
+                                                            style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    4,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                          ),
+                                                        ),
+                                                        // Padding(
+                                                        //     padding: EdgeInsets.all(SizeConfig
+                                                        //         .blockSizeHorizontal !*
+                                                        //         0),
+                                                        //     child: Row(
+                                                        //       children: [
+                                                        //         SizedBox(
+                                                        //           width: SizeConfig
+                                                        //               .blockSizeHorizontal !*
+                                                        //               3.0,
+                                                        //         ),
+                                                        //         InkWell(
+                                                        //           onTap: () {},
+                                                        //           customBorder:
+                                                        //           CircleBorder(),
+                                                        //           child: Container(
+                                                        //               padding: EdgeInsets.all(
+                                                        //                   SizeConfig
+                                                        //                       .blockSizeHorizontal !*
+                                                        //                       2.0),
+                                                        //               child:
+                                                        //
+                                                        //               Text(
+                                                        //                 "Date: ${OPDInvestigationList[index]['S_date']}",
+                                                        //                 style: TextStyle(
+                                                        //                     color: Colors.black,
+                                                        //                     fontSize: SizeConfig
+                                                        //                         .blockSizeHorizontal !*
+                                                        //                         4,
+                                                        //                     fontWeight:
+                                                        //                     FontWeight
+                                                        //                         .w500),
+                                                        //               )
+                                                        //
+                                                        //           ),
+                                                        //         ),
+                                                        //         SizedBox(
+                                                        //           width: SizeConfig
+                                                        //               .blockSizeHorizontal !*
+                                                        //               3.0,
+                                                        //         ),
+                                                        //
+                                                        //       ],
+                                                        //     )),
+                                                      ],
+                                                    ),
+
+
+                                                    SizedBox(
+                                                      height: SizeConfig.blockSizeVertical !*
+                                                          2,
+                                                    ),
+
+                                                    Align(
+                                                      alignment: Alignment.centerLeft,
+                                                      child: Row(
+                                                        children: [
+                                                          SizedBox(
+                                                            width: SizeConfig
+                                                                .blockSizeHorizontal !*
+                                                                2,
+                                                          ),
+                                                          Text(
+                                                            "Type:${OPDInvestigationList[index]['TYPE']}",
+                                                            style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    4,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                          ),
+
+                                                          SizedBox(
+                                                            width: SizeConfig
+                                                                .blockSizeHorizontal !*
+                                                                10.0,
+                                                          ),
+                                                          Expanded(
+                                                            flex: 2,
+                                                            child: Text(
+                                                              "Status: ${OPDInvestigationList[index]['labstatus']}",
+                                                              style: TextStyle(
+                                                                  color: Colors.black,
+                                                                  fontSize: SizeConfig
+                                                                      .blockSizeHorizontal !*
+                                                                      4,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                            ),
+                                                          ),
+
+                                                          SizedBox(
+                                                            width: SizeConfig
+                                                                .blockSizeHorizontal !*
+                                                                4.0,
+                                                          ),
+                                                          // Text(
+                                                          //   "Catagory: ${OPDInvestigationList[index]['TYPE']}",
+                                                          //   style: TextStyle(
+                                                          //       color: Colors.black,
+                                                          //       fontSize: SizeConfig
+                                                          //           .blockSizeHorizontal !*
+                                                          //           4,
+                                                          //       fontWeight:
+                                                          //       FontWeight
+                                                          //           .w500),
+                                                          // ),
+
+                                                        ],
+                                                      ),
+                                                    ),
+
+                                                    SizedBox(
+                                                      height: SizeConfig.blockSizeVertical !*
+                                                          2,
+                                                    ),
+                                                    Align(
+                                                        alignment: Alignment.centerLeft,
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              "Dr.${OPDInvestigationList[index]['Doctor']}",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                  colorBlueApp,
+                                                                  fontSize: SizeConfig
+                                                                      .blockSizeHorizontal !*
+                                                                      4,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                            ),
+                                                            SizedBox(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal !*
+                                                                  10.0,
+                                                            ),
+                                                          ],
+                                                        )
+                                                    ),
+                                                    SizedBox(
+                                                      height: SizeConfig.blockSizeVertical !*
+                                                          2,
+                                                    ),Align(
+                                                        alignment: Alignment.centerLeft,
+                                                        child: Row(
+                                                          children: [
+                                                            SizedBox(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal !*
+                                                                  2.0,
+                                                            ),
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: Text(
+                                                                "Created by:${OPDInvestigationList[index]['CreatedBy']}",
+                                                                style: TextStyle(
+                                                                    color: colorBlueApp,
+                                                                    fontSize: SizeConfig
+                                                                        .blockSizeHorizontal !*
+                                                                        3.5,
+                                                                    fontWeight:
+                                                                    FontWeight.w500),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal !*
+                                                                  2.0,
+                                                            ),
+                                                          ],
+                                                        )
+                                                    ),
+                                                    SizedBox(
+                                                      height: SizeConfig.blockSizeVertical !*
+                                                          2,
+                                                    ),
+
+                                                    Visibility(
+                                                      // visible: OPDInvestigationList[index].reffDoctorName!.isNotEmpty
+                                                      //     && OPDInvestigationList[index].refferPatient!.isNotEmpty,
+                                                      child: Align(
+                                                          alignment: Alignment.centerLeft,
+                                                          child: Row(
+                                                            children: [
+
+                                                              SizedBox(
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    2,
+                                                              ),
+                                                              Expanded(
+                                                                flex: 2,
+                                                                child: Text(
+                                                                  "Investigation:${OPDInvestigationList[index]['OPDService']}",
+                                                                  style: TextStyle(
+                                                                      color: Colors.black,
+                                                                      fontSize: SizeConfig
+                                                                          .blockSizeHorizontal !*
+                                                                          4,
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    8.0,
+                                                              ),
+                                                              // Text(
+                                                              //   "${OPDInvestigationList[index]['TYPE']}",
+                                                              //   style: TextStyle(
+                                                              //       color: Colors.black,
+                                                              //       fontSize: SizeConfig
+                                                              //           .blockSizeHorizontal !*
+                                                              //           3.5,
+                                                              //       fontWeight:
+                                                              //       FontWeight.w500),
+                                                              // ),
+                                                              SizedBox(
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    2.0,
+                                                              ),
+                                                            ],
+                                                          )
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                          ),
+                                        ));
+                                  }),
+                              onRefresh: () {
+                                return getDoctorInvestigationOPD();
+                              })
+                              : Container()
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-          );
-        },
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 2,
+                          ),
+
+                          Container(
+                            height: SizeConfig.blockSizeVertical !* 15.5,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                              child: Container(
+                                child: InkWell(
+                                    onTap: () {
+                                      // showDateRangePickerDialog();
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: <Widget>[
+
+                                            Expanded(
+                                                child: ElevatedButton(
+                                                  child: Text('${start.day}-${start.month}-${start.year}'),
+                                                  onPressed: pickDateRange,
+                                                )
+                                            ),
+                                            const SizedBox(width: 10,),
+                                            Expanded(
+                                                child: ElevatedButton(
+                                                  child: Text('${end.day}-${end.month}-${end.year}'),
+                                                  onPressed: pickDateRange,
+                                                )
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(
+                                          thickness: 2,
+                                        ),
+                                        // SizedBox(
+                                        //   height: SizeConfig.blockSizeVertical !* 1.0,
+                                        // ),
+                                        MaterialButton(
+                                          onPressed: () {
+                                            if (fromDate == "") {
+                                              final snackBar = SnackBar(
+                                                backgroundColor: Colors.red,
+                                                content: Text("Please select Date Range"),
+                                              );
+                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                              return;
+                                            }
+                                            else{
+                                              getDoctorInvestigationIPD();
+                                            }
+                                          },
+                                          color: Colors.blue,
+                                          child: Text(
+                                            "Submit",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+
+                                      ],
+                                    )),
+                                padding: EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16.0),
+
+                          IPDInvestigationList.length > 0
+                              ?
+                          RefreshIndicator(
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: IPDInvestigationList.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                        padding: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeHorizontal !* 2,
+                                            right: SizeConfig.blockSizeHorizontal !* 2,
+                                            top: SizeConfig.blockSizeHorizontal !* 2),
+                                        child: InkWell(
+                                          onTap: (){
+                                            IPDInvestigationList[index]['labstatus'] == "new"
+                                                ? Container()
+                                                : Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    InvestigationViewReportScreen(
+                                                        id: IPDInvestigationList[index]['id'],
+                                                        INID: IPDInvestigationList[index]['INID'],
+                                                        PATID: IPDInvestigationList[index]['PATID'],
+                                                        // OPD: "OPD",
+                                                        ipd: "IPD",
+                                                        pathology: IPDInvestigationList[index]['TYPE'],
+                                                        // HospitalConsultationIDP: IPDInvestigationList[index]['HospitalConsultationIDP']
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                          child: Card(
+                                              color: IPDInvestigationList[index]['labstatus'] == "new"
+                                                  ? Colors.white
+                                                  : Color(0xFFC3C3C3),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                                  side: BorderSide(
+                                                    color:
+                                                    Colors.white,
+                                                  )),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    SizedBox(
+                                                      height: SizeConfig.blockSizeVertical !* 0.5,
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          "${IPDInvestigationList[index]['Patient']}",
+                                                          style: TextStyle(
+                                                              color: Colors.black,
+                                                              fontSize: SizeConfig
+                                                                  .blockSizeHorizontal !*
+                                                                  4,
+                                                              fontWeight:
+                                                              FontWeight.w600),
+                                                        ),
+                                                        SizedBox(
+                                                          width: SizeConfig
+                                                              .blockSizeHorizontal !*
+                                                              18,
+                                                        ),
+                                                        Expanded(
+                                                          flex: 2,
+                                                          child: Text(
+                                                            "Date: ${IPDInvestigationList[index]['S_date']}",
+                                                            style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    4,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                          ),
+                                                        ),
+                                                        // Padding(
+                                                        //     padding: EdgeInsets.all(SizeConfig
+                                                        //         .blockSizeHorizontal !*
+                                                        //         0),
+                                                        //     child: Row(
+                                                        //       children: [
+                                                        //         SizedBox(
+                                                        //           width: SizeConfig
+                                                        //               .blockSizeHorizontal !*
+                                                        //               3.0,
+                                                        //         ),
+                                                        //         InkWell(
+                                                        //           onTap: () {},
+                                                        //           customBorder:
+                                                        //           CircleBorder(),
+                                                        //           child: Container(
+                                                        //               padding: EdgeInsets.all(
+                                                        //                   SizeConfig
+                                                        //                       .blockSizeHorizontal !*
+                                                        //                       2.0),
+                                                        //               child:
+                                                        //
+                                                        //               Text(
+                                                        //                 "Date: ${OPDInvestigationList[index]['S_date']}",
+                                                        //                 style: TextStyle(
+                                                        //                     color: Colors.black,
+                                                        //                     fontSize: SizeConfig
+                                                        //                         .blockSizeHorizontal !*
+                                                        //                         4,
+                                                        //                     fontWeight:
+                                                        //                     FontWeight
+                                                        //                         .w500),
+                                                        //               )
+                                                        //
+                                                        //           ),
+                                                        //         ),
+                                                        //         SizedBox(
+                                                        //           width: SizeConfig
+                                                        //               .blockSizeHorizontal !*
+                                                        //               3.0,
+                                                        //         ),
+                                                        //
+                                                        //       ],
+                                                        //     )),
+                                                      ],
+                                                    ),
+
+
+                                                    SizedBox(
+                                                      height: SizeConfig.blockSizeVertical !*
+                                                          2,
+                                                    ),
+
+                                                    Align(
+                                                      alignment: Alignment.centerLeft,
+                                                      child: Row(
+                                                        children: [
+                                                          SizedBox(
+                                                            width: SizeConfig
+                                                                .blockSizeHorizontal !*
+                                                                2,
+                                                          ),
+                                                          Text(
+                                                            "Type:${IPDInvestigationList[index]['TYPE']}",
+                                                            style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    4,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                          ),
+
+                                                          SizedBox(
+                                                            width: SizeConfig
+                                                                .blockSizeHorizontal !*
+                                                                10.0,
+                                                          ),
+                                                          Expanded(
+                                                            flex: 2,
+                                                            child: Text(
+                                                              "Status: ${IPDInvestigationList[index]['labstatus']}",
+                                                              style: TextStyle(
+                                                                  color: Colors.black,
+                                                                  fontSize: SizeConfig
+                                                                      .blockSizeHorizontal !*
+                                                                      4,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                            ),
+                                                          ),
+
+                                                          SizedBox(
+                                                            width: SizeConfig
+                                                                .blockSizeHorizontal !*
+                                                                4.0,
+                                                          ),
+                                                          // Text(
+                                                          //   "Catagory: ${OPDInvestigationList[index]['TYPE']}",
+                                                          //   style: TextStyle(
+                                                          //       color: Colors.black,
+                                                          //       fontSize: SizeConfig
+                                                          //           .blockSizeHorizontal !*
+                                                          //           4,
+                                                          //       fontWeight:
+                                                          //       FontWeight
+                                                          //           .w500),
+                                                          // ),
+
+                                                        ],
+                                                      ),
+                                                    ),
+
+                                                    SizedBox(
+                                                      height: SizeConfig.blockSizeVertical !*
+                                                          2,
+                                                    ),
+                                                    Align(
+                                                        alignment: Alignment.centerLeft,
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              "Dr.${IPDInvestigationList[index]['Doctor']}",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                  colorBlueApp,
+                                                                  fontSize: SizeConfig
+                                                                      .blockSizeHorizontal !*
+                                                                      4,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                            ),
+                                                            SizedBox(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal !*
+                                                                  10.0,
+                                                            ),
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: Text(
+                                                                "Created by:${IPDInvestigationList[index]['CreatedBy']}",
+                                                                style: TextStyle(
+                                                                    color: colorBlueApp,
+                                                                    fontSize: SizeConfig
+                                                                        .blockSizeHorizontal !*
+                                                                        3.5,
+                                                                    fontWeight:
+                                                                    FontWeight.w500),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal !*
+                                                                  2.0,
+                                                            ),
+                                                          ],
+                                                        )
+                                                    ),
+                                                    SizedBox(
+                                                      height: SizeConfig.blockSizeVertical !*
+                                                          2,
+                                                    ),
+
+                                                    Visibility(
+                                                      // visible: OPDInvestigationList[index].reffDoctorName!.isNotEmpty
+                                                      //     && OPDInvestigationList[index].refferPatient!.isNotEmpty,
+                                                      child: Align(
+                                                          alignment: Alignment.centerLeft,
+                                                          child: Row(
+                                                            children: [
+
+                                                              SizedBox(
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    2,
+                                                              ),
+                                                              Expanded(
+                                                                flex: 2,
+                                                                child: Text(
+                                                                  "Investigation:${IPDInvestigationList[index]['OPDService']}",
+                                                                  style: TextStyle(
+                                                                      color: Colors.black,
+                                                                      fontSize: SizeConfig
+                                                                          .blockSizeHorizontal !*
+                                                                          4,
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    8.0,
+                                                              ),
+                                                              // Text(
+                                                              //   "${OPDInvestigationList[index]['TYPE']}",
+                                                              //   style: TextStyle(
+                                                              //       color: Colors.black,
+                                                              //       fontSize: SizeConfig
+                                                              //           .blockSizeHorizontal !*
+                                                              //           3.5,
+                                                              //       fontWeight:
+                                                              //       FontWeight.w500),
+                                                              // ),
+                                                              SizedBox(
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal !*
+                                                                    2.0,
+                                                              ),
+                                                            ],
+                                                          )
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                          ),
+                                        ));
+                                  }),
+                              onRefresh: () {
+                                return getDoctorInvestigationIPD();
+                              })
+                              : Container()
+                        ],
+                      ),
+                    ),
+                  ),
+            ]
+            );
+
+          },
+        ),
       ),
     );
   }
@@ -370,8 +944,114 @@ State<DoctorInvestigationListScreen> {
   //   );
   // }
 
-  void getDoctorInvestigationList() async {
-    print('getDoctorInvestigationList');
+  // Future<void> getDoctorInvestigationList() async {
+  //   print('getDoctorInvestigationList');
+  //
+  //   try{
+  //
+  //     if (fromDateString.isEmpty && toDateString.isEmpty) {
+  //       fromDate = DateTime.now().subtract(Duration(days: 30));
+  //       toDate = DateTime.now();
+  //       fromDateString = DateFormat('yyyy-MM-dd').format(fromDate);
+  //       toDateString = DateFormat('yyyy-MM-dd').format(toDate);
+  //     }
+  //
+  //     String loginUrl = "${baseURL}doctor_investigation_list.php";
+  //     ProgressDialog pr = ProgressDialog(context);
+  //     Future.delayed(Duration.zero, () {
+  //       pr.show();
+  //     });
+  //     String patientUniqueKey = await getPatientUniqueKey();
+  //     String userType = await getUserType();
+  //     String patientIDP = await getPatientOrDoctorIDP();
+  //     debugPrint("Key and type");
+  //     debugPrint(patientUniqueKey);
+  //     debugPrint(userType);
+  //     String jsonStr = "{" +
+  //         "\"" +
+  //         "DoctorIDP" +
+  //         "\"" +
+  //         ":" +
+  //         "\"" +
+  //         patientIDP +
+  //         "\"," +
+  //         "\"" +
+  //         "fromdate" +
+  //         "\"" +
+  //         ":" +
+  //         "\"" +
+  //         fromDateString +
+  //         "\"" +
+  //         ",\""+
+  //         "todate" +
+  //         "\"" +
+  //         ":" +
+  //         "\"" +
+  //         toDateString +
+  //         "\"" +
+  //         "}";
+  //
+  //     debugPrint(jsonStr);
+  //
+  //     String encodedJSONStr = encodeBase64(jsonStr);
+  //     var response = await apiHelper.callApiWithHeadersAndBody(
+  //       url: loginUrl,
+  //
+  //       headers: {
+  //         "u": patientUniqueKey,
+  //         "type": userType,
+  //       },
+  //       body: {"getjson": encodedJSONStr},
+  //     );
+  //     //var resBody = json.decode(response.body);
+  //
+  //     debugPrint(response.body.toString());
+  //     final jsonResponse = json.decode(response.body.toString());
+  //
+  //     ResponseModel model = ResponseModel.fromJSON(jsonResponse);
+  //
+  //     pr.hide();
+  //
+  //     if (model.status == "OK") {
+  //       var data = jsonResponse['Data'];
+  //       var strData = decodeBase64(data);
+  //
+  //       // Replace '}' with '},'
+  //       strData = strData.replaceAllMapped(
+  //         RegExp('}{"TYPE":"'),
+  //             (match) => '},{"TYPE":"',
+  //       );
+  //
+  //
+  //       debugPrint("Decoded Data List : " + strData);
+  //
+  //       final jsonData = json.decode(strData);
+  //
+  //       for (var i = 0; i < jsonData.length; i++) {
+  //         final investigationList = jsonData[i];
+  //
+  //         if (investigationList.containsKey("OPD Investigation List") || investigationList.containsKey("IPD Investigation List")) {
+  //           final investigationType = investigationList.keys.first;
+  //           final investigationItems = (investigationList[investigationType] as List<dynamic>?)
+  //               ?.map((item) => InvestigationItem.fromJson(item, investigationType))
+  //               .toList();
+  //           if (investigationItems != null) {
+  //             allInvestigations.addAll(investigationItems);
+  //           }
+  //         }
+  //
+  //         debugPrint("----------------------");
+  //
+  //       }
+  //       setState(() {});
+  //     }
+  //   }catch (e) {
+  //     print('Error decoding JSON: $e');
+  //   }
+  // }
+
+  Future<void> getDoctorInvestigationOPD() async {
+    print('getOpdData');
 
     try{
 
@@ -382,11 +1062,12 @@ State<DoctorInvestigationListScreen> {
         toDateString = DateFormat('yyyy-MM-dd').format(toDate);
       }
 
-      String loginUrl = "${baseURL}doctor_investigation_list.php";
+      String loginUrl = "${baseURL}doctor_opd_investigation_list.php";
       ProgressDialog pr = ProgressDialog(context);
       Future.delayed(Duration.zero, () {
         pr.show();
       });
+
       String patientUniqueKey = await getPatientUniqueKey();
       String userType = await getUserType();
       String patientIDP = await getPatientOrDoctorIDP();
@@ -442,43 +1123,173 @@ State<DoctorInvestigationListScreen> {
         var data = jsonResponse['Data'];
         var strData = decodeBase64(data);
 
-        // Replace '}' with '},'
-        strData = strData.replaceAllMapped(
-          RegExp('}{"TYPE":"'),
-              (match) => '},{"TYPE":"',
-        );
-
-
-        debugPrint("Decoded Data List : " + strData);
-
+        debugPrint("Decoded Vital Data List : " + strData);
         final jsonData = json.decode(strData);
 
         for (var i = 0; i < jsonData.length; i++) {
-          final investigationList = jsonData[i];
 
-          if (investigationList.containsKey("OPD Investigation List") || investigationList.containsKey("IPD Investigation List")) {
-            final investigationType = investigationList.keys.first;
-            final investigationItems = (investigationList[investigationType] as List<dynamic>?)
-                ?.map((item) => InvestigationItem.fromJson(item, investigationType))
-                .toList();
-            if (investigationItems != null) {
-              allInvestigations.addAll(investigationItems);
-            }
-          }
+          final jo = jsonData[i];
+          String TYPE = jo['TYPE'].toString();
+          String id = jo['id'].toString();
+          String HospitalConsultationIDP = jo['HospitalConsultationIDP'].toString();
+          String S_date = jo['S_date'].toString();
+          String Patient = jo['Patient'].toString();
+          String Doctor = jo['Doctor'].toString();
+          String labstatus = jo['labstatus'].toString();
+          String R_date = jo['R_date'].toString();
+          String OPDService = jo['OPDService'].toString();
+          String PATID = jo['PATID'].toString();
+          String CreatedBy = jo['CreatedBy'].toString();
 
-          debugPrint("----------------------");
-          // String organizationLogoImage = jo['OrganizationLogoImage'].toString();
-          // String organizationIDF = jo['OrganizationIDF'].toString();
-          // String businessName = jo['BusinessName'].toString();
-          //
-          // Map<String, dynamic> OrganizationMap = {
-          //   "OrganizationLogoImage": organizationLogoImage,
-          //   "OrganizationIDF": organizationIDF,
-          //   "BusinessName" : businessName,
-          // };
-          // listInvestigations.add(OrganizationMap);
-          // debugPrint("Added to list: $complainName");
+          Map<String, dynamic> OrganizationMap = {
+            "TYPE" : TYPE,
+            "id": id,
+            "HospitalConsultationIDP": HospitalConsultationIDP,
+            "S_date" : S_date,
+            "Patient": Patient,
+            "Doctor": Doctor,
+            "labstatus" : labstatus,
+            "R_date": R_date,
+            "OPDService": OPDService,
+            "PATID" : PATID,
+            "CreatedBy": CreatedBy,
+          };
+          OPDInvestigationList.add(OrganizationMap);
+          // {"TYPE":"radiology","id":6279,"HospitalConsultationIDP":63582,
+          // "S_date":"2024-03-04 11:34:44","Patient":"PRIYANKABEN PARAMAR",
+          // "Doctor":"CHIRAG RAJESHBHAI PATEL","labstatus":"Report Send",
+          // "R_date":"2024-03-04 11:34:44","OPDService":"LEFT ELBOW AP\/ LAT",
+          // "PATID":19267,"CreatedBy":"varsha wadhwani"},
+
+          // debugPrint("Decoded : ${OPDInvestigationList}");
         }
+
+        setState(() {});
+      }
+    }catch (e) {
+      print('Error decoding JSON: $e');
+    }
+  }
+
+  Future<void> getDoctorInvestigationIPD() async {
+    print('getIpdData');
+
+    try{
+
+      if (fromDateString.isEmpty && toDateString.isEmpty) {
+        fromDate = DateTime.now().subtract(Duration(days: 30));
+        toDate = DateTime.now();
+        fromDateString = DateFormat('yyyy-MM-dd').format(fromDate);
+        toDateString = DateFormat('yyyy-MM-dd').format(toDate);
+      }
+
+      String loginUrl = "${baseURL}doctor_ipd_investigation_list.php";
+      ProgressDialog pr = ProgressDialog(context);
+      Future.delayed(Duration.zero, () {
+        pr.show();
+      });
+
+      String patientUniqueKey = await getPatientUniqueKey();
+      String userType = await getUserType();
+      String patientIDP = await getPatientOrDoctorIDP();
+      debugPrint("Key and type");
+      debugPrint(patientUniqueKey);
+      debugPrint(userType);
+      String jsonStr = "{" +
+          "\"" +
+          "DoctorIDP" +
+          "\"" +
+          ":" +
+          "\"" +
+          patientIDP +
+          "\"," +
+          "\"" +
+          "fromdate" +
+          "\"" +
+          ":" +
+          "\"" +
+          fromDateString +
+          "\"" +
+          ",\""+
+          "todate" +
+          "\"" +
+          ":" +
+          "\"" +
+          toDateString +
+          "\"" +
+          "}";
+
+      debugPrint(jsonStr);
+
+      String encodedJSONStr = encodeBase64(jsonStr);
+      var response = await apiHelper.callApiWithHeadersAndBody(
+        url: loginUrl,
+
+        headers: {
+          "u": patientUniqueKey,
+          "type": userType,
+        },
+        body: {"getjson": encodedJSONStr},
+      );
+      //var resBody = json.decode(response.body);
+
+      debugPrint(response.body.toString());
+      final jsonResponse = json.decode(response.body.toString());
+
+      ResponseModel model = ResponseModel.fromJSON(jsonResponse);
+
+      pr.hide();
+
+      if (model.status == "OK") {
+        var data = jsonResponse['Data'];
+        var strData = decodeBase64(data);
+
+        debugPrint("Decoded Vital Data List : " + strData);
+        final jsonData = json.decode(strData);
+
+        for (var i = 0; i < jsonData.length; i++) {
+
+          final jo = jsonData[i];
+          String TYPE = jo['TYPE'].toString();
+          String id = jo['id'].toString();
+          String INID = jo['INID'].toString();
+          String HospitalConsultationIDP = jo['HospitalConsultationIDP'].toString();
+          String S_date = jo['S_date'].toString();
+          String Patient = jo['Patient'].toString();
+          String Doctor = jo['Doctor'].toString();
+          String labstatus = jo['labstatus'].toString();
+          String R_date = jo['R_date'].toString();
+          String OPDService = jo['OPDService'].toString();
+          String PATID = jo['PATID'].toString();
+          String CreatedBy = jo['CreatedBy'].toString();
+          String UpdateTimeStamp = jo['UpdateTimeStamp'].toString();
+
+
+          Map<String, dynamic> OrganizationMap = {
+            "TYPE" : TYPE,
+            "id": id,
+            "INID": INID,
+            "HospitalConsultationIDP": HospitalConsultationIDP,
+            "S_date" : S_date,
+            "Patient": Patient,
+            "Doctor": Doctor,
+            "labstatus" : labstatus,
+            "R_date": R_date,
+            "OPDService": OPDService,
+            "PATID" : PATID,
+            "CreatedBy": CreatedBy,
+            "UpdateTimeStamp": UpdateTimeStamp,
+
+          };
+          IPDInvestigationList.add(OrganizationMap);
+          // {"TYPE":"radiology","id":7019,"INID":2575,"PATID":31614,
+          // "S_date":"2024-03-06 18:35:00","Patient":"PRIYANKABEN PARMAR F\/25","Doctor":"CHIRAG RAJESHBHAI PATEL",
+          // "labstatus":"Report Send","R_date":"2024-03-06 18:36:23","OPDService":"LEFT ELBOW AP\/ LAT",
+          // "CreatedBy":"SHUBH PATEL","UpdateTimeStamp":"2024-03-07 10:05:54"}
+
+          // debugPrint("Decoded : ${OPDInvestigationList}");
+        }
+
         setState(() {});
       }
     }catch (e) {

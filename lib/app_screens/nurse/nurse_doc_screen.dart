@@ -11,22 +11,24 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:swasthyasetu/api/api_helper.dart';
+import 'package:swasthyasetu/app_screens/PDFViewerCachedFromUrl.dart';
+import 'package:swasthyasetu/app_screens/doctor_dashboard_screen.dart';
 import 'package:swasthyasetu/app_screens/fullscreen_image.dart';
-import 'package:swasthyasetu/app_screens/nurse_add_doc_screen.dart';
+import 'package:swasthyasetu/app_screens/my_document_doctor/add_my_doc_doctor.dart';
+import 'package:swasthyasetu/app_screens/nurse/nurse_add_doc_screen.dart';
 import 'package:swasthyasetu/global/SizeConfig.dart';
 import 'package:swasthyasetu/global/utils.dart';
 import 'package:swasthyasetu/podo/model_report.dart';
 import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/color.dart';
+import 'package:swasthyasetu/utils/progress_dialog.dart';
 import 'package:swasthyasetu/widgets/date_range_picker_custom.dart'
 as DateRagePicker;
-
-import '../utils/color.dart';
-import '../utils/progress_dialog.dart';
-import 'add_document_screen.dart';
-//import 'package:bidirectional_scroll_view/bidirectional_scroll_view.dart';
+//import 'package:bidirectional_scroll_view/bidirectional_scroll_view.dart';NurseDocumentScreen
 
 class NurseDocumentScreen extends StatefulWidget {
   String? patientIDP;
+  String? documenttype;
   var fromDate = DateTime.now().subtract(Duration(days: 7));
   var toDate = DateTime.now();
 
@@ -41,8 +43,9 @@ class NurseDocumentScreen extends StatefulWidget {
 
   Widget? emptyMessageWidget;
 
-  NurseDocumentScreen({String? patientIDP}) {
+  NurseDocumentScreen({ String? patientIDP , String ? documenttype }) {
     this.patientIDP = patientIDP;
+    this.documenttype = documenttype;
   }
 
   @override
@@ -120,7 +123,7 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
         }
       }
     });
-    getPatientReport(context);
+    getDocumentsNurse(context);
   }
 
   @override
@@ -166,7 +169,7 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
     return SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: Text("My Library",
+            title: Text("My Documents",
                 style: TextStyle(fontSize: SizeConfig.blockSizeVertical !* 2.5)),
             backgroundColor: Color(0xFFFFFFFF),
             iconTheme: IconThemeData(color: Colorsblack), toolbarTextStyle: TextTheme(
@@ -187,8 +190,8 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              NurseAddDocumentScreen(widget.patientIDP!))).then((value) {
-                    getPatientReport(context);
+                              NurseAddDocumentScreen(patientIDP))).then((value) {
+                    getDocumentsNurse(context);
                   });
                 },
                 child: Icon(Icons.add),
@@ -217,7 +220,7 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
                                       onTap: () {
                                         if (isADocument(index)) {
                                           downloadAndOpenTheFile(
-                                              "${baseURL}images/staffdocument/"
+                                              "${baseURL}images/doctordocument/"
                                                   "${listPatientReport[index].reportImage}",
                                               listPatientReport[index]
                                                   .reportImage);
@@ -226,7 +229,7 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
                                               MaterialPageRoute(
                                                   builder: (context) {
                                                     return FullScreenImage(
-                                                        "${baseURL}images/staffdocument/"
+                                                        "${baseURL}images/doctordocument/"
                                                             "${listPatientReport[index].reportImage}");
                                                   }));
                                         }
@@ -260,7 +263,25 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
                                                             1,
                                                       ),
                                                       Text(
-                                                        "Document",
+                                                        listPatientReport[
+                                                        index]
+                                                            .categoryName,
+                                                        style: TextStyle(
+                                                            color:
+                                                            Colors.grey,
+                                                            fontSize: SizeConfig
+                                                                .blockSizeHorizontal !*
+                                                                3.0),
+                                                      ),
+                                                      SizedBox(
+                                                        height: SizeConfig
+                                                            .blockSizeVertical !*
+                                                            1,
+                                                      ),
+                                                      Text(
+                                                        listPatientReport[
+                                                        index]
+                                                            .reportDate,
                                                         style: TextStyle(
                                                             color:
                                                             Colors.grey,
@@ -285,12 +306,21 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
                                                         debugPrint(
                                                             "download file location");
                                                         debugPrint(
-                                                          "${baseURL}images/staffdocument/${listPatientReport[index].reportImage}",
+                                                          "${baseURL}images/doctordocument/${listPatientReport[index].reportImage}",
                                                         );
-                                                        downloadAndOpenTheFile(
-                                                            "${baseURL}images/staffdocument/${listPatientReport[index].reportImage}",
-                                                            listPatientReport[index]
-                                                                .reportImage);
+                                                        // downloadAndOpenTheFile(
+                                                        //     "${baseURL}images/doctordocument/${listPatientReport[index].reportImage}",
+                                                        //     listPatientReport[index]
+                                                        //         .reportImage);
+                                                        String downloadPdfUrl = "${baseURL}images/doctordocument/${listPatientReport[index].reportImage}";
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute<dynamic>(
+                                                              builder: (_) => PDFViewerCachedFromUrl(
+                                                                url: downloadPdfUrl,
+                                                              ),
+                                                            ));
+
                                                         /*OpenFile.open(
                                                                 "${baseURL}images/patientreport/${listPatientReport[index].reportImage}");*/
                                                       },
@@ -317,7 +347,7 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
                                                             .push(MaterialPageRoute(builder:
                                                             (context) {
                                                           return FullScreenImage(
-                                                              "${baseURL}images/staffdocument/${listPatientReport[index].reportImage}");
+                                                              "${baseURL}images/doctordocument/${listPatientReport[index].reportImage}");
                                                         }));
                                                       },
                                                       child:
@@ -337,35 +367,43 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
                                                               image: AssetImage('images/shimmer_effect.png'),
                                                               fit: BoxFit.fitWidth,
                                                             ),
-                                                            imageUrl: "${baseURL}images/staffdocument/${listPatientReport[index].reportImage}",
+                                                            imageUrl: "${baseURL}images/doctordocument/${listPatientReport[index].reportImage}",
                                                             fit: BoxFit.fitWidth,
                                                             width: SizeConfig.blockSizeHorizontal !* 35,
                                                             height: SizeConfig.blockSizeHorizontal !* 35),
                                                       ),
                                                     )),
-                                                // Container(
-                                                //   width: SizeConfig
-                                                //       .blockSizeHorizontal !*
-                                                //       12,
-                                                //   child: InkWell(
-                                                //     onTap: () {
-                                                //       deleteReportFromTheList(
-                                                //           listPatientReport[
-                                                //           index]
-                                                //               .patientReportIDP,
-                                                //           listPatientReport[
-                                                //           index]
-                                                //               .reportImage);
-                                                //     },
-                                                //     child: Icon(
-                                                //       Icons.delete,
-                                                //       color: Colors.red,
-                                                //       size: SizeConfig
-                                                //           .blockSizeHorizontal !*
-                                                //           8,
-                                                //     ),
-                                                //   ),
-                                                // ),
+                                                Container(
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal !*
+                                                      12,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      deleteReportFromTheList(
+                                                        listPatientReport[
+                                                        index]
+                                                            .patientReportIDP,
+                                                        listPatientReport[
+                                                        index]
+                                                            .reportImage,
+                                                        listPatientReport[
+                                                        index]
+                                                            .reportTagName,
+                                                        listPatientReport[
+                                                        index]
+                                                            .reportTime,
+                                                      );
+                                                    },
+                                                    child: Icon(
+                                                      Icons.delete,
+                                                      color: Colors.red,
+                                                      size: SizeConfig
+                                                          .blockSizeHorizontal !*
+                                                          8,
+                                                    ),
+                                                  ),
+                                                ),
+
                                               ],
                                             ),
                                           )),
@@ -382,7 +420,7 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
               ],
             ),
             onRefresh: () {
-              return getPatientReport(context);
+              return getDocumentsNurse(context);
             },
           ),
           /*)*/
@@ -404,9 +442,9 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
     //= Base64Encoder().convert()
   }
 
-  Future<String> getPatientReport(BuildContext context) async {
+  Future<String> getDocumentsNurse(BuildContext context) async {
     //getCategoryList(context);
-    String loginUrl = "${baseURL}doctor_document_list.php";
+    String loginUrl = "${baseURL}doctor_staff_wise_document_list.php";
     ProgressDialog? pr;
     Future.delayed(Duration.zero, () {
       pr = ProgressDialog(context);
@@ -421,23 +459,15 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
     debugPrint(userType);
     String jsonStr = "{" +
         "\"" +
-        "PatientIDP" +
+        "DoctorIDP" +
         "\"" +
         ":" +
         "\"" +
         patientIDP +
         "\"" +
-        ","
-        "\"" +
-        "StaffIDF" +
-        "\"" +
-        ":" +
-        "\"" +
-        "120" +
-        "\"" +
         "}";
 
-    // {"DoctorIDP":"1","StaffIDF":"120"}
+    // {"DoctorIDP":"1"}
 
     debugPrint(jsonStr);
 
@@ -466,8 +496,8 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
       final jsonData = json.decode(strData);
       for (int i = 0; i < jsonData.length; i++) {
         final jo = jsonData[i];
-        listPatientReport.add(ModelReport(jo['DocumentTagName'], "", "",
-            jo['DocumentImageName'], jo['DocumentIDP'], ""));
+        listPatientReport.add(ModelReport(jo['DisplayName'], jo['timestamp'], jo['DocumentType'].toString(),
+            jo['DocumentName'], jo['DocumentIDP'].toString(), jo['Category']));
       }
       setState(() {
         apiCalled = true;
@@ -481,66 +511,87 @@ class NurseDocumentScreenState extends State<NurseDocumentScreen> {
   }
 
   void deleteReportFromTheList(
-      String patientReportIDP, String reportImage) async {
-    String loginUrl = "${baseURL}patientDocumentDelete.php";
+      String patientReportIDP, reportImage ,reportTagName ,documenttype) async {
+    try {
+      String loginUrl = "${baseURL}doctor_wise_add_new_document_submit.php";
 
-    ProgressDialog pr = ProgressDialog(context);
-    pr.show();
-    //listIcon = new List();
-    String patientUniqueKey = await getPatientUniqueKey();
-    String userType = await getUserType();
-    debugPrint("Key and type");
-    debugPrint(patientUniqueKey);
-    debugPrint(userType);
-    String jsonStr = "{" +
-        "\"" +
-        "PatientIDP" +
-        "\"" +
-        ":" +
-        "\"" +
-        widget.patientIDP! +
-        "\"" +
-        "," +
-        "\"" +
-        "DocumentIDP" +
-        "\"" +
-        ":" +
-        "\"" +
-        patientReportIDP +
-        "\"" +
-        /*"," +
-        "\"" +
-        "PatientReportImage" +
-        "\"" +
-        ":" +
-        "\"" +
-        reportImage +
-        "\"" +*/
-        "}";
+      ProgressDialog pr = ProgressDialog(context);
+      pr.show();
+      //listIcon = new List();
+      String patientUniqueKey = await getPatientUniqueKey();
+      String userType = await getUserType();
+      String patientIDP = await getPatientOrDoctorIDP();
+      String staffIDP = await getDoctorIDP();
+      debugPrint("Key and type");
+      debugPrint(patientUniqueKey);
+      debugPrint(staffIDP);
+      debugPrint(userType);
+      // String jsonStr = "{" +
+      //     "\"" +
+      //     "DoctorIDP" +
+      //     "\"" +
+      //     ":" +
+      //     "\"" +
+      //     patientIDP +
+      //     "\"" +
+      //     "," +
+      //     "\"" +
+      //     "DocumentIDP" +
+      //     "\"" +
+      //     ":" +
+      //     "\"" +
+      //     patientReportIDP +
+      //     "\"" +
+      //     "," +
+      //     "\"" + "documenttype" + "\"" + ":" + "\"" + documenttype.toString() + "\"" + "," +
+      //     "\"" + "documentname" + "\"" + ":" + "\"" + reportTagName + "\"" + "," +
+      //     "\"" + "DeleteFlag" + "\"" + ":" + "\"" + "1" + "\"" +
+      //     "}";
 
-    debugPrint(jsonStr);
+      String jsonStr = "{" +
+          "\"" + "DocumentIDP" + "\"" + ":" + "\"" + "" + "\"" + "," +
+          "\"" + "StaffIDF" + "\"" + ":" + "\"" + staffIDP + "\"" + "," +
+          "\"" + "documenttype" + "\"" + ":" + "\"" + documenttype.toString() + "\"" + "," +
+          "\"" + "DoctorIDP" + "\"" + ":" + "\"" + patientIDP + "\"" + "," +
+          "\"" + "documentname" + "\"" + ":" + "\"" + reportTagName + "\"" + "," +
+          "\"" + "DeleteFlag" + "\"" + ":" + "\"" + "0" + "\"" +
+          "}";
 
-    String encodedJSONStr = encodeBase64(jsonStr);
-    var response = await apiHelper.callApiWithHeadersAndBody(
-      url: loginUrl,
-      //Uri.parse(loginUrl),
-      headers: {
-        "u": patientUniqueKey,
-        "type": userType,
-      },
-      body: {"getjson": encodedJSONStr},
-    );
-    //var resBody = json.decode(response.body);
-    debugPrint(response.body.toString());
-    final jsonResponse = json.decode(response.body.toString());
-    ResponseModel model = ResponseModel.fromJSON(jsonResponse);
-    pr.hide();
-    if (model.status == "OK") {
-      getPatientReport(context);
-    } else {
+      //{"DocumentIDP":"","documenttype":"2","StaffIDF":"120",
+      // "DoctorIDP":"1","documentname":"12th MarkSheet","DeleteFlag":"1"}
+
+      debugPrint(jsonStr);
+
+      String encodedJSONStr = encodeBase64(jsonStr);
+      var response = await apiHelper.callApiWithHeadersAndBody(
+        url: loginUrl,
+        //Uri.parse(loginUrl),
+        headers: {
+          "u": patientUniqueKey,
+          "type": userType,
+        },
+        body: {"getjson": encodedJSONStr},
+      );
+      //var resBody = json.decode(response.body);
+      debugPrint(response.body.toString());
+
+      final jsonResponse = json.decode(response.body.toString());
+      ResponseModel model = ResponseModel.fromJSON(jsonResponse);
+      pr.hide();
+      if (model.status == "OK") {
+        getDocumentsNurse(context);
+      } else {
+        final snackBar = SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(model.message!),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }catch (e) {
+      print('Error deleting report: $e');
       final snackBar = SnackBar(
         backgroundColor: Colors.red,
-        content: Text(model.message!),
+        content: Text('An error occurred while deleting the report.'),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }

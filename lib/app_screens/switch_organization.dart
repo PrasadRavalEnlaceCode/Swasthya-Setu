@@ -28,6 +28,7 @@ class _SwitchOrganizationScreenState extends State<SwitchOrganizationScreen> {
 
   late String selectedOrganizationIDF;
   late String selectedOrganizationName;
+  late String selectedOrganizationUnit;
   // DashboardDoctorScreen DashboardDoctorScreen = DashboardDoctorScreen();
   List<Map<String, dynamic>> listOrganizations = <Map<String, dynamic>>[];
   String baseImageUrl = baseURL + "images/businesslogo/";
@@ -80,6 +81,7 @@ class _SwitchOrganizationScreenState extends State<SwitchOrganizationScreen> {
     // Save the selected organization to shared preferences
     saveSelectedOrganization();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -160,6 +162,7 @@ class _SwitchOrganizationScreenState extends State<SwitchOrganizationScreen> {
                           setState(() {
                             selectedOrganizationIDF = listOrganizations[index]["OrganizationIDF"];
                             selectedOrganizationName = listOrganizations[index]["OrganizationName"];
+                            selectedOrganizationUnit = listOrganizations[index]["Unit"];
                           });
 
                           // Update headers and save selected organization
@@ -185,7 +188,6 @@ class _SwitchOrganizationScreenState extends State<SwitchOrganizationScreen> {
                                     onPressed: () {
                                       // Navigator.of(context).pop();
                                       getOrganizationChangeSubmit(listOrganizations[index]["OrganizationIDF"]);
-
                                     },
                                     child: Text("Yes"),
                                   ),
@@ -369,6 +371,9 @@ class _SwitchOrganizationScreenState extends State<SwitchOrganizationScreen> {
         // var strData = decodeBase64(data);
         // debugPrint("Decoded Data List : " + strData);
 
+        // Clear selected organization from shared preferences
+        // clearSelectedOrganizationFromSharedPreferences();
+
         final snackBar = SnackBar(
           backgroundColor: Colors.green,
           content: Text("Organization Switched Successfully"),
@@ -378,7 +383,9 @@ class _SwitchOrganizationScreenState extends State<SwitchOrganizationScreen> {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => DoctorDashboardScreen(
               selectedOrganizationIDF: selectedOrganizationIDF,
-                selectedOrganizationName: selectedOrganizationName)));
+                selectedOrganizationName: selectedOrganizationName,
+              selectedOrganizationUnit: selectedOrganizationUnit,
+            )));
       }
       else {final snackBar = SnackBar(
         backgroundColor: Colors.red,

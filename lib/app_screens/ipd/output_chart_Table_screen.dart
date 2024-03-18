@@ -1,14 +1,22 @@
 import 'dart:convert';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swasthyasetu/api/api_helper.dart';
 import 'package:swasthyasetu/app_screens/PDFViewerCachedFromUrl.dart';
-import 'package:swasthyasetu/app_screens/ipd/input_chart_add_screen.dart';
+import 'package:swasthyasetu/app_screens/doctor_dashboard_screen.dart';
+import 'package:swasthyasetu/app_screens/ipd/output_chart_add_screen.dart';
+import 'package:swasthyasetu/app_screens/ipd/vital_chart_add_screen.dart';
 import 'package:swasthyasetu/global/SizeConfig.dart';
 import 'package:swasthyasetu/global/utils.dart';
 import 'package:swasthyasetu/podo/response_main_model.dart';
 import 'package:swasthyasetu/utils/color.dart';
+import 'package:swasthyasetu/utils/common_methods.dart';
 import 'package:swasthyasetu/utils/progress_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class InputChartScreen extends StatefulWidget {
+class OutputChartTableScreen extends StatefulWidget {
 
   final String patientindooridp;
   final String PatientIDP;
@@ -16,7 +24,7 @@ class InputChartScreen extends StatefulWidget {
   final String firstname;
   final String lastName;
 
-  InputChartScreen({
+  OutputChartTableScreen({
     required this.patientindooridp,
     required this.PatientIDP,
     required this.doctoridp,
@@ -25,24 +33,14 @@ class InputChartScreen extends StatefulWidget {
   });
 
 
+
   @override
-  State<InputChartScreen> createState() => _InputChartScreenState();
+  State<OutputChartTableScreen> createState() => _OutputChartTableScreenState();
 }
 
-class _InputChartScreenState extends State<InputChartScreen> {
-
-  TextEditingController tempController = TextEditingController();
-  TextEditingController PulseController = TextEditingController();
-  TextEditingController RespController = TextEditingController();
-  TextEditingController BpSystolicController = TextEditingController();
-  TextEditingController BpDiastolicController = TextEditingController();
-  TextEditingController SPO2Controller = TextEditingController();
+class _OutputChartTableScreenState extends State<OutputChartTableScreen> {
 
   List<Map<String, dynamic>> ViewTableDataList = <Map<String, dynamic>>[];
-  // List<Map<String, dynamic>> srAndReportList = [];
-  // String baseImageURL = "https://swasthyasetu.com/ws/images/labreports/new/";
-  // List<Map<String, dynamic>> View1ReportList = <Map<String, dynamic>>[];
-  // List<Map<String, dynamic>> srAnd1ReportList = [];
   bool isIpdData = false;
 
   DateTime selectedDate = DateTime.now();
@@ -63,25 +61,27 @@ class _InputChartScreenState extends State<InputChartScreen> {
     }
   }
 
-  @override
-  void initState() {
-    // selectedOrganizationName;
-    // getOrganizations();
-    getInputChartTableData(widget.PatientIDP,widget.patientindooridp);
-    super.initState();
-  }
-
   // Function to call API with updated date
   void callApiWithUpdatedDate() {
     // Call your API function here with updated selectedDate
-    getInputChartTableData(widget.PatientIDP,widget.patientindooridp);
+    getOutputChartTableData(widget.PatientIDP,widget.patientindooridp);
+  }
+
+
+
+  @override
+  void initState() {
+
+    getOutputChartTableData(widget.PatientIDP,widget.patientindooridp);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Input"),
+        title: Text("Output Vital Table"),
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
             color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
@@ -129,10 +129,7 @@ class _InputChartScreenState extends State<InputChartScreen> {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: () {
-                        _selectDate(context);
-                        // callApiWithUpdatedDate();
-                      },
+                      onTap: () => _selectDate(context),
                       child: Container(
                         margin: EdgeInsets.all(
                           SizeConfig.blockSizeHorizontal !* 3.0,
@@ -172,7 +169,7 @@ class _InputChartScreenState extends State<InputChartScreen> {
                   ),
                   InkWell(
                     onTap: (){
-                      getInputChartPDF(
+                      getOutputChartPDF(
                         widget.patientindooridp ,
                       );
                     },
@@ -181,6 +178,19 @@ class _InputChartScreenState extends State<InputChartScreen> {
                   SizedBox(width: 10,),
                 ],
               ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     Navigator.of(context).push(MaterialPageRoute(builder: (context)
+              //     => OutputChartAddScreen(
+              //         patientindooridp: widget.patientindooridp,
+              //         PatientIDP: widget.PatientIDP,
+              //         doctoridp: widget.doctoridp,
+              //         firstname: widget.firstname,
+              //         lastName: widget.lastName)));
+              //   },
+              //
+              //   child: Text("Add Output Data"),
+              // ),
               Container(
                 decoration: BoxDecoration(
                   border: Border(
@@ -188,126 +198,89 @@ class _InputChartScreenState extends State<InputChartScreen> {
                     top: BorderSide(width: 1.0, color: Colors.black),
                   ),
                 ),
-                child: SingleChildScrollView(
+                child:
+                // Container(Time	URINE	VOMIT	ASP	STOOL	OTHER),
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
-                    dataTextStyle: TextStyle(
-                      color: Colors.black,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                    ),
                     columnSpacing: 25.0,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black), // Add your desired color and other properties
-                    ),
                     columns: [
-                      DataColumn(
-                          label:
-                          Text('Time',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Ubuntu",
-                              fontSize: SizeConfig.blockSizeVertical! * 2.5,
-                            ),
-                        )),
-                      DataColumn(
-                        label:
-                        Column(
-                          children: [
-                            Text("ORAL"),
-                            Text("SUB"),
-                          ],
-                        ),
-                      ),
-                      DataColumn(
-                        label:
-                        Column(
-                          children: [
-                            Text("ORAL"),
-                            Text("QUANTITY"),
-                          ],
-                        ),
-                      ),
-                      DataColumn(
-                        label:
-                        Column(
-                          children: [
-                            Text("RT"),
-                            Text("SUB"),
-                          ],
-                        ),
-                      ),
-                      DataColumn(
-                        label:
-                        Column(
-                          children: [
-                            Text("RT"),
-                            Text("QUANTITY"),
-                          ],
-                        ),
-                      ),
-                      DataColumn(
-                        label:
-                        Column(
-                          children: [
-                            Text("IV1"),
-                            Text("DRUG"),
-                          ],
-                        ),
-                      ),
-                      DataColumn(
-                        label:
-                        Column(
-                          children: [
-                            Text("IV1"),
-                            Text("QUANTITY"),
-                          ],
-                        ),
-                      ),
-                      DataColumn(
-                        label:
-                        Column(
-                          children: [
-                            Text("IV2"),
-                            Text("DRUG"),
-                          ],
-                        ),
-                      ),
-                      DataColumn(
-                        label:
-                        Column(
-                          children: [
-                            Text("IV2"),
-                            Text("QUANTITY"),
-                          ],
-                        ),
-                      ),
+                      DataColumn(label: Text('Time',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                      DataColumn(label: Text('URINE',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                      DataColumn(label: Text('VOMIT',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                      DataColumn(label: Text('ASP',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                      DataColumn(label: Text('STOOL',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+                      DataColumn(label: Text('OTHER',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Ubuntu",
+                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                        ),)),
+
                     ],
-                    rows: ViewTableDataList.map((item) {
-                      return DataRow(
-                        cells: [
-                          DataCell(
-                              Text(item['EntryTime'].toString())
-                          ),
-                          DataCell(
-                              Text(item['OralSub'].toString())),
-                          DataCell(
-                              Text(item['OralQuantity'].toString())),
-                          DataCell(
-                              Text(item['RTSub'].toString())),
-                          DataCell(
-                              Text(item['RTQuantity'].toString())),
-                          DataCell(
-                              Text(item['IVDrug1'].toString())),
-                          DataCell(
-                              Text(item['IVQuantity1'].toString())),
-                          DataCell(
-                              Text(item['IVDrug2'].toString())),
-                          DataCell(
-                              Text(item['IVQuantity2'].toString())),
-                        ],
-                      );
-                    }).toList(),
+                    rows: ViewTableDataList.map(
+                            (index) {
+                          return DataRow(
+                            cells: [
+                              DataCell(
+                                Text(
+                                  index['EntryTime'] ?? '00.00',
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  index['Urine'] ?? '',
+                                ),
+                              ),
+                              DataCell(
+                                  Text(
+                                      index['Vomit'] ?? ''
+                                  )
+                              ),
+                              DataCell(
+                                  Text(
+                                      index['ASP'] ?? ''
+                                  )
+                              ),
+                              DataCell(
+                                Text(
+                                  index['Stool'] ?? '',
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  index['Other'] ?? '',
+                                ),
+                              ),
+                              // Add more DataCell widgets based on your requirements
+                            ],
+                          );
+                        }).toList(),
                   ),
                 ),
               ),
@@ -320,13 +293,13 @@ class _InputChartScreenState extends State<InputChartScreen> {
         onPressed: () {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) =>
-                  InputChartAddScreen(
-                    patientindooridp: widget.patientindooridp,
-                    PatientIDP: widget.PatientIDP,
-                    doctoridp: widget.doctoridp,
-                    firstname: widget.firstname,
-                    lastName: widget.lastName,
-                  )));
+                  OutputChartAddScreen(
+                patientindooridp: widget.patientindooridp,
+                PatientIDP: widget.PatientIDP,
+                doctoridp: widget.doctoridp,
+                firstname: widget.firstname,
+                lastName: widget.lastName,
+              )));
         },
         child: Icon(Icons.add,color: Colors.blue),
         backgroundColor: Colors.black, // Set your desired button color
@@ -335,11 +308,11 @@ class _InputChartScreenState extends State<InputChartScreen> {
     );
   }
 
-  void getInputChartTableData(String PatientIDF,PatientIndoorIDF) async {
+  void getOutputChartTableData(String PatientIDF,PatientIndoorIDF) async {
     print('getIpdData');
 
     try{
-      String loginUrl = "${baseURL}doctor_input_main_list.php";
+      String loginUrl = "${baseURL}doctor_output_main_list.php";
       ProgressDialog pr = ProgressDialog(context);
       Future.delayed(Duration.zero, () {
         pr.show();
@@ -400,14 +373,11 @@ class _InputChartScreenState extends State<InputChartScreen> {
 
           final jo = jsonData[i];
           String IndoorNursingChartIDP = jo['IndoorNursingChartIDP'].toString();
-          String OralSub = jo['OralSub'].toString();
-          String OralQuantity = jo['OralQuantity'].toString();
-          String IVDrug1 = jo['IVDrug1'].toString();
-          String IVQuantity1 = jo['IVQuantity1'].toString();
-          String IVDrug2 = jo['IVDrug2'].toString();
-          String IVQuantity2 = jo['IVQuantity2'].toString();
-          String RTSub = jo['RTSub'].toString();
-          String RTQuantity = jo['RTQuantity'].toString();
+          String Urine = jo['Urine'].toString();
+          String Vomit = jo['Vomit'].toString();
+          String ASP = jo['ASP'].toString();
+          String Stool = jo['Stool'].toString();
+          String Other = jo['Other'].toString();
           String EntryDate = jo['EntryDate'].toString();
           String EntryTime = jo['EntryTime'].toString();
           String EntryTimeID = jo['EntryTimeID'].toString();
@@ -415,24 +385,22 @@ class _InputChartScreenState extends State<InputChartScreen> {
 
           Map<String, dynamic> OrganizationMap = {
             "IndoorNursingChartIDP": IndoorNursingChartIDP,
-            "OralSub": OralSub,
-            "OralQuantity" : OralQuantity,
-            "IVDrug1": IVDrug1,
-            "IVQuantity1": IVQuantity1,
-            "IVDrug2" : IVDrug2,
-            "IVQuantity2": IVQuantity2,
-            "RTSub": RTSub,
-            "RTQuantity" : RTQuantity,
+            "Urine": Urine,
+            "Vomit" : Vomit,
+            "ASP": ASP,
+            "Stool": Stool,
+            "Other" : Other,
             "EntryDate": EntryDate,
             "EntryTime" : EntryTime,
             "EntryTimeID": EntryTimeID,
           };
           ViewTableDataList.add(OrganizationMap);
-          // {"IndoorNursingChartIDP":"88614","OralSub":"",
-          // "OralQuantity":"","IVDrug1":"","IVQuantity1":"",
-          // "IVDrug2":"","IVQuantity2":"","RTSub":"","RTQuantity":"",
-          // "EntryDate":"2022-12-05","EntryTime":"","EntryTimeID":"0"}
+          // [{"IndoorNursingChartIDP":"88614","Urine":"","Vomit":"",
+          // "ASP":"","Stool":"","Other":"","EntryDate":"2022-12-05",
+          // "EntryTime":"","EntryTimeID":"0"}
         }
+
+        print("data table values : ${ViewTableDataList}");
 
         setState(() {});
       }
@@ -451,11 +419,11 @@ class _InputChartScreenState extends State<InputChartScreen> {
     return String.fromCharCodes(bytes);
   }
 
-  void getInputChartPDF(String PatientIndoorIDF) async {
+  void getOutputChartPDF(String PatientIndoorIDF) async {
     print('getDoctorInvoiceList');
 
     try{
-      String loginUrl = "${baseURL}doctor_input_chart.php";
+      String loginUrl = "${baseURL}doctor_output_chart.php";
       ProgressDialog pr = ProgressDialog(context);
       Future.delayed(Duration.zero, () {
         pr.show();
@@ -516,7 +484,7 @@ class _InputChartScreenState extends State<InputChartScreen> {
         // Parse the JSON string
         List<Map<String, dynamic>> fileList = List<Map<String, dynamic>>.from(json.decode(strData));
 
-        String baseInvoiceURL = "https://swasthyasetu.com/ws/images/input/";
+        String baseInvoiceURL = "https://swasthyasetu.com/ws/images/output/";
 
         // Check if the list is not empty
         if (fileList.isNotEmpty) {
@@ -539,6 +507,5 @@ class _InputChartScreenState extends State<InputChartScreen> {
       print('Error decoding JSON: $e');
     }
   }
-
 
 }

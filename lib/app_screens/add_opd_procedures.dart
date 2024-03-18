@@ -592,9 +592,9 @@ class AddOPDProceduresState extends State<AddOPDProcedures> {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
             return OPDRegistrationScreen();
           }));*/
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => OPDRegistrationScreen()));
+          Navigator.push(context ,MaterialPageRoute(builder: (context) => OPDRegistrationScreen()));
         } else {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => OPDRegistrationScreen()));
+          Navigator.push(context ,MaterialPageRoute(builder: (context) => OPDRegistrationScreen()));
         }
       });
     } else if (model.status == "Error") {

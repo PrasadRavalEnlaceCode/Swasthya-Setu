@@ -29,13 +29,13 @@ class InvestigationViewReportScreen extends StatefulWidget {
 
 
   InvestigationViewReportScreen({
-    required this.id,
-    required this.INID,
-    required this.PATID,
-    required this.ipd,
-    required this.pathology,
-    required this.HospitalConsultationIDP,
-    required this.OPD,
+    this.id,
+    this.INID,
+    this.PATID,
+    this.ipd,
+    this.pathology,
+    this.HospitalConsultationIDP,
+    this.OPD,
   });
 
 

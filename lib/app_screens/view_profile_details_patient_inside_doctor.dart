@@ -69,8 +69,8 @@ class ViewProfileDetailsInsideDoctorState
     super.initState();
     listCategories = [];
     jsonObj = {};
-    listCategories.add({"categoryName": "Medical", "categoryIDP": "0"});
-    listCategories.add({"categoryName": "General", "categoryIDP": "1"});
+    listCategories.add({"categoryName": "General", "categoryIDP": "0"});
+    listCategories.add({"categoryName": "Medical", "categoryIDP": "1"});
     getPatientProfileDetails();
   }
 
@@ -113,43 +113,43 @@ class ViewProfileDetailsInsideDoctorState
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => EditMyProfilePatient(
-                                          PatientProfileModel(
-                                              firstName,
-                                              lastName,
-                                              mobNo,
-                                              emailId,
-                                              imgUrl,
-                                              dob,
-                                              age,
-                                              address,
-                                              city,
-                                              state,
-                                              country,
-                                              married,
-                                              noOfFamilyMembers,
-                                              yourPositionInFamily,
-                                              countryIDF,
-                                              stateIDF,
-                                              cityIDF,
-                                              middleName,
-                                              weight,
-                                              height,
-                                              bloodGroup,
-                                              emergencyNumber,
-                                              gender,
-                                              patientID: patientID),
+                                      PatientProfileModel(
+                                          firstName,
+                                          lastName,
+                                          mobNo,
+                                          emailId,
                                           imgUrl,
-                                          widget.patientIDP!,
-                                        ))).then((value) {
+                                          dob,
+                                          age,
+                                          address,
+                                          city,
+                                          state,
+                                          country,
+                                          married,
+                                          noOfFamilyMembers,
+                                          yourPositionInFamily,
+                                          countryIDF,
+                                          stateIDF,
+                                          cityIDF,
+                                          middleName,
+                                          weight,
+                                          height,
+                                          bloodGroup,
+                                          emergencyNumber,
+                                          gender,
+                                          patientID: patientID),
+                                      imgUrl,
+                                      widget.patientIDP!,
+                                    ))).then((value) {
                               getPatientProfileDetails();
                             });
                           } else if (selectedCategoryIDP == "1") {
                             Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            EditMyProfileMedicalPatient(
-                                                jsonObj, widget.patientIDP)))
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditMyProfileMedicalPatient(
+                                            jsonObj, widget.patientIDP)))
                                 .then((value) {
                               getPatientProfileDetails();
                             });
@@ -160,20 +160,18 @@ class ViewProfileDetailsInsideDoctorState
                   ],
                   backgroundColor: Color(0xFFFFFFFF),
                   iconTheme: IconThemeData(
-                      color: Colorsblack,
+                      color: Colors.black,
                       size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
-                      titleMedium: TextStyle(
-                          color: Colorsblack,
-                          fontFamily: "Ubuntu",
-                          fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-                      titleMedium: TextStyle(
-                          color: Colorsblack,
-                          fontFamily: "Ubuntu",
-                          fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+                    titleMedium: TextStyle(
+                        color: Colors.black,
+                        fontFamily: "Ubuntu",
+                        fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+                    titleMedium: TextStyle(
+                        color: Colors.black,
+                        fontFamily: "Ubuntu",
+                        fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
                 ),
-                body:
-                listCategories.isNotEmpty
-                ? Column(
+                body: Column(
                   children: <Widget>[
                     Container(
                         height: SizeConfig.blockSizeVertical !* 10,
@@ -194,9 +192,9 @@ class ViewProfileDetailsInsideDoctorState
                                   onTap: () {
                                     setState(() {
                                       selectedCategoryIDP =
-                                          listCategories[index]["categoryIDP"]!;
+                                      listCategories[index]["categoryIDP"]!;
                                       selectedCategory =
-                                          listCategories[index]["categoryName"]!;
+                                      listCategories[index]["categoryName"]!;
                                     });
                                   },
                                   child: Chip(
@@ -204,11 +202,11 @@ class ViewProfileDetailsInsideDoctorState
                                         SizeConfig.blockSizeHorizontal !* 3),
                                     label: Text(
                                       listCategories[index]["categoryName"]
-                                          !.trim(),
+                                      !.trim(),
                                       style: TextStyle(
                                         color: listCategories[index]
-                                                    ["categoryIDP"] ==
-                                                selectedCategoryIDP
+                                        ["categoryIDP"] ==
+                                            selectedCategoryIDP
                                             ? Colors.white
                                             : Colors.grey,
                                       ),
@@ -217,8 +215,8 @@ class ViewProfileDetailsInsideDoctorState
                                         side: BorderSide(
                                             color: Colors.grey, width: 1.0)),
                                     backgroundColor: listCategories[index]
-                                                ["categoryIDP"] ==
-                                            selectedCategoryIDP
+                                    ["categoryIDP"] ==
+                                        selectedCategoryIDP
                                         ? Color(0xFF06A759)
                                         : Color(0xFFF0F0F0),
                                   ),
@@ -234,237 +232,237 @@ class ViewProfileDetailsInsideDoctorState
                           ),
                         )),
                     Expanded(
-                      child: selectedCategoryIDP == "1"
+                      child: selectedCategoryIDP == "0"
                           ? ListView(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Stack(
-                                  alignment: Alignment.topCenter,
-                                  children: <Widget>[
-                                    GestureDetector(
-                                      onTap: () {
-                                        //showImageTypeSelectionDialog(context);
-                                      },
-                                      child: (imgUrl != "" &&
-                                              imgUrl != "null")
-                                          ? CircleAvatar(
-                                              radius: 60.0,
-                                              backgroundImage: NetworkImage(
-                                                  "$userImgUrl$imgUrl"))
-                                          : CircleAvatar(
-                                              radius: 60.0,
-                                              backgroundColor: Colors.grey,
-                                              backgroundImage:
-                                                  /*Image(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Stack(
+                            alignment: Alignment.topCenter,
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: () {
+                                  //showImageTypeSelectionDialog(context);
+                                },
+                                child: (imgUrl != "" &&
+                                    imgUrl != "null")
+                                    ? CircleAvatar(
+                                    radius: 60.0,
+                                    backgroundImage: NetworkImage(
+                                        "$userImgUrl$imgUrl"))
+                                    : CircleAvatar(
+                                    radius: 60.0,
+                                    backgroundColor: Colors.grey,
+                                    backgroundImage:
+                                    /*Image(
                             width: 60,
                             height: 60,
                             fit: BoxFit.fill,
                             image: new */
-                                                  AssetImage(
-                                                      "images/ic_user_placeholder.png")),
-                                    ),
-                                  ],
+                                    AssetImage(
+                                        "images/ic_user_placeholder.png")),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Patient ID",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                SizedBox(
-                                  height: 20,
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  patientID,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Patient ID",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        patientID,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Name",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  userName,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Name",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        userName,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Mobile No.",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  mobNo,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Mobile No.",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        mobNo,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Gender",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  gender == "M"
+                                      ? "Male"
+                                      : (gender == "F" ? "Female" : "-"),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Gender",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        gender == "M"
-                                            ? "Male"
-                                            : (gender == "F" ? "Female" : "-"),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Email",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  emailId,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Email",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        emailId,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
-                                ),
-                                /*SizedBox(
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          /*SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -499,830 +497,827 @@ class ViewProfileDetailsInsideDoctorState
                     ),
                   ],
                 ),*/
-                                SizedBox(
-                                  height: 10,
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Date of birth",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Date of birth",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        dob,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  dob,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Age",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Age",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        age,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  age,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Height (Centimeters)",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Height (Centimeters)",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        "$height Cm - $heightInFeet",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  "$height Cm - $heightInFeet",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Weight (Kg)",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Weight (Kg)",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        weight,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  weight,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Blood Group",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Blood Group",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        bloodGroup,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  bloodGroup,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Address",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Address",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        address,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  address,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "City",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "City",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        city,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  city,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "State",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "State",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        state,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  state,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Country",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Country",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        country,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  country,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Married",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Married",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        married,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  married,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "No. of Family Members",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "No. of Family Members",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        noOfFamilyMembers,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  noOfFamilyMembers,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Your position in family",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Your position in family",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        yourPositionInFamily,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  yourPositionInFamily,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                              ],
-                            )
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      )
                           : ListView(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal !* 3),
-                                  child: Text(
-                                    "Medical History",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.6,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Diabetes",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        /*"Since ${jsonObj['DiabetesYear']} Years and ${jsonObj['DiabetesMonth']} Months"*/
-                                        jsonObj['DiabetesVal'],
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Hypertension",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        /*"Since ${jsonObj['HypertensionYear']} Years and ${jsonObj['HypertensionMonth']} Months"*/
-                                        jsonObj['HypertensionVal'],
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Heart Disease",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        /*"Since ${jsonObj['HeartDiseaseYear']} Years and ${jsonObj['HeartDiseaseMonth']} Months"*/
-                                        jsonObj['HeartDiseaseVal'],
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "Thyroid",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize:
-                                                SizeConfig.blockSizeVertical !*
-                                                    2.2),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        /*"Since ${jsonObj['ThyroidYear']} Years and ${jsonObj['ThyroidMonth']} Months"*/
-                                        jsonObj['ThyroidVal'],
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal !* 3),
-                                  child: Text(
-                                    "Surgical History",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.6,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    /*Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    "Surgical History",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize:
-                                            SizeConfig.blockSizeVertical * 2.2),
-                                  ),
-                                ),
-                                SizedBox(width: 10),*/
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        jsonObj['SurgicalHistory'],
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal !* 3),
-                                  child: Text(
-                                    "Drug Allergy",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.6,
-                                      fontWeight: FontWeight.w500,
-                                                                            ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    /*Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    "Drug Allergy",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize:
-                                            SizeConfig.blockSizeVertical * 2.2),
-                                  ),
-                                ),
-                                SizedBox(width: 10),*/
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        jsonObj['DrugAllergy'],
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.2,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal !* 3),
-                                  child: Text(
-                                    "Blood Group",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize:
-                                          SizeConfig.blockSizeVertical !* 2.6,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    /*Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    "Blood Group",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize:
-                                            SizeConfig.blockSizeVertical * 2.2),
-                                  ),
-                                ),
-                                SizedBox(width: 10),*/
-                                    Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        jsonObj['BloodGroup'],
-                                        style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontSize:
-                                              SizeConfig.blockSizeVertical !*
-                                                  2.4,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                              ],
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal !* 3),
+                            child: Text(
+                              "Medical History",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize:
+                                SizeConfig.blockSizeVertical !* 2.6,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Diabetes",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  /*"Since ${jsonObj['DiabetesYear']} Years and ${jsonObj['DiabetesMonth']} Months"*/
+                                  jsonObj['DiabetesVal'],
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Hypertension",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  /*"Since ${jsonObj['HypertensionYear']} Years and ${jsonObj['HypertensionMonth']} Months"*/
+                                  jsonObj['HypertensionVal'],
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Heart Disease",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  /*"Since ${jsonObj['HeartDiseaseYear']} Years and ${jsonObj['HeartDiseaseMonth']} Months"*/
+                                  jsonObj['HeartDiseaseVal'],
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Thyroid",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize:
+                                      SizeConfig.blockSizeVertical !*
+                                          2.2),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  /*"Since ${jsonObj['ThyroidYear']} Years and ${jsonObj['ThyroidMonth']} Months"*/
+                                  jsonObj['ThyroidVal'],
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal !* 3),
+                            child: Text(
+                              "Surgical History",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize:
+                                SizeConfig.blockSizeVertical !* 2.6,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              /*Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    "Surgical History",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize:
+                                            SizeConfig.blockSizeVertical * 2.2),
+                                  ),
+                                ),
+                                SizedBox(width: 10),*/
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  jsonObj['SurgicalHistory'],
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal !* 3),
+                            child: Text(
+                              "Drug Allergy",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize:
+                                SizeConfig.blockSizeVertical !* 2.6,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              /*Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    "Drug Allergy",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize:
+                                            SizeConfig.blockSizeVertical * 2.2),
+                                  ),
+                                ),
+                                SizedBox(width: 10),*/
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  jsonObj['DrugAllergy'],
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.2,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal !* 3),
+                            child: Text(
+                              "Blood Group",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize:
+                                SizeConfig.blockSizeVertical !* 2.6,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 20,
+                              ),
+                              /*Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    "Blood Group",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize:
+                                            SizeConfig.blockSizeVertical * 2.2),
+                                  ),
+                                ),
+                                SizedBox(width: 10),*/
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  jsonObj['BloodGroup'],
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontSize:
+                                    SizeConfig.blockSizeVertical !*
+                                        2.4,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
-                )
-                    : Container(),
-            )
-        );
+                )));
       },
     );
   }
@@ -1490,12 +1485,12 @@ class ViewProfileDetailsInsideDoctorState
       lastName = jsonData[0]['LastName'];
       middleName = jsonData[0]['MiddleName'];
       userName = (firstName.trim() +
-                      " " +
-                      middleName.trim() +
-                      " " +
-                      lastName.trim())
-                  .trim() !=
-              ""
+          " " +
+          middleName.trim() +
+          " " +
+          lastName.trim())
+          .trim() !=
+          ""
           ? firstName.trim() + " " + middleName.trim() + " " + lastName.trim()
           : "-";
       mobNo = jsonData[0]['MobileNo'] != "" ? jsonData[0]['MobileNo'] : "-";
@@ -1507,7 +1502,7 @@ class ViewProfileDetailsInsideDoctorState
       city = jsonData[0]['CityName'] != "" ? jsonData[0]['CityName'] : "-";
       state = jsonData[0]['StateName'] != "" ? jsonData[0]['StateName'] : "-";
       country =
-          jsonData[0]['CountryName'] != "" ? jsonData[0]['CountryName'] : "-";
+      jsonData[0]['CountryName'] != "" ? jsonData[0]['CountryName'] : "-";
 
       married = jsonData[0]['Married'] != "" ? jsonData[0]['Married'] : "-";
       noOfFamilyMembers = jsonData[0]['NoOfFamilyMember'] != ""

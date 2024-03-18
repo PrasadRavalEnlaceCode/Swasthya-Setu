@@ -8,24 +8,23 @@ import 'package:swasthyasetu/global/SizeConfig.dart';
 import 'package:swasthyasetu/global/utils.dart';
 import 'package:swasthyasetu/podo/model_profile_patient.dart';
 import 'package:swasthyasetu/podo/response_main_model.dart';
+import 'package:swasthyasetu/utils/color.dart';
 import 'package:swasthyasetu/utils/progress_dialog.dart';
 
-import '../utils/color.dart';
-
-class ViewProfileDetailsDoctor extends StatefulWidget {
+class ViewProfileDetailsNurse extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return ViewProfileDetailsDoctorState();
+    return ViewProfileDetailsNurseState();
   }
 }
 
-class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
+class ViewProfileDetailsNurseState extends State<ViewProfileDetailsNurse> {
   String userName = "",
       mobNo = "",
       emailId = "",
       imgUrl = "",
       dob = "",
-      /*age = "-",*/
+  /*age = "-",*/
       address = "",
       city = "",
       state = "",
@@ -88,93 +87,17 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
         child: Scaffold(
             appBar: AppBar(
               title: Text("My Profile"),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditMyProfileDoctor(
-                                  PatientProfileModel(
-                                    firstName,
-                                    lastName,
-                                    mobNo,
-                                    emailId,
-                                    imgUrl,
-                                    dob,
-                                    /*age*/
-                                    "",
-                                    address,
-                                    city,
-                                    state,
-                                    country,
-                                    /*married,
-                                    noOfFamilyMembers,
-                                    yourPositionInFamily,*/
-                                    "",
-                                    "",
-                                    "",
-                                    countryIDF,
-                                    stateIDF,
-                                    cityIDF,
-                                    middleName,
-                                    /*weight,
-                                    height,
-                                    bloodGroup,
-                                    emergencyNumber,*/
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    gender,
-                                    speciality: speciality,
-                                    practisingSince: practisingSince,
-                                    residenceAddress: address,
-                                    residenceMobileNo: residenceMobileNo,
-                                    residenceLandLineNo:
-                                        "" /*residenceLandLineNo*/,
-                                    businessAddress: businessAddress,
-                                    businessMobileNo: businessMobileNo,
-                                    businessLandLineNo:
-                                        "" /*businessLandLineNo*/,
-                                    businessCity: businessCity,
-                                    businessCityIDP: businessCityIDF,
-                                    businessState: businessState,
-                                    businessStateIDP: businessStateIDF,
-                                    businessCountry: businessCountry,
-                                    businessCountryIDP: businessCountryIDF,
-                                    degree: degree,
-                                    registrationNumber: registrationNumber,
-                                    whatsAppNumber: whatsAppNo,
-                                    appointmentNumber: appointmentNo,
-                                    latitude: latitude,
-                                    longitude: longitude,
-                                    specialityIDP: specialityIDP,
-                                  ),
-                                  imgUrl,
-                                  imgUrlLogo,
-                                  imgUrlSignature,
-                                ))).then((value) {
-                      getDoctorProfileDetails();
-                    });
-                  },
-                )
-              ],
               backgroundColor: Color(0xFFFFFFFF),
               iconTheme: IconThemeData(
                   color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
-                  titleMedium: TextStyle(
-                      color: Colorsblack,
-                      fontFamily: "Ubuntu",
-                      fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
+                titleMedium: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical !* 2.5)).bodyMedium, titleTextStyle: TextTheme(
+                titleMedium: TextStyle(
+                    color: Colorsblack,
+                    fontFamily: "Ubuntu",
+                    fontSize: SizeConfig.blockSizeVertical !* 2.5)).titleLarge,
             ),
             body: ListView(
               children: <Widget>[
@@ -189,21 +112,21 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                         //showImageTypeSelectionDialog(context);
                       },
                       child: (imgUrl != "" &&
-                              imgUrl != "null")
+                          imgUrl != "null")
                           ? CircleAvatar(
-                              radius: 60.0,
-                              backgroundImage:
-                                  NetworkImage("$doctorImgUrl$imgUrl"))
+                          radius: 60.0,
+                          backgroundImage:
+                          NetworkImage("$doctorImgUrl$imgUrl"))
                           : CircleAvatar(
-                              radius: 60.0,
-                              backgroundColor: Colors.grey,
-                              backgroundImage:
-                                  /*Image(
+                          radius: 60.0,
+                          backgroundColor: Colors.grey,
+                          backgroundImage:
+                          /*Image(
                             width: 60,
                             height: 60,
                             fit: BoxFit.fill,
                             image: new */
-                                  AssetImage("images/ic_user_placeholder.png")),
+                          AssetImage("images/ic_user_placeholder.png")),
                     ),
                   ],
                 ),
@@ -222,9 +145,9 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom: BorderSide(
-                            color: Colors.grey,
-                            width: 2,
-                          ))),
+                                    color: Colors.grey,
+                                    width: 2,
+                                  ))),
                           child: Text(
                             "Personal Details",
                             style: TextStyle(
@@ -943,9 +866,9 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom: BorderSide(
-                            color: Colors.grey,
-                            width: 2,
-                          ))),
+                                    color: Colors.grey,
+                                    width: 2,
+                                  ))),
                           child: Text(
                             "Residence Details",
                             style: TextStyle(
@@ -1079,9 +1002,9 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom: BorderSide(
-                            color: Colors.grey,
-                            width: 2,
-                          ))),
+                                    color: Colors.grey,
+                                    width: 2,
+                                  ))),
                           child: Text(
                             "Hosp./Clinic Details",
                             style: TextStyle(
@@ -1382,112 +1305,112 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
                   children: [
                     Expanded(
                       child: imgUrlLogo != "null" &&
-                              imgUrlLogo != ""
+                          imgUrlLogo != ""
                           ? Column(
-                              children: [
-                                Image(
-                                  image:
-                                      NetworkImage("$doctorLogoUrl$imgUrlLogo"),
-                                  width: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  height: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  fit: BoxFit.fill,
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 0.5,
-                                ),
-                                Text(
-                                  "Logo",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 3.5),
-                                ),
-                              ],
-                            )
+                        children: [
+                          Image(
+                            image:
+                            NetworkImage("$doctorLogoUrl$imgUrlLogo"),
+                            width: SizeConfig.blockSizeHorizontal !* 35.0,
+                            height: SizeConfig.blockSizeHorizontal !* 35.0,
+                            fit: BoxFit.fill,
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 0.5,
+                          ),
+                          Text(
+                            "Logo",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize:
+                                SizeConfig.blockSizeHorizontal !* 3.5),
+                          ),
+                        ],
+                      )
                           : Column(
-                              children: [
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  height: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  color: Colors.grey,
-                                  child: Center(
-                                    child: Text(
-                                      "No Logo uploaded",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal !*
-                                                  3.5),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 0.5,
-                                ),
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 3.5),
-                                ),
-                              ],
+                        children: [
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal !* 35.0,
+                            height: SizeConfig.blockSizeHorizontal !* 35.0,
+                            color: Colors.grey,
+                            child: Center(
+                              child: Text(
+                                "No Logo uploaded",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                    SizeConfig.blockSizeHorizontal !*
+                                        3.5),
+                              ),
                             ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 0.5,
+                          ),
+                          Text(
+                            "",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize:
+                                SizeConfig.blockSizeHorizontal !* 3.5),
+                          ),
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: imgUrlSignature != "null" &&
-                              imgUrlSignature != ""
+                          imgUrlSignature != ""
                           ? Column(
-                              children: [
-                                Image(
-                                  image: NetworkImage(
-                                      "$doctorSignatureUrl$imgUrlSignature"),
-                                  width: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  height: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  fit: BoxFit.fill,
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 0.5,
-                                ),
-                                Text(
-                                  "Signature",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 3.5),
-                                ),
-                              ],
-                            )
+                        children: [
+                          Image(
+                            image: NetworkImage(
+                                "$doctorSignatureUrl$imgUrlSignature"),
+                            width: SizeConfig.blockSizeHorizontal !* 35.0,
+                            height: SizeConfig.blockSizeHorizontal !* 35.0,
+                            fit: BoxFit.fill,
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 0.5,
+                          ),
+                          Text(
+                            "Signature",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize:
+                                SizeConfig.blockSizeHorizontal !* 3.5),
+                          ),
+                        ],
+                      )
                           : Column(
-                              children: [
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  height: SizeConfig.blockSizeHorizontal !* 35.0,
-                                  color: Colors.grey,
-                                  child: Center(
-                                      child: Text(
-                                    "No Signature uploaded",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize:
-                                            SizeConfig.blockSizeHorizontal !*
-                                                3.5),
-                                  )),
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical !* 0.5,
-                                ),
-                                Text(
-                                  "",
+                        children: [
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal !* 35.0,
+                            height: SizeConfig.blockSizeHorizontal !* 35.0,
+                            color: Colors.grey,
+                            child: Center(
+                                child: Text(
+                                  "No Signature uploaded",
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: Colors.grey,
+                                      color: Colors.white,
                                       fontSize:
-                                          SizeConfig.blockSizeHorizontal !* 3.5),
-                                ),
-                              ],
-                            ),
+                                      SizeConfig.blockSizeHorizontal !*
+                                          3.5),
+                                )),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical !* 0.5,
+                          ),
+                          Text(
+                            "",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize:
+                                SizeConfig.blockSizeHorizontal !* 3.5),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -1581,32 +1504,18 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
       var strData = decodeBase64(data);
       debugPrint("Decoded Data Array : " + strData);
       final jsonData = json.decode(strData);
-      registrationNumber = jsonData[0]['RegistrationNo'];
-      firstName = jsonData[0]['FirstName'];
-      middleName = jsonData[0]['MiddleName'];
-      lastName = jsonData[0]['LastName'];
-      //middleName = jsonData[0]['MiddleName'];
-      userName = (firstName.trim() +
-                      " " +
-                      middleName.trim() +
-                      " " +
-                      lastName.trim())
-                  .trim() !=
-              ""
-          ? firstName.trim() + " " + middleName.trim() + " " + lastName.trim()
-          : "-";
-      mobNo = jsonData[0]['MobileNo'] != "" ? jsonData[0]['MobileNo'] : "-";
-      emailId = jsonData[0]['EmailID'] != "" ? jsonData[0]['EmailID'] : "-";
-      imgUrl = jsonData[0]['DoctorImage'];
+      // registrationNumber = jsonData[0]['RegistrationNo'];
+      // emailId = jsonData[0]['EmailID'] != "" ? jsonData[0]['EmailID'] : "-";
+      // imgUrl = jsonData[0]['DoctorImage'];
 
-      dob = jsonData[0]['DOB'] != "" ? jsonData[0]['DOB'] : "-";
-      address = jsonData[0]['ResidenceAddress'] != ""
-          ? jsonData[0]['ResidenceAddress']
-          : "-";
-      city = jsonData[0]['CityName'] != "" ? jsonData[0]['CityName'] : "-";
-      state = jsonData[0]['StateName'] != "" ? jsonData[0]['StateName'] : "-";
-      country =
-          jsonData[0]['CountryName'] != "" ? jsonData[0]['CountryName'] : "-";
+      // dob = jsonData[0]['DOB'] != "" ? jsonData[0]['DOB'] : "-";
+      // address = jsonData[0]['ResidenceAddress'] != ""
+      //     ? jsonData[0]['ResidenceAddress']
+      //     : "-";
+      // city = jsonData[0]['CityName'] != "" ? jsonData[0]['CityName'] : "-";
+      // state = jsonData[0]['StateName'] != "" ? jsonData[0]['StateName'] : "-";
+      // country =
+      // jsonData[0]['CountryName'] != "" ? jsonData[0]['CountryName'] : "-";
 
       /*married = jsonData[0]['Married'] != "" ? jsonData[0]['Married'] : "-";
       noOfFamilyMembers = jsonData[0]['NoOfFamilyMember'] != ""
@@ -1616,41 +1525,41 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
           ? jsonData[0]['YourPostionInFamily']
           : "-";
       age = jsonData[0]['Age'] != "" ? jsonData[0]['Age'] : "-";*/
-      countryIDF = jsonData[0]['CountryIDF'];
-      stateIDF = jsonData[0]['StateIDF'];
-      cityIDF = jsonData[0]['CityIDF'];
+      // countryIDF = jsonData[0]['CountryIDF'];
+      // stateIDF = jsonData[0]['StateIDF'];
+      // cityIDF = jsonData[0]['CityIDF'];
 
-      businessCityIDF = jsonData[0]['CountryIDF'];
-      businessStateIDF = jsonData[0]['StateIDF'];
-      businessCountryIDF = jsonData[0]['CityIDF'];
-
-      businessCity = jsonData[0]['CityName'];
-      businessState = jsonData[0]['StateName'];
-      businessCountry = jsonData[0]['CountryName'];
-
-      degree = jsonData[0]['Degree'] != "" ? jsonData[0]['Degree'] : "-";
-      speciality =
-          jsonData[0]['Specility'] != "" ? jsonData[0]['Specility'] : "-";
-      practisingSince = jsonData[0]['PractisingSince'] != ""
-          ? jsonData[0]['PractisingSince']
-          : "-";
-      residenceMobileNo = jsonData[0]['ResidenceMobileNo'] != ""
-          ? jsonData[0]['ResidenceMobileNo']
-          : "-";
+      // businessCityIDF = jsonData[0]['CountryIDF'];
+      // businessStateIDF = jsonData[0]['StateIDF'];
+      // businessCountryIDF = jsonData[0]['CityIDF'];
+      //
+      // businessCity = jsonData[0]['CityName'];
+      // businessState = jsonData[0]['StateName'];
+      // businessCountry = jsonData[0]['CountryName'];
+      //
+      // degree = jsonData[0]['Degree'] != "" ? jsonData[0]['Degree'] : "-";
+      // speciality =
+      // jsonData[0]['Specility'] != "" ? jsonData[0]['Specility'] : "-";
+      // practisingSince = jsonData[0]['PractisingSince'] != ""
+      //     ? jsonData[0]['PractisingSince']
+      //     : "-";
+      // residenceMobileNo = jsonData[0]['ResidenceMobileNo'] != ""
+      //     ? jsonData[0]['ResidenceMobileNo']
+      //     : "-";
       /*residenceLandLineNo = jsonData[0]['ResidenceLandline'] != ""
           ? jsonData[0]['ResidenceLandline']
           : "-";*/
-      businessAddress = jsonData[0]['BusinessAddress'] != ""
-          ? jsonData[0]['BusinessAddress']
-          : "-";
-      businessMobileNo = jsonData[0]['BusinessMobileNo'] != ""
-          ? jsonData[0]['BusinessMobileNo']
-          : "-";
+      // businessAddress = jsonData[0]['BusinessAddress'] != ""
+      //     ? jsonData[0]['BusinessAddress']
+      //     : "-";
+      // businessMobileNo = jsonData[0]['BusinessMobileNo'] != ""
+      //     ? jsonData[0]['BusinessMobileNo']
+      //     : "-";
       /*businessLandLineNo = jsonData[0]['BusinessLandline'] != ""
           ? jsonData[0]['BusinessLandline']
           : "-";*/
-      imgUrlLogo = jsonData[0]['Logo_Image'];
-      imgUrlSignature = jsonData[0]['Doctor_Signature'];
+      // imgUrlLogo = jsonData[0]['Logo_Image'];
+      // imgUrlSignature = jsonData[0]['Doctor_Signature'];
 
       /*String speciality = "", practisingSince;
       String residenceMobileNo = "", residenceLandLineNo = "";
@@ -1660,12 +1569,19 @@ class ViewProfileDetailsDoctorState extends State<ViewProfileDetailsDoctor> {
       height = jsonData[0]['Height'];
       bloodGroup = jsonData[0]['BloodGroup'];
       emergencyNumber = jsonData[0]['EmergencyNumber'];*/
-      gender = jsonData[0]['Gender'];
-      whatsAppNo = jsonData[0]['WhatsappNo'];
-      appointmentNo = jsonData[0]['AppointmentNo'];
-      latitude = jsonData[0]['Latitude'];
-      longitude = jsonData[0]['Longitude'];
-      specialityIDP = jsonData[0]['SpecialityIDF'];
+      // gender = jsonData[0]['Gender'];
+      // whatsAppNo = jsonData[0]['WhatsappNo'];
+      // appointmentNo = jsonData[0]['AppointmentNo'];
+      // latitude = jsonData[0]['Latitude'];
+      // longitude = jsonData[0]['Longitude'];
+      // specialityIDP = jsonData[0]['SpecialityIDF'];
+
+      // Extract nested JSON data from 'dataDoctor' field
+      var dataDoctor = jsonData[0]['dataFrontOfiice'];
+      mobNo = dataDoctor['FrontOfficeMobileNo'] != "" ? dataDoctor['FrontOfficeMobileNo'] : "-";
+      userName = dataDoctor['doctorName'];
+      // whatsAppNo = dataDoctor['FrontOfficeMobileNo'] != "" ? dataDoctor['FrontOfficeMobileNo'] : "-";
+
       setState(() {});
     } else {
       final snackBar = SnackBar(

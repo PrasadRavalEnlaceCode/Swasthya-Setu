@@ -37,6 +37,7 @@ State<MyInvoiceListScreen> {
 
   late String selectedOrganizationIDF;
   List<DoctorInvoice> allInvoices = [];
+  int serialNumber = 1;
   String baseInvoiceURL = "https://swasthyasetu.com/ws/images/myinvoice/";
   String baseInvoiceVoucherURL = "https://swasthyasetu.com/ws/images/myinvoicevoucher/";
 
@@ -246,7 +247,11 @@ State<MyInvoiceListScreen> {
                         rows: allInvoices.map((item) {
                           return DataRow(
                             cells: [
-                              DataCell(Text(item.type ?? '')),
+                              DataCell(
+                                Text(
+                                  (serialNumber++).toString(),
+                                ),
+                              ),
                               DataCell(Text(item.invoiceDate ?? '')),
                               DataCell(Text(item.invoiceNumber ?? '')),
                               DataCell(Text(item.categoryName ?? '')),

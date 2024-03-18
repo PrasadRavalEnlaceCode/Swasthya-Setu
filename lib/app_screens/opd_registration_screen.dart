@@ -214,554 +214,547 @@ class OPDRegistrationScreenState extends State<OPDRegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return WillPopScope(
-        onWillPop:  () async{
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => DoctorDashboardScreen())
-          );
-          return false;
-        },
-        child:  Scaffold(
-          appBar: AppBar(
-            title: Text(
-              widget.campID == null ? "My Appoints" : widget.name,
-              style: TextStyle(color: black),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          widget.campID == null ? "My Appointments" : widget.name,
+          style: TextStyle(color: black),
+        ),
+        iconTheme: IconThemeData(color: black),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            AddPatientScreen(campID: widget.campID)))
+                    .then((value) {
+                  //Navigator.of(context).pop();
+                  getOPDRegistrationDetails();
+                });
+              },
+              child: widget.isCompleted
+                  ? Container()
+                  : Image(
+                image: AssetImage("images/ic_add_opd.png"),
+                color: black,
+                width: SizeConfig.blockSizeHorizontal !* 7,
+              ),
             ),
-            iconTheme: IconThemeData(color: black),
-            actions: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal !* 3),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                AddPatientScreen(campID: widget.campID)))
-                        .then((value) {
-                      //Navigator.of(context).pop();
-                      getOPDRegistrationDetails();
-                    });
-                  },
-                  child: widget.isCompleted
-                      ? Container()
-                      : Image(
-                    image: AssetImage("images/ic_add_opd.png"),
-                    color: black,
-                    width: SizeConfig.blockSizeHorizontal !* 7,
+          )
+        ], toolbarTextStyle: TextTheme(
+        titleMedium: TextStyle(
+          color: black,
+          fontFamily: "Ubuntu",
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+        ),
+      ).bodyMedium, titleTextStyle: TextTheme(
+        titleMedium: TextStyle(
+          color: black,
+          fontFamily: "Ubuntu",
+          fontSize: SizeConfig.blockSizeVertical !* 2.5,
+        ),
+      ).titleLarge,
+      ),
+      body: Container(
+        color: colorGrayApp,
+        child: Column(
+          children: <Widget>[
+            widget.campID != null
+                ? Container()
+                : Container(
+              color: grey,
+              child: Row(
+                children: <Widget>[
+                  IconButton(
+                    onPressed: () {
+                      previousClicked();
+                    },
+                    icon: Icon(
+                      Icons.keyboard_arrow_left,
+                      color: black,
+                    ),
                   ),
-                ),
-              )
-            ], toolbarTextStyle: TextTheme(
-            titleMedium: TextStyle(
-              color: black,
-              fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.5,
-            ),
-          ).bodyMedium, titleTextStyle: TextTheme(
-            titleMedium: TextStyle(
-              color: black,
-              fontFamily: "Ubuntu",
-              fontSize: SizeConfig.blockSizeVertical !* 2.5,
-            ),
-          ).titleLarge,
-          ),
-          body: Container(
-            color: colorGrayApp,
-            child: Column(
-              children: <Widget>[
-                widget.campID != null
-                    ? Container()
-                    : Container(
-                  color: grey,
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () {
-                          previousClicked();
-                        },
-                        icon: Icon(
-                          Icons.keyboard_arrow_left,
-                          color: black,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          dateText,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: black, fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          nextClicked();
-                        },
-                        icon: Icon(
-                          Icons.keyboard_arrow_right,
-                          color: black,
-                        ),
-                      )
-                    ],
+                  Expanded(
+                    child: Text(
+                      dateText,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: black, fontWeight: FontWeight.w600),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: listOPDRegistration.length > 0
-                      ?
-                  RefreshIndicator(
-                      child: ListView.builder(
-                          itemCount: listOPDRegistration.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                                padding: EdgeInsets.only(
-                                    left: SizeConfig.blockSizeHorizontal !* 2,
-                                    right: SizeConfig.blockSizeHorizontal !* 2,
-                                    top: SizeConfig.blockSizeHorizontal !* 2),
-                                child: InkWell(
-                                  onTap: () {
-                                    getUserType().then((value) {
-                                      if (value != 'frontoffice' &&
-                                          !widget.isCompleted) {
-                                        var formatter =
-                                        new DateFormat('dd/MM/yyyy');
-                                        String strDate = formatter.format(date);
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                                  return AddConsultationScreen(
-                                                    listOPDRegistration[index].idp!,
-                                                    listOPDRegistration[index]
-                                                        .patientIDP!,
-                                                    listOPDRegistration[index],
-                                                    appointmentDate: strDate,
-                                                  );
-                                                })).then((value) {
-                                          getOPDRegistrationDetails();
-                                        });
-                                      }
+                  IconButton(
+                    onPressed: () {
+                      nextClicked();
+                    },
+                    icon: Icon(
+                      Icons.keyboard_arrow_right,
+                      color: black,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: listOPDRegistration.length > 0
+                  ?
+              RefreshIndicator(
+                  child: ListView.builder(
+                      itemCount: listOPDRegistration.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal !* 2,
+                                right: SizeConfig.blockSizeHorizontal !* 2,
+                                top: SizeConfig.blockSizeHorizontal !* 2),
+                            child: InkWell(
+                              onTap: () {
+                                getUserType().then((value) {
+                                  if (value != 'frontoffice' && value != 'nursing' &&
+                                      !widget.isCompleted ) {
+                                    var formatter =
+                                    new DateFormat('dd/MM/yyyy');
+                                    String strDate = formatter.format(date);
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) {
+                                              return AddConsultationScreen(
+                                                listOPDRegistration[index].idp!,
+                                                listOPDRegistration[index]
+                                                    .patientIDP!,
+                                                listOPDRegistration[index],
+                                                appointmentDate: strDate,
+                                              );
+                                            })).then((value) {
+                                      getOPDRegistrationDetails();
                                     });
-                                  },
-                                  child: Card(
-                                    color: listOPDRegistration[index]
-                                        .checkOutStatus ==
-                                        "1"
-                                        ? Color(0xFFC3C3C3)
-                                        : Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(15.0),
-                                        side: BorderSide(
-                                          color: listOPDRegistration[index]
-                                              .paymentDueStatus ==
-                                              "1"
-                                              ? Colors.red
-                                              : Colors.white,
-                                          width: listOPDRegistration[index]
-                                              .paymentDueStatus ==
-                                              "1"
-                                              ? 1.3
-                                              : 0,
-                                        )),
-                                    child: Column(
+                                  }
+                                });
+                              },
+                              child: Card(
+                                color: listOPDRegistration[index]
+                                    .checkOutStatus ==
+                                    "1"
+                                    ? Color(0xFFC3C3C3)
+                                    : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(15.0),
+                                    side: BorderSide(
+                                      color: listOPDRegistration[index]
+                                          .paymentDueStatus ==
+                                          "1"
+                                          ? Colors.red
+                                          : Colors.white,
+                                      width: listOPDRegistration[index]
+                                          .paymentDueStatus ==
+                                          "1"
+                                          ? 1.3
+                                          : 0,
+                                    )),
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical !*
+                                          0.5,
+                                    ),
+                                    Row(
                                       children: <Widget>[
-                                        SizedBox(
-                                          height: SizeConfig.blockSizeVertical !*
-                                              0.5,
-                                        ),
-                                        Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                              flex: 2,
-                                              child: Text(
-                                                listOPDRegistration[index].name!,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: SizeConfig
-                                                        .blockSizeHorizontal !*
-                                                        4,
-                                                    fontWeight:
-                                                    FontWeight.w600),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: SizeConfig
-                                                  .blockSizeHorizontal !*
-                                                  3,
-                                            ),
-                                            Padding(
-                                                padding: EdgeInsets.all(SizeConfig
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            listOPDRegistration[index].name!,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: SizeConfig
                                                     .blockSizeHorizontal !*
-                                                    0),
-                                                child: Row(
-                                                  children: [
-                                                    isReception == 'frontoffice'
-                                                        ? InkWell(
-                                                      onTap: () {
-                                                        showDialog(
-                                                            context:
-                                                            context,
-                                                            builder:
-                                                                (BuildContext
-                                                            context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    'Internal Notes'),
-                                                                content: Text(
-                                                                    listOPDRegistration[index]
-                                                                        .internalNotes!),
-                                                              );
-                                                            });
-                                                      },
-                                                      customBorder:
-                                                      CircleBorder(),
-                                                      child: Container(
-                                                        padding: EdgeInsets
-                                                            .all(SizeConfig
-                                                            .blockSizeHorizontal !*
-                                                            2.0),
-                                                        decoration:
-                                                        BoxDecoration(
-                                                          color: Colors
-                                                              .blue[800],
-                                                          shape: BoxShape
-                                                              .circle,
-                                                        ),
-                                                        child: FaIcon(
-                                                          FontAwesomeIcons
-                                                              .stickyNote,
-                                                          size: SizeConfig
-                                                              .blockSizeHorizontal !*
-                                                              4,
-                                                          color: Colors
-                                                              .white,
-                                                        ),
-                                                      ),
-                                                    )
-                                                        : Container(),
-                                                    listOPDRegistration[index]
-                                                        .fromRequestStatus ==
-                                                        "1"
-                                                        ? SizedBox(
-                                                      width: SizeConfig
-                                                          .blockSizeHorizontal !*
-                                                          3.0,
-                                                    )
-                                                        : Container(),
-                                                    listOPDRegistration[index]
-                                                        .fromRequestStatus ==
-                                                        "1"
-                                                        ? InkWell(
-                                                        onTap: () {
-                                                          showVideoCallRequestDialog(
-                                                              context,
-                                                              listOPDRegistration[
-                                                              index]
-                                                                  .patientIDP!,
-                                                              listOPDRegistration[
-                                                              index]
-                                                                  .name,
-                                                              "");
-                                                        },
-                                                        customBorder:
-                                                        CircleBorder(),
-                                                        child: Container(
-                                                          padding: EdgeInsets
-                                                              .all(SizeConfig
-                                                              .blockSizeHorizontal !*
-                                                              2.0),
-                                                          decoration:
-                                                          BoxDecoration(
-                                                            color:
-                                                            Colors.red,
-                                                            shape: BoxShape
-                                                                .circle,
-                                                          ),
-                                                          child: Image(
-                                                            width: SizeConfig
-                                                                .blockSizeHorizontal !*
-                                                                5,
-                                                            color: Colors
-                                                                .white,
-                                                            //height: 80,
-                                                            image: AssetImage(
-                                                                "images/ic_video_consultation.png"),
-                                                          ),
-                                                        ))
-                                                        : Container(),
-                                                    SizedBox(
-                                                      width: SizeConfig
-                                                          .blockSizeHorizontal !*
-                                                          3.0,
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        pdfButtonClick(
-                                                            context,
-                                                            listOPDRegistration[
-                                                            index],
-                                                            "full");
-                                                      },
-                                                      customBorder:
-                                                      CircleBorder(),
-                                                      child: Container(
-                                                        padding: EdgeInsets.all(
-                                                            SizeConfig
-                                                                .blockSizeHorizontal !*
-                                                                2.0),
-                                                        child: Image(
-                                                            width: SizeConfig
-                                                                .blockSizeHorizontal !*
-                                                                5,
-                                                            height: SizeConfig
-                                                                .blockSizeHorizontal !*
-                                                                5,
-                                                            image: AssetImage(
-                                                              "images/icn-pdf-fees.png",
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: SizeConfig
-                                                          .blockSizeHorizontal !*
-                                                          3.0,
-                                                    ),
-                                                    InkWell(
-                                                        onTap: () {
-                                                          preparePdfList(
-                                                              listOPDRegistration[
-                                                              index]);
-                                                          showPdfTypeSelectionDialog(
-                                                            listPdfType,
-                                                            listOPDRegistration[
-                                                            index],
-                                                            context,
-                                                          );
-                                                        },
-                                                        customBorder:
-                                                        CircleBorder(),
-                                                        child: Container(
-                                                          padding: EdgeInsets
-                                                              .all(SizeConfig
-                                                              .blockSizeHorizontal !*
-                                                              2.0),
-                                                          child: Image(
-                                                              width: SizeConfig
-                                                                  .blockSizeHorizontal !*
-                                                                  4,
-                                                              height: SizeConfig
-                                                                  .blockSizeHorizontal !*
-                                                                  4,
-                                                              image: AssetImage(
-                                                                "images/icn-download-fees.png",
-                                                              )),
-                                                        )),
-                                                  ],
-                                                )),
-                                            /*InkWell(
-                                                onTap: () {
-                                                  if (listOPDRegistration[index]
-                                                          .checkOutStatus ==
-                                                      "1") {
-                                                    getPdfDownloadPath(
-                                                        context,
-                                                        listOPDRegistration[index]
-                                                            .idp,
-                                                        listOPDRegistration[index]
-                                                            .patientIDP);
-                                                  } else {
-                                                    final snackBar = SnackBar(
-                                                      backgroundColor: Colors.red,
-                                                      content: Text(
-                                                          "Please checkout this patient to view the document."),
-                                                    );
-                                                    ScaffoldMessenger.of(context)
-                                                        .showSnackBar(snackBar);
-                                                  }
-                                                },
-                                                child: Image(
-                                                  image: AssetImage(
-                                                      "images/ic_pdf_opd_reg.png"),
-                                                  width: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      8,
-                                                ),
-                                              )*/
-                                          ],
+                                                    4,
+                                                fontWeight:
+                                                FontWeight.w600),
+                                          ),
                                         ),
                                         SizedBox(
-                                          height: SizeConfig.blockSizeVertical !*
-                                              1.5,
+                                          width: SizeConfig
+                                              .blockSizeHorizontal !*
+                                              3,
                                         ),
-                                        Align(
-                                            alignment: Alignment.centerLeft,
+                                        Padding(
+                                            padding: EdgeInsets.all(SizeConfig
+                                                .blockSizeHorizontal !*
+                                                0),
                                             child: Row(
                                               children: [
-                                                InkWell(
+                                                isReception == 'frontoffice'
+                                                    ? InkWell(
                                                   onTap: () {
-                                                    Navigator.of(context).push(
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) {
-                                                              return OPDRegistrationDetailsScreen(
-                                                                  listOPDRegistration[
-                                                                  index]
-                                                                      .idp!,
-                                                                  listOPDRegistration[
-                                                                  index]
-                                                                      .patientIDP!);
-                                                            })).then((value) {
-                                                      //Navigator.of(context).pop();
-                                                      getOPDRegistrationDetails();
-                                                    });
+                                                    showDialog(
+                                                        context:
+                                                        context,
+                                                        builder:
+                                                            (BuildContext
+                                                        context) {
+                                                          return AlertDialog(
+                                                            title: Text(
+                                                                'Internal Notes'),
+                                                            content: Text(
+                                                                listOPDRegistration[index]
+                                                                    .internalNotes!),
+                                                          );
+                                                        });
                                                   },
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                    MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Image(
-                                                        width: SizeConfig
-                                                            .blockSizeHorizontal !*
-                                                            6,
-                                                        image: AssetImage(
-                                                            'images/icn-my-consultation-nav-act.png'),
-                                                      ),
-                                                      SizedBox(
-                                                        width: SizeConfig
-                                                            .blockSizeHorizontal !*
-                                                            2,
-                                                      ),
-                                                      Text(
-                                                        "Add Service",
-                                                        style: TextStyle(
-                                                            color:
-                                                            colorBlueApp,
-                                                            fontSize: SizeConfig
-                                                                .blockSizeHorizontal !*
-                                                                4,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: SizeConfig
-                                                      .blockSizeHorizontal !*
-                                                      5.0,
-                                                ),
-                                                SizedBox(
-                                                  width: SizeConfig
-                                                      .blockSizeHorizontal !*
-                                                      10.0,
-                                                ),
-                                                Text(
-                                                  "${listOPDRegistration[index].amount}/-",
-                                                  style: TextStyle(
-                                                      color: colorBlueApp,
-                                                      fontSize: SizeConfig
+                                                  customBorder:
+                                                  CircleBorder(),
+                                                  child: Container(
+                                                    padding: EdgeInsets
+                                                        .all(SizeConfig
+                                                        .blockSizeHorizontal !*
+                                                        2.0),
+                                                    decoration:
+                                                    BoxDecoration(
+                                                      color: Colors
+                                                          .blue[800],
+                                                      shape: BoxShape
+                                                          .circle,
+                                                    ),
+                                                    child: FaIcon(
+                                                      FontAwesomeIcons
+                                                          .stickyNote,
+                                                      size: SizeConfig
                                                           .blockSizeHorizontal !*
-                                                          3.5,
-                                                      fontWeight:
-                                                      FontWeight.w500),
-                                                ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Align(
-                                                    alignment: Alignment
-                                                        .centerRight,
-                                                    child: Text(
-                                                      "${listOPDRegistration[index].vidCallDate}",
-                                                      style: TextStyle(
-                                                          color:
-                                                          Colors.green,
-                                                          fontSize: SizeConfig
-                                                              .blockSizeHorizontal !*
-                                                              3.0,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w500),
+                                                          4,
+                                                      color: Colors
+                                                          .white,
                                                     ),
                                                   ),
+                                                )
+                                                    : Container(),
+                                                listOPDRegistration[index]
+                                                    .fromRequestStatus ==
+                                                    "1"
+                                                    ? SizedBox(
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal !*
+                                                      3.0,
+                                                )
+                                                    : Container(),
+                                                listOPDRegistration[index]
+                                                    .fromRequestStatus ==
+                                                    "1"
+                                                    ? InkWell(
+                                                    onTap: () {
+                                                      showVideoCallRequestDialog(
+                                                          context,
+                                                          listOPDRegistration[
+                                                          index]
+                                                              .patientIDP!,
+                                                          listOPDRegistration[
+                                                          index]
+                                                              .name,
+                                                          "");
+                                                    },
+                                                    customBorder:
+                                                    CircleBorder(),
+                                                    child: Container(
+                                                      padding: EdgeInsets
+                                                          .all(SizeConfig
+                                                          .blockSizeHorizontal !*
+                                                          2.0),
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        color:
+                                                        Colors.red,
+                                                        shape: BoxShape
+                                                            .circle,
+                                                      ),
+                                                      child: Image(
+                                                        width: SizeConfig
+                                                            .blockSizeHorizontal !*
+                                                            5,
+                                                        color: Colors
+                                                            .white,
+                                                        //height: 80,
+                                                        image: AssetImage(
+                                                            "images/ic_video_consultation.png"),
+                                                      ),
+                                                    ))
+                                                    : Container(),
+                                                SizedBox(
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal !*
+                                                      3.0,
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    if (listOPDRegistration[
-                                                    index]
-                                                        .checkOutStatus ==
-                                                        "0") {
-                                                      showConfirmationDialog(
-                                                          context,
+                                                    pdfButtonClick(
+                                                        context,
+                                                        listOPDRegistration[
+                                                        index],
+                                                        "full");
+                                                  },
+                                                  customBorder:
+                                                  CircleBorder(),
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(
+                                                        SizeConfig
+                                                            .blockSizeHorizontal !*
+                                                            2.0),
+                                                    child: Image(
+                                                        width: SizeConfig
+                                                            .blockSizeHorizontal !*
+                                                            5,
+                                                        height: SizeConfig
+                                                            .blockSizeHorizontal !*
+                                                            5,
+                                                        image: AssetImage(
+                                                          "images/icn-pdf-fees.png",
+                                                        )),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal !*
+                                                      3.0,
+                                                ),
+                                                InkWell(
+                                                    onTap: () {
+                                                      preparePdfList(
                                                           listOPDRegistration[
                                                           index]);
-                                                    }
-                                                  },
-                                                  child: Text(
-                                                    "Cancel",
+                                                      showPdfTypeSelectionDialog(
+                                                        listPdfType,
+                                                        listOPDRegistration[
+                                                        index],
+                                                        context,
+                                                      );
+                                                    },
+                                                    customBorder:
+                                                    CircleBorder(),
+                                                    child: Container(
+                                                      padding: EdgeInsets
+                                                          .all(SizeConfig
+                                                          .blockSizeHorizontal !*
+                                                          2.0),
+                                                      child: Image(
+                                                          width: SizeConfig
+                                                              .blockSizeHorizontal !*
+                                                              4,
+                                                          height: SizeConfig
+                                                              .blockSizeHorizontal !*
+                                                              4,
+                                                          image: AssetImage(
+                                                            "images/icn-download-fees.png",
+                                                          )),
+                                                    )),
+                                              ],
+                                            )),
+                                        /*InkWell(
+                                            onTap: () {
+                                              if (listOPDRegistration[index]
+                                                      .checkOutStatus ==
+                                                  "1") {
+                                                getPdfDownloadPath(
+                                                    context,
+                                                    listOPDRegistration[index]
+                                                        .idp,
+                                                    listOPDRegistration[index]
+                                                        .patientIDP);
+                                              } else {
+                                                final snackBar = SnackBar(
+                                                  backgroundColor: Colors.red,
+                                                  content: Text(
+                                                      "Please checkout this patient to view the document."),
+                                                );
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar);
+                                              }
+                                            },
+                                            child: Image(
+                                              image: AssetImage(
+                                                  "images/ic_pdf_opd_reg.png"),
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  8,
+                                            ),
+                                          )*/
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical !*
+                                          1.5,
+                                    ),
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder:
+                                                            (context) {
+                                                          return OPDRegistrationDetailsScreen(
+                                                              listOPDRegistration[
+                                                              index]
+                                                                  .idp!,
+                                                              listOPDRegistration[
+                                                              index]
+                                                                  .patientIDP!);
+                                                        })).then((value) {
+                                                  //Navigator.of(context).pop();
+                                                  getOPDRegistrationDetails();
+                                                });
+                                              },
+                                              child: Row(
+                                                mainAxisSize:
+                                                MainAxisSize.min,
+                                                children: <Widget>[
+                                                  Image(
+                                                    width: SizeConfig
+                                                        .blockSizeHorizontal !*
+                                                        6,
+                                                    image: AssetImage(
+                                                        'images/icn-my-consultation-nav-act.png'),
+                                                  ),
+                                                  SizedBox(
+                                                    width: SizeConfig
+                                                        .blockSizeHorizontal !*
+                                                        2,
+                                                  ),
+                                                  Text(
+                                                    "Add Service",
                                                     style: TextStyle(
-                                                        color: listOPDRegistration[
-                                                        index]
-                                                            .checkOutStatus ==
-                                                            "0"
-                                                            ? Colors.red
-                                                            : Colors
-                                                            .transparent,
+                                                        color:
+                                                        colorBlueApp,
                                                         fontSize: SizeConfig
                                                             .blockSizeHorizontal !*
                                                             4,
                                                         fontWeight:
                                                         FontWeight
                                                             .w500),
-                                                  ) /*Image(
-                                                      image: AssetImage(
-                                                          "images/ic_pdf_opd_reg.png"),
-                                                      width: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          8,
-                                                    )*/
-                                                  ,
-                                                ),
-                                              ],
-                                            ))
-                                            .paddingOnly(
-                                            bottom: SizeConfig
-                                                .blockSizeVertical !*
-                                                1.5),
-                                        listOPDRegistration[index]
-                                            .paymentDueStatus ==
-                                            "1"
-                                            ? Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: BlinkingText(
-                                              "Payment Due",
-                                              //textAlign: TextAlign.left,
-                                              textStyle: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: SizeConfig
-                                                    .blockSizeHorizontal !*
-                                                    3.6,
+                                                  )
+                                                ],
                                               ),
-                                            ))
-                                            : Container(),
-                                      ],
-                                    ).paddingSymmetric(
-                                      horizontal:
-                                      SizeConfig.blockSizeHorizontal !* 4.0,
-                                      vertical:
-                                      SizeConfig.blockSizeVertical !* 1.3,
-                                    ),
-                                  ),
-                                ));
-                          }),
-                      onRefresh: () {
-                        return getOPDRegistrationDetails();
-                      })
-                      : emptyMessageWidget!,
-                )
-              ],
-            ),
-          ),
-        ));
+                                            ),
+                                            SizedBox(
+                                              width: SizeConfig
+                                                  .blockSizeHorizontal !*
+                                                  5.0,
+                                            ),
+                                            SizedBox(
+                                              width: SizeConfig
+                                                  .blockSizeHorizontal !*
+                                                  10.0,
+                                            ),
+                                            Text(
+                                              "${listOPDRegistration[index].amount}/-",
+                                              style: TextStyle(
+                                                  color: colorBlueApp,
+                                                  fontSize: SizeConfig
+                                                      .blockSizeHorizontal !*
+                                                      3.5,
+                                                  fontWeight:
+                                                  FontWeight.w500),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Align(
+                                                alignment: Alignment
+                                                    .centerRight,
+                                                child: Text(
+                                                  "${listOPDRegistration[index].vidCallDate}",
+                                                  style: TextStyle(
+                                                      color:
+                                                      Colors.green,
+                                                      fontSize: SizeConfig
+                                                          .blockSizeHorizontal !*
+                                                          3.0,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w500),
+                                                ),
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                if (listOPDRegistration[
+                                                index]
+                                                    .checkOutStatus ==
+                                                    "0") {
+                                                  showConfirmationDialog(
+                                                      context,
+                                                      listOPDRegistration[
+                                                      index]);
+                                                }
+                                              },
+                                              child: Text(
+                                                "Cancel",
+                                                style: TextStyle(
+                                                    color: listOPDRegistration[
+                                                    index]
+                                                        .checkOutStatus ==
+                                                        "0"
+                                                        ? Colors.red
+                                                        : Colors
+                                                        .transparent,
+                                                    fontSize: SizeConfig
+                                                        .blockSizeHorizontal !*
+                                                        4,
+                                                    fontWeight:
+                                                    FontWeight
+                                                        .w500),
+                                              ) /*Image(
+                                                  image: AssetImage(
+                                                      "images/ic_pdf_opd_reg.png"),
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      8,
+                                                )*/
+                                              ,
+                                            ),
+                                          ],
+                                        ))
+                                        .paddingOnly(
+                                        bottom: SizeConfig
+                                            .blockSizeVertical !*
+                                            1.5),
+                                    listOPDRegistration[index]
+                                        .paymentDueStatus ==
+                                        "1"
+                                        ? Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: BlinkingText(
+                                          "Payment Due",
+                                          //textAlign: TextAlign.left,
+                                          textStyle: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: SizeConfig
+                                                .blockSizeHorizontal !*
+                                                3.6,
+                                          ),
+                                        ))
+                                        : Container(),
+                                  ],
+                                ).paddingSymmetric(
+                                  horizontal:
+                                  SizeConfig.blockSizeHorizontal !* 4.0,
+                                  vertical:
+                                  SizeConfig.blockSizeVertical !* 1.3,
+                                ),
+                              ),
+                            ));
+                      }),
+                  onRefresh: () {
+                    return getOPDRegistrationDetails();
+                  })
+                  : emptyMessageWidget!,
+            )
+          ],
+        ),
+      ),
+    );
         }
 
   showConfirmationDialog(

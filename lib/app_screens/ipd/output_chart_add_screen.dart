@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:swasthyasetu/app_screens/ipd/output_chart_Table_screen.dart';
 import 'package:swasthyasetu/app_screens/ipd/vital_chart_table.dart';
 import 'package:swasthyasetu/global/SizeConfig.dart';
 import 'package:swasthyasetu/global/utils.dart';
@@ -7,7 +8,7 @@ import 'package:swasthyasetu/podo/response_main_model.dart';
 import 'package:swasthyasetu/utils/color.dart';
 import 'package:swasthyasetu/utils/progress_dialog.dart';
 
-class VitalChartScreen extends StatefulWidget {
+class OutputChartAddScreen extends StatefulWidget {
 
 
   final String patientindooridp;
@@ -16,7 +17,7 @@ class VitalChartScreen extends StatefulWidget {
   final String firstname;
   final String lastName;
 
-  VitalChartScreen({
+  OutputChartAddScreen({
     required this.patientindooridp,
     required this.PatientIDP,
     required this.doctoridp,
@@ -25,18 +26,17 @@ class VitalChartScreen extends StatefulWidget {
   });
 
   @override
-  State<VitalChartScreen> createState() => _VitalChartScreenState();
+  State<OutputChartAddScreen> createState() => _OutputChartAddScreenState();
 }
-class _VitalChartScreenState extends State<VitalChartScreen> {
+class _OutputChartAddScreenState extends State<OutputChartAddScreen> {
 
-  List<Map<String, dynamic>> listVitalChartValues = <Map<String, dynamic>>[];
+  List<Map<String, dynamic>> listOutputChartValues = <Map<String, dynamic>>[];
 
-  TextEditingController tempController = TextEditingController();
-  TextEditingController PulseController = TextEditingController();
-  TextEditingController RespController = TextEditingController();
-  TextEditingController BpSystolicController = TextEditingController();
-  TextEditingController BpDiastolicController = TextEditingController();
-  TextEditingController SPO2Controller = TextEditingController();
+  TextEditingController UrineController = TextEditingController();
+  TextEditingController VOMITController = TextEditingController();
+  TextEditingController ASPController = TextEditingController();
+  TextEditingController STOOLController = TextEditingController();
+  TextEditingController OTHERController = TextEditingController();
 
   List<String> timeSlots = [];  // Declare the list once
 
@@ -62,20 +62,18 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
   @override
   void initState() {
 
-    tempController = TextEditingController();
-    PulseController = TextEditingController();
-    RespController = TextEditingController();
-    BpSystolicController = TextEditingController();
-    BpDiastolicController = TextEditingController();
-    SPO2Controller = TextEditingController();
+    UrineController = TextEditingController();
+    VOMITController = TextEditingController();
+    ASPController = TextEditingController();
+    STOOLController = TextEditingController();
+    OTHERController = TextEditingController();
 
-    if (listVitalChartValues.isNotEmpty) {
-      tempController.text = listVitalChartValues[0]["Temperature"];
-      PulseController.text = listVitalChartValues[0]["Pulse"];
-      RespController.text = listVitalChartValues[0]["RR"];
-      BpSystolicController.text = listVitalChartValues[0]["BPSystolic"];
-      BpDiastolicController.text = listVitalChartValues[0]["BPDiastolic"];
-      SPO2Controller.text = listVitalChartValues[0]["SPO2"];
+    if (listOutputChartValues.isNotEmpty) {
+      UrineController.text = listOutputChartValues[0]["Urine"];
+      VOMITController.text = listOutputChartValues[0]["Vomit"];
+      ASPController.text = listOutputChartValues[0]["ASP"];
+      STOOLController.text = listOutputChartValues[0]["Stool"];
+      OTHERController.text = listOutputChartValues[0]["Other"];
     }
     super.initState();
   }
@@ -84,7 +82,7 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Vital Chart"),
+        title: Text("Output Chart"),
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
             color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
@@ -112,7 +110,7 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Text(
-                            "Patient Name:",
+                          "Patient Name:",
                           style: TextStyle(
                             fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                             fontWeight: FontWeight.w500,
@@ -121,12 +119,12 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                         ),
                       ),
                       Text(
-                          "${widget.firstname} ${widget.lastName}",
+                        "${widget.firstname} ${widget.lastName}",
                         style: TextStyle(
                           fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
-                      ),
+                        ),
                       ),
                     ],
                   ),
@@ -169,26 +167,6 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                     ),
                   ),
                 ),
-                // InkWell(
-                //   onTap: () => _selectDate(context),
-                //   child: Container(
-                //     // height:  SizeConfig.blockSizeVertical !* 50,
-                //   width: double.infinity,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(7.0),
-                //   ),
-                //     child: Center(
-                //         child: Text(
-                //             "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}",
-                //                 style: TextStyle(
-                //                     color: Colorsblack,
-                //                     fontFamily: "Ubuntu",
-                //                     fontSize: SizeConfig.blockSizeVertical !* 2.5
-                //                 ),
-                //         )
-                //     ),
-                //   ),
-                // ),
                 Divider(),
                 Padding(
                   padding: const EdgeInsets.all(14.0),
@@ -199,67 +177,68 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                       Padding(
                         padding: const EdgeInsets.all(17.0),
                         child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black, // Set the border color
-                              width: 2.0, // Set the border width
-                            ),
-                            borderRadius: BorderRadius.circular(8.0), // Set border radius if you want rounded corners
-                          ),
-                          child:
-                          DropdownButton<String>(
-                            value: selectedValue,
-                            isExpanded: true,
-                            items: [
-                              DropdownMenuItem<String>(
-                                value: 'Select Time',  // Placeholder value
-                                child: Center(child: Text('Select Time',textAlign: TextAlign.center)),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black, // Set the border color
+                                width: 2.0, // Set the border width
                               ),
-                              ...List.generate(12, (index) {
-                                String hour = (index + 1).toString();
-                                String labelAM = '$hour AM';
-                                String labelPM = '$hour PM';
+                              borderRadius: BorderRadius.circular(8.0), // Set border radius if you want rounded corners
+                            ),
+                            child:
+                            DropdownButton<String>(
+                              value: selectedValue,
+                              isExpanded: true,
+                              items: [
+                                DropdownMenuItem<String>(
+                                  value: 'Select Time',  // Placeholder value
+                                  child: Center(child: Text('Select Time',textAlign: TextAlign.center)),
+                                ),
+                                ...List.generate(12, (index) {
+                                  String hour = (index + 1).toString();
+                                  String labelAM = '$hour AM';
+                                  String labelPM = '$hour PM';
 
-                                // // Swap 12 AM to 12 PM and 12 PM to 12 AM
-                                // if (hour == '12') {
-                                //   labelAM = '12 PM';
-                                //   labelPM = '12 AM';
-                                // }
+                                  // // Swap 12 AM to 12 PM and 12 PM to 12 AM
+                                  // if (hour == '12') {
+                                  //   labelAM = '12 PM';
+                                  //   labelPM = '12 AM';
+                                  // }
 
-                                return DropdownMenuItem<String>(
-                                  value: labelAM,
-                                  child: Text(labelAM),
+                                  return DropdownMenuItem<String>(
+                                    value: labelAM,
+                                    child: Text(labelAM),
+                                  );
+                                }),
+                                ...List.generate(12, (index) {
+                                  String hour = (index + 1).toString();
+                                  String labelPM = '$hour PM';
+
+                                  return DropdownMenuItem<String>(
+                                    value: labelPM,
+                                    child: Text(labelPM),
+                                  );
+                                }),
+                              ],
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedValue = value!;
+                                });
+                                // Convert to formatted time
+                                String formattedTime = convertToFormattedTime(selectedValue);
+
+                                // Call your API with the formatted time value
+                                getVitalChartValue(
+                                  widget.patientindooridp,
+                                  widget.PatientIDP,
+                                  formattedTime,
                                 );
-                              }),
-                              ...List.generate(12, (index) {
-                                String hour = (index + 1).toString();
-                                String labelPM = '$hour PM';
-
-                                return DropdownMenuItem<String>(
-                                  value: labelPM,
-                                  child: Text(labelPM),
-                                );
-                              }),
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                selectedValue = value!;
-                              });
-                              // Convert to formatted time
-                              String formattedTime = convertToFormattedTime(selectedValue);
-
-                              // Call your API with the formatted time value
-                              getVitalChartValue(
-                                widget.patientindooridp,
-                                widget.PatientIDP,
-                                formattedTime,
-                              );
-                            },
-                          )
+                              },
+                            )
 
                         ),
                       ),
+
                       // SizedBox(width: 40,),
 
                       Column(
@@ -267,13 +246,13 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                           Container(
                               width:double.infinity,
                               child: TextField(
-                                controller: tempController,
+                                controller: UrineController,
                                 keyboardType: TextInputType.number,
                                 maxLength: 5,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(), // Add border here
-                                  labelText: 'temp', // Optional label
-                                  hintText: 'Enter temperature', // Optional hint text
+                                  labelText: 'URINE', // Optional label
+                                  hintText: 'Enter URINE', // Optional hint text
                                 ),
                               )
                           ),
@@ -281,13 +260,13 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                           Container(
                               width:double.infinity,
                               child: TextField(
-                                controller: PulseController,
+                                controller: VOMITController,
                                 keyboardType: TextInputType.number,
                                 maxLength: 5,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(), // Add border here
-                                  labelText: 'Pulse', // Optional label
-                                  hintText: 'Enter Pulse', // Optional hint text
+                                  labelText: 'VOMIT', // Optional label
+                                  hintText: 'Enter VOMIT', // Optional hint text
                                 ),
                               )
                           ),
@@ -295,13 +274,13 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                           Container(
                               width:double.infinity,
                               child: TextField(
-                                controller: RespController,
+                                controller: ASPController,
                                 keyboardType: TextInputType.number,
                                 maxLength: 5,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(), // Add border here
-                                  labelText: 'Resp', // Optional label
-                                  hintText: 'Enter Resp', // Optional hint text
+                                  labelText: 'ASP', // Optional label
+                                  hintText: 'Enter ASP', // Optional hint text
                                 ),
                               )
                           ),
@@ -309,13 +288,13 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                           Container(
                               width:double.infinity,
                               child: TextField(
-                                controller: BpSystolicController,
-                                keyboardType: TextInputType.number,
+                                controller: STOOLController,
                                 maxLength: 5,
+                                keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(), // Add border here
-                                  labelText: 'BpSystolic', // Optional label
-                                  hintText: 'Enter BpSystolic', // Optional hint text
+                                  labelText: 'STOOL', // Optional label
+                                  hintText: 'Enter STOOL', // Optional hint text
                                 ),
                               )
                           ),
@@ -323,30 +302,16 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                           Container(
                               width:double.infinity,
                               child: TextField(
-                                controller: BpDiastolicController,
+                                controller: OTHERController,
                                 keyboardType: TextInputType.number,
                                 maxLength: 5,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(), // Add border here
-                                  labelText: 'BpDiastolic', // Optional label
-                                  hintText: 'Enter BpDiastolic', // Optional hint text
+                                  labelText: 'OTHER', // Optional label
+                                  hintText: 'Enter OTHER', // Optional hint text
                                 ),
                               )
                           ),
-                          SizedBox(height: 10,),
-                              Container(
-                                  width:double.infinity,
-                                  child: TextField(
-                                    controller: SPO2Controller,
-                                    keyboardType: TextInputType.number,
-                                    maxLength: 5,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      labelText: 'SPO2',
-                                      hintText: 'Enter SPO2',
-                                    ),
-                                  )
-                              ),
                         ],
                       ),
 
@@ -367,12 +332,11 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
                           widget.firstname,
                           widget.lastName,
                           formattedTime,
-                          tempController,
-                          PulseController,
-                          RespController,
-                          BpSystolicController,
-                          BpDiastolicController,
-                          SPO2Controller,
+                          UrineController,
+                          VOMITController,
+                          ASPController,
+                          STOOLController,
+                          OTHERController,
                         );
                       },
                       child: Padding(
@@ -458,7 +422,7 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
     print('getdoctorswitchorganization');
 
     try{
-      String loginUrl = "${baseURL}doctor_vitals_nursing_chart_list.php";
+      String loginUrl = "${baseURL}doctor_output_nursing_chart_list.php";
       ProgressDialog pr = ProgressDialog(context);
       Future.delayed(Duration.zero, () {
         pr.show();
@@ -537,52 +501,49 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
         debugPrint("Decoded Data List : " + strData);
         final jsonData = json.decode(strData);
 
-        // [{"IndoorNursingChartIDP":"1","Temperature":"66.00",
-        //   "Pulse":"56.00","RR":"","BPSystolic":"56.00","BPDiastolic":"56.00","SPO2":"56.00"}]
+        // [{"IndoorNursingChartIDP":"1","Urine":"30","Vomit":"30",
+        // "ASP":"30","Stool":"30","Other":"30"}]
 
-        listVitalChartValues.clear(); // Clear the list before adding new entries
+        listOutputChartValues.clear(); // Clear the list before adding new entries
 
         for (var i = 0; i < jsonData.length; i++) {
           print("Processing Entry $i: ${jsonData[i]}");
           final jo = jsonData[i];
           String IndoorNursingChartIDP = jo['IndoorNursingChartIDP'].toString();
-          String Temperature = jo['Temperature'].toString();
-          String Pulse = jo['Pulse'].toString();
-          String RR = jo['RR'].toString();
-          String BPSystolic = jo['BPSystolic'].toString();
-          String BPDiastolic = jo['BPDiastolic'].toString();
-          String SPO2 = jo['SPO2'].toString();
+          String Urine = jo['Urine'].toString();
+          String Vomit = jo['Vomit'].toString();
+          String ASP = jo['ASP'].toString();
+          String Stool = jo['Stool'].toString();
+          String Other = jo['Other'].toString();
 
-          print("Temperature: $Temperature, Pulse: $Pulse, RR: $RR, BPSystolic: $BPSystolic, BPDiastolic: $BPDiastolic, SPO2: $SPO2");
+          print("Urine: $Urine, Vomit: $Vomit, ASP: $ASP, Stool: $Stool, Other: $Other");
 
           // Check if all values are non-empty
 
-            Map<String, dynamic> OrganizationMap = {
-              "IndoorNursingChartIDP": IndoorNursingChartIDP,
-              "Temperature": Temperature,
-              "Pulse": Pulse,
-              "RR": RR,
-              "BPSystolic": BPSystolic,
-              "BPDiastolic": BPDiastolic,
-              "SPO2": SPO2,
-            };
+          Map<String, dynamic> OrganizationMap = {
+            "IndoorNursingChartIDP": IndoorNursingChartIDP,
+            "Urine": Urine,
+            "Vomit": Vomit,
+            "ASP": ASP,
+            "Stool": Stool,
+            "Other": Other,
+          };
 
-            listVitalChartValues.add(OrganizationMap);
+          listOutputChartValues.add(OrganizationMap);
         }
 
         // Print the values of listVitalChartValues
-        print("Vital Chart Values: $listVitalChartValues");
+        print("Vital Chart Values: $listOutputChartValues");
 
         setState(() {
-          tempController.text = listVitalChartValues.isNotEmpty ? listVitalChartValues[0]["Temperature"] : '';
-          PulseController.text = listVitalChartValues.isNotEmpty ? listVitalChartValues[0]["Pulse"] : '';
-          RespController.text = listVitalChartValues.isNotEmpty ? listVitalChartValues[0]["RR"] : '';
-          BpSystolicController.text = listVitalChartValues.isNotEmpty ? listVitalChartValues[0]["BPSystolic"] : '';
-          BpDiastolicController.text = listVitalChartValues.isNotEmpty ? listVitalChartValues[0]["BPDiastolic"] : '';
-          SPO2Controller.text = listVitalChartValues.isNotEmpty ? listVitalChartValues[0]["SPO2"] : '';
+          UrineController.text = listOutputChartValues.isNotEmpty ? listOutputChartValues[0]["Urine"] : '';
+          VOMITController.text = listOutputChartValues.isNotEmpty ? listOutputChartValues[0]["Vomit"] : '';
+          ASPController.text = listOutputChartValues.isNotEmpty ? listOutputChartValues[0]["ASP"] : '';
+          STOOLController.text = listOutputChartValues.isNotEmpty ? listOutputChartValues[0]["Stool"] : '';
+          OTHERController.text = listOutputChartValues.isNotEmpty ? listOutputChartValues[0]["Other"] : '';
 
-          print("Temperature: ${tempController.text}");
-          print("Pulse: ${PulseController.text}");
+          print("Temperature: ${UrineController.text}");
+          print("Pulse: ${VOMITController.text}");
         });
       }
     }catch (e) {
@@ -597,18 +558,17 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
       String firstname,
       String lastName,
       selectedValue,
-      TextEditingController tempController,
-      TextEditingController PulseController,
-      TextEditingController RespController,
-      TextEditingController BpSystolicController,
-      TextEditingController BpDiastolicController,
-      TextEditingController SPO2Controller,
+      TextEditingController UrineController,
+      TextEditingController VOMITController,
+      TextEditingController ASPController,
+      TextEditingController STOOLController,
+      TextEditingController OTHERController,
       )
   async {
     print('getdoctorswitchorganization');
 
     try{
-      String loginUrl = "${baseURL}doctor_add_vitals_chart_submit.php";
+      String loginUrl = "${baseURL}doctor_add_output_chart_submit.php";
       ProgressDialog pr = ProgressDialog(context);
       Future.delayed(Duration.zero, () {
         pr.show();
@@ -627,18 +587,16 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
           "\"" + "PatientIndoorIDF" + "\"" + ":" + "\"" + patientindooridp + "\"" + "," +
           "\"" + "EntryDate" + "\"" + ":" + "\"" + formattedDate + "\"" + "," +
           "\"" + "EntryTime" + "\"" + ":" + "\"" + selectedValue + "\"" + "," +
-          "\"" + "Temperature" + "\"" + ":" + "\"" + tempController.text + "\"" + "," +
-          "\"" + "Pulse" + "\"" + ":" + "\"" + PulseController.text + "\"" + "," +
-          "\"" + "RR" + "\"" + ":" + "\"" + RespController.text + "\"" + "," +
-          "\"" + "BPSystolic" + "\"" + ":" + "\"" + BpSystolicController.text + "\"" + "," +
-          "\"" + "BPDiastolic" + "\"" + ":" + "\"" + BpDiastolicController.text+ "\"" + "," +
-          "\"" + "SPO2" + "\"" + ":" + "\"" + SPO2Controller.text + "\"" +
+          "\"" + "Urine" + "\"" + ":" + "\"" + UrineController.text + "\"" + "," +
+          "\"" + "Vomit" + "\"" + ":" + "\"" + VOMITController.text + "\"" + "," +
+          "\"" + "ASP" + "\"" + ":" + "\"" + ASPController.text + "\"" + "," +
+          "\"" + "Stool" + "\"" + ":" + "\"" + STOOLController.text + "\"" + "," +
+          "\"" + "Other" + "\"" + ":" + "\"" + OTHERController.text+ "\"" +
           "}";
 
       // {"PatientIDF":"736" , "PatientIndoorIDF":"20" ,
-      // "EntryDate":"2022-12-05" ,
-      // "EntryTime":"8:00" ,"Temperature":"66" ,"Pulse":"56" ,
-      // "RR":"65","BPSystolic":"56","BPDiastolic":"56","SPO2":"56"}
+      // "EntryDate":"2022-12-05" ,"EntryTime":"8:00"
+      // ,"Urine":"66" ,"Vomit":"56" ,"ASP":"65","Stool":"56","Other":"56"}
 
       debugPrint(jsonStr);
 
@@ -665,32 +623,33 @@ class _VitalChartScreenState extends State<VitalChartScreen> {
 
         final snackBar = SnackBar(
           backgroundColor: Colors.green,
-          content: Text("Vitals Added Successfully"),
+          content: Text("Output Added Successfully"),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         setState(() {});
 
         Navigator.pop(context);
+        // Navigator.pop(context);
         // Navigator.pushReplacement (
         //   context,
-        //     MaterialPageRoute(builder: (context) =>
-        //         VitalChartTableScreen(
+        //     MaterialPageRoute(
+        //     builder: (context) =>
+        //         OutputChartTableScreen(
         //             patientindooridp: patientindooridp,
         //             PatientIDP: PatientIDF,
         //             doctoridp: doctoridp,
         //             firstname: firstname,
-        //             lastName: lastName,
-        //         )
-        //     )
+        //             lastName: lastName)
+        // )
         // );
       }
       else {final snackBar = SnackBar(
         backgroundColor: Colors.red,
-        content: Text("There are Some Issue in Adding Vitals Please Try Again"),
+        content: Text("There are Some Issue in Adding Output Please Try Again"),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-        setState(() {});
+      setState(() {});
       }
     }catch (e) {
       print('Error decoding JSON: $e');

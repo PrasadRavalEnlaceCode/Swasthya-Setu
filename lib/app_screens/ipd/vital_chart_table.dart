@@ -59,24 +59,21 @@ class _VitalChartTableScreenState extends State<VitalChartTableScreen> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
+        callApiWithUpdatedDate();
       });
     }
   }
 
+  // Function to call API with updated date
+  void callApiWithUpdatedDate() {
+    // Call your API function here with updated selectedDate
+    getIVitalChartTableData(widget.PatientIDP,widget.patientindooridp);
+  }
+
+
 
   @override
   void initState() {
-    // if (widget.INID != null && widget.INID!.isNotEmpty) {
-    //   getIpdData(widget.id!, widget.INID, widget.PATID, widget.ipd, widget.pathology);
-    //   setState(() {
-    //     isIpdData = true;
-    //   });
-    // } else {
-    //   getOPDData(widget.id!, widget.HospitalConsultationIDP, widget.PATID, widget.OPD, widget.pathology);
-    //   setState(() {
-    //     isIpdData = false;
-    //   });
-    // }
     getIVitalChartTableData(widget.PatientIDP,widget.patientindooridp);
     super.initState();
   }
@@ -86,7 +83,7 @@ class _VitalChartTableScreenState extends State<VitalChartTableScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("View Reports"),
+        title: Text("Vitals Table"),
         backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(
             color: Colorsblack, size: SizeConfig.blockSizeVertical !* 2.2), toolbarTextStyle: TextTheme(
@@ -103,23 +100,84 @@ class _VitalChartTableScreenState extends State<VitalChartTableScreen> {
         return SingleChildScrollView(
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text(
+                        "Patient Name:",
+                        style: TextStyle(
+                          fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "${widget.firstname} ${widget.lastName}",
+                      style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal !* 4.0,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Row(
                 children: [
-                  ElevatedButton(
-                    onPressed: () => _selectDate(context),
-
-                    child: Text("${selectedDate.day}-${selectedDate.month}-${selectedDate.year}"),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () => _selectDate(context),
+                      child: Container(
+                        margin: EdgeInsets.all(
+                          SizeConfig.blockSizeHorizontal !* 3.0,
+                        ),
+                        padding: EdgeInsets.all(
+                          SizeConfig.blockSizeHorizontal !* 3.0,
+                        ),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                        child:
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: SizeConfig.blockSizeHorizontal !* 3.0,
+                            ),
+                            Text(
+                              "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}",
+                              style: TextStyle(
+                                fontSize: SizeConfig.blockSizeHorizontal !* 5.0,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 1.5,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.grey,
+                              size: SizeConfig.blockSizeHorizontal !* 6.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)
-                      => VitalChartScreen(patientindooridp: widget.patientindooridp,
-                          PatientIDP: widget.PatientIDP, doctoridp: widget.doctoridp,
-                          firstname: widget.firstname, lastName: widget.lastName)));
+                  InkWell(
+                    onTap: (){
+                      getVitalChartPDF(
+                        widget.patientindooridp ,
+                      );
                     },
-
-                    child: Text("Add Vitals Data"),
-                  ),
+                      child: Icon(
+                        Icons.cloud_download_outlined,size: 30.0,color: Colors.blue),),
+                  SizedBox(width: 10,),
                 ],
               ),
 
@@ -141,43 +199,43 @@ class _VitalChartTableScreenState extends State<VitalChartTableScreen> {
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: "Ubuntu",
-                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                          fontSize: SizeConfig.blockSizeVertical! * 1.8,
                         ),)),
                       DataColumn(label: Text('Temp',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: "Ubuntu",
-                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                          fontSize: SizeConfig.blockSizeVertical! * 1.8,
                         ),)),
                       DataColumn(label: Text('Pulse',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: "Ubuntu",
-                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                          fontSize: SizeConfig.blockSizeVertical! * 1.8,
                         ),)),
                       DataColumn(label: Text('Resp',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: "Ubuntu",
-                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                          fontSize: SizeConfig.blockSizeVertical! * 1.8,
                         ),)),
                       DataColumn(label: Text('BP Systolic',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: "Ubuntu",
-                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                          fontSize: SizeConfig.blockSizeVertical! * 1.8,
                         ),)),
                       DataColumn(label: Text('BP Diastolic',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: "Ubuntu",
-                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                          fontSize: SizeConfig.blockSizeVertical! * 1.8,
                         ),)),
                       DataColumn(label: Text('SPO2',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: "Ubuntu",
-                          fontSize: SizeConfig.blockSizeVertical! * 2.5,
+                          fontSize: SizeConfig.blockSizeVertical! * 1.8,
                         ),)),
                     ],
                     rows: ViewTableDataList.map(
@@ -231,8 +289,43 @@ class _VitalChartTableScreenState extends State<VitalChartTableScreen> {
         );
       },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => VitalChartScreen(
+            patientindooridp: widget.patientindooridp,
+            PatientIDP: widget.PatientIDP,
+            doctoridp: widget.doctoridp,
+            firstname: widget.firstname,
+            lastName: widget.lastName,
+          )));
+        },
+        child: Icon(Icons.add,color: Colors.blue),
+        backgroundColor: Colors.black, // Set your desired button color
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat, // Align to the bottom right corner
     );
   }
+
+  // Align(
+  // alignment: Alignment.bottomRight,
+  // child: FloatingActionButton(
+  // onPressed: () {
+  // Navigator.of(context).push(MaterialPageRoute(builder: (context)
+  // => VitalChartScreen(
+  // patientindooridp: widget.patientindooridp,
+  // PatientIDP: widget.PatientIDP,
+  // doctoridp: widget.doctoridp,
+  // firstname: widget.firstname,
+  // lastName: widget.lastName
+  // )
+  // )
+  // );
+  // },
+  //
+  // child: Icon(Icons.add),
+  // ),
+  // )
 
   void getIVitalChartTableData(String PatientIDF,PatientIndoorIDF) async {
     print('getIpdData');
@@ -245,6 +338,8 @@ class _VitalChartTableScreenState extends State<VitalChartTableScreen> {
       });
 
       String formattedDate = "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
+
+      ViewTableDataList.clear();
 
       String patientUniqueKey = await getPatientUniqueKey();
       String userType = await getUserType();
@@ -343,4 +438,95 @@ class _VitalChartTableScreenState extends State<VitalChartTableScreen> {
     var bytes = base64.decode(text);
     return String.fromCharCodes(bytes);
   }
+
+  void getVitalChartPDF(String PatientIndoorIDF) async {
+    print('getDoctorInvoiceList');
+
+    try{
+      String loginUrl = "${baseURL}doctor_vital_chart.php";
+      ProgressDialog pr = ProgressDialog(context);
+      Future.delayed(Duration.zero, () {
+        pr.show();
+      });
+
+      ViewTableDataList.clear();
+      String formattedDate = "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
+
+      String patientUniqueKey = await getPatientUniqueKey();
+      String userType = await getUserType();
+      String patientIDP = await getPatientOrDoctorIDP();
+      debugPrint("Key and type");
+      debugPrint(patientUniqueKey);
+      debugPrint(userType);
+      String jsonStr = "{" +
+          "\"" +
+          "patientindooridp" +
+          "\"" +
+          ":" +
+          "\"" +
+          PatientIndoorIDF +
+          "\"," +
+          "\"" +
+          "entrydate" +
+          "\"" +
+          ":" +
+          "\"" +
+          formattedDate +
+          "\"" +
+          "}";
+
+      debugPrint(jsonStr);
+
+      String encodedJSONStr = encodeBase64(jsonStr);
+      var response = await apiHelper.callApiWithHeadersAndBody(
+        url: loginUrl,
+
+        headers: {
+          "u": patientUniqueKey,
+          "type": userType,
+        },
+        body: {"getjson": encodedJSONStr},
+      );
+      //var resBody = json.decode(response.body);
+
+      debugPrint(response.body.toString());
+      final jsonResponse = json.decode(response.body.toString());
+
+      ResponseModel model = ResponseModel.fromJSON(jsonResponse);
+
+      pr.hide();
+
+      if (model.status == "OK") {
+        var data = jsonResponse['Data'];
+        var strData = decodeBase64(data);
+
+        debugPrint("Decoded Invoice Data : " + strData);
+
+        // Parse the JSON string
+        List<Map<String, dynamic>> fileList = List<Map<String, dynamic>>.from(json.decode(strData));
+
+        String baseInvoiceURL = "https://swasthyasetu.com/ws/images/Vitals/";
+
+        // Check if the list is not empty
+        if (fileList.isNotEmpty) {
+          // Extract the value of the "FileName" key
+          String fileName = fileList[0]["FileName"];
+          String downloadPdfUrl = baseInvoiceURL + fileName;
+
+          Navigator.push(
+              context,
+              MaterialPageRoute<dynamic>(
+                builder: (_) => PDFViewerCachedFromUrl(
+                  url: downloadPdfUrl,
+                ),
+              ));
+
+        }
+        setState(() {});
+      }
+    } catch (e) {
+      print('Error decoding JSON: $e');
+    }
+  }
+
 }
